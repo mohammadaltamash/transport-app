@@ -1,0 +1,136 @@
+main {
+  display: grid;
+  grid-template-areas:
+    "orderStatus    orderStatus"
+    "search         detail"
+    "list           detail";
+  grid-template-columns: 400px 1fr;
+  grid-template-rows: 64px 60px 1fr;
+  /* grid-template: 1fr 1fr; */
+  /* width: 100vw; */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+#orderStatus {
+  grid-area: orderStatus;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, auto));
+  gap: 0.7vw;
+  /* height: 64px; */
+
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  /* justify-content: center; */
+
+  padding-left: 40px;
+  background-color: rgb(63, 63, 63);
+}
+#search {
+  grid-area: search;
+  display: grid;
+  grid-template-areas: "searchIcon searchText";
+  grid-template-columns: 50px 1fr;
+  /* grid-template-rows: 58px 1fr; */
+  background-color: #f8f8f8;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  /* justify-items: center; */
+  /* margin: auto; */
+  /* width: auto; */
+  /* padding: 10px; */
+
+  /* position: -webkit-sticky; */
+  position: sticky;
+  top: 64px;
+  z-index: 1000;
+  /* align-content: center; */
+}
+#searchIcon {
+  grid-area: searchIcon;
+  margin: auto;
+}
+#searchIcon a {
+  text-decoration: none;
+}
+#searchText {
+  grid-area: searchText;
+}
+/* ::ng-deep .mat-form-field-underline {
+    display: none;
+} */
+#list {
+  grid-area: list;
+  /* overflow: auto;
+    height: 100vh; */
+  border-right: 1px solid lightgray;
+  overflow-y: auto;
+}
+/* #list > * {
+    vertical-align: top;
+} */
+#detail {
+  grid-area: detail;
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-areas: "summary summary"
+                       "detailLeft detailRight";
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 35px;
+  row-gap: 20px;
+  padding: 1.5vw;
+}
+/* h4 {
+    color: grey;
+} */
+mat-card-subtitle mat-icon {
+    vertical-align: middle;
+    font-size: 20px;   
+}
+
+#summary {
+    grid-area: summary;
+}
+#detailLeft {
+    grid-area: detailLeft;
+
+    display: grid;
+    row-gap: 20px;
+}
+#detailRight {
+    grid-area: detailRight;
+
+    display: grid;
+    grid-template-rows: min-content min-content min-content;
+    row-gap: 20px;
+}
+
+/* #summary {
+  grid-area: summary;
+}
+#driver {
+  grid-area: driver;
+}
+#vehicle {
+  grid-area: vehicle;
+}
+#pickupAndDelivery {
+  grid-area: pickupAndDelivery;
+}
+#dispatchInstructions {
+  grid-area: dispatchInstructions;
+}
+#attachments {
+  grid-area: attachments;
+}
+#payment {
+  grid-area: payment;
+}
+#activity {
+  grid-area: activity;
+}
+#shipper {
+  grid-area: shipper;
+} */

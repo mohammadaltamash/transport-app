@@ -1,0 +1,180 @@
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+@import "~saturn-datepicker/bundle.css";
+
+* {
+  /* font-family: 'Times New Roman', Times, serif */
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+body {
+  margin: 0;
+  background-color: #f8f8f8;
+  /* background-color: #fdfdfd; */
+  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+  /* overflow: hidden; */
+  height: 100%;
+  width: 100%;
+}
+/* html, body {  */
+/* height: 100vh; */
+/* width: 100vw; */
+/* } */
+
+h4 {
+  color: grey;
+}
+
+.rectangle {
+    display: inline-block;
+    padding-left: 30px;
+    padding-right: 30px;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+    font-size: small;
+    text-decoration: none;
+    margin: auto;
+    /* opacity: 0.7; */
+    background-color: rgba(255, 255, 255, 0);
+    /* color: rgba(255, 255, 255, 0); */
+    border: 1px solid rgb(19, 192, 77);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.class1 {
+  background-color: white;
+}
+.class2 {
+  background-color: chartreuse;
+  border: 1px solid rgb(19, 192, 77);
+  border-radius: 20px;
+}
+
+.rectangle:active {
+  background-color: rgb(19, 192, 77);
+  /* opacity: 0.5; */
+  border: 1px solid rgb(0, 0, 170);
+}
+.blueButton {
+    background-color: rgb(108, 108, 255);
+    /* opacity: 0.5; */
+    border: 1px solid rgb(0, 0, 170);
+}
+
+.redButton {
+    background-color: rgb(129, 0, 0);
+    /* opacity: 0.5; */
+}
+
+.greenButton {
+    background-color: rgb(0, 128, 0);
+    /* opacity: 0.5; */
+}
+
+.rectangle mat-icon {
+    font-size: small;
+}
+
+mat-card-subtitle {
+  font-weight: bold;
+  /* color: black; */
+  font-size: medium;
+}
+
+.close {
+  cursor: pointer;
+}
+
+app-options a {
+  text-decoration: none;
+  /* cursor: pointer; */
+  color: cyan;
+}
+
+/* app-dashboard */
+.dashboard {
+  /* background-color: silver; */
+  display: grid;
+  grid-template-areas:
+    "ordersPickupToday ordersPickupToday ordersPickupToday ordersDeliveryToday ordersDeliveryToday ordersDeliveryToday paymentsPendingToday paymentsPendingToday paymentsPendingToday"
+    "recentDriverActivity recentDriverActivity recentDriverActivity recentDriverActivity payments payments payments payments payments"
+    "delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries"
+    "footer footer footer footer footer footer footer footer footer";
+  grid-template-rows: 150px 1fr 1fr 40px;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 2vw;
+  /* grid-column-gap: 50px;
+    grid-row-gap: 50px; */
+  height: 100vh;
+  /* margin: 0px; */
+  margin-left: 130px;
+  padding: 40px;
+  color: gray;
+}
+
+#ordersPickupToday {
+  grid-area: ordersPickupToday;
+  /* margin-top: 2vw; */
+}
+#ordersDeliveryToday {
+  grid-area: ordersDeliveryToday;
+  /* margin-top: 2vw; */
+}
+#paymentsPendingToday {
+  grid-area: paymentsPendingToday;
+  /* margin-top: 2vw; */
+}
+#recentDriverActivity {
+  grid-area: recentDriverActivity;
+}
+#payments {
+  grid-area: payments;
+  /* grid-column: 3 / span 2; */
+}
+#delayedPickupsDeliveries {
+  grid-area: delayedPickupsDeliveries;
+}
+#pageFooter {
+  grid-area: footer;
+}
+
+.dashboard > div {
+  background-color: #fff;
+  /* padding: 1em; */
+  border: 1px solid #bbb;
+}
+
+.dashboard > div:hover {
+  box-shadow: 0 0 10px #bbb;
+  background-color: #fff;
+  /* padding: 1em; */
+  border: 1px solid #bbb;
+}
+
+/* footer {
+    background-color: #f8f8f8;
+    border: 1px solid #bbb;
+} */
+
+/* app-order */
+app-order {
+  display: grid;
+  /* grid-template-columns: 1fr; */
+  /* grid-template-rows: auto 1fr; */
+  justify-items: center;
+  /* grid-gap: 2vw; */
+  /* background-color: pink; */
+  height: 100vh;
+  /* width: 100vh; */
+  /* margin-left: 130px; */
+}
+
+/* app-order-list */
+/* app-order-list {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: auto;
+    background-color: lightgray;
+    height: 100vh;
+} */

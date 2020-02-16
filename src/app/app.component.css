@@ -1,0 +1,33 @@
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* background-color: #f8f8f8; */
+  /* height: 100%;
+  width: 100%; */
+  /* color: white; */
+  /* margin: 0;
+    padding: 0; */
+    /* background-color: #111; */
+}
+
+mat-sidenav {
+    /* height: 100%; */
+  /* width: 100%; */
+  padding: 16px;
+  background-color: #111;
+}
+
+/* mat-sidenav-content { */
+  
+  /* height: 100vh; */
+  /* height: 100%;
+  width: 100%; */
+  /* background-color: inherit; */
+/* } */
+
+/* router-outlet {
+  
+} */

@@ -1,0 +1,494 @@
+<!-- <mat-toolbar color="primary">Create Order</mat-toolbar> -->
+<main>
+  <mat-toolbar color="primary">Import or Manually Create an Order</mat-toolbar>
+  <div class="procedure">
+    <h1>Fill out manually</h1>
+  </div>
+  <form id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <div class="orderFormGridSummary">
+
+        <!-- Broker Order ID -->
+        <mat-form-field id="brokerOrderId">
+          <input matInput formControlName="brokerOrderId" placeholder="Broker Order ID" required>
+          <mat-error *ngIf="errorHandling('brokerOrderId', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Enclosed trailer -->
+        <mat-checkbox id="enclosedTrailer" formControlName="enclosedTrailer">Enclosed trailer</mat-checkbox>
+
+        <!-- M-22 inspection -->
+        <mat-checkbox id="m22Inspection" formControlName="m22Inspection">M-22 inspection</mat-checkbox>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Pickup Contact & Location ######################## -->
+    <mat-card>
+      <mat-card-subtitle>Pickup Contact & Location</mat-card-subtitle>
+      <div>
+        <div class="pickupContactLocation">
+
+          <!-- Contact name -->
+          <mat-form-field id="pickupContactName">
+            <input matInput formControlName="pickupContactName" placeholder="Contact name">
+          </mat-form-field>
+
+          <!-- Company name -->
+          <mat-form-field id="pickupCompanyName">
+            <input matInput formControlName="pickupCompanyName" placeholder="Company name">
+          </mat-form-field>
+
+          <!-- Pickup address -->
+          <mat-form-field id="pickupAddress">
+            <input matInput formControlName="pickupAddress" placeholder="Pickup address" required>
+            <mat-error *ngIf="errorHandling('pickupAddress', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Zip -->
+          <mat-form-field id="pickupZip">
+            <input matInput formControlName="pickupZip" placeholder="Zip" maxlength="5" inputmode="numeric"
+              pattern="[0-9]*" digitOnly required>
+            <mat-hint align="end">{{ this.createOrderForm.get('pickupZip').value.length }}/5</mat-hint>
+            <mat-error *ngIf="errorHandling('pickupZip', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div formArrayName="pickupPhonez" id="pickupPhonez"
+          *ngFor="let pickupPhone of pickupPhonez.controls; let i = index">
+          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+
+            <!-- Phone -->
+            <mat-form-field>
+              <input matInput id="pickupPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
+                [textMask]="{mask: phoneMask}" [required]="i === 0">
+              <mat-error *ngIf="this.phonesAreEmpty(this.pickupPhonez)">
+                {{ this.validationMessages['required'] }}
+              </mat-error>
+              <mat-error>
+                  Please complete
+              </mat-error>
+            </mat-form-field>
+            <div class="notesgrid">
+
+              <!-- Phone notes -->
+              <mat-form-field>
+                <!-- <div class="notesgrid"> -->
+                <input matInput id="pickupPhoneNote{{i + 1}}" formControlName="note"
+                  placeholder="Phone {{i + 1}} notes">
+              </mat-form-field>
+              <mat-icon id="phoneClose" *ngIf="this.pickupPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.pickupPhonez, i)" class="close"
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div id="addPickupPhone">
+          <button mat-button type="button" *ngIf="this.pickupPhonez.length != 3"
+            (click)="onAddPhoneControl(this.pickupPhonez)" required>Add
+            another phone <i class="material-icons">add</i></button></div>
+
+        <div class="pickupContactLocationContinued">
+          <!-- Signature not required -->
+          <mat-checkbox id="pickupSignatureNotRequired" formControlName="pickupSignatureNotRequired">Signature not
+            required</mat-checkbox>
+
+          <!-- Pickup dates -->
+          <mat-form-field id="pickupDates">
+            <input matInput formControlName="pickupDates" placeholder="Pickup dates" [satDatepicker]="pickupDates"
+              (dateChange)="this.onPickupDatesChange()" required>
+            <mat-error *ngIf="errorHandling('pickupDates', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+            <sat-datepicker #pickupDates [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="pickupDates"></sat-datepicker-toggle>
+          </mat-form-field>
+
+          <!-- Pickup dates restrictions -->
+          <mat-form-field id="pickupDatesRestrictions">
+            <mat-label>Pickup dates restrictions</mat-label>
+            <mat-select formControlName="pickupDatesRestrictions">
+              <mat-option *ngFor="let datesRestriction of datesRestrictions" [value]="datesRestriction">
+                {{ datesRestriction }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Delivery Contact & Location ######################## -->
+    <mat-card>
+      <div>
+        <mat-card-subtitle>Delivery Contact & Location</mat-card-subtitle>
+        <div class="deliveryContactLocation">
+
+          <!-- Contact name -->
+          <mat-form-field id="deliveryContactName">
+            <input matInput formControlName="deliveryContactName" placeholder="Contact name">
+          </mat-form-field>
+
+          <!-- Company name -->
+          <mat-form-field id="deliveryCompanyName">
+            <input matInput formControlName="deliveryCompanyName" placeholder="Company name">
+          </mat-form-field>
+
+          <!-- Delivery address -->
+          <mat-form-field id="deliveryAddress">
+            <input matInput formControlName="deliveryAddress" placeholder="Delivery address" required>
+            <mat-error *ngIf="errorHandling('deliveryAddress', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Zip -->
+          <mat-form-field id="deliveryZip">
+            <input matInput maxLength="5" formControlName="deliveryZip" placeholder="Zip" maxlength="5"
+              inputmode="numeric" pattern="[0-9]*" digitOnly required>
+            <mat-hint align="end">{{ this.createOrderForm.get('deliveryZip').value.length }}/5</mat-hint>
+            <mat-error *ngIf="errorHandling('deliveryZip', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+        <!-- Delivery phones -->
+        <div formArrayName="deliveryPhonez" id="deliveryPhonez"
+          *ngFor="let deliveryPhone of deliveryPhonez.controls; let i = index">
+          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+
+            <!-- Phone -->
+            <mat-form-field>
+              <input matInput id="deliveryPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
+                [textMask]="{mask: phoneMask}" [required]="i === 0">
+              <mat-error *ngIf="this.phonesAreEmpty(this.deliveryPhonez)">
+                {{ this.validationMessages['required'] }}
+              </mat-error>
+            </mat-form-field>
+
+            <div class="notesgrid">
+
+              <!-- Phone notes -->
+              <mat-form-field>
+                <!-- <div class="notesgrid"> -->
+                <input matInput id="deliveryPhoneNote{{i + 1}}" formControlName="note"
+                  placeholder="Phone {{i + 1}} notes">
+              </mat-form-field>
+              <mat-icon id="phoneClose" *ngIf="this.deliveryPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.deliveryPhonez, i)" class="close"
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div id="addDeliveryPhone">
+          <button mat-button type="button" *ngIf="this.deliveryPhonez.length != 3"
+            (click)="onAddPhoneControl(this.deliveryPhonez)">Add
+            another phone <i class="material-icons">add</i></button></div>
+
+        <div class="deliveryContactLocationContinued">
+          <!-- Signature not required -->
+          <mat-checkbox id="deliverySignatureNotRequired" formControlName="deliverySignatureNotRequired">Signature not
+            required</mat-checkbox>
+
+          <!-- Delivery dates -->
+          <mat-form-field id="deliveryDates">
+            <input matInput formControlName="deliveryDates" placeholder="Delivery dates" [satDatepicker]="deliveryDates"
+              (dateChange)="this.onDeliveryDatesChange()" required>
+            <mat-error *ngIf="errorHandling('deliveryDates', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+            <sat-datepicker #deliveryDates [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="deliveryDates"></sat-datepicker-toggle>
+          </mat-form-field>
+
+          <!-- Delivery dates restrictions -->
+          <mat-form-field id="deliveryDatesRestrictions">
+            <mat-label>Delivery dates restrictions</mat-label>
+            <mat-select formControlName="deliveryDatesRestrictions">
+              <mat-option *ngFor="let datesRestriction of datesRestrictions" [value]="datesRestriction">
+                {{ datesRestriction }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Add New Vehicle ######################## -->
+    <mat-card>
+      <mat-card-subtitle>Add New Vehicle</mat-card-subtitle>
+      <div class="addNewVehicle">
+
+        <!-- Year -->
+        <mat-form-field id="vehicleYear">
+          <mat-label>Year</mat-label>
+          <mat-select formControlName="vehicleYear">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let vehicleYear of this.getVehicleYears()" [value]="vehicleYear">
+              {{ vehicleYear }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Make -->
+        <mat-form-field id="vehicleMake">
+          <mat-label>Make</mat-label>
+          <mat-select formControlName="vehicleMake" (selectionChange)="changeModels()" required>
+            <!-- <mat-option></mat-option> -->
+            <mat-option *ngFor="let vehicleMake of this.getMakes()" [value]="vehicleMake">
+              {{ vehicleMake }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorHandling('vehicleMake', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Model -->
+        <mat-form-field id="vehicleModel">
+          <mat-label>Model</mat-label>
+          <mat-select formControlName="vehicleModel">
+            <!-- <mat-option></mat-option> -->
+            <mat-option *ngFor="let vehicleModel of vehicleModels" [value]="vehicleModel">
+              {{ vehicleModel }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Autotype -->
+        <mat-form-field id="vehicleAutoType">
+          <mat-label>Autotype</mat-label>
+          <mat-select formControlName="vehicleAutoType">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let autotype of autotypes" [value]="autotype">
+              {{ autotype }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Color -->
+        <mat-form-field id="vehicleColor">
+          <input matInput formControlName="vehicleColor" placeholder="Color">
+        </mat-form-field>
+
+        <!-- VIN -->
+        <mat-form-field id="vehicleVIN">
+          <input matInput formControlName="vehicleVIN" placeholder="VIN">
+        </mat-form-field>
+
+        <!-- LOT number -->
+        <mat-form-field id="vehicleLOTNumber">
+          <input matInput formControlName="vehicleLOTNumber" placeholder="LOT number">
+        </mat-form-field>
+
+        <!-- Buyer ID -->
+        <mat-form-field id="vehicleBuyerId">
+          <input matInput formControlName="vehicleBuyerId" placeholder="Buyer ID">
+        </mat-form-field>
+
+        <!-- Inoperable -->
+        <mat-checkbox id="vehicleInoperable" formControlName="vehicleInoperable">Inoperable</mat-checkbox>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Dispatch Information ######################## -->
+    <mat-card>
+      <mat-card-subtitle>Dispatch Information</mat-card-subtitle>
+      <div class="dispatchInformation">
+
+        <!-- Dispatch Instructions -->
+        <mat-form-field id="dispatchInstructions">
+          <input matInput formControlName="dispatchInstructions"
+            placeholder="Dispatch Instructions (shown to carriers on the load board and included in dispatch sheets)">
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Pricing Information ######################## -->
+    <mat-card>
+      <mat-card-subtitle>Pricing Information</mat-card-subtitle>
+      <div class="pricingInformation">
+
+        <!-- Carrier pay -->
+        <mat-form-field id="carrierPay">
+          <input matInput formControlName="carrierPay" maxlength="6" inputmode="numeric" pattern="[0-9]*" digitOnly
+            placeholder="Carrier pay" required>
+          <mat-error *ngIf="errorHandling('carrierPay', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Amount on pickup -->
+        <mat-form-field id="amountOnPickup">
+          <input matInput formControlName="amountOnPickup" maxlength="6" inputmode="numeric" pattern="[0-9]*" digitOnly
+            placeholder="Amount on pickup" (keyup)="onAmountOnPickupKeyUp()">
+        </mat-form-field>
+
+        <!-- Payment on pickup method -->
+        <mat-form-field id="paymentOnPickupMethod">
+          <mat-select id="paymentOnPickupMethod" formControlName="paymentOnPickupMethod"
+            placeholder="Payment on pickup method">
+            <mat-option *ngFor="let method of paymentOnPickupMethod" [value]="method">
+              {{ method }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Amount on delivery -->
+        <mat-form-field id="amountOnDelivery">
+          <input matInput formControlName="amountOnDelivery" maxlength="6" inputmode="numeric" pattern="[0-9]*"
+            digitOnly placeholder="Amount on delivery" (keyup)="onAmountOnDeliveryKeyUp()">
+        </mat-form-field>
+
+        <!-- Payment on delivery method -->
+        <mat-form-field id="paymentOnDeliveryMethod">
+          <mat-select id="paymentOnDeliveryMethod" formControlName="paymentOnDeliveryMethod"
+            placeholder="Payment on delivery method">
+            <mat-option *ngFor="let method of paymentOnDeliveryMethod" [value]="method">
+              {{ method }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field id="paymentTermBusinessDays" *ngIf="pricingIsProvided()">
+          <mat-select id="paymentTermBusinessDays" formControlName="paymentTermBusinessDays"
+            placeholder="Payment term business days">
+            <mat-option *ngFor="let paymentTerm of paymentTermBusinessDays" [value]="paymentTerm">
+              {{ paymentTerm }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorHandling('paymentTermBusinessDays', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field id="paymentMethod" *ngIf="pricingIsProvided()">
+          <mat-select id="paymentMethod" formControlName="paymentMethod" placeholder="payment method">
+            <mat-option *ngFor="let method of paymentMethod" [value]="method">
+              {{ method }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorHandling('paymentMethod', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field id="paymentTermBegins" *ngIf="pricingIsProvided()">
+          <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment term begins">
+            <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
+              {{ termBegins }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorHandling('paymentTermBegins', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field id="paymentNotes" *ngIf="pricingIsProvided()">
+          <input matInput formControlName="paymentNotes" placeholder="Payment notes">
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- ######################## Shipper Information ######################## -->
+    <mat-card>
+      <div>
+        <mat-card-subtitle>Shipper Information</mat-card-subtitle>
+        <div class="shipperInformation">
+
+          <!-- Broker contact name -->
+          <mat-form-field id="brokerContactName">
+            <input matInput formControlName="brokerContactName" placeholder="Broker contact name">
+          </mat-form-field>
+
+          <!-- Broker company name -->
+          <mat-form-field id="brokerCompanyName">
+            <input matInput formControlName="brokerCompanyName" placeholder="Broker company name" required>
+            <mat-error *ngIf="errorHandling('brokerCompanyName', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Broker address -->
+          <mat-form-field id="brokerAddress">
+            <input matInput formControlName="brokerAddress" placeholder="Broker address" required>
+            <mat-error *ngIf="errorHandling('brokerAddress', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Zip -->
+          <mat-form-field id="brokerZip">
+            <input matInput maxLength="5" formControlName="brokerZip" placeholder="Zip" maxlength="5"
+              inputmode="numeric" pattern="[0-9]*" digitOnly required>
+            <mat-hint align="end">{{ this.createOrderForm.get('brokerZip').value.length }}/5</mat-hint>
+            <mat-error *ngIf="errorHandling('brokerZip', 'required')">
+              {{ this.validationMessages['required'] }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div formArrayName="shipperPhonez" id="shipperPhonez"
+          *ngFor="let shipperPhone of shipperPhonez.controls; let i = index">
+          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+
+            <!-- Phone -->
+            <mat-form-field>
+              <input matInput id="shipperPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
+                [textMask]="{mask: phoneMask}" [required]="i === 0">
+              <mat-error *ngIf="this.phonesAreEmpty(this.shipperPhonez)">
+                {{ this.validationMessages['required'] }}
+              </mat-error>
+            </mat-form-field>
+            <div class="notesgrid">
+
+              <!-- Phone notes -->
+              <mat-form-field>
+                <!-- <div class="notesgrid"> -->
+                <input matInput id="shipperPhoneNote{{i + 1}}" formControlName="note"
+                  placeholder="Phone {{i + 1}} notes">
+              </mat-form-field>
+              <mat-icon id="phoneClose" *ngIf="this.shipperPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.shipperPhonez, i)" class="close"
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <div id="addShipperPhone">
+          <button mat-button type="button" *ngIf="this.shipperPhonez.length != 3"
+            (click)="onAddPhoneControl(this.shipperPhonez)">Add
+            another phone <i class="material-icons">add</i></button></div>
+
+        <!-- Broker email -->
+        <mat-form-field id="brokerEmail" class="shipperInformationContinued">
+          <input matInput formControlName="brokerEmail" placeholder="Broker email" required>
+          <mat-error *ngIf="errorHandling('brokerEmail', 'required')">
+            {{ this.validationMessages['required'] }}
+          </mat-error>
+          <mat-error *ngIf="errorHandling('brokerEmail', 'email')">
+            {{ this.validationMessages['email'] }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- <mat-card-footer> -->
+    <footer>
+      <button mat-flat-button type="button">Cancel</button>
+      <button mat-flat-button color="primary" id="submitButton" type="submit">Create
+        Order</button>
+    </footer>
+    <!-- </mat-card-footer> -->
+    <!-- <mat-card-footer><button mat-raised-button color="primary" type="submit" style="margin-right: 20px; float: right">Create
+        Order</button></mat-card-footer> -->
+  </form>
+</main>

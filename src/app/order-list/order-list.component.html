@@ -1,0 +1,125 @@
+<div>
+  <button mat-flat-button>All ({{ all }})</button>
+    <span class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</span>
+    <a class="rectangle blueButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <button class="rectangle redButton"><mat-icon>check</mat-icon>All ({{ all }})</button>
+    <button class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</button>
+    <span [ngClass]="(step===true)?'class1':'class2'" (click)="step = step != true">New ({{ new }})</span>
+</div>
+<ul class="tg-list">
+  <li class="tg-list-item">
+    <h4>Skewed</h4>
+    <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+    <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
+  </li>
+  <li class="tg-list-item">
+    <h4>Flip</h4>
+    <input class="tgl tgl-flip" id="cb5" type="checkbox"/>
+    <label class="tgl-btn" data-tg-off="Nope" data-tg-on="Yeah!" for="cb5"></label>
+  </li>
+</ul>
+<main>
+  <mat-toolbar id=orderStatus>
+    <button mat-flat-button>All ({{ all }})</button>
+    <a href="#" class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <a href="#" class="rectangle blueButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <a href="#" class="rectangle redButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <a href="#" class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <button mat-flat-button>New ({{ new }})</button>
+    <button mat-flat-button>Accepted ({{ accepted }})</button>
+    <button mat-flat-button>Assigned ({{ assigned }})</button>
+    <button mat-flat-button>Picked up ({{ pickedup }})</button>
+    <button mat-flat-button>Delivered ({{ delivered }})</button>
+  </mat-toolbar>
+
+  <div id="search">
+    <a id="searchIcon" href="#">
+      <mat-icon>search</mat-icon>
+    </a>
+    <mat-form-field id="searchText" appearance="none">
+      <input matInput type="text">
+    </mat-form-field>
+  </div>
+
+  <mat-nav-list id="list">
+    <mat-list-item *ngFor="let order of orders">
+      <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
+      <p matLine>
+        <span>
+          {{ order.id }}
+        </span>
+      </p>
+      <p matLine>
+        <span>
+          {{ order.brokerContactName }}
+        </span>
+      </p>
+      <p matLine>
+        <span>
+          {{ order.vehicleYear }}
+          {{ order.vehicleMake }}
+        </span>
+      </p>
+      <p matLine>
+          <span>
+            {{ order.pickupAddress }}
+          </span>
+        </p>
+      <p matLine>
+          <span>
+            {{ order.deliveryAddress }}
+          </span>
+        </p>
+    </mat-list-item>
+  </mat-nav-list>
+  <!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+    <div *cdkVirtualFor="let order of orders" class="example-item">{{order.brokerContactName}}</div>
+  </cdk-virtual-scroll-viewport> -->
+
+  <div id="detail">
+      <mat-card id="summary"><mat-card-title>Order #</mat-card-title>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa natus voluptates maxime
+        voluptatibus eos cumque, alias aut qui a expedita!</mat-card>
+    <div id="detailLeft">
+      <mat-card id="driver"><mat-card-subtitle><mat-icon>person</mat-icon> DRIVER</mat-card-subtitle>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione qui assumenda quis maxime
+        corporis, necessitatibus eius temporibus quibusdam deserunt excepturi!</mat-card>
+      <mat-card id="vehicle"><mat-card-subtitle><mat-icon>directions_car</mat-icon> VEHICLE</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ullam inventore aperiam, ut
+        laudantium commodi rerum modi quam delectus minima.</mat-card>
+      <mat-card id="pickupAndDelivery"><mat-card-subtitle><mat-icon>arrow_upward</mat-icon> PICKUP</mat-card-subtitle><mat-card-subtitle><mat-icon>arrow_downward</mat-icon> DELIVERY</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta corrupti
+        voluptates hic delectus nihil reprehenderit quisquam veniam impedit eos cum, in atque eius architecto officiis
+        iusto saepe, temporibus vero ipsa est laborum, dolorem velit nostrum. Perspiciatis delectus possimus odio
+        dignissimos!</mat-card>
+      <mat-card id="dispatchInstructions"><mat-card-subtitle><mat-icon>comment</mat-icon> DISPATCH INSTRUCTIONS</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo laudantium
+        corrupti voluptatem officia deserunt corporis molestiae voluptatum, nobis dolorem, nesciunt fugiat quisquam
+        voluptate! Sed vel quis maiores architecto? Alias sequi, rem aperiam totam molestias praesentium ut explicabo,
+        obcaecati provident eligendi cumque saepe voluptate! Perspiciatis molestiae aliquid aliquam aut temporibus. Quae
+        odit quia repellendus mollitia at esse eum, voluptatibus, deserunt eligendi quam hic nesciunt nisi ipsa? A
+        facere aliquam porro, quod minima expedita beatae ipsa non enim. Totam libero enim esse inventore quia non
+        ullam. Dolorum dicta accusantium saepe quod dolore eligendi iusto. Impedit eveniet excepturi, rem facere dolor
+        quod assumenda.</mat-card>
+      <mat-card id="attachments"><mat-card-subtitle><mat-icon>attach_file</mat-icon> ATTACHMENTS</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium cum rem suscipit
+        quaerat eum corporis, laboriosam eius dolorem similique dolores temporibus dignissimos enim dolorum voluptates
+        ad quidem ipsam mollitia itaque qui ea odio nam provident ratione. Voluptas asperiores molestias cum iure
+        doloremque placeat ipsum amet, a dolorum qui consequatur tenetur omnis neque fuga saepe necessitatibus autem!
+        Sit iusto aliquam id veritatis ex doloribus officia enim dolorum quod dolore cumque quidem temporibus
+        praesentium atque, nesciunt labore ea suscipit consequuntur recusandae maiores minus fugit inventore eveniet!
+        Praesentium reprehenderit voluptatibus, error incidunt vel iure ab dolores labore illum? Aut optio nisi corporis
+        debitis.</mat-card>
+    </div>
+    <div id="detailRight">
+      <mat-card id="payment"><mat-card-subtitle><mat-icon>attach_money</mat-icon> PAYMENT</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam saepe nesciunt quam
+        laboriosam vel quaerat adipisci praesentium quibusdam est fugit!</mat-card>
+      <mat-card id="activity"><mat-card-subtitle><mat-icon>local_activity</mat-icon> ACTIVITY</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
+        deleniti atque iure nisi. Exercitationem qui porro amet, maxime sapiente at voluptas eaque aut quod eligendi,
+        libero obcaecati earum deleniti cum dolorum commodi laboriosam voluptatum laborum iure tempora, odio nobis
+        fugiat enim. Fuga aliquam debitis quia ea labore assumenda, officia nostrum dolore velit iusto ipsam voluptate
+        nesciunt necessitatibus minus, quas consequatur commodi voluptatibus, quos est mollitia eos sequi repellendus!
+        Est libero laboriosam et provident quos culpa minus vel rem, distinctio maxime officiis, unde voluptate
+        architecto. Vero reprehenderit itaque eius commodi molestias temporibus repellat id alias, earum vitae quisquam?
+      </mat-card>
+      <mat-card id="shipper"><mat-card-subtitle><mat-icon>people</mat-icon> SHIPPER</mat-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem facilis molestias debitis ab
+        vel, quo perferendis et deleniti in reprehenderit nemo impedit nisi. Quas a nam dolorem, quae debitis iusto
+        corporis alias, ut officia distinctio et rem quaerat ratione explicabo, nostrum voluptatibus dicta facilis rerum
+        mollitia sit porro eius minima!</mat-card>
+    </div>
+  </div>
+</main>
