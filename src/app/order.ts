@@ -10,6 +10,8 @@ export interface Order {
     pickupCompanyName: string;                                      // Company name
     pickupAddress: string;                                          // Pickup address               required
     pickupZip: string;                                              // Pickup zip                    required
+    pickupLatitude: number;
+    pickupLongitude: number;
 
     // Map<String, String> pickupPhones;                            // Phone 1 (can be multiple)    required
     pickupPhones: {};
@@ -25,6 +27,8 @@ export interface Order {
     deliveryAddress: string;                                        // Delivery address             required
 //    @NotEmpty(message = "deliveryZip is required")
     deliveryZip: string;                                            // Zip                          required
+    deliveryLatitude: number;
+    deliveryLongitude: number;
     /*Phone 1 (can be multiple) required,
     Phone 1 notes optional*/
 //    @NotEmpty(message = "deliveryPhones is required")
@@ -69,6 +73,9 @@ export interface Order {
     brokerAddress: string;                                          // Broker address               required
 //    @NotEmpty(message = "brokerZip is required")
     brokerZip: string;                                              // Zip                          required
+    brokerLatitude: number;
+    brokerLongitude: number;
+
     /*Phone 1 (can be multiple) required,
     Phone 1 notes optional*/
 //    @NotEmpty(message = "shipperPhones is required")

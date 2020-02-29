@@ -6,6 +6,8 @@ import { retry, catchError } from 'rxjs/operators';
 
 import { Order } from './order';
 
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +43,26 @@ export class ApiService {
 
   public getOrderById(id: string) {
     return this.httpClient.get<Order>('http://localhost:8080/transportapp/demo/order/getpage/1' + id)
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public verifyAddress(address: string) {
+    const params = new HttpParams()
+      // .set('auth-id', '47f66a5f-f9f4-be57-fad2-8aa1c1a6c4ad')
+      // .set('auth-token', 'aIw6eGhZorEhYLQnQySb')
+      .set('key', '30454944820307738')
+      .set('street', address);
+    return this.httpClient.get<any[]>(environment.US_ADDRESS_VALIDATOR_URL, {params})
+    .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public verifyZip(zipcode: string) {
+    const params = new HttpParams()
+      // .set('auth-id', '47f66a5f-f9f4-be57-fad2-8aa1c1a6c4ad')
+      // .set('auth-token', 'aIw6eGhZorEhYLQnQySb')
+      .set('key', '30454944820307738')
+      .set('zipcode', zipcode);
+    return this.httpClient.get<any[]>(environment.US_ZIP_VALIDATOR_URL, {params})
     .pipe(retry(3), catchError(this.handleError));
   }
 

@@ -1,31 +1,16 @@
-<div>
-  <button mat-flat-button>All ({{ all }})</button>
-    <span class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</span>
-    <a class="rectangle blueButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
-    <button class="rectangle redButton"><mat-icon>check</mat-icon>All ({{ all }})</button>
-    <button class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</button>
-    <span [ngClass]="(step===true)?'class1':'class2'" (click)="step = step != true">New ({{ new }})</span>
-</div>
-<ul class="tg-list">
-  <li class="tg-list-item">
-    <h4>Skewed</h4>
-    <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
-    <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
-  </li>
-  <li class="tg-list-item">
-    <h4>Flip</h4>
-    <input class="tgl tgl-flip" id="cb5" type="checkbox"/>
-    <label class="tgl-btn" data-tg-off="Nope" data-tg-on="Yeah!" for="cb5"></label>
-  </li>
-</ul>
+<!-- <div>
+    <button mat-stroked-button style="border: 1 px solid; text-decoration-line: none;border-radius: 50%;" [ngClass]="(step===true)?'class1':'class2'" (click)="step = step != true">New ({{ new }})</button>
+    <mat-checkbox class="mat-stroked-button" style="border: 1 px solid; text-decoration-line: none;" formControlName="enclosedTrailer">Enclosed trailer</mat-checkbox>
+</div> -->
+
 <main>
   <mat-toolbar id=orderStatus>
-    <button mat-flat-button>All ({{ all }})</button>
-    <a href="#" class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</a>
+    <mat-checkbox class="mat-stroked-button" style="border: 1 px solid white;">All ({{ all }})</mat-checkbox>
+    <!-- <a href="#" class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</a>
     <a href="#" class="rectangle blueButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
     <a href="#" class="rectangle redButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
-    <a href="#" class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
-    <button mat-flat-button>New ({{ new }})</button>
+    <a href="#" class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</a> -->
+    <button mat-stroked-button>New ({{ new }})</button>
     <button mat-flat-button>Accepted ({{ accepted }})</button>
     <button mat-flat-button>Assigned ({{ assigned }})</button>
     <button mat-flat-button>Picked up ({{ pickedup }})</button>

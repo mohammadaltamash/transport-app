@@ -1,0 +1,74 @@
+main {
+    /* position: relative;
+    margin: 10px; */
+}
+
+/* app-dashboard */
+.dashboard {
+    /* background-color: silver; */
+    display: grid;
+    grid-template-areas:
+      "ordersPickupToday ordersPickupToday ordersPickupToday ordersDeliveryToday ordersDeliveryToday ordersDeliveryToday paymentsPendingToday paymentsPendingToday paymentsPendingToday"
+      "recentDriverActivity recentDriverActivity recentDriverActivity recentDriverActivity payments payments payments payments payments"
+      "delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries"
+      "footer footer footer footer footer footer footer footer footer";
+    grid-template-rows: 150px 1fr 1fr 40px;
+    grid-template-columns: repeat(9, 1fr);
+    grid-gap: 2vw;
+    /* grid-column-gap: 50px;
+      grid-row-gap: 50px; */
+    height: 100%;
+    /* margin: 0px; */
+    /* margin-left: 130px; */
+    box-sizing: border-box;
+    padding: 40px;
+    background-color: inherit;
+    color: gray;
+  }
+  
+  #ordersPickupToday {
+    grid-area: ordersPickupToday;
+    /* margin-top: 2vw; */
+  }
+  #ordersDeliveryToday {
+    grid-area: ordersDeliveryToday;
+    /* margin-top: 2vw; */
+  }
+  #paymentsPendingToday {
+    grid-area: paymentsPendingToday;
+    /* margin-top: 2vw; */
+  }
+  #recentDriverActivity {
+    grid-area: recentDriverActivity;
+  }
+  #payments {
+    grid-area: payments;
+    /* grid-column: 3 / span 2; */
+  }
+  #delayedPickupsDeliveries {
+    grid-area: delayedPickupsDeliveries;
+  }
+  #pageFooter {
+    grid-area: footer;
+  }
+  
+  .dashboard > div {
+    background-color: #f8f8f8;
+    /* padding: 1em; */
+    /* border: 1px solid #bbb; */
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(100, 100, 100, 0.5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(100, 100, 100,0.5);
+  box-shadow: 0px 0px 10px 0px rgba(100, 100, 100,0.5);
+  }
+  
+  .dashboard > div:hover {
+    /* box-shadow: 0 0 10px #bbb;
+    background-color: #fff; */
+    /* padding: 1em; */
+    /* border: 1px solid #bbb; */
+  }
+  
+  /* footer {
+      background-color: #f8f8f8;
+      border: 1px solid #bbb;
+  } */

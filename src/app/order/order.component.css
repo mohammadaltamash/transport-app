@@ -21,38 +21,71 @@ form {
   justify-content: center;
 } */
 
+main {
+  min-height: 77vh;
+  /* min-width: 47vw; */
+  margin: auto;
+  padding: 10px;
+}
+
 main, footer {
-  background-color: #fdfdfd;
-  width: 940px;
-  box-shadow: 0 10px 10px lightgray;
+  background-color: inherit;
+  /* width: 940px; */
+  /* box-shadow: 0 10px 10px lightgray; */
   /* margin: auto; */
   /* box-shadow: rgba(black, 0.4) 0 4px 4px; */
 }
 
+/* mat-dialog-content {} */
+
 mat-toolbar {
-  position: sticky;
+  /* position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 1; */
   justify-content: center;
   /* text-align: center; */
   /* box-shadow: 0 10px 10px lightgray */
   /* box-shadow: 10 5px 5px #999; */
 }
 
+mat-card, mat-card-title {
+  /* min-width: 50vw; */
+  margin-bottom: 20px;
+}
+
 h1 {
   /* margin-left: 20px; */
-  margin: 1.5vw;
+  /* margin: 1.5vw; */
 }
+
+/* .mat-dialog-container {
+  padding: 0;
+} */
 
 .procedure {
   text-align: center;
   color: gray;
 }
 
-mat-card, mat-card-title {
-  width: 870px;
-  margin-bottom: 20px;
+.info {
+  font-size: small;
+  color: gold;
+  overflow: hidden;
+  -webkit-transition: height 1s ease-in;
+  -moz-transition: height 1s ease-in;
+  -ms-transition: height 1s ease-in;
+  -o-transition: height 1s ease-in;
+  transition: height 1s ease-in;
 }
+
+.error_message {
+  color: red;
+  text-align: left;
+}
+
+/* .addPhoneButton {
+  background-color: #f0f0f0;
+} */
 
 .maindivs {
   display: grid;
@@ -89,6 +122,7 @@ mat-card, mat-card-title {
   grid-template-areas:
     "pickupContactName          pickupContactName           pickupCompanyName           pickupCompanyName"
     "pickupAddress              pickupAddress               pickupZip                   ."
+    "pickupAddressInfo          pickupAddressInfo           .                           ."
     /* "pickupPhonez               pickupPhonez                pickupPhonez                pickupPhonez" */
     /* "addPickupPhone             addPickupPhone              addPickupPhone              addPickupPhone"
     "pickupSignatureNotRequired pickupSignatureNotRequired  pickupSignatureNotRequired  pickupSignatureNotRequired"
@@ -131,6 +165,9 @@ mat-card, mat-card-title {
 }
 #pickupZip {
   grid-area: pickupZip;
+}
+#pickupAddressInfo {
+  grid-area: pickupAddressInfo;
 }
 /* #pickupPhonez { */
   /* display: contents; */
@@ -403,11 +440,11 @@ mat-card, mat-card-title {
 /* Dispatch Information */
 .phonesGrid {
   display: grid;
-  /* grid-template-areas: "testdiv"; */
+  grid-template-areas: "matFormField notesgrid";
   grid-template-columns: 1fr 1fr;
   /* grid-auto-columns: min-content; */
   /* grid-auto-flow: column; */
-  grid-template-rows: 1fr;
+  /* grid-template-rows: 1fr; */
   /* grid-auto-rows: minmax(min-content, max-content); */
   /* gap: 1vw; */
   /* row-gap: 0.5vw; */
@@ -415,44 +452,43 @@ mat-card, mat-card-title {
   align-items: center;
   /* align-content:  */
 }
-/* .pickupPhonezGrid > * { */
-  /* border: 2px solid rgb(214, 232, 182); */
-  /* clear: both; */
-/* } */
-/* #testdiv {
-    grid-area: testdiv;
-  } */
+.phone {
+  grid-area: matFormField;
+}
+.notesgrid {
+  grid-area: notesgrid;
+}
 
-/* .flex-container {
-    display: flex;
-    background-color: aqua;
-  }
-
-  .flex-container > div {
-    background-color: #f1f1f1;
-    margin: 10px;
-    padding: 20px;
-    font-size: 30px;
-  } */
 
 .notesgrid {
   display: grid;
-  /* grid-template-areas: "pickupNote phoneClose"; */
+  grid-template-areas: "matFormField phoneClose";
 
   /* grid-template-rows: repeat(auto-fit, 24px); */
-  /* grid-template-columns: repeat(auto-fit, minmax(24px, 1fr)); */
+  /* grid-template-columns: repeat(auto-fit, minmax(min-content, auto)); */
   /* grid-template-columns: repeat(auto-fit, minmax(0, 24px)); */
   /* grid-template-columns: auto 24px; */
   /* grid-auto-columns: minmax(min-content, max-content);  */
   /* grid-auto-columns: min-content; */
   /* grid-auto-flow: column; */
-  grid-template-rows: 1fr;
-  grid-template-columns: repeat(auto-fit, minmax(1fr, 24px));
+  grid-template-columns: 1fr minmax(0, auto);
+  /* grid-template-rows: 1fr; */
+  /* grid-template-columns: repeat(auto-fit, minmax(1fr, 24px)); */
   /* grid-auto-rows: minmax(min-content, max-content); */
   /* gap: 1vw; */
   /* row-gap: 0.5vw; */
-  column-gap: 1.5vw;
+  /* column-gap: 1.5vw; */
   align-items: center;
+}
+.note {
+  grid-area: matFormField;
+}
+.phoneClose {
+  grid-area: phoneClose;
+}
+
+mat-icon , .phoneClose {
+  margin-left: 7px;
 }
 
 /* [class*='pickupPhoneNoteDiv'] {
@@ -467,7 +503,7 @@ mat-card, mat-card-title {
 
 .notesgrid > div {
   /* grid-area: phoneClose; */
-  background-color: blue;
+  /* background-color: blue; */
   /* float: right; */
 
   /* max-width:24vw; */
@@ -476,21 +512,20 @@ mat-card, mat-card-title {
 
 footer {
   display: grid;
-  grid-template-columns: min-content min-content;
-  column-gap: 1.5vw;
+  grid-template-columns: auto min-content min-content;
+  column-gap: .5vw;
   /* padding: 1.25vw; */
-  padding-top: 1vw;
-  padding-bottom: 1vw;
+  /* padding-top: 1vw;
+  padding-bottom: 1vw; */
   justify-content: right;
 
-  position: sticky;
-  bottom: 0; 
+  /* position: sticky;
+  bottom: 0;  */
   width: 100%;
-  background-color: #fafafa;
+  background-color: inherit;
   border: none;
 }
 
-#submitButton {
- /* border: 5px solid; */
-  margin-right: 1vw;
+.mat-dialog-actions {
+  /* background-color: yellow; */
 }

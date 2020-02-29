@@ -1,10 +1,13 @@
 <!-- <mat-toolbar color="primary">Create Order</mat-toolbar> -->
-<main>
-  <mat-toolbar color="primary">Import or Manually Create an Order</mat-toolbar>
-  <div class="procedure">
-    <h1>Fill out manually</h1>
-  </div>
-  <form id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+<mat-toolbar mat-dialog-title color="primary">Import or Manually Create an Order</mat-toolbar>
+<!-- <div mat-dialog-content> -->
+<form id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+  <main mat-dialog-content>
+    <!-- <mat-toolbar color="primary">Import or Manually Create an Order</mat-toolbar> -->
+    <div class="procedure">
+      <h1>Fill out manually</h1>
+    </div>
+    <!-- <form id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()"> -->
     <mat-card>
       <div class="orderFormGridSummary">
 
@@ -42,55 +45,77 @@
 
           <!-- Pickup address -->
           <mat-form-field id="pickupAddress">
-            <input matInput formControlName="pickupAddress" placeholder="Pickup address" required>
+            <!-- <input matInput formControlName="pickupAddress" placeholder="Pickup address" required> -->
+            <!-- <input matInput formControlName="pickupAddress" placeholder="Pickup address" required
+                ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/> -->
+
+            <!-- <mat-label>Address << using the directive >></mat-label> -->
+            <!-- (blur)="addressLostFocus()" -->
+            <input matInput id="pickupAddress" formControlName="pickupAddress" placeholder="Pickup address" required
+              matGoogleMapsAutocomplete [country]="country"
+              (onAutocompleteSelected)="onAutocompleteSelected($event, 'pickup')"
+              (onLocationSelected)="onLocationSelected($event, 'pickup')"
+              (blur)="this.onAddressLostFocus('pickup')">
             <mat-error *ngIf="errorHandling('pickupAddress', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
           </mat-form-field>
+          <div id="pickupAddressInfo" *ngIf="this.pickupAddressValid === false">
+            This address cannot be validated and your driver may not be able to use it for directions. Please verify the address.
+          </div>
 
           <!-- Zip -->
           <mat-form-field id="pickupZip">
-            <input matInput formControlName="pickupZip" placeholder="Zip" maxlength="5" inputmode="numeric"
+            <input matInput formControlName="pickupZip" (change)="onZipChanged('pickupZip')" placeholder="Zip" maxlength="5" inputmode="numeric"
               pattern="[0-9]*" digitOnly required>
-            <mat-hint align="end">{{ this.createOrderForm.get('pickupZip').value.length }}/5</mat-hint>
+            <mat-hint align="end">
+              {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('pickupZip').value.length === null ? 5 : this.createOrderForm.get('pickupZip').value.length }}/5
+            </mat-hint>
             <mat-error *ngIf="errorHandling('pickupZip', 'required')">
               {{ this.validationMessages['required'] }}
+            </mat-error>
+            <mat-error *ngIf="!pickupZipValid">
+              {{ this.validationMessages['invalidZip'] }}
             </mat-error>
           </mat-form-field>
         </div>
 
         <div formArrayName="pickupPhonez" id="pickupPhonez"
           *ngFor="let pickupPhone of pickupPhonez.controls; let i = index">
-          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+          <div [formGroupName]="i" class="phonesGrid">
 
             <!-- Phone -->
-            <mat-form-field>
+            <mat-form-field class="phone">
               <input matInput id="pickupPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
                 [textMask]="{mask: phoneMask}" [required]="i === 0">
               <mat-error *ngIf="this.phonesAreEmpty(this.pickupPhonez)">
                 {{ this.validationMessages['required'] }}
               </mat-error>
               <mat-error>
-                  Please complete
+                Please complete
               </mat-error>
             </mat-form-field>
             <div class="notesgrid">
 
               <!-- Phone notes -->
-              <mat-form-field>
+              <mat-form-field class="note">
                 <!-- <div class="notesgrid"> -->
                 <input matInput id="pickupPhoneNote{{i + 1}}" formControlName="note"
                   placeholder="Phone {{i + 1}} notes">
+                <!-- <mat-icon id="phoneClose" *ngIf="this.pickupPhonez.length != 1" (click)="onRemovePhoneControl(this.pickupPhonez, i)" class="close"
+                style="position: absolute; right:0;">close</mat-icon> -->
               </mat-form-field>
-              <mat-icon id="phoneClose" *ngIf="this.pickupPhonez.length != 1"
+              <mat-icon class="phoneClose" *ngIf="this.pickupPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.pickupPhonez, i)" class="close">close</mat-icon>
+              <!-- <mat-icon id="phoneClose" *ngIf="this.pickupPhonez.length != 1"
                 (click)="onRemovePhoneControl(this.pickupPhonez, i)" class="close"
-                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon> -->
             </div>
           </div>
         </div>
 
         <div id="addPickupPhone">
-          <button mat-button type="button" *ngIf="this.pickupPhonez.length != 3"
+          <button mat-flat-button class="addButton" type="button" *ngIf="this.pickupPhonez.length != 3"
             (click)="onAddPhoneControl(this.pickupPhonez)" required>Add
             another phone <i class="material-icons">add</i></button></div>
 
@@ -141,7 +166,15 @@
 
           <!-- Delivery address -->
           <mat-form-field id="deliveryAddress">
-            <input matInput formControlName="deliveryAddress" placeholder="Delivery address" required>
+            <!-- <input matInput formControlName="deliveryAddress" placeholder="Delivery address" required> -->
+            <!-- <input matInput formControlName="deliveryAddress" placeholder="Delivery address" required
+                ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Delivery address"/> -->
+
+            <input matInput formControlName="deliveryAddress" placeholder="Delivery address" required
+              matGoogleMapsAutocomplete [country]="country"
+              (onAutocompleteSelected)="onAutocompleteSelected($event, 'delivery')"
+              (onLocationSelected)="onLocationSelected($event, 'delivery')">
+
             <mat-error *ngIf="errorHandling('deliveryAddress', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
@@ -149,11 +182,16 @@
 
           <!-- Zip -->
           <mat-form-field id="deliveryZip">
-            <input matInput maxLength="5" formControlName="deliveryZip" placeholder="Zip" maxlength="5"
+            <input matInput maxLength="5" formControlName="deliveryZip" (change)="onZipChanged('deliveryZip')" placeholder="Zip" maxlength="5"
               inputmode="numeric" pattern="[0-9]*" digitOnly required>
-            <mat-hint align="end">{{ this.createOrderForm.get('deliveryZip').value.length }}/5</mat-hint>
+            <mat-hint align="end">
+              {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('deliveryZip').value.length === null ? 5 : this.createOrderForm.get('deliveryZip').value.length }}/5
+            </mat-hint>
             <mat-error *ngIf="errorHandling('deliveryZip', 'required')">
               {{ this.validationMessages['required'] }}
+            </mat-error>
+            <mat-error *ngIf="!deliveryZipValid">
+              {{ this.validationMessages['invalidZip'] }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -162,10 +200,10 @@
         <!-- Delivery phones -->
         <div formArrayName="deliveryPhonez" id="deliveryPhonez"
           *ngFor="let deliveryPhone of deliveryPhonez.controls; let i = index">
-          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+          <div [formGroupName]="i" class="phonesGrid">
 
             <!-- Phone -->
-            <mat-form-field>
+            <mat-form-field class="phone">
               <input matInput id="deliveryPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
                 [textMask]="{mask: phoneMask}" [required]="i === 0">
               <mat-error *ngIf="this.phonesAreEmpty(this.deliveryPhonez)">
@@ -176,20 +214,24 @@
             <div class="notesgrid">
 
               <!-- Phone notes -->
-              <mat-form-field>
+              <mat-form-field class="note">
                 <!-- <div class="notesgrid"> -->
                 <input matInput id="deliveryPhoneNote{{i + 1}}" formControlName="note"
                   placeholder="Phone {{i + 1}} notes">
+                <!-- <mat-icon class="phoneClose" *ngIf="this.deliveryPhonez.length != 1" (click)="onRemovePhoneControl(this.deliveryPhonez, i)" class="close"
+                style="position: absolute; right:0;">close</mat-icon> -->
               </mat-form-field>
-              <mat-icon id="phoneClose" *ngIf="this.deliveryPhonez.length != 1"
+              <mat-icon class="phoneClose" *ngIf="this.deliveryPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.deliveryPhonez, i)" class="close">close</mat-icon>
+              <!-- <mat-icon id="phoneClose" *ngIf="this.deliveryPhonez.length != 1"
                 (click)="onRemovePhoneControl(this.deliveryPhonez, i)" class="close"
-                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon> -->
             </div>
           </div>
         </div>
 
         <div id="addDeliveryPhone">
-          <button mat-button type="button" *ngIf="this.deliveryPhonez.length != 3"
+          <button mat-flat-button class="addPhoneButton" type="button" *ngIf="this.deliveryPhonez.length != 3"
             (click)="onAddPhoneControl(this.deliveryPhonez)">Add
             another phone <i class="material-icons">add</i></button></div>
 
@@ -419,7 +461,14 @@
 
           <!-- Broker address -->
           <mat-form-field id="brokerAddress">
-            <input matInput formControlName="brokerAddress" placeholder="Broker address" required>
+            <!-- <input matInput formControlName="brokerAddress" placeholder="Broker address" required> -->
+            <!-- <input matInput formControlName="brokerAddress" placeholder="Broker address" required
+                ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Broker address"/> -->
+
+            <input matInput formControlName="brokerAddress" placeholder="Broker address" required
+              matGoogleMapsAutocomplete [country]="country"
+              (onAutocompleteSelected)="onAutocompleteSelected($event, 'broker')"
+              (onLocationSelected)="onLocationSelected($event, 'broker')">
             <mat-error *ngIf="errorHandling('brokerAddress', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
@@ -427,21 +476,26 @@
 
           <!-- Zip -->
           <mat-form-field id="brokerZip">
-            <input matInput maxLength="5" formControlName="brokerZip" placeholder="Zip" maxlength="5"
+            <input matInput maxLength="5" formControlName="brokerZip" (change)="onZipChanged('brokerZip')" placeholder="Zip" maxlength="5"
               inputmode="numeric" pattern="[0-9]*" digitOnly required>
-            <mat-hint align="end">{{ this.createOrderForm.get('brokerZip').value.length }}/5</mat-hint>
+            <mat-hint align="end">
+              {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('brokerZip').value.length === null ? 5 : this.createOrderForm.get('brokerZip').value.length }}/5
+            </mat-hint>
             <mat-error *ngIf="errorHandling('brokerZip', 'required')">
               {{ this.validationMessages['required'] }}
+            </mat-error>
+            <mat-error *ngIf="!brokerZipValid">
+              {{ this.validationMessages['invalidZip'] }}
             </mat-error>
           </mat-form-field>
         </div>
 
         <div formArrayName="shipperPhonez" id="shipperPhonez"
           *ngFor="let shipperPhone of shipperPhonez.controls; let i = index">
-          <div [formGroupName]="i" class="phonesGrid" style="position: relative">
+          <div [formGroupName]="i" class="phonesGrid">
 
             <!-- Phone -->
-            <mat-form-field>
+            <mat-form-field class="phone">
               <input matInput id="shipperPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
                 [textMask]="{mask: phoneMask}" [required]="i === 0">
               <mat-error *ngIf="this.phonesAreEmpty(this.shipperPhonez)">
@@ -451,20 +505,24 @@
             <div class="notesgrid">
 
               <!-- Phone notes -->
-              <mat-form-field>
+              <mat-form-field class="note">
                 <!-- <div class="notesgrid"> -->
                 <input matInput id="shipperPhoneNote{{i + 1}}" formControlName="note"
                   placeholder="Phone {{i + 1}} notes">
+                <!-- <mat-icon id="phoneClose" *ngIf="this.shipperPhonez.length != 1" (click)="onRemovePhoneControl(this.shipperPhonez, i)" class="close"
+                style="position: absolute; right:0;">close</mat-icon> -->
               </mat-form-field>
-              <mat-icon id="phoneClose" *ngIf="this.shipperPhonez.length != 1"
+              <mat-icon class="phoneClose" *ngIf="this.shipperPhonez.length != 1"
+                (click)="onRemovePhoneControl(this.shipperPhonez, i)" class="close">close</mat-icon>
+              <!-- <mat-icon id="phoneClose" *ngIf="this.shipperPhonez.length != 1"
                 (click)="onRemovePhoneControl(this.shipperPhonez, i)" class="close"
-                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon>
+                style="position: absolute; bottom: 0; justify-self: end">close</mat-icon> -->
             </div>
           </div>
         </div>
 
         <div id="addShipperPhone">
-          <button mat-button type="button" *ngIf="this.shipperPhonez.length != 3"
+          <button mat-flat-button class="addPhoneButton" type="button" *ngIf="this.shipperPhonez.length != 3"
             (click)="onAddPhoneControl(this.shipperPhonez)">Add
             another phone <i class="material-icons">add</i></button></div>
 
@@ -482,13 +540,20 @@
     </mat-card>
 
     <!-- <mat-card-footer> -->
-    <footer>
+    <!-- <footer>
       <button mat-flat-button type="button">Cancel</button>
       <button mat-flat-button color="primary" id="submitButton" type="submit">Create
         Order</button>
-    </footer>
+    </footer> -->
     <!-- </mat-card-footer> -->
     <!-- <mat-card-footer><button mat-raised-button color="primary" type="submit" style="margin-right: 20px; float: right">Create
         Order</button></mat-card-footer> -->
-  </form>
-</main>
+    <!-- </form> -->
+  </main>
+
+  <footer mat-dialog-actions>
+    <div *ngIf="this.createOrderForm.errors !== null">Please correct errors on form</div>
+    <button mat-flat-button class="oval_button" type="button" (click)="this.closeDialog()">CANCEL</button>
+    <button mat-flat-button color="primary" id="submitButton" type="submit">CREATE ORDER</button>
+  </footer>
+</form>

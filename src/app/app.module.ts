@@ -22,11 +22,14 @@ import { MatDatepickerModule } from '@angular/material';
 import { TextMaskModule } from 'angular2-text-mask';
 import { DigitOnlyModule } from '@uiowa/digit-only';
 
-// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 // import { AgmCoreModule } from '@agm/core';
 // import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { AgmCoreModule } from '@agm/core';
+import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -37,7 +40,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     OrderListComponent,
     DashboardComponent,
     OptionsComponent,
-    FooterComponent
+    FooterComponent,
+    OrderDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,18 +59,22 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatDatepickerModule,
 
     // FontAwesomeModule
-    // AgmCoreModule.forRoot({
-    //   apiKey: 'AIzaSyD3cyPm5eR_M6hQN8MB9PwIpU9h8Wb_3Hc',
-    //   libraries: ['places']
-    // }),
-    // MatGoogleMapsAutocompleteModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDadXWhxzrxjqRs9ID3LqnuCUoA5vUJ_VM',
+      libraries: ['places']
+    }),
+    MatGoogleMapsAutocompleteModule,
 
     TextMaskModule,
     DigitOnlyModule,
 
-    // GooglePlaceModule,
+    GooglePlaceModule,
 
-    ScrollingModule
+    ScrollingModule,
+
+    MatGoogleMapsAutocompleteModule,
+
+    AgmCoreModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

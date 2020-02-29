@@ -16,17 +16,18 @@
 mat-sidenav {
     /* height: 100%; */
   /* width: 100%; */
-  padding: 16px;
+  /* padding: 16px; */
   background-color: #111;
+  /* opacity: 50%; */
 }
 
-/* mat-sidenav-content { */
+mat-sidenav-container {
   
   /* height: 100vh; */
   /* height: 100%;
   width: 100%; */
-  /* background-color: inherit; */
-/* } */
+  background-color: inherit;
+}
 
 /* router-outlet {
   

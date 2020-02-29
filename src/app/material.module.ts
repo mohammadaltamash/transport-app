@@ -1,6 +1,8 @@
 // material.module.ts
 
 import { NgModule } from '@angular/core';
+import { OptionsComponent } from './options/options.component';
+import { OrderComponent } from './order/order.component';
 import {
   MatButtonModule,
   MatCardModule,
@@ -11,8 +13,10 @@ import {
   MatCheckboxModule,
   MatSelectModule,
   MatSidenavModule,
-  MatListModule
-  // MatDialogModule,
+  MatListModule,
+  MatDialogModule,
+  MatDialogRef,
+  MatSnackBarModule
 } from '@angular/material';
 
 const material = [
@@ -24,10 +28,11 @@ const material = [
     MatToolbarModule,
     MatCheckboxModule,
     MatSelectModule,
-    // MatDialogModule,
+    MatDialogModule,
     MatSidenavModule,
-    MatListModule
-]
+    MatListModule,
+    MatSnackBarModule
+];
 @NgModule({
   imports: material,
   exports: material

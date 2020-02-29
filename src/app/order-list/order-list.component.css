@@ -33,7 +33,7 @@ main {
   grid-template-areas: "searchIcon searchText";
   grid-template-columns: 50px 1fr;
   /* grid-template-rows: 58px 1fr; */
-  background-color: #f8f8f8;
+  background-color: inherit;
   border-right: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   /* justify-items: center; */
@@ -66,6 +66,7 @@ main {
     height: 100vh; */
   border-right: 1px solid lightgray;
   overflow-y: auto;
+  background-color: white;
 }
 /* #list > * {
     vertical-align: top;

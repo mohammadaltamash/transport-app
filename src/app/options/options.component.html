@@ -1,4 +1,4 @@
-<div id="options">
+<!-- <div id="options">
     <p>App logo</p>
     <br />
     <div><a [routerLink]="['/']">Dashboard</a></div>
@@ -6,4 +6,20 @@
     <div><a [routerLink]="['/order']">Create Order</a></div>
     <br />
     <div><a [routerLink]="['/orders']">All Orders</a></div>
-</div>
+</div> -->
+
+<main>
+    <span id="logo">App logo</span>
+    <div [routerLink]="['/']">
+        <mat-icon>dashboard</mat-icon>
+        <div>Dashboard</div>
+    </div>
+    <div [routerLink]="['/order']">
+        <mat-icon>add</mat-icon>
+        <div>Create Order</div>
+    </div>
+    <div [routerLink]="['/orders']">
+        <mat-icon>list</mat-icon>
+        <div>All Orders</div>
+    </div>
+</main>
