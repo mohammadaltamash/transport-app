@@ -76,6 +76,9 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 
     AgmCoreModule.forRoot()
   ],
+  entryComponents: [
+    OrderComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

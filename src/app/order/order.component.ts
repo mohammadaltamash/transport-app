@@ -19,7 +19,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
 
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-order',
