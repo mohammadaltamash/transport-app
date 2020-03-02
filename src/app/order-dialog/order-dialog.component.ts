@@ -15,7 +15,7 @@ export class OrderDialogComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(OrderComponent, {
       // width: '50vw',
-      // height: '95vh',
+      height: '95vh',
       data: null,
       disableClose: true,
       backdropClass: 'backdropBackground'

@@ -59,10 +59,13 @@
             <mat-error *ngIf="errorHandling('pickupAddress', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
+            <!-- <div id="pickupAddressInfo" *ngIf="this.pickupAddressValid === false" class="mat-error pickupAddressInfo">
+              This address cannot be validated and your driver may not be able to use it for directions. Please verify the address.
+            </div> -->
           </mat-form-field>
-          <div id="pickupAddressInfo" *ngIf="this.pickupAddressValid === false">
+          <!-- <div id="pickupAddressInfo" *ngIf="this.pickupAddressValid === false">
             This address cannot be validated and your driver may not be able to use it for directions. Please verify the address.
-          </div>
+          </div> -->
 
           <!-- Zip -->
           <mat-form-field id="pickupZip">
@@ -297,7 +300,7 @@
         <!-- Model -->
         <mat-form-field id="vehicleModel">
           <mat-label>Model</mat-label>
-          <mat-select formControlName="vehicleModel">
+          <mat-select formControlName="vehicleModel" [disabled]=true>
             <!-- <mat-option></mat-option> -->
             <mat-option *ngFor="let vehicleModel of vehicleModels" [value]="vehicleModel">
               {{ vehicleModel }}
@@ -308,7 +311,7 @@
         <!-- Autotype -->
         <mat-form-field id="vehicleAutoType">
           <mat-label>Autotype</mat-label>
-          <mat-select formControlName="vehicleAutoType">
+          <mat-select formControlName="vehicleAutoType" [disabled]=true>
             <mat-option>None</mat-option>
             <mat-option *ngFor="let autotype of autotypes" [value]="autotype">
               {{ autotype }}
@@ -402,7 +405,7 @@
 
         <mat-form-field id="paymentTermBusinessDays" *ngIf="pricingIsProvided()">
           <mat-select id="paymentTermBusinessDays" formControlName="paymentTermBusinessDays"
-            placeholder="Payment term business days">
+            placeholder="Payment term business days" required>
             <mat-option *ngFor="let paymentTerm of paymentTermBusinessDays" [value]="paymentTerm">
               {{ paymentTerm }}
             </mat-option>
@@ -413,7 +416,7 @@
         </mat-form-field>
 
         <mat-form-field id="paymentMethod" *ngIf="pricingIsProvided()">
-          <mat-select id="paymentMethod" formControlName="paymentMethod" placeholder="payment method">
+          <mat-select id="paymentMethod" formControlName="paymentMethod" placeholder="payment method" required>
             <mat-option *ngFor="let method of paymentMethod" [value]="method">
               {{ method }}
             </mat-option>
@@ -424,7 +427,7 @@
         </mat-form-field>
 
         <mat-form-field id="paymentTermBegins" *ngIf="pricingIsProvided()">
-          <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment term begins">
+          <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment term begins" required>
             <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
               {{ termBegins }}
             </mat-option>

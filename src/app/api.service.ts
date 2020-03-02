@@ -30,19 +30,19 @@ export class ApiService {
   }
 
   public getOrders() {
-    return this.httpClient.get<Order[]>('http://localhost:8080/transportapp/demo/order/get').pipe(retry(3), catchError(this.handleError));
+    return this.httpClient.get<Order[]>(environment.REST_SERVICE + '/order/get').pipe(retry(3), catchError(this.handleError));
     // return this.httpClient.get('http://245d10bc.ngrok.io/transportapp/demo/order/get');
     // return this.httpClient.get('https://restcountries.eu/rest/v2/all');
   }
 
   public getPagedOrders() {
     // const options = { params: new HttpParams({fromString: 'page=0'}) };
-    return this.httpClient.get<Order[]>('http://localhost:8080/transportapp/demo/order/getpage/1')
+    return this.httpClient.get<Order[]>(environment.REST_SERVICE + '/order/getpage/1')
     .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrderById(id: string) {
-    return this.httpClient.get<Order>('http://localhost:8080/transportapp/demo/order/getpage/1' + id)
+    return this.httpClient.get<Order>(environment.REST_SERVICE + '/order/getpage/1' + id)
     .pipe(retry(3), catchError(this.handleError));
   }
 

@@ -4,10 +4,10 @@
 /* } */
 
 form {
-  display: grid;
-  grid-template-columns: 1fr;
+  /* display: grid;
+  grid-template-columns: 1fr; */
   /* grid-template-rows: 50px; */
-  justify-items: center;
+  /* justify-items: center; */
   /* grid-gap: 2vw; */
   /* background-color: pink; */
   /* height: 100vh; */
@@ -22,7 +22,9 @@ form {
 } */
 
 main {
-  min-height: 77vh;
+  display: grid;
+  grid-row-gap: 2vh;
+  min-height: 100%;
   /* min-width: 47vw; */
   margin: auto;
   padding: 10px;
@@ -38,19 +40,19 @@ main, footer {
 
 /* mat-dialog-content {} */
 
-mat-toolbar {
+/* mat-toolbar { */
   /* position: sticky;
   top: 0;
   z-index: 1; */
-  justify-content: center;
-  /* text-align: center; */
+  /* justify-content: center;
+  text-align: center; */
   /* box-shadow: 0 10px 10px lightgray */
   /* box-shadow: 10 5px 5px #999; */
-}
+/* } */
 
 mat-card, mat-card-title {
   /* min-width: 50vw; */
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 h1 {
@@ -122,7 +124,7 @@ h1 {
   grid-template-areas:
     "pickupContactName          pickupContactName           pickupCompanyName           pickupCompanyName"
     "pickupAddress              pickupAddress               pickupZip                   ."
-    "pickupAddressInfo          pickupAddressInfo           .                           ."
+    /* "pickupAddressInfo          pickupAddressInfo           .                           ." */
     /* "pickupPhonez               pickupPhonez                pickupPhonez                pickupPhonez" */
     /* "addPickupPhone             addPickupPhone              addPickupPhone              addPickupPhone"
     "pickupSignatureNotRequired pickupSignatureNotRequired  pickupSignatureNotRequired  pickupSignatureNotRequired"
@@ -166,9 +168,11 @@ h1 {
 #pickupZip {
   grid-area: pickupZip;
 }
-#pickupAddressInfo {
+/* #pickupAddressInfo {
   grid-area: pickupAddressInfo;
-}
+  font-size: small;
+  color: #fcce07;
+} */
 /* #pickupPhonez { */
   /* display: contents; */
   /* display: subgrid;

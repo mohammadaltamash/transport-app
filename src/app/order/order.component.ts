@@ -21,6 +21,8 @@ import { Router } from '@angular/router';
 
 import {MatSnackBar} from '@angular/material';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -203,9 +205,9 @@ export class OrderComponent implements OnInit {
 
       // Add New Vehicle
       vehicleYear: '',
-      vehicleMake: ['Make01', Validators.required],
+      vehicleMake: ['', Validators.required],
       vehicleModel: '',
-      vehicleAutoType: '',
+      vehicleAutoType: 'Sedan', // default
       vehicleColor: '',
       vehicleVIN: '',
       vehicleLOTNumber: '',
@@ -325,7 +327,7 @@ export class OrderComponent implements OnInit {
 
       this.httpClient
         .post<Order>(
-          'http://localhost:8080/transportapp/demo/order/create',
+          environment.REST_SERVICE + '/order/create',
           JSON.stringify(o),
           {
             headers: new HttpHeaders({
@@ -338,9 +340,9 @@ export class OrderComponent implements OnInit {
           res => console.log(res),
           err => console.log(err)
         );
-
-      // this.dialogRef.close();
-      // this.router.navigate(['/orders']);
+      this.openSnackBar('Order has been created', '');
+      this.dialogRef.close();
+      this.router.navigate(['/orders']);
 
       console.log(
         '>>>>>' + JSON.stringify(this.createOrderForm.get('pickupPhonez').value)
@@ -351,12 +353,13 @@ export class OrderComponent implements OnInit {
       );
       console.log(this.apiService.getVehicleYears()[0]);
       console.log(this.apiService.getModels('Fiat Chrysler Automobiles'));
-      this.openSnackBar('Order has been created', '');
     }
   }
 
   changeModels() {
     this.vehicleModels = this.getModels();
+    this.formControls.vehicleModel.enable();
+    this.formControls.vehicleAutoType.enable();
   }
 
   onAddPhoneControl(control: FormArray) {
@@ -466,15 +469,15 @@ export class OrderComponent implements OnInit {
 
   onAddressLostFocus(zipCategory: string) {
     // if (zipCategory === 'pickup') {
-      this.verifyAddress(zipCategory);
     // } else if (zipCategory === 'delivery') {
     // } else if (zipCategory === 'broker') {
     // }
+    this.verifyAddress(zipCategory);
   }
 
   verifyAddress(zipCategory: string) {
-
-    this.pickupAddressValid = false;
+    if (this.createOrderForm.get(zipCategory + 'Address').value.length !== 0) {
+      this.pickupAddressValid = false;
     // if (zipCategory === 'pickup' && this.pickupAddress !== undefined) {
     //   this.apiService.verifyAddress(this.pickupAddress).pipe(takeUntil(this.destroy$)).subscribe((data: any[]) => {
     //   if (data.length > 0) {
@@ -505,6 +508,7 @@ export class OrderComponent implements OnInit {
     //     }
     //     });
     // }
+    }
   }
 
   onGermanAddressMapped($event: GermanAddress) {
@@ -514,33 +518,33 @@ export class OrderComponent implements OnInit {
   onZipChanged(zipCategory: string) {
     if (this.createOrderForm.get(zipCategory).value.length === 5) {
       const zipValue = this.createOrderForm.get(zipCategory).value;
-      this.apiService.verifyZip(zipValue).pipe(takeUntil(this.destroy$)).subscribe((data: any[]) => {
-        if (data.length > 0 && data[0].zipcodes !== undefined && data[0].zipcodes.length > 0) {
-          const latitude = data[0].zipcodes[0].latitude;
-          const longitude = data[0].zipcodes[0].longitude;
-          if (zipCategory === 'pickup') {
-            this.pickupLatitude = latitude;
-            this.pickupLongitude = longitude;
-            this.pickupZipValid = true;
-          } else if (zipCategory === 'delivery') {
-            this.deliveryLatitude = latitude;
-            this.deliveryLongitude = longitude;
-            this.deliveryZipValid = true;
-          } else if (zipCategory === 'broker') {
-            this.brokerLatitude = latitude;
-            this.brokerLongitude = longitude;
-            this.brokerZipValid = true;
-          }
-        } else {
-          if (zipCategory === 'pickup') {
-            this.pickupZipValid = false;
-          } else if (zipCategory === 'delivery') {
-            this.deliveryZipValid = false;
-          } else if (zipCategory === 'broker') {
-            this.brokerZipValid = false;
-          }
-        }
-      });
+      // this.apiService.verifyZip(zipValue).pipe(takeUntil(this.destroy$)).subscribe((data: any[]) => {
+      //   if (data.length > 0 && data[0].zipcodes !== undefined && data[0].zipcodes.length > 0) {
+      //     const latitude = data[0].zipcodes[0].latitude;
+      //     const longitude = data[0].zipcodes[0].longitude;
+      //     if (zipCategory === 'pickup') {
+      //       this.pickupLatitude = latitude;
+      //       this.pickupLongitude = longitude;
+      //       this.pickupZipValid = true;
+      //     } else if (zipCategory === 'delivery') {
+      //       this.deliveryLatitude = latitude;
+      //       this.deliveryLongitude = longitude;
+      //       this.deliveryZipValid = true;
+      //     } else if (zipCategory === 'broker') {
+      //       this.brokerLatitude = latitude;
+      //       this.brokerLongitude = longitude;
+      //       this.brokerZipValid = true;
+      //     }
+      //   } else {
+      //     if (zipCategory === 'pickup') {
+      //       this.pickupZipValid = false;
+      //     } else if (zipCategory === 'delivery') {
+      //       this.deliveryZipValid = false;
+      //     } else if (zipCategory === 'broker') {
+      //       this.brokerZipValid = false;
+      //     }
+      //   }
+      // });
     }
   }
 
