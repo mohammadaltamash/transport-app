@@ -34,10 +34,10 @@ export class LoadBoardComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any[]) => {
         console.log(data);
-        // this.orders = data;
-        this.orders.push(data[22]);
-        this.orders.push(data[23]);
-        this.orders.push(data[24]);
+        this.orders = data;
+        // this.orders.push(data[22]);
+        // this.orders.push(data[23]);
+        // this.orders.push(data[24]);
       });
   }
 
