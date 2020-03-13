@@ -99,7 +99,7 @@ import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.mod
     // AskToBookDialogComponent
   ],
   entryComponents: [
-    // OrderComponent
+    OrderComponent
     // AskToBookComponent
     // LoadBoardComponent
   ],
