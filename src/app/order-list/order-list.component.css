@@ -19,12 +19,13 @@ main {
   gap: 0.7vw;
   /* height: 64px; */
 
-  position: sticky;
-  top: 0;
+  /* position: sticky; */
+  /* top: 0; */
   z-index: 1;
   /* justify-content: center; */
 
   padding-left: 40px;
+  /* background-color: rgb(63, 63, 63); */
   background-color: rgb(63, 63, 63);
 }
 #search {
@@ -42,7 +43,7 @@ main {
   /* padding: 10px; */
 
   /* position: -webkit-sticky; */
-  position: sticky;
+  /* position: sticky; */
   top: 64px;
   z-index: 1000;
   /* align-content: center; */

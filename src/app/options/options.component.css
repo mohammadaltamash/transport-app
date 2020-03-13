@@ -26,14 +26,18 @@ main > div {
 main {
   display: grid;
   row-gap: 2vh;
-  column-gap: 1vw;
+  /* column-gap: 1vw; */
   color: white;
 }
 
 #logo {
-  line-height: 80px;
+  padding-top: 20px;
+  /* padding-bottom: 20px; */
+  /* line-height: 80px; */
 }
 
-mat-icon {
-}
+/* .manage_orders {
+  display: grid;
+  row-gap: 2vh;
+} */
 

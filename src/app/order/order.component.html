@@ -69,7 +69,7 @@
 
           <!-- Zip -->
           <mat-form-field id="pickupZip">
-            <input matInput formControlName="pickupZip" (change)="onZipChanged('pickupZip')" placeholder="Zip" maxlength="5" inputmode="numeric"
+            <input matInput formControlName="pickupZip" (keyup)="onZipChanged('pickupZip')" placeholder="Zip" maxlength="5" inputmode="numeric"
               pattern="[0-9]*" digitOnly required>
             <mat-hint align="end">
               {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('pickupZip').value.length === null ? 5 : this.createOrderForm.get('pickupZip').value.length }}/5
@@ -134,7 +134,7 @@
             <mat-error *ngIf="errorHandling('pickupDates', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
-            <sat-datepicker #pickupDates [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker #pickupDates [rangeMode]="true" [selectFirstDateOnClose]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="pickupDates"></sat-datepicker-toggle>
           </mat-form-field>
 
@@ -185,7 +185,7 @@
 
           <!-- Zip -->
           <mat-form-field id="deliveryZip">
-            <input matInput maxLength="5" formControlName="deliveryZip" (change)="onZipChanged('deliveryZip')" placeholder="Zip" maxlength="5"
+            <input matInput maxLength="5" formControlName="deliveryZip" (keyup)="onZipChanged('deliveryZip')" placeholder="Zip" maxlength="5"
               inputmode="numeric" pattern="[0-9]*" digitOnly required>
             <mat-hint align="end">
               {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('deliveryZip').value.length === null ? 5 : this.createOrderForm.get('deliveryZip').value.length }}/5
@@ -250,7 +250,7 @@
             <mat-error *ngIf="errorHandling('deliveryDates', 'required')">
               {{ this.validationMessages['required'] }}
             </mat-error>
-            <sat-datepicker #deliveryDates [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker #deliveryDates [rangeMode]="true" [selectFirstDateOnClose]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="deliveryDates"></sat-datepicker-toggle>
           </mat-form-field>
 
@@ -300,7 +300,7 @@
         <!-- Model -->
         <mat-form-field id="vehicleModel">
           <mat-label>Model</mat-label>
-          <mat-select formControlName="vehicleModel" [disabled]=true>
+          <mat-select formControlName="vehicleModel">
             <!-- <mat-option></mat-option> -->
             <mat-option *ngFor="let vehicleModel of vehicleModels" [value]="vehicleModel">
               {{ vehicleModel }}
@@ -311,7 +311,7 @@
         <!-- Autotype -->
         <mat-form-field id="vehicleAutoType">
           <mat-label>Autotype</mat-label>
-          <mat-select formControlName="vehicleAutoType" [disabled]=true>
+          <mat-select formControlName="vehicleAutoType">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let autotype of autotypes" [value]="autotype">
               {{ autotype }}
@@ -479,7 +479,7 @@
 
           <!-- Zip -->
           <mat-form-field id="brokerZip">
-            <input matInput maxLength="5" formControlName="brokerZip" (change)="onZipChanged('brokerZip')" placeholder="Zip" maxlength="5"
+            <input matInput maxLength="5" formControlName="brokerZip" (keyup)="onZipChanged('brokerZip')" placeholder="Zip" maxlength="5"
               inputmode="numeric" pattern="[0-9]*" digitOnly required>
             <mat-hint align="end">
               {{ this.createOrderForm.get('pickupZip').value === null || this.createOrderForm.get('brokerZip').value.length === null ? 5 : this.createOrderForm.get('brokerZip').value.length }}/5
@@ -555,7 +555,7 @@
   </main>
 
   <footer mat-dialog-actions>
-    <div *ngIf="this.createOrderForm.errors !== null">Please correct errors on form</div>
+    <div *ngIf="this.createOrderForm.errors !== null">Please correct errors in form</div>
     <button mat-flat-button class="oval_button" type="button" (click)="this.closeDialog()">CANCEL</button>
     <button mat-flat-button color="primary" id="submitButton" type="submit">CREATE ORDER</button>
   </footer>

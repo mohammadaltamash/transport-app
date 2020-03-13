@@ -1,0 +1,55 @@
+<main>
+    <mat-toolbar id="newOrderOptions">
+        <mat-form-field>
+            <input matInput type="search">
+        </mat-form-field>
+        |
+        <button mat-stroked-button>
+            Add an Origin
+        </button>
+        <mat-icon>compare_arrows</mat-icon>
+        <button mat-stroked-button>
+            Add a Destination
+        </button>
+        <button mat-button [routerLink]="['/searchfilters']">
+            Filters <mat-icon>filter_list</mat-icon>
+        </button>
+        <button mat-button>
+            Saved <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <mat-nav-list id="list">
+        <mat-list-item *ngFor="let order of orders">
+            <div id="listItem">
+                <div matLine id="grid1">
+                    <div>{{ order.pickupAddress }}</div>
+                    <div>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
+                    <div># <b>{{ order.id }}</b></div>
+                </div>
+
+                <div matLine id="grid2">
+                    <div>{{ order.deliveryAddress }}</div>
+                    <div>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
+                </div>
+
+                <div matLine id="grid3">
+                    <span>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}<br>
+                    <span class="inoperable"
+                        *ngIf="order.vehicleInoperable">Inoperable </span>{{ order.vehicleAutoType }}</span>
+                    <div>{{ order.paymentMethod}}</div>
+                </div>
+
+                <div matLine id="grid4">
+                    <div>{{ order.carrierPay }}</div>
+                    <div>
+                        <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
+                        <button mat-stroked-button (click)="showDialog(order)">ASK TO BOOK</button><br>
+                        <button mat-stroked-button>VIEW DETAILS</button>
+                    </div>
+                </div>
+            </div>
+        </mat-list-item>
+    </mat-nav-list>
+    <app-ask-to-book-dialog></app-ask-to-book-dialog>
+</main>

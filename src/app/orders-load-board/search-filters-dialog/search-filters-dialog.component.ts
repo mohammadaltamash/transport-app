@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderComponent } from '../order/order.component';
+import { SearchFiltersComponent } from '../search-filters/search-filters.component';
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-order-dialog',
-  templateUrl: './order-dialog.component.html',
-  styleUrls: ['./order-dialog.component.css']
+  selector: 'app-search-filters-dialog',
+  templateUrl: './search-filters-dialog.component.html',
+  styleUrls: ['./search-filters-dialog.component.css']
 })
-
-export class OrderDialogComponent implements OnInit {
+export class SearchFiltersDialogComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(OrderComponent, {
-      // width: '50vw',
-      // height: '95vh',
+    const dialogRef = this.dialog.open(SearchFiltersComponent, {
+      width: '67vw',
+      // height: '90vh',
+      // height: 'auto',
       data: null,
       disableClose: true,
       backdropClass: 'backdropBackground'

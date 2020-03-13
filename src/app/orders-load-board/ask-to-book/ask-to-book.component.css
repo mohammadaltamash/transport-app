@@ -1,0 +1,58 @@
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+  main {
+    display: grid;
+    grid-template-areas:
+      "bookLoadHeading    bookLoadHeading     .                   ."
+      "carrierPay         carrierPay          .                   ."
+      "daysToPay          daysToPay           paymentTermBegins   paymentTermBegins"
+      "pickupDates        pickupDates         deliveryDates       deliveryDates"
+      "offerReason        offerReason         offerReason         offerValidity"
+      "askToBook          askToBook           askToBook           askToBook"
+      "summary            summary             summary             summary";
+    /* grid-template-columns: 1fr 1fr; */
+    column-gap: 2vw;
+    row-gap: 0.5vw;
+    /* overflow-y: auto; */
+  }
+  #bookLoadHeading {
+    grid-area: bookLoadHeading;
+  }
+  #carrierPay {
+    grid-area: carrierPay;
+  }
+  #daysToPay {
+    grid-area: daysToPay;
+  }
+  #paymentTermBegins {
+    grid-area: paymentTermBegins;
+  }
+  #pickupDates {
+    grid-area: pickupDates;
+  }
+  #deliveryDates {
+    grid-area: deliveryDates;
+  }
+  #offerReason {
+    grid-area: offerReason;
+  }
+  #offerValidity {
+    grid-area: offerValidity;
+  }
+  #askToBook {
+    grid-area: askToBook;
+  }
+  #summary {
+    grid-area: summary;
+  }
+  
+  #map {
+    /* overflow: hidden; */
+  }
+  
+  .example-custom-date-class {
+    background: orange !important;
+    border-radius: 100%;
+  }

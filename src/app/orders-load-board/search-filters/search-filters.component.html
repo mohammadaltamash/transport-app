@@ -1,0 +1,75 @@
+<p>search-filters works!</p>
+<mat-toolbar mat-dialog-title color="primary">Advanced Search</mat-toolbar>
+<form action="">
+    <main mat-dialog-content>
+        <div id="origin">
+            <h2 class="mat-headline">ORIGIN</h2>
+            <h4>1) Search type:</h4>
+            <mat-radio-group name="originOptions" aria-label="Select an option">
+                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
+                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+            </mat-radio-group>
+
+            <h4>2) Add up to 5 Origin Cities</h4>
+            <mat-form-field>
+                <input matInput type="search" placeholder="Origin (city, zip)">
+            </mat-form-field>
+            No Cities Added
+        </div>
+        <div id="destination">
+            <h2 class="mat-headline">DESTINATION</h2>
+            <h4>1) Search type:</h4>
+            <mat-radio-group name="destinationOptions" aria-label="Select an option">
+                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
+                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+            </mat-radio-group>
+
+            <h4>2) Add up to 5 Origin Cities</h4>
+            <mat-form-field>
+                <input matInput type="search" placeholder="Origin (city, zip)">
+            </mat-form-field>
+            No Cities Added
+        </div>
+        <div id="filters">FILTERS
+            <h2 class="mat-headline">FILTERS</h2>
+            <h4>Sort & Highlight</h4>
+            <mat-form-field id="pickupDatesRestrictions">
+                <mat-label>Primary Sort</mat-label>
+                <mat-select formControlName="pickupDatesRestrictions">
+                    <mat-option>
+                        First Available Date
+                    </mat-option>
+                    <mat-option>
+                        Carrier Pay
+                    </mat-option>
+                    <mat-option>
+                        $/mile
+                    </mat-option>
+                    <mat-option>
+                        Post Date
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field id="pickupDatesRestrictions">
+                <mat-label>Secondary Sort</mat-label>
+                <mat-select formControlName="pickupDatesRestrictions">
+                    <mat-option>
+                        First Available Date
+                    </mat-option>
+                    <mat-option>
+                        Carrier Pay
+                    </mat-option>
+                    <mat-option>
+                        $/mile
+                    </mat-option>
+                    <mat-option>
+                        Post Date
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </main>
+    <footer mat-dialog-actions>
+        <button mat-flat-button color="primary" id="submitButton" type="submit">Apply</button>
+    </footer>
+</form>

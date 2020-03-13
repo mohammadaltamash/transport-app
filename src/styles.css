@@ -10,7 +10,7 @@
 body {
   margin: 0;
   /* background-color: rgba(100, 100, 100,0.2); */
-  background-color: rgb(234, 238, 243);
+  background-color: gray;
   /* background-color: #fdfdfd; */
   /* font-family: Roboto, "Helvetica Neue", sans-serif; */
   /* overflow: hidden; */
@@ -37,6 +37,15 @@ mat-dialog-container {
 }
 
 mat-toolbar {
+  /* position: sticky;
+  top: 0;
+  z-index: 1; */
+  justify-content: center;
+  text-align: center;
+  /* box-shadow: 0 10px 10px lightgray */
+  /* box-shadow: 10 5px 5px #999; */
+}
+mat-dialog-title {
   /* position: sticky;
   top: 0;
   z-index: 1; */
@@ -125,6 +134,51 @@ button[type=button]:hover {
 .backdropBackground {
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+.ovalButton {
+  background-color: dimgray;
+  border-radius: 25px;
+  font-size: small;
+  color: white;
+  /* padding: 10px; */
+  outline: none;
+  cursor: pointer;
+}
+
+.ovalButtonChecked {
+  /* background-color: rgb(87, 143, 226); */
+  background-color: cornflowerblue;
+  border-radius: 25px;
+  /* border: 1px solid rgb(19, 192, 77); */
+  -webkit-box-shadow: 0px 0px 5px 0px lightblue !important;
+  -moz-box-shadow: 0px 0px 5px 0px lightblue !important;
+  box-shadow: 0px 0px 5px 0px lightblue !important;
+  font-size: small;
+  color: white;
+  outline: none;
+  text-decoration: underline;
+  cursor: pointer;
+  /* text-decoration: none; */
+}
+
+.is-active {
+  /* color: chartreuse; */
+  background-color: white;
+  /* background-color: aliceblue; */
+  /* border: 1px solid; */
+}
+
+/* .mat-list-item-content:active {
+  color: chartreuse !important;
+  background-color: green !important;
+  /* border: 1px solid !important */
+
+
+
+/* .ovalButtonChecked mat-icon {
+  margin: auto;
+  outline: none;
+} */
 
 mat-card {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(155, 155, 155, 0.3) !important;

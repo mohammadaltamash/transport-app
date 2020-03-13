@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
-import { MatDatepickerModule } from '@angular/material';
+// import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
 import { TextMaskModule } from 'angular2-text-mask';
 import { DigitOnlyModule } from '@uiowa/digit-only';
@@ -30,8 +30,15 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
+// import { LoadBoardComponent } from './load-board/load-board.component';
+// import { SearchFiltersComponent } from './search-filters/search-filters.component';
+// import { SearchFiltersDialogComponent } from './search-filters-dialog/search-filters-dialog.component';
+// import { AskToBookComponent } from './ask-to-book/ask-to-book.component';
+// import { AskToBookDialogComponent } from './ask-to-book-dialog/ask-to-book-dialog.component';
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +49,12 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
     OptionsComponent,
     FooterComponent,
     OrderDialogComponent
+
+    // LoadBoardComponent,
+    // SearchFiltersComponent,
+    // SearchFiltersDialogComponent,
+    // AskToBookComponent,
+    // AskToBookDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +69,8 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 
     SatDatepickerModule,
     SatNativeDateModule,
-    MatDatepickerModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
 
     // FontAwesomeModule
     AgmCoreModule.forRoot({
@@ -74,10 +88,20 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 
     MatGoogleMapsAutocompleteModule,
 
-    AgmCoreModule.forRoot()
+    AgmCoreModule.forRoot(),
+
+    OrdersLoadBoardModule
+
+    // LoadBoardComponent,
+    // SearchFiltersComponent,
+    // SearchFiltersDialogComponent,
+    // AskToBookComponent,
+    // AskToBookDialogComponent
   ],
   entryComponents: [
-    OrderComponent
+    // OrderComponent
+    // AskToBookComponent
+    // LoadBoardComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

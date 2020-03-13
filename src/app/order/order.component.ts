@@ -115,7 +115,7 @@ export class OrderComponent implements OnInit {
     '30 business days'
   ];
 
-  paymentTermBegins: string[] = [
+  paymentTermBegins: string[] = [ // ask-to-book
     'Pickup',
     'Delivery',
     'Receiving a uShip code',
@@ -206,8 +206,8 @@ export class OrderComponent implements OnInit {
       // Add New Vehicle
       vehicleYear: '',
       vehicleMake: ['', Validators.required],
-      vehicleModel: '',
-      vehicleAutoType: 'Sedan', // default
+      vehicleModel: {value: '', disabled: true},
+      vehicleAutoType: {value: 'Sedan', disabled: true}, // default
       vehicleColor: '',
       vehicleVIN: '',
       vehicleLOTNumber: '',
@@ -341,8 +341,8 @@ export class OrderComponent implements OnInit {
           err => console.log(err)
         );
       this.openSnackBar('Order has been created', '');
-      this.dialogRef.close();
-      this.router.navigate(['/orders']);
+      // this.dialogRef.close();
+      // this.router.navigate(['/orders']);
 
       console.log(
         '>>>>>' + JSON.stringify(this.createOrderForm.get('pickupPhonez').value)

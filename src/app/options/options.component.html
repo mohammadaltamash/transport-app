@@ -9,17 +9,35 @@
 </div> -->
 
 <main>
-    <span id="logo">App logo</span>
-    <div [routerLink]="['/']">
-        <mat-icon>dashboard</mat-icon>
-        <div>Dashboard</div>
+    <div id="logo" [routerLink]="['/']">
+        <b>Transport<br />App</b>
     </div>
-    <div [routerLink]="['/order']">
-        <mat-icon>add</mat-icon>
-        <div>Create Order</div>
+    <div id="book_loads">
+        <div>BOOK<br /><b>LOADS</b></div>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        <div>
+            <div [routerLink]="['/loadboard']">
+                <mat-icon>search</mat-icon>
+                <div>Load Board</div>
+            </div>
+        </div>
     </div>
-    <div [routerLink]="['/orders']">
-        <mat-icon>list</mat-icon>
-        <div>All Orders</div>
+    <div id="manage_orders">
+        <div>MANAGE<br /><b>ORDERS</b></div>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        <div>
+            <div [routerLink]="['/']">
+                <mat-icon>dashboard</mat-icon>
+                <div>Dashboard</div>
+            </div>
+            <div [routerLink]="['/order']">
+                <mat-icon>add</mat-icon>
+                <div>Import/ Create<br />Order</div>
+            </div>
+            <div [routerLink]="['/orders']">
+                <mat-icon>list</mat-icon>
+                <div>All Orders</div>
+            </div>
+        </div>
     </div>
 </main>

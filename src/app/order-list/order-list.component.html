@@ -1,20 +1,21 @@
 <!-- <div>
-    <button mat-stroked-button style="border: 1 px solid; text-decoration-line: none;border-radius: 50%;" [ngClass]="(step===true)?'class1':'class2'" (click)="step = step != true">New ({{ new }})</button>
     <mat-checkbox class="mat-stroked-button" style="border: 1 px solid; text-decoration-line: none;" formControlName="enclosedTrailer">Enclosed trailer</mat-checkbox>
 </div> -->
 
 <main>
   <mat-toolbar id=orderStatus>
-    <mat-checkbox class="mat-stroked-button" style="border: 1 px solid white;">All ({{ all }})</mat-checkbox>
+    <span [ngClass]="getClassByStatus('all')" (click)="onStatusClick('all')">All ({{ all }})</span>
     <!-- <a href="#" class="rectangle"><mat-icon>check</mat-icon>All ({{ all }})</a>
     <a href="#" class="rectangle blueButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
     <a href="#" class="rectangle redButton"><mat-icon>check</mat-icon>All ({{ all }})</a>
     <a href="#" class="rectangle greenButton"><mat-icon>check</mat-icon>All ({{ all }})</a> -->
-    <button mat-stroked-button>New ({{ new }})</button>
-    <button mat-flat-button>Accepted ({{ accepted }})</button>
-    <button mat-flat-button>Assigned ({{ assigned }})</button>
-    <button mat-flat-button>Picked up ({{ pickedup }})</button>
-    <button mat-flat-button>Delivered ({{ delivered }})</button>
+    <!-- <button mat-stroked-button>New ({{ new }})</button> -->
+    <span [ngClass]="getClassByStatus('new')" (click)="onStatusClick('new')">New ({{ new }})</span>
+    <!-- <button class="ovalButtonChecked" style="position: relative"><mat-icon style="position: absolute; left: 5px; margin: auto">check</mat-icon>New ({{ new }})</button> -->
+    <span [ngClass]="getClassByStatus('accepted')" (click)="onStatusClick('accepted')">Accepted ({{ accepted }})</span>
+    <span [ngClass]="getClassByStatus('assigned')" (click)="onStatusClick('assigned')">Assigned ({{ assigned }})</span>
+    <span [ngClass]="getClassByStatus('pickedup')" (click)="onStatusClick('pickedup')">Picked up ({{ pickedup }})</span>
+    <span [ngClass]="getClassByStatus('delivered')" (click)="onStatusClick('delivered')">Delivered ({{ delivered }})</span>
   </mat-toolbar>
 
   <div id="search">
@@ -22,16 +23,17 @@
       <mat-icon>search</mat-icon>
     </a>
     <mat-form-field id="searchText" appearance="none">
-      <input matInput type="text">
+      <input matInput type="text" placeholder="Type: Order ID, Driver, Make or Model">
     </mat-form-field>
   </div>
 
   <mat-nav-list id="list">
-    <mat-list-item *ngFor="let order of orders">
+    <mat-list-item *ngFor="let order of orders" routerLink="/orders" [routerLinkActive]="['is-active']" (click)="this.onItemClick(order)">
       <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
       <p matLine>
         <span>
           {{ order.id }}
+          {{ order.orderStatus }}
         </span>
       </p>
       <p matLine>
@@ -62,9 +64,9 @@
   </cdk-virtual-scroll-viewport> -->
 
   <div id="detail">
-      <mat-card id="summary"><mat-card-title>Order #</mat-card-title>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa natus voluptates maxime
+      <mat-card id="summary"><mat-card-title>Order {{selectedOrder !== undefined ? selectedOrder.id : '#'}}</mat-card-title>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa natus voluptates maxime
         voluptatibus eos cumque, alias aut qui a expedita!</mat-card>
-    <div id="detailLeft">
+      <div id="detailLeft">
       <mat-card id="driver"><mat-card-subtitle><mat-icon>person</mat-icon> DRIVER</mat-card-subtitle>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione qui assumenda quis maxime
         corporis, necessitatibus eius temporibus quibusdam deserunt excepturi!</mat-card>
       <mat-card id="vehicle"><mat-card-subtitle><mat-icon>directions_car</mat-icon> VEHICLE</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ullam inventore aperiam, ut

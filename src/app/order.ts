@@ -17,7 +17,7 @@ export interface Order {
     pickupPhones: {};
     pickupSignatureNotRequired: boolean;                            // Signature not required
 //    @NotEmpty(message = "pickupDates is required")
-    pickupDates: {};                                                // Pickup dates                 required
+    pickupDates: {begin: '', end: ''};                                                // Pickup dates                 required
     pickupDatesRestrictions: string;                                // Pickup dates restrictions
 
     // Delivery Contact & Location
@@ -34,7 +34,7 @@ export interface Order {
 //    @NotEmpty(message = "deliveryPhones is required")
     deliveryPhones: {};                                             // Phone 1 (can be multiple)    required
     deliverySignatureNotRequired: boolean;                          // Signature not required
-    deliveryDates: {};                                              // Delivery dates               required
+    deliveryDates: {begin: '', end: ''};                                              // Delivery dates               required
     deliveryDatesRestrictions: string;                              // Delivery dates restrictions
 
     // Add New Vehicle
@@ -83,4 +83,7 @@ export interface Order {
 //    @Email(message = "BROKER_EMAIL is invalid")
 //    @NotEmpty(message = "brokerEmail is required")
     brokerEmail: string;                                            // Broker email                 required
+
+    orderStatus: string;
+    orderCategory: string;
 }
