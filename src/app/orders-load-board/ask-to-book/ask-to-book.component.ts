@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatCalendarCellCssClasses } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatCalendarCellCssClasses } from '@angular/material';
 import { Order } from '../../order';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 
@@ -49,7 +50,7 @@ export class AskToBookComponent implements OnInit {
   date: FormControl;
   // dateClass: string;
   
-  constructor(public dialogRef: MatDialogRef<AskToBookComponent>,
+  constructor(private dialogRef: MatDialogRef<AskToBookComponent>,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder) {
                 

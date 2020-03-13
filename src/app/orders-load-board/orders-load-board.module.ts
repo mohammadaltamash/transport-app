@@ -57,9 +57,9 @@ import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
     // AskToBookDialogComponent,
     // SearchFiltersComponent,
     // SearchFiltersDialogComponent
-  ],
-  entryComponents: [
-    AskToBookComponent
-  ],
+  ]
+  // entryComponents: [
+  //   AskToBookComponent
+  // ],
 })
 export class OrdersLoadBoardModule { }
