@@ -18,38 +18,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 
-import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+// import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 // import { MatSelectModule } from '@angular/material';
 // import { MatToolbarModule } from '@angular/material';
 
-
 @NgModule({
   declarations: [
-    // LoadBoardComponent,
-    // AskToBookComponent,
-    // AskToBookDialogComponent,
-    // SearchFiltersComponent,
-    // SearchFiltersDialogComponent
-  LoadBoardComponent,
+    LoadBoardComponent,
     AskToBookComponent,
     AskToBookDialogComponent,
     SearchFiltersComponent,
-    SearchFiltersDialogComponent],
+    SearchFiltersDialogComponent
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule,
-    SatDatepickerModule,
-    SatNativeDateModule
-    // LoadBoardComponent,
-    // AskToBookComponent,
-    // AskToBookDialogComponent,
-    // SearchFiltersComponent,
-    // SearchFiltersDialogComponent
-    // MatSelectModule,
-    // MatToolbarModule
+    MaterialModule
+    // SatDatepickerModule,
+    // SatNativeDateModule
   ],
   exports: [
     // LoadBoardComponent,
@@ -58,8 +46,6 @@ import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
     // SearchFiltersComponent,
     // SearchFiltersDialogComponent
   ],
-  entryComponents: [
-    AskToBookComponent
-  ],
+  entryComponents: [AskToBookComponent]
 })
-export class OrdersLoadBoardModule { }
+export class OrdersLoadBoardModule {}

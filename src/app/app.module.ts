@@ -6,9 +6,9 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { OrderComponent } from './order/order.component';
-import { OrderListComponent } from './order-list/order-list.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { OrderComponent } from './order/order.component';
+// import { OrderListComponent } from './order-list/order-list.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 import { OptionsComponent } from './options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +29,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
-import { OrderDialogComponent } from './order-dialog/order-dialog.component';
+// import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 // import { LoadBoardComponent } from './load-board/load-board.component';
 // import { SearchFiltersComponent } from './search-filters/search-filters.component';
 // import { SearchFiltersDialogComponent } from './search-filters-dialog/search-filters-dialog.component';
@@ -39,16 +39,17 @@ import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.module';
+import { OrdersManageModule } from './orders-manage/orders-manage.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrderComponent,
-    OrderListComponent,
-    DashboardComponent,
+    // OrderComponent,
+    // OrderListComponent,
+    // DashboardComponent,
     OptionsComponent,
-    FooterComponent,
-    OrderDialogComponent
+    FooterComponent
+    // OrderDialogComponent
 
     // LoadBoardComponent,
     // SearchFiltersComponent,
@@ -90,7 +91,8 @@ import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.mod
 
     AgmCoreModule.forRoot(),
 
-    OrdersLoadBoardModule
+    OrdersLoadBoardModule,
+    OrdersManageModule
 
     // LoadBoardComponent,
     // SearchFiltersComponent,
@@ -98,11 +100,11 @@ import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.mod
     // AskToBookComponent,
     // AskToBookDialogComponent
   ],
-  entryComponents: [
-    OrderComponent
+  // entryComponents: [
+  //   OrderComponent
     // AskToBookComponent
     // LoadBoardComponent
-  ],
+  // ],
   providers: [],
   bootstrap: [AppComponent]
 })

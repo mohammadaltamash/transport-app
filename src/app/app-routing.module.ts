@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { OrderDialogComponent } from './order-dialog/order-dialog.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { OrderListComponent } from './order-list/order-list.component';
+import { OrderDialogComponent } from './orders-manage/order-dialog/order-dialog.component';
+import { DashboardComponent } from './orders-manage/dashboard/dashboard.component';
+import { OrderListComponent } from './orders-manage/order-list/order-list.component';
 import { LoadBoardComponent } from './orders-load-board/load-board/load-board.component';
 import { SearchFiltersDialogComponent } from './orders-load-board/search-filters-dialog/search-filters-dialog.component';
 import { AskToBookDialogComponent } from './orders-load-board/ask-to-book-dialog/ask-to-book-dialog.component';

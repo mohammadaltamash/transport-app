@@ -1,8 +1,7 @@
 // material.module.ts
 
 import { NgModule } from '@angular/core';
-import { OptionsComponent } from './options/options.component';
-import { OrderComponent } from './order/order.component';
+
 import {
   MatButtonModule,
   MatCardModule,

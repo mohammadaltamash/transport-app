@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
-import { Order } from '../order';
+import { ApiService } from '../../api.service';
+import { Order } from '../../order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order-list',
@@ -236,9 +236,9 @@ export class OrderListComponent implements OnInit {
       });
   }
 
-  getKey(object: {}) {
-    return Object.keys(object)[0];
-  }
+  // getKey(object: {}) {
+  //   return Object.keys(object)[0];
+  // }
   getKeys(object: {}) {
     return Object.keys(object);
   }

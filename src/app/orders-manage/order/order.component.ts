@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, Optional } from '@angular/core';
-import { ApiService } from '../api.service';
-import { Order } from '../order';
+import { ApiService } from '../../api.service';
+import { Order } from '../../order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 
 import {MatSnackBar} from '@angular/material';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order',
