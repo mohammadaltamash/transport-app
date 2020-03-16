@@ -54,7 +54,7 @@ export class OrderComponent implements OnInit {
   public brokerLatitude: number;
   public brokerLongitude: number;
   public selectedAddress: PlaceResult;
-  country = 'pk';
+  country = 'us';
   addressIsValid = false;
   pickupAddress: string;
   deliveryAddress: string;
