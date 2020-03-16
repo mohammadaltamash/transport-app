@@ -34,7 +34,7 @@ main {
   grid-template-areas: "searchIcon searchText";
   grid-template-columns: 50px 1fr;
   /* grid-template-rows: 58px 1fr; */
-  background-color: inherit;
+  background-color: white;
   border-right: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   /* justify-items: center; */
@@ -80,20 +80,24 @@ main {
   grid-template-areas: "summary summary"
                        "detailLeft detailRight";
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 35px;
+  column-gap: 35px;
   row-gap: 20px;
-  padding: 1.5vw;
+  /* padding: 1.5vw; */
+  padding: 0 1.5vw 0 1.5vw;
 }
 /* h4 {
     color: grey;
 } */
-mat-card-subtitle mat-icon {
+mat-icon {
     vertical-align: middle;
-    font-size: 20px;   
+    font-size: 20px;
+    color: gray   
 }
 
 #summary {
     grid-area: summary;
+    /* justify-self: middle; */
+    height: 40px;
 }
 #detailLeft {
     grid-area: detailLeft;
@@ -117,22 +121,70 @@ mat-card-subtitle mat-icon {
 }
 #vehicle {
   grid-area: vehicle;
-}
+} */
 #pickupAndDelivery {
-  grid-area: pickupAndDelivery;
+  /* grid-area: pickupAndDelivery; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1vw;
 }
-#dispatchInstructions {
+/* #dispatchInstructions {
   grid-area: dispatchInstructions;
-}
+} */
 #attachments {
-  grid-area: attachments;
+  /* grid-area: attachments; */
+  color: gray;
+}
+#dropFiles {
+  border: 1px dotted;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
 }
 #payment {
-  grid-area: payment;
+  /* grid-area: payment; */
+  display: grid;
+  grid-template-areas: 
+  "paymentTitle paymentTitle"
+  "carrierPay carrierPayValue"
+  "onDelivery onDeliveryValue"
+  "receivables receivablesValue"
+  ". paymentAction";
+  grid-template-columns: 1fr 1fr;
 }
-#activity {
+#paymentTitle {
+  grid-area: paymentTitle;
+}
+#carrierPay {
+  grid-area: carrierPay;
+}
+#carrierPayValue {
+  grid-area: carrierPayValue;
+}
+#onDelivery {
+  grid-area: onDelivery;
+}
+#onDeliveryValue {
+  grid-area: onDeliveryValue;
+}
+#receivables {
+  grid-area: receivables;
+}
+#receivablesValue {
+  grid-area: receivablesValue;
+}
+#paymentAction {
+  grid-area: paymentAction;
+  margin-top: 10px;
+}
+/* #activity {
   grid-area: activity;
 }
 #shipper {
   grid-area: shipper;
+} */
+
+/* #driver > div > mat-icon {
+  font-size: small;
 } */

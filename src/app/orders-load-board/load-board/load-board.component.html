@@ -1,7 +1,8 @@
 <main>
     <mat-toolbar id="newOrderOptions">
-        <mat-form-field>
+        <mat-form-field id="search" appearance="fill">
             <input matInput type="search">
+            <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
         |
         <button mat-stroked-button>
@@ -19,37 +20,37 @@
         </button>
     </mat-toolbar>
 
-    <mat-nav-list id="list">
-        <mat-list-item *ngFor="let order of orders">
-            <div id="listItem">
-                <div matLine id="grid1">
-                    <div>{{ order.pickupAddress }}</div>
-                    <div>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
-                    <div># <b>{{ order.id }}</b></div>
+    <div id="list">
+        <mat-card id="listItem" *ngFor="let order of orders">
+            <!-- <div id="listItem"> -->
+                <div id="grid1">
+                    <div matLine>{{ order.pickupAddress }}</div>
+                    <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
+                    <div matLine># <b>{{ order.id }}</b></div>
                 </div>
 
-                <div matLine id="grid2">
-                    <div>{{ order.deliveryAddress }}</div>
-                    <div>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
+                <div id="grid2">
+                    <div matLine>{{ order.deliveryAddress }}</div>
+                    <div matLine>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
                 </div>
 
-                <div matLine id="grid3">
-                    <span>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}<br>
-                    <span class="inoperable"
-                        *ngIf="order.vehicleInoperable">Inoperable </span>{{ order.vehicleAutoType }}</span>
-                    <div>{{ order.paymentMethod}}</div>
+                <div id="grid3">
+                    <div matLine>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
+                        <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
+                        </span>{{ order.vehicleAutoType }}</div>
+                    <div matLine>{{ order.paymentMethod}}</div>
                 </div>
 
-                <div matLine id="grid4">
-                    <div>{{ order.carrierPay }}</div>
-                    <div>
+                <div id="grid4">
+                    <div matLine>{{ order.carrierPay }}</div>
+                    <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
-                        <button mat-stroked-button (click)="showDialog(order)">ASK TO BOOK</button><br>
-                        <button mat-stroked-button>VIEW DETAILS</button>
+                        <button id="askToBookButton" mat-button (click)="showDialog(order)">ASK TO BOOK</button><br>
+                        <button id="viewDetailsButton" mat-button>VIEW DETAILS</button>
                     </div>
                 </div>
-            </div>
-        </mat-list-item>
-    </mat-nav-list>
+            <!-- </div> -->
+            </mat-card>
+        </div>
     <app-ask-to-book-dialog></app-ask-to-book-dialog>
 </main>

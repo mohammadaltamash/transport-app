@@ -1,4 +1,4 @@
-<mat-toolbar mat-dialog-title color="primary">Shipper Load ID #</mat-toolbar>
+<mat-toolbar mat-dialog-title color="primary">Shipper Load ID # {{data.id}}</mat-toolbar>
 <!-- {{ let order=data }} -->
 <form id="askToBookForm" [formGroup]="askToBookForm" (ngSubmit)="onSubmit()">
     <main mat-dialog-content>
@@ -24,22 +24,30 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <!-- Pickup dates -->
+        <!-- Pickup dates -->   
         <!-- <mat-form-field id="pickupDates">
             <input matInput formControlName="pickupDates" placeholder="Pickup Date" [satDatepicker]="pickupDates">
             <sat-datepicker #pickupDates [rangeMode]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="pickupDates"></sat-datepicker-toggle>
         </mat-form-field> -->
         <mat-form-field id="pickupDates">
-                <input matInput [matDatepicker]="picker" [min]="yesterday" [max]="tomorrow" placeholder="Choose a date" [value]="date.value">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-              </mat-form-field>
+            <input matInput [matDatepicker]="pickupDates" placeholder="Pickup Date" [min]="data.pickupDates['begin']"
+                [max]="data.pickupDates['end']" [value]="data.pickupDates['begin']">
+            <mat-datepicker-toggle matSuffix [for]="pickupDates"></mat-datepicker-toggle>
+            <mat-datepicker [dateClass]="dateClass" #pickupDates></mat-datepicker>
+        </mat-form-field>
         <!-- Delivery dates -->
-        <mat-form-field id="deliveryDates">
+        <!-- <mat-form-field id="deliveryDates">
             <input matInput formControlName="deliveryDates" placeholder="Delivery Date" [satDatepicker]="deliveryDates">
             <sat-datepicker #deliveryDates [rangeMode]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="deliveryDates"></sat-datepicker-toggle>
+        </mat-form-field> -->
+        <mat-form-field id="deliveryDates">
+            <input matInput [matDatepicker]="deliveryDates" placeholder="Delivery Date"
+                [min]="data.deliveryDates['begin']" [max]="data.deliveryDates['end']"
+                [value]="data.deliveryDates['begin']">
+            <mat-datepicker-toggle matSuffix [for]="deliveryDates"></mat-datepicker-toggle>
+            <mat-datepicker [dateClass]="dateClass" #deliveryDates></mat-datepicker>
         </mat-form-field>
         <mat-form-field id="offerReason">
             <mat-label>Offer Reason</mat-label>

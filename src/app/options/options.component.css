@@ -32,12 +32,20 @@ main {
 
 #logo {
   padding-top: 20px;
-  /* padding-bottom: 20px; */
+  padding-bottom: 20px;
   /* line-height: 80px; */
 }
 
-/* .manage_orders {
+#book_loads {
   display: grid;
+  grid-template-columns: 1fr;
   row-gap: 2vh;
-} */
+  padding-bottom: 20px;
+}
+
+#manage_orders {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2vh;
+}
 

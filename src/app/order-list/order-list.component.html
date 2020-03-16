@@ -15,7 +15,8 @@
     <span [ngClass]="getClassByStatus('accepted')" (click)="onStatusClick('accepted')">Accepted ({{ accepted }})</span>
     <span [ngClass]="getClassByStatus('assigned')" (click)="onStatusClick('assigned')">Assigned ({{ assigned }})</span>
     <span [ngClass]="getClassByStatus('pickedup')" (click)="onStatusClick('pickedup')">Picked up ({{ pickedup }})</span>
-    <span [ngClass]="getClassByStatus('delivered')" (click)="onStatusClick('delivered')">Delivered ({{ delivered }})</span>
+    <span [ngClass]="getClassByStatus('delivered')" (click)="onStatusClick('delivered')">Delivered
+      ({{ delivered }})</span>
   </mat-toolbar>
 
   <div id="search">
@@ -28,7 +29,9 @@
   </div>
 
   <mat-nav-list id="list">
-    <mat-list-item *ngFor="let order of orders" routerLink="/orders" [routerLinkActive]="['is-active']" (click)="this.onItemClick(order)">
+      <!-- [ngClass]="(selectedOrder.id === order.id) ? 'selectedItem' : ''" -->
+    <mat-list-item *ngFor="let order of orders" [ngClass]="(selectedOrder === order) ? 'selectedListItem' : ''"
+      (click)="this.onItemClick(order)">
       <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
       <p matLine>
         <span>
@@ -48,15 +51,15 @@
         </span>
       </p>
       <p matLine>
-          <span>
-            {{ order.pickupAddress }}
-          </span>
-        </p>
+        <span>
+          {{ order.pickupAddress }}
+        </span>
+      </p>
       <p matLine>
-          <span>
-            {{ order.deliveryAddress }}
-          </span>
-        </p>
+        <span>
+          {{ order.deliveryAddress }}
+        </span>
+      </p>
     </mat-list-item>
   </mat-nav-list>
   <!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
@@ -64,38 +67,117 @@
   </cdk-virtual-scroll-viewport> -->
 
   <div id="detail">
-      <mat-card id="summary"><mat-card-title>Order {{selectedOrder !== undefined ? selectedOrder.id : '#'}}</mat-card-title>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa natus voluptates maxime
-        voluptatibus eos cumque, alias aut qui a expedita!</mat-card>
-      <div id="detailLeft">
-      <mat-card id="driver"><mat-card-subtitle><mat-icon>person</mat-icon> DRIVER</mat-card-subtitle>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione qui assumenda quis maxime
-        corporis, necessitatibus eius temporibus quibusdam deserunt excepturi!</mat-card>
-      <mat-card id="vehicle"><mat-card-subtitle><mat-icon>directions_car</mat-icon> VEHICLE</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ullam inventore aperiam, ut
-        laudantium commodi rerum modi quam delectus minima.</mat-card>
-      <mat-card id="pickupAndDelivery"><mat-card-subtitle><mat-icon>arrow_upward</mat-icon> PICKUP</mat-card-subtitle><mat-card-subtitle><mat-icon>arrow_downward</mat-icon> DELIVERY</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta corrupti
-        voluptates hic delectus nihil reprehenderit quisquam veniam impedit eos cum, in atque eius architecto officiis
-        iusto saepe, temporibus vero ipsa est laborum, dolorem velit nostrum. Perspiciatis delectus possimus odio
-        dignissimos!</mat-card>
-      <mat-card id="dispatchInstructions"><mat-card-subtitle><mat-icon>comment</mat-icon> DISPATCH INSTRUCTIONS</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo laudantium
-        corrupti voluptatem officia deserunt corporis molestiae voluptatum, nobis dolorem, nesciunt fugiat quisquam
-        voluptate! Sed vel quis maiores architecto? Alias sequi, rem aperiam totam molestias praesentium ut explicabo,
-        obcaecati provident eligendi cumque saepe voluptate! Perspiciatis molestiae aliquid aliquam aut temporibus. Quae
-        odit quia repellendus mollitia at esse eum, voluptatibus, deserunt eligendi quam hic nesciunt nisi ipsa? A
-        facere aliquam porro, quod minima expedita beatae ipsa non enim. Totam libero enim esse inventore quia non
-        ullam. Dolorum dicta accusantium saepe quod dolore eligendi iusto. Impedit eveniet excepturi, rem facere dolor
-        quod assumenda.</mat-card>
-      <mat-card id="attachments"><mat-card-subtitle><mat-icon>attach_file</mat-icon> ATTACHMENTS</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium cum rem suscipit
-        quaerat eum corporis, laboriosam eius dolorem similique dolores temporibus dignissimos enim dolorum voluptates
-        ad quidem ipsam mollitia itaque qui ea odio nam provident ratione. Voluptas asperiores molestias cum iure
-        doloremque placeat ipsum amet, a dolorum qui consequatur tenetur omnis neque fuga saepe necessitatibus autem!
-        Sit iusto aliquam id veritatis ex doloribus officia enim dolorum quod dolore cumque quidem temporibus
-        praesentium atque, nesciunt labore ea suscipit consequuntur recusandae maiores minus fugit inventore eveniet!
-        Praesentium reprehenderit voluptatibus, error incidunt vel iure ab dolores labore illum? Aut optio nisi corporis
-        debitis.</mat-card>
+    <div id="summary">
+      <h2>Order {{selectedOrder !== undefined ? selectedOrder.id : '#'}}
+        {{ selectedOrder !== undefined ? selectedOrder.orderStatus : '' }}
+      </h2>
+    </div>
+    <div id="detailLeft">
+      <mat-card id="driver">
+        <mat-card-subtitle>
+          <mat-icon>person</mat-icon> DRIVER
+        </mat-card-subtitle>
+        <div>{{ selectedOrder !== undefined ? 'selectedOrder.orderDriver' : 'UNASSIGNED' }}</div>
+        <div>
+          <mat-icon>phone</mat-icon>
+        </div>
+        <div>
+          <mat-icon>email</mat-icon>
+        </div>
+        <div>
+          <mat-icon>directions_car</mat-icon>
+        </div>
+      </mat-card>
+      <mat-card id="vehicle">
+        <mat-card-subtitle>
+          <mat-icon>directions_car</mat-icon> VEHICLE
+        </mat-card-subtitle>
+        <b><span>{{selectedOrder !== undefined ? selectedOrder.vehicleYear : ''}} </span>
+          <span>{{selectedOrder !== undefined ? selectedOrder.vehicleMake : ''}} </span>
+          <span>{{selectedOrder !== undefined ? selectedOrder.vehicleModel : ''}} </span></b>
+        <span>{{selectedOrder !== undefined ? selectedOrder.vehicleAutoType : ''}}</span>
+      </mat-card>
+      <mat-card id="pickupAndDelivery">
+        <div id="pickup">
+          <mat-card-subtitle>
+            <mat-icon>arrow_upward</mat-icon> PICKUP
+          </mat-card-subtitle>
+          <div>
+            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.pickupAddress : ''}}</b>
+          </div>
+          <div>
+            <mat-icon>person</mat-icon>{{selectedOrder !== undefined ? selectedOrder.pickupContactName : ''}}
+          </div>
+          <!-- <div>
+            <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? getKey(selectedOrder.pickupPhones) : ''}}
+          </div> -->
+          <ng-container *ngIf="selectedOrder !== undefined">
+            <div *ngFor="let phone of getKeys(selectedOrder.pickupPhones)">
+              <div>
+                <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div id="delivery">
+          <mat-card-subtitle>
+            <mat-icon>arrow_downward</mat-icon> DELIVERY
+          </mat-card-subtitle>
+          <div>
+            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.deliveryAddress : ''}}</b>
+          </div>
+          <div>
+            <mat-icon>person</mat-icon>{{selectedOrder !== undefined ? selectedOrder.deliveryContactName : ''}}
+          </div>
+          <!-- <div>
+            <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? getKey(selectedOrder.deliveryPhones) : ''}}
+          </div> -->
+          <ng-container *ngIf="selectedOrder !== undefined">
+            <div *ngFor="let phone of getKeys(selectedOrder.deliveryPhones)">
+              <div>
+                <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </mat-card>
+      <mat-card id="dispatchInstructions">
+        <mat-card-subtitle>
+          <mat-icon>comment</mat-icon> DISPATCH INSTRUCTIONS
+        </mat-card-subtitle>
+        <div>{{selectedOrder !== undefined ? selectedOrder.dispatchInstructions : 'No instructions from the broker'}}
+        </div>
+      </mat-card>
+      <div id="attachments">
+        <hr>
+        <h4>
+          <mat-icon>attach_file</mat-icon> ATTACHMENTS
+        </h4>
+        <p id="dropFiles">
+          <mat-icon>cloud_upload</mat-icon>Drop files here or Browse your local drive
+        </p>
+      </div>
+      <div>
+        <mat-icon>cloud_download</mat-icon>
+      </div>
     </div>
     <div id="detailRight">
-      <mat-card id="payment"><mat-card-subtitle><mat-icon>attach_money</mat-icon> PAYMENT</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam saepe nesciunt quam
-        laboriosam vel quaerat adipisci praesentium quibusdam est fugit!</mat-card>
-      <mat-card id="activity"><mat-card-subtitle><mat-icon>local_activity</mat-icon> ACTIVITY</mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
+      <mat-card id="payment">
+        <mat-card-subtitle id="paymentTitle">
+          <mat-icon>attach_money</mat-icon> PAYMENT
+        </mat-card-subtitle>
+        <div id="carrierPay">Carrier Pay</div>
+        <div id="carrierPayValue">{{selectedOrder !== undefined ? selectedOrder.carrierPay : ''}}</div>
+        <div id="onDelivery">On Delivery</div>
+        <div id="onDeliveryValue"></div>
+        <div id="receivables">Receivables</div>
+        <div id="receivablesValue"></div>
+        <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY PAYMENT</button></div>
+      </mat-card>
+      <mat-card id="activity">
+        <mat-card-subtitle>
+          <mat-icon>local_activity</mat-icon> ACTIVITY
+        </mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
         deleniti atque iure nisi. Exercitationem qui porro amet, maxime sapiente at voluptas eaque aut quod eligendi,
         libero obcaecati earum deleniti cum dolorum commodi laboriosam voluptatum laborum iure tempora, odio nobis
         fugiat enim. Fuga aliquam debitis quia ea labore assumenda, officia nostrum dolore velit iusto ipsam voluptate
@@ -103,10 +185,28 @@
         Est libero laboriosam et provident quos culpa minus vel rem, distinctio maxime officiis, unde voluptate
         architecto. Vero reprehenderit itaque eius commodi molestias temporibus repellat id alias, earum vitae quisquam?
       </mat-card>
-      <mat-card id="shipper"><mat-card-subtitle><mat-icon>people</mat-icon> SHIPPER</mat-card-subtitle>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem facilis molestias debitis ab
-        vel, quo perferendis et deleniti in reprehenderit nemo impedit nisi. Quas a nam dolorem, quae debitis iusto
-        corporis alias, ut officia distinctio et rem quaerat ratione explicabo, nostrum voluptatibus dicta facilis rerum
-        mollitia sit porro eius minima!</mat-card>
+      <mat-card id="shipper">
+        <mat-card-subtitle>
+          <mat-icon>people</mat-icon> SHIPPER
+        </mat-card-subtitle>
+
+        <div>
+          <mat-icon>person</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.brokerCompanyName : ''}}</b>
+        </div>
+        <div>
+          <mat-icon>location_on</mat-icon>{{selectedOrder !== undefined ? selectedOrder.brokerAddress : ''}}
+        </div>
+        <ng-container *ngIf="selectedOrder !== undefined">
+          <div *ngFor="let phone of getKeys(selectedOrder.shipperPhones)">
+            <div>
+              <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+            </div>
+          </div>
+        </ng-container>
+        <div>
+          <mat-icon>email</mat-icon>{{selectedOrder !== undefined ? selectedOrder.brokerEmail : ''}}
+        </div>
+      </mat-card>
     </div>
   </div>
 </main>

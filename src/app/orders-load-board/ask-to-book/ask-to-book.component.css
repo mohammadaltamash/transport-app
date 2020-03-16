@@ -53,6 +53,6 @@ form {
   }
   
   .example-custom-date-class {
-    background: orange !important;
+    background: orange;
     border-radius: 100%;
   }

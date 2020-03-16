@@ -9,8 +9,8 @@
 }
 body {
   margin: 0;
-  /* background-color: rgba(100, 100, 100,0.2); */
-  background-color: gray;
+  /* background-color: rgb(215, 231, 241); */
+  background-color: rgb(235, 240, 243);
   /* background-color: #fdfdfd; */
   /* font-family: Roboto, "Helvetica Neue", sans-serif; */
   /* overflow: hidden; */
@@ -36,16 +36,7 @@ mat-dialog-container {
   overflow: inherit !important; */
 }
 
-mat-toolbar {
-  /* position: sticky;
-  top: 0;
-  z-index: 1; */
-  justify-content: center;
-  text-align: center;
-  /* box-shadow: 0 10px 10px lightgray */
-  /* box-shadow: 10 5px 5px #999; */
-}
-mat-dialog-title {
+mat-toolbar, mat-dialog-title {
   /* position: sticky;
   top: 0;
   z-index: 1; */
@@ -161,9 +152,22 @@ button[type=button]:hover {
   /* text-decoration: none; */
 }
 
+.ovalShape {
+  /* background-color: ; */
+  /* border: 1px solid green; */
+  border-radius: 25px;
+  font-size: medium;
+  color: white;
+  background-color: darkblue;
+  /* padding: 10px; */
+  /* outline: none; */
+  padding: 7px 20px 7px 20px;
+  /* margin-bottom: 0; */
+}
+
 .is-active {
   /* color: chartreuse; */
-  background-color: white;
+  /* background-color: yellow; */
   /* background-color: aliceblue; */
   /* border: 1px solid; */
 }
@@ -180,6 +184,10 @@ button[type=button]:hover {
   outline: none;
 } */
 
+.selectedListItem {
+  background-color: rgb(235, 240, 243);
+}
+
 mat-card {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(155, 155, 155, 0.3) !important;
   -moz-box-shadow: 0px 0px 10px 0px rgba(155, 155, 155 ,0.3) !important;
@@ -187,10 +195,10 @@ mat-card {
   border-radius: 0px !important;
 }
 
-mat-card-subtitle {
+.mat-card-subtitle {
   font-weight: bold;
   /* color: black; */
-  font-size: medium;
+  font-size: large;
 }
 
 mat-dialog-content {

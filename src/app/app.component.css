@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  /* background-color: #f8f8f8; */
+  background-color: inherit;
   /* height: 100%;
   width: 100%; */
   /* color: white; */
@@ -29,6 +29,6 @@ mat-sidenav-content {
   background-color: inherit;
 }
 
-/* router-outlet {
-  
-} */
+router-outlet {
+  background-color: inherit;
+}

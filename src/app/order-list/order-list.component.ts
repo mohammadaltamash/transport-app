@@ -236,6 +236,13 @@ export class OrderListComponent implements OnInit {
       });
   }
 
+  getKey(object: {}) {
+    return Object.keys(object)[0];
+  }
+  getKeys(object: {}) {
+    return Object.keys(object);
+  }
+
   onItemClick(order: Order) {
     this.selectedOrder = order;
   }

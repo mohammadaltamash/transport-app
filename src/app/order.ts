@@ -86,4 +86,5 @@ export interface Order {
 
     orderStatus: string;
     orderCategory: string;
+    orderDriver: string;
 }

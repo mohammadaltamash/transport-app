@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatCalendarCellCssClasses } from '@angular/material';
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { Order } from '../../order';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
   selector: 'app-ask-to-book',
   templateUrl: './ask-to-book.component.html',
   styleUrls: ['./ask-to-book.component.css']
+  // encapsulation: ViewEncapsulation.None,
 })
 export class AskToBookComponent implements OnInit {
 
@@ -44,8 +45,10 @@ export class AskToBookComponent implements OnInit {
   ];
 
   askToBookForm: FormGroup;
-  tomorrow = new Date();
-  yesterday = new Date();
+  pickupStart = new Date();
+  pickupEnd = new Date();
+  deliveryStart = new Date();
+  deliveryEnd = new Date();
   selectedDate = new Date();
   date: FormControl;
   // dateClass: string;
@@ -54,11 +57,12 @@ export class AskToBookComponent implements OnInit {
               @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder) {
                 
-                this.tomorrow.setDate(this.tomorrow.getDate() + 1);
-                this.yesterday.setDate(this.tomorrow.getDate() - 5);
-                this.selectedDate.setDate(this.tomorrow.getDate() - 2);
+                this.pickupEnd.setDate(this.pickupEnd.getDate() + 1);
+                this.pickupStart.setDate(this.pickupStart.getDate() - 5);
+                this.selectedDate.setDate(this.selectedDate.getDate() - 2);
                 this.date = new FormControl(this.selectedDate);
-                // this.dateClass = 'example-custom-date-class';
+
+                
               }
 
 
@@ -70,7 +74,7 @@ export class AskToBookComponent implements OnInit {
 
       daysToPay: '',
       paymentTermBegins: [this.data.paymentTermBegins],
-      pickupDates: ['', Validators.required],
+      pickupDates: [this.data.pickupDates[0], Validators.required],
       deliveryDates: [this.data.deliveryDates, Validators.required],
       offerReason: '',
       offerValidity: ''
@@ -84,8 +88,10 @@ export class AskToBookComponent implements OnInit {
 
   dateClass = (d: Date): MatCalendarCellCssClasses => {
     const date = d.getDate();
+    // alert(date);
 
     // Highlight the 1st and 20th day of each month.
+    // return (date === 1 || date === 20) ? 'example-custom-date-class' : '';
     // return (date === 1 || date === 20) ? 'example-custom-date-class' : '';
     return 'example-custom-date-class';
   }
