@@ -54,7 +54,7 @@ export class OrderComponent implements OnInit {
   public brokerLatitude: number;
   public brokerLongitude: number;
   public selectedAddress: PlaceResult;
-  country = 'us';
+  country = 'pk';
   addressIsValid = false;
   pickupAddress: string;
   deliveryAddress: string;
@@ -176,14 +176,14 @@ export class OrderComponent implements OnInit {
     // });
     this.createOrderForm = this.formBuilder.group({
       // id: '',
-      brokerOrderId: ['001', Validators.required],
+      brokerOrderId: ['', Validators.required],
       enclosedTrailer: '',
       m22Inspection: '',
       // Pickup Contact & Location
       pickupContactName: '',
       pickupCompanyName: '',
       pickupAddress: ['', Validators.required],
-      pickupZip: ['12345', [Validators.required, Validators.maxLength(5)]],
+      pickupZip: ['', [Validators.required, Validators.maxLength(5)]],
       pickupPhonez: new FormArray([this.createPhoneItem()]),
       pickupPhones: {},
       pickupSignatureNotRequired: '',
@@ -195,12 +195,12 @@ export class OrderComponent implements OnInit {
       deliveryContactName: '',
       deliveryCompanyName: '',
       deliveryAddress: ['', Validators.required],
-      deliveryZip: ['45678', [Validators.required, Validators.maxLength(5)]],
+      deliveryZip: ['', [Validators.required, Validators.maxLength(5)]],
       deliveryPhonez: new FormArray([this.createPhoneItem()]),
       deliveryPhones: {phone: 1345312312},
       deliverySignatureNotRequired: '',
       // deliveryDates: [{}, Validators.required],
-      deliveryDates: ['02/02/2020', Validators.required],
+      deliveryDates: ['', Validators.required],
       deliveryDatesRestrictions: this.datesRestrictions[0],
 
       // Add New Vehicle
@@ -218,25 +218,25 @@ export class OrderComponent implements OnInit {
       dispatchInstructions: '',
 
       // Pricing Information
-      carrierPay: ['12345', Validators.required],
+      carrierPay: ['', Validators.required],
       amountOnPickup: '',
       paymentOnPickupMethod: '',
       amountOnDelivery: '',
       paymentOnDeliveryMethod: '',
       ///////////////////////////////
-      paymentTermBusinessDays: ['NA', Validators.required],
-      paymentMethod: ['NA', Validators.required],
-      paymentTermBegins: ['NA', Validators.required],
+      paymentTermBusinessDays: ['', Validators.required],
+      paymentMethod: ['', Validators.required],
+      paymentTermBegins: ['', Validators.required],
       paymentNotes: '',
       ///////////////////////////////
       // Shipper Information
       brokerContactName: '',
-      brokerCompanyName: ['Broker Name', Validators.required],
+      brokerCompanyName: ['', Validators.required],
       brokerAddress: ['', Validators.required],
-      brokerZip: ['78945', [Validators.required, Validators.maxLength(5)]],
+      brokerZip: ['', [Validators.required, Validators.maxLength(5)]],
       shipperPhonez: new FormArray([this.createPhoneItem()]),
       shipperPhones: {},
-      brokerEmail: ['email@example.com', [Validators.required, Validators.email]]
+      brokerEmail: ['', [Validators.required, Validators.email]]
     });
     this.formControls.pickupDatesRestrictions.disable();
     this.formControls.deliveryDatesRestrictions.disable();
