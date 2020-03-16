@@ -77,7 +77,7 @@
         <mat-card-subtitle>
           <mat-icon>person</mat-icon> DRIVER
         </mat-card-subtitle>
-        <div>{{ selectedOrder !== undefined ? 'selectedOrder.orderDriver' : 'UNASSIGNED' }}</div>
+        <div>{{ selectedOrder !== undefined && selectedOrder.orderDriver !== null?  selectedOrder.orderDriver  : 'UNASSIGNED'}}</div>
         <div>
           <mat-icon>phone</mat-icon>
         </div>
