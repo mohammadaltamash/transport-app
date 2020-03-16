@@ -1,11 +1,11 @@
 <!-- <main> -->
     <div class="dashboard">
-        <div id="ordersPickupToday">Orders for pickup today</div>
-        <div id="ordersDeliveryToday">Orders for delivery today</div>
-        <div id="paymentsPendingToday">Payments pending for today</div>
-        <div id="recentDriverActivity">Recent Driver Activity</div>
-        <div id="payments">Payments</div>
-        <div id="delayedPickupsDeliveries">Delayed pickups and deliveries</div>
-        <footer id="pageFooter">Footer</footer>
+        <mat-card id="ordersPickupToday"><mat-card-title><span class="count">{{ ordersPickupToday }}</span> ORDERS for pickup today</mat-card-title></mat-card>
+        <mat-card id="ordersDeliveryToday"><mat-card-title><span class="count">{{ ordersDeliveryToday }}</span>  ORDERS for delivery today</mat-card-title></mat-card>
+        <mat-card id="paymentsPendingToday"><mat-card-title><span class="count">{{ paymentsPendingToday }}</span>  PAYMENTS pending for today</mat-card-title></mat-card>
+        <mat-card id="recentDriverActivity"><mat-card-subtitle>RECENT DRIVER ACTIVITY</mat-card-subtitle></mat-card>
+        <mat-card id="payments"><mat-card-subtitle>PAYMENTS</mat-card-subtitle></mat-card>
+        <mat-card id="delayedPickupsDeliveries"><mat-card-subtitle>DELAYED PICKUPS AND DELIVERIES</mat-card-subtitle></mat-card>
+        <!-- <footer id="pageFooter">Footer</footer> -->
     </div>
 <!-- </main> -->

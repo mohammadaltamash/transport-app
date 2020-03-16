@@ -3,6 +3,14 @@ main {
     margin: 10px; */
 }
 
+mat-card-title {
+  color: gray;
+}
+.count {
+  font-size: 5rem;
+  color: gray;
+}
+
 /* app-dashboard */
 .dashboard {
     /* background-color: silver; */
@@ -10,9 +18,9 @@ main {
     grid-template-areas:
       "ordersPickupToday ordersPickupToday ordersPickupToday ordersDeliveryToday ordersDeliveryToday ordersDeliveryToday paymentsPendingToday paymentsPendingToday paymentsPendingToday"
       "recentDriverActivity recentDriverActivity recentDriverActivity recentDriverActivity payments payments payments payments payments"
-      "delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries"
-      "footer footer footer footer footer footer footer footer footer";
-    grid-template-rows: 150px 1fr 1fr 40px;
+      "delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries delayedPickupsDeliveries";
+      /* "footer footer footer footer footer footer footer footer footer"; */
+    grid-template-rows: 150px 1fr 1fr;
     grid-template-columns: repeat(9, 1fr);
     grid-gap: 2vw;
     /* grid-column-gap: 50px;
@@ -48,9 +56,9 @@ main {
   #delayedPickupsDeliveries {
     grid-area: delayedPickupsDeliveries;
   }
-  #pageFooter {
+  /* #pageFooter {
     grid-area: footer;
-  }
+  } */
   
   .dashboard > div {
     background-color: #f8f8f8;
