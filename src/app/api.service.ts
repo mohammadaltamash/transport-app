@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpParams
+  HttpParams,
+  HttpHeaders
 } from '@angular/common/http';
 
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { Order } from './order';
@@ -27,8 +28,22 @@ export class ApiService {
       // Server side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
+    console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  public postOrder(order: Order): Observable<Order> {
+    console.log('============== inside postOrder');
+    return this.httpClient
+      .post<Order>(environment.REST_SERVICE + '/order/create', order,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   public getOrders() {

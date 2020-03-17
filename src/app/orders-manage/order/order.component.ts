@@ -187,7 +187,7 @@ export class OrderComponent implements OnInit {
       pickupPhonez: new FormArray([this.createPhoneItem()]),
       pickupPhones: {},
       pickupSignatureNotRequired: '',
-      pickupDates: ['', Validators.required],
+      pickupDates: [{}, Validators.required],
       // pickupDates: {},
       pickupDatesRestrictions: this.datesRestrictions[0],
 
@@ -200,7 +200,7 @@ export class OrderComponent implements OnInit {
       deliveryPhones: {phone: 1345312312},
       deliverySignatureNotRequired: '',
       // deliveryDates: [{}, Validators.required],
-      deliveryDates: ['', Validators.required],
+      deliveryDates: [{}, Validators.required],
       deliveryDatesRestrictions: this.datesRestrictions[0],
 
       // Add New Vehicle
@@ -325,16 +325,23 @@ export class OrderComponent implements OnInit {
       o.brokerLatitude = this.brokerLatitude;
       o.brokerLongitude = this.brokerLongitude;
 
-      this.httpClient
-        .post<Order>(
-          environment.REST_SERVICE + '/order/create',
-          JSON.stringify(o),
-          {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          }
-        )
+      // this.httpClient
+      //   .post<Order>(
+      //     environment.REST_SERVICE + '/order/create',
+      //     JSON.stringify(o),
+      //     {
+      //       headers: new HttpHeaders({
+      //         'Content-Type': 'application/json'
+      //       })
+      //     }
+      //   )
+      //   .subscribe(
+      //     // data => console.log(data.deliveryDates.endDate),
+      //     res => console.log(res),
+      //     err => console.log(err)
+      //   );
+
+      this.apiService.postOrder(o)
         .subscribe(
           // data => console.log(data.deliveryDates.endDate),
           res => console.log(res),
