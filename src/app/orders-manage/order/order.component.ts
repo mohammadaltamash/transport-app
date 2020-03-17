@@ -343,16 +343,6 @@ export class OrderComponent implements OnInit {
       this.openSnackBar('Order has been created', '');
       // this.dialogRef.close();
       // this.router.navigate(['/orders']);
-
-      console.log(
-        '>>>>>' + JSON.stringify(this.createOrderForm.get('pickupPhonez').value)
-      );
-      console.log(
-        '>>>>>' +
-          JSON.stringify(this.createOrderForm.get('vehicleAutoType').value)
-      );
-      console.log(this.apiService.getVehicleYears()[0]);
-      console.log(this.apiService.getModels('Fiat Chrysler Automobiles'));
     }
   }
 
