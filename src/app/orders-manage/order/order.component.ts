@@ -197,7 +197,7 @@ export class OrderComponent implements OnInit {
       deliveryAddress: ['', Validators.required],
       deliveryZip: ['', [Validators.required, Validators.maxLength(5)]],
       deliveryPhonez: new FormArray([this.createPhoneItem()]),
-      deliveryPhones: {phone: 1345312312},
+      deliveryPhones: {},
       deliverySignatureNotRequired: '',
       // deliveryDates: [{}, Validators.required],
       deliveryDates: [{}, Validators.required],
@@ -276,19 +276,19 @@ export class OrderComponent implements OnInit {
       // return;
     }
     if (this.createOrderForm.valid) {
-      const pickupPhonesMap = new Map();
+      const pickupPhonesMap = {};
       for (const phone of this.pickupPhonez.controls) {
         if (phone.get('phone').value !== '') {
           pickupPhonesMap[phone.get('phone').value] = phone.get('note').value;
         }
       }
-      const deliveryPhonesMap = new Map();
+      const deliveryPhonesMap = {};
       for (const phone of this.deliveryPhonez.controls) {
         if (phone.get('phone').value !== '') {
           deliveryPhonesMap[phone.get('phone').value] = phone.get('note').value;
         }
       }
-      const shipperPhonesMap = new Map();
+      const shipperPhonesMap = {};
       for (const phone of this.shipperPhonez.controls) {
         if (phone.get('phone').value !== '') {
           shipperPhonesMap[phone.get('phone').value] = phone.get('note').value;
