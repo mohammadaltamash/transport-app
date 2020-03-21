@@ -7,6 +7,7 @@ import { OrderListComponent } from './orders-manage/order-list/order-list.compon
 import { LoadBoardComponent } from './orders-load-board/load-board/load-board.component';
 import { SearchFiltersDialogComponent } from './orders-load-board/search-filters-dialog/search-filters-dialog.component';
 import { AskToBookDialogComponent } from './orders-load-board/ask-to-book-dialog/ask-to-book-dialog.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'orders', component: OrderListComponent},
   {path: 'loadboard', component: LoadBoardComponent},
   {path: 'searchfilters', component: SearchFiltersDialogComponent},
-  {path: 'asktobook', component: AskToBookDialogComponent}
+  {path: 'asktobook', component: AskToBookDialogComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

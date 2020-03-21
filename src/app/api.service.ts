@@ -9,15 +9,31 @@ import {
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-import { Order } from './order';
+import { Order } from './model/order';
 
 import { environment } from '../environments/environment';
+import { JwtService } from './service/jwt.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  accessToken = this.jwtService.accessToken;
+  options = this.jwtService.loggedIn
+    ? {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+          // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
+        })
+      }
+    : {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
+
+  constructor(private httpClient: HttpClient, private jwtService: JwtService) {}
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -26,7 +42,7 @@ export class ApiService {
       errorMessage = `Error: ${error.error.message}`;
     } else {
       // Server side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code: ${error.status}\nMessage: {error.message}`;
     }
     console.log(errorMessage);
     return throwError(errorMessage);
@@ -35,20 +51,23 @@ export class ApiService {
   public postOrder(order: Order): Observable<Order> {
     console.log('============== inside postOrder');
     return this.httpClient
-      .post<Order>(environment.REST_SERVICE + '/order/create', order,
-      {
+      .post<Order>(environment.REST_SERVICE + '/order/create', order, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
         })
       })
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
   public getOrders() {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get')
+      .get<Order[]>(environment.REST_SERVICE + '/order/get', {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
+          // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
+        })
+      })
       .pipe(retry(3), catchError(this.handleError));
     // return this.httpClient.get('http://245d10bc.ngrok.io/transportapp/demo/order/get');
     // return this.httpClient.get('https://restcountries.eu/rest/v2/all');
@@ -56,19 +75,23 @@ export class ApiService {
 
   public getOrdersByStatus(status: string) {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get/status/' + status)
+      .get<Order[]>(environment.REST_SERVICE + '/order/get/status/' + status, this.options)
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrdersByStatusIn(statuses: string) {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get/statusin/' + statuses)
+      .get<Order[]>(
+        environment.REST_SERVICE + '/order/get/statusin/' + statuses, this.options
+      )
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrdersCountByStatus(status: string) {
     return this.httpClient
-      .get<number>(environment.REST_SERVICE + '/order/get/statuscount/' + status)
+      .get<number>(
+        environment.REST_SERVICE + '/order/get/statuscount/' + status, this.options
+      )
       .pipe(retry(3), catchError(this.handleError));
   }
 

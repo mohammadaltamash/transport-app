@@ -41,6 +41,9 @@ import { AgmCoreModule } from '@agm/core';
 import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.module';
 import { OrdersManageModule } from './orders-manage/orders-manage.module';
 
+import { JwtModule} from '@auth0/angular-jwt';
+import { LoginComponent } from './login/login.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +51,8 @@ import { OrdersManageModule } from './orders-manage/orders-manage.module';
     // OrderListComponent,
     // DashboardComponent,
     OptionsComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent
     // OrderDialogComponent
 
     // LoadBoardComponent,
@@ -92,7 +96,21 @@ import { OrdersManageModule } from './orders-manage/orders-manage.module';
     AgmCoreModule.forRoot(),
 
     OrdersLoadBoardModule,
-    OrdersManageModule
+    OrdersManageModule,
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function tokenGetter() {
+                return localStorage.getItem('access_token');
+        }
+        // whitelistedDomains: [
+        //   'http://localhost:4200/'
+        // ],
+        // blacklistedRoutes: [
+        //   ''
+        // ]
+      }
+    })
 
     // LoadBoardComponent,
     // SearchFiltersComponent,

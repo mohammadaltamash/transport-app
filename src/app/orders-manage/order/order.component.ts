@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, Optional } from '@angular/core';
 import { ApiService } from '../../api.service';
-import { Order } from '../../order';
+import { Order } from '../../model/order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';

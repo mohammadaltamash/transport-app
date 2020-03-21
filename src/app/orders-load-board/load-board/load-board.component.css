@@ -14,7 +14,7 @@ main {
 }
 #newOrderOptions {
   grid-area: newOrderOptions;
-  display: grid;
+  /* display: grid; */
   grid-auto-flow: column;
   /* grid-template-columns: repeat(auto-fill, minmax(110px, auto)); */
   gap: 0.7vw;
