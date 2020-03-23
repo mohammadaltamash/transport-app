@@ -9,21 +9,22 @@ import { SearchFiltersDialogComponent } from './component/module/book-loads/sear
 import { AskToBookDialogComponent } from './component/module/book-loads/ask-to-book-dialog/ask-to-book-dialog.component';
 import { LoginComponent } from './component/module/auth-components/login/login.component';
 import { RegisterComponent } from './component/module/auth-components/register/register.component';
-
+import { AuthGuard } from './helper/auth.guard';
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
-  {path: 'order', component: OrderDialogComponent},
-  {path: 'orders', component: OrderListComponent},
-  {path: 'loadboard', component: LoadBoardComponent},
-  {path: 'searchfilters', component: SearchFiltersDialogComponent},
-  {path: 'asktobook', component: AskToBookDialogComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent}
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'order', component: OrderDialogComponent, canActivate: [AuthGuard] },
+  { path: 'orders', component: OrderListComponent, canActivate: [AuthGuard] },
+  { path: 'loadboard', component: LoadBoardComponent, canActivate: [AuthGuard] },
+  { path: 'searchfilters', component: SearchFiltersDialogComponent, canActivate: [AuthGuard] },
+  { path: 'asktobook', component: AskToBookDialogComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

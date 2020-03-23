@@ -39,7 +39,7 @@ export class AuthenticationService {
   login(email: string, password: string) {
     return this.httpClient
       .post<User>(
-        environment.REST_SERVICE + '/login',
+        environment.REST_SERVICE_URL + '/login',
         {
           email: `${email}`,
           password: `${password}`
@@ -65,10 +65,11 @@ export class AuthenticationService {
 
   register(user: User) {
     return this.httpClient
-      .post<boolean>(environment.REST_SERVICE + '/register', user)
+      .post<boolean>(environment.REST_SERVICE_URL + '/register', user)
       .pipe(
         tap(res => {
           // this.login(user.email, user.password);
+          console.log(res);
         })
       );
   }

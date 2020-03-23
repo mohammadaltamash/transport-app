@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './service/authentication.service';
+import { Router } from '@angular/router';
+import { User } from './model/user';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +10,23 @@ import { AuthenticationService } from './service/authentication.service';
 })
 export class AppComponent {
   title = 'transport-app-client';
+  currentUser: User;
 
-  constructor(private authenticationService: AuthenticationService) {
-
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe(
+      u => (this.currentUser = u)
+    );
   }
 
   loggedIn() {
     return this.authenticationService.loggedIn;
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

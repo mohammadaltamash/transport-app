@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
@@ -44,6 +44,7 @@ import { OrdersManageModule } from './component/module/manage-orders/orders-mana
 import { JwtModule} from '@auth0/angular-jwt';
 import { LoginComponent } from './component/module/auth-components/login/login.component';
 import { RegisterComponent } from './component/module/auth-components/register/register.component';
+import { InterceptorService } from './service/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,9 @@ import { RegisterComponent } from './component/module/auth-components/register/r
     // AskToBookComponent
     // LoadBoardComponent
   // ],
-  providers: [],
+  providers: [
+    // { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

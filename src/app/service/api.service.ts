@@ -54,7 +54,7 @@ export class ApiService {
   public postOrder(order: Order): Observable<Order> {
     return this.httpClient
       .post<Order>(
-        environment.REST_SERVICE + '/order/create',
+        environment.REST_SERVICE_URL + '/order/create',
         order,
         this.getOptions()
       )
@@ -63,14 +63,14 @@ export class ApiService {
 
   public getOrders() {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get', this.getOptions())
+      .get<Order[]>(environment.REST_SERVICE_URL + '/order/get', this.getOptions())
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrdersByStatus(status: string) {
     return this.httpClient
       .get<Order[]>(
-        environment.REST_SERVICE + '/order/get/status/' + status,
+        environment.REST_SERVICE_URL + '/order/get/status/' + status,
         this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
@@ -79,7 +79,7 @@ export class ApiService {
   public getOrdersByStatusIn(statuses: string) {
     return this.httpClient
       .get<Order[]>(
-        environment.REST_SERVICE + '/order/get/statusin/' + statuses,
+        environment.REST_SERVICE_URL + '/order/get/statusin/' + statuses,
         this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
@@ -88,7 +88,7 @@ export class ApiService {
   public getOrdersCountByStatus(status: string) {
     return this.httpClient
       .get<number>(
-        environment.REST_SERVICE + '/order/get/statuscount/' + status,
+        environment.REST_SERVICE_URL + '/order/get/statuscount/' + status,
         this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
@@ -97,13 +97,13 @@ export class ApiService {
   public getPagedOrders() {
     // const options = { params: new HttpParams({fromString: 'page=0'}) };
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/getpage/1')
+      .get<Order[]>(environment.REST_SERVICE_URL + '/order/getpage/1')
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrderById(id: string) {
     return this.httpClient
-      .get<Order>(environment.REST_SERVICE + '/order/get/' + id)
+      .get<Order>(environment.REST_SERVICE_URL + '/order/get/' + id)
       .pipe(retry(3), catchError(this.handleError));
   }
 
@@ -112,7 +112,7 @@ export class ApiService {
   public getUserByEmail(email: string) {
     return this.httpClient
       .get<User>(
-        environment.REST_SERVICE + `/user/get/${email}`,
+        environment.REST_SERVICE_URL + `/user/get/${email}`,
         this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));

@@ -45,6 +45,7 @@ export class RegisterComponent implements OnInit {
       .subscribe((data: boolean) => {
         console.log(data);
         if (data) {
+          alert(`User ${this.registerForm.get('email')} registered successfully!`);
           this.router.navigate(['/login']);
         }
       });

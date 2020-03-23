@@ -1,27 +1,30 @@
-<form id="orderForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field id="fullName">
-        <input matInput formControlName="fullName" type="text" placeholder="Full Name">
-    </mat-form-field>
-    <mat-form-field id="password">
-        <input matInput formControlName="password" type="password" placeholder="Password">
-    </mat-form-field>
-    <mat-form-field id="companyName">
-        <input matInput formControlName="companyName" type="text" placeholder="Company Name">
-    </mat-form-field>
-    <mat-form-field id="address">
-        <input matInput formControlName="address" type="text" placeholder="Address">
-    </mat-form-field>
-    <mat-form-field id="zip">
-        <input matInput formControlName="zip" type="text" placeholder="Zip">
-    </mat-form-field>
-    <!-- <mat-form-field id="zip">
+<main>
+    <form id="orderForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field id="fullName">
+            <input matInput formControlName="fullName" type="text" placeholder="Full Name">
+        </mat-form-field>
+        <mat-form-field id="email">
+            <input matInput formControlName="email" type="text" placeholder="Email">
+        </mat-form-field>
+        <mat-form-field id="password">
+            <input matInput formControlName="password" type="password" placeholder="Password">
+        </mat-form-field>
+        <mat-form-field id="companyName">
+            <input matInput formControlName="companyName" type="text" placeholder="Company Name">
+        </mat-form-field>
+        <mat-form-field id="address">
+            <input matInput formControlName="address" type="text" placeholder="Address">
+        </mat-form-field>
+        <mat-form-field id="zip">
+            <input matInput formControlName="zip" type="text" placeholder="Zip">
+        </mat-form-field>
+        <!-- <mat-form-field id="zip">
         <input matInput formControlName="phones" type="text" placeholder="zip">
     </mat-form-field> -->
-    <mat-form-field id="email">
-        <input matInput formControlName="email" type="text" placeholder="Email">
-    </mat-form-field>
-    <mat-form-field id="type">
-        <input matInput formControlName="type" type="text" placeholder="Type">
-    </mat-form-field>
-    <button mat-flat-button color="primary" id="submitButton" type="submit">Login</button>
-</form>
+        <mat-form-field id="type">
+            <input matInput formControlName="type" type="text" placeholder="Type">
+        </mat-form-field>
+        <button mat-flat-button color="primary" id="submitButton" type="submit">Sign up</button>
+    </form>
+    <a [routerLink]="['/login']">Login</a>
+</main>
