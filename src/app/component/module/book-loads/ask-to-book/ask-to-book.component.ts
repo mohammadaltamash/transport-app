@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Optional, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
-import { Order } from '../../model/order';
+import { Order } from '../../../../model/order';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({

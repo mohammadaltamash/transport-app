@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 // import { OrderComponent } from './order/order.component';
 // import { OrderListComponent } from './order-list/order-list.component';
 // import { DashboardComponent } from './dashboard/dashboard.component';
-import { OptionsComponent } from './options/options.component';
+import { OptionsComponent } from './component/options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -38,11 +38,12 @@ import { AgmCoreModule } from '@agm/core';
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { OrdersLoadBoardModule } from './orders-load-board/orders-load-board.module';
-import { OrdersManageModule } from './orders-manage/orders-manage.module';
+import { OrdersLoadBoardModule } from './component/module/book-loads/orders-load-board.module';
+import { OrdersManageModule } from './component/module/manage-orders/orders-manage.module';
 
 import { JwtModule} from '@auth0/angular-jwt';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './component/module/auth-components/login/login.component';
+import { RegisterComponent } from './component/module/auth-components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { LoginComponent } from './login/login.component';
     // DashboardComponent,
     OptionsComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
     // OrderDialogComponent
 
     // LoadBoardComponent,

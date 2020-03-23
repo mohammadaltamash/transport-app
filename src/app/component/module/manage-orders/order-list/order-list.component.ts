@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../api.service';
-import { JwtService } from '../../service/jwt.service';
-import { Order } from '../../model/order';
+import { ApiService } from '../../../../service/api.service';
+import { Order } from '../../../../model/order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-order-list',
@@ -37,7 +34,7 @@ export class OrderListComponent implements OnInit {
   selectedOrder: Order;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private apiService: ApiService, private jwtService: JwtService) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     // this.apiService
@@ -151,14 +148,6 @@ export class OrderListComponent implements OnInit {
   // }
 
   getOrdersByStatus() {
-    // this.jwtService.login('ultamesh@gmail.com', 'abc123');
-    // this.jwtService
-    //   .login('ultamesh@gmail.com', 'abc123')
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((data: any[]) => {
-    //     console.log(data);
-    //   });
-    // const logged = this.jwtService.loggedIn;
     const status = this.getStatusCSVString();
     if (status === 'all') {
       this.apiService

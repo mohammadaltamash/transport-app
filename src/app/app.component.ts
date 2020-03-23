@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { JwtService } from './service/jwt.service';
+import { AuthenticationService } from './service/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +9,11 @@ import { JwtService } from './service/jwt.service';
 export class AppComponent {
   title = 'transport-app-client';
 
-  constructor(private jwtService: JwtService) {
+  constructor(private authenticationService: AuthenticationService) {
 
   }
 
   loggedIn() {
-    return this.jwtService.loggedIn;
+    return this.authenticationService.loggedIn;
   }
 }

@@ -1,7 +1,8 @@
 <!-- <app-options></app-options>
 <router-outlet></router-outlet> -->
-<app-login *ngIf="!loggedIn()"></app-login>
-<mat-sidenav-container class="sidenav-container" *ngIf="loggedIn()">
+<!-- <app-login *ngIf="!loggedIn()"></app-login>
+<mat-sidenav-container class="sidenav-container" *ngIf="loggedIn()"> -->
+<mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="side" opened><app-options></app-options></mat-sidenav>
     <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
 </mat-sidenav-container>

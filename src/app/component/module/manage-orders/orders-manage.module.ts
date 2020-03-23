@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from '../../../material.module';
 
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 import { TextMaskModule } from 'angular2-text-mask';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AskToBookComponent } from '../ask-to-book/ask-to-book.component';
 import {MatDialog} from '@angular/material/dialog';
-import { Order } from '../../model/order';
+import { Order } from '../../../../model/order';
 
 @Component({
   selector: 'app-ask-to-book-dialog',

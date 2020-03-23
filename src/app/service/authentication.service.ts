@@ -1,14 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { tap, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { tap, catchError, retry } from 'rxjs/operators';
+import { throwError, BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class JwtService {
-  constructor(private httpClient: HttpClient) {}
+export class AuthenticationService {
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+
+  constructor(private httpClient: HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<User>(
+      JSON.parse(localStorage.getItem('current_user'))
+    );
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -24,23 +37,8 @@ export class JwtService {
   }
 
   login(email: string, password: string) {
-    // return this.httpClient
-    //   .post<{ token: string }>(environment.REST_SERVICE + '/login', {
-    //     email,
-    //     password
-    //   },
-    //   {
-    //     headers: new HttpHeaders({
-    //       'Content-Type': 'application/json'
-    //     }),
-    //     observe: 'response'
-    //   })
-    //   .pipe(
-    //     // catchError(this.handleError)
-    //   );
-
     return this.httpClient
-      .post<any>(
+      .post<User>(
         environment.REST_SERVICE + '/login',
         {
           email: `${email}`,
@@ -54,30 +52,34 @@ export class JwtService {
         }
       )
       .pipe(
-        tap(res => {
-          localStorage.setItem('access_token', res.token);
+        tap(user => {
+          localStorage.setItem('access_token', user.jwtToken);
+          localStorage.setItem('current_user', JSON.stringify(user));
+          this.currentUserSubject.next(user);
         })
       );
-      // .pipe(
-      //       catchError(this.handleError)
-      //     );
+    // .pipe(
+    //       catchError(this.handleError)
+    //     );
   }
 
-  register(email: string, password: string) {
+  register(user: User) {
     return this.httpClient
-      .post<{ token: string }>(environment.REST_SERVICE + '/register', {
-        email,
-        password
-      })
+      .post<boolean>(environment.REST_SERVICE + '/register', user)
       .pipe(
         tap(res => {
-          this.login(email, password);
+          // this.login(user.email, user.password);
         })
       );
   }
 
   logout() {
+    let loggedin = this.loggedIn;
     localStorage.removeItem('access_token');
+    localStorage.removeItem('current_user');
+    this.currentUserSubject.next(null);
+    loggedin = this.loggedIn;
+    console.log(loggedin);
   }
 
   public get loggedIn(): boolean {
@@ -86,5 +88,9 @@ export class JwtService {
 
   public get accessToken(): string {
     return localStorage.getItem('access_token');
+  }
+
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtService } from '../service/jwt.service';
+import { AuthenticationService } from '../../service/authentication.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -13,15 +13,19 @@ export class OptionsComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private jwtService: JwtService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
   }
 
   logout() {
-    this.jwtService.logout();
+    this.authenticationService.logout();
     // const loggedin = this.jwtService.loggedIn;
     this.router.navigate(['/login']);
+  }
+
+  loggedInAs() {
+    return this.authenticationService.currentUserValue.email;
   }
 
 }

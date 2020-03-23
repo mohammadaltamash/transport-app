@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtService } from '../service/jwt.service';
+import { AuthenticationService } from '../../../../service/authentication.service';
+import { ApiService } from '../../../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { User } from '../../../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -15,34 +17,39 @@ export class LoginComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private jwtService: JwtService,
+    private authenticationService: AuthenticationService,
+    private apiService: ApiService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
   onSubmit() {
-    this.jwtService
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.authenticationService
       .login(
         this.loginForm.get('email').value,
         this.loginForm.get('password').value
       )
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any[]) => {
+      .subscribe((data: User) => {
         console.log(data);
-        if (this.jwtService.loggedIn) {
+        if (this.authenticationService.loggedIn) {
           this.router.navigate(['/']);
         }
       });
   }
 
   loggedIn() {
-    return this.jwtService.loggedIn;
+    return this.authenticationService.loggedIn;
   }
 }

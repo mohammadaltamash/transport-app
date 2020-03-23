@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
-import { ApiService } from '../../api.service';
-import { Order } from '../../model/order';
+import { ApiService } from '../../../../service/api.service';
+import { Order } from '../../../../model/order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { AskToBookDialogComponent } from '../ask-to-book-dialog/ask-to-book-dialog.component';
 // import { AskToBookComponent } from '../ask-to-book/ask-to-book.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';

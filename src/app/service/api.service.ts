@@ -9,31 +9,17 @@ import {
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
-import { Order } from './model/order';
+import { Order } from '../model/order';
+import { User } from '../model/user';
 
-import { environment } from '../environments/environment';
-import { JwtService } from './service/jwt.service';
+import { environment } from '../../environments/environment';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  accessToken = this.jwtService.accessToken;
-  options = this.jwtService.loggedIn
-    ? {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.accessToken}`
-          // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
-        })
-      }
-    : {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      };
-
-  constructor(private httpClient: HttpClient, private jwtService: JwtService) {}
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {}
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
@@ -48,41 +34,53 @@ export class ApiService {
     return throwError(errorMessage);
   }
 
+  getOptions() {
+    return this.authenticationService.loggedIn
+      ? {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.authenticationService.accessToken}`
+          })
+        }
+      : {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        };
+  }
+
+  // Order
+
   public postOrder(order: Order): Observable<Order> {
-    console.log('============== inside postOrder');
     return this.httpClient
-      .post<Order>(environment.REST_SERVICE + '/order/create', order, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      })
+      .post<Order>(
+        environment.REST_SERVICE + '/order/create',
+        order,
+        this.getOptions()
+      )
       .pipe(catchError(this.handleError));
   }
 
   public getOrders() {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get', {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.accessToken}`
-          // 'Access-Control-Allow-Origin': 'http://localhost:4200/'
-        })
-      })
+      .get<Order[]>(environment.REST_SERVICE + '/order/get', this.getOptions())
       .pipe(retry(3), catchError(this.handleError));
-    // return this.httpClient.get('http://245d10bc.ngrok.io/transportapp/demo/order/get');
-    // return this.httpClient.get('https://restcountries.eu/rest/v2/all');
   }
 
   public getOrdersByStatus(status: string) {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE + '/order/get/status/' + status, this.options)
+      .get<Order[]>(
+        environment.REST_SERVICE + '/order/get/status/' + status,
+        this.getOptions()
+      )
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrdersByStatusIn(statuses: string) {
     return this.httpClient
       .get<Order[]>(
-        environment.REST_SERVICE + '/order/get/statusin/' + statuses, this.options
+        environment.REST_SERVICE + '/order/get/statusin/' + statuses,
+        this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
@@ -90,7 +88,8 @@ export class ApiService {
   public getOrdersCountByStatus(status: string) {
     return this.httpClient
       .get<number>(
-        environment.REST_SERVICE + '/order/get/statuscount/' + status, this.options
+        environment.REST_SERVICE + '/order/get/statuscount/' + status,
+        this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
@@ -104,9 +103,22 @@ export class ApiService {
 
   public getOrderById(id: string) {
     return this.httpClient
-      .get<Order>(environment.REST_SERVICE + '/order/getpage/1' + id)
+      .get<Order>(environment.REST_SERVICE + '/order/get/' + id)
       .pipe(retry(3), catchError(this.handleError));
   }
+
+  // User
+
+  public getUserByEmail(email: string) {
+    return this.httpClient
+      .get<User>(
+        environment.REST_SERVICE + `/user/get/${email}`,
+        this.getOptions()
+      )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  // Address
 
   public verifyAddress(address: string) {
     const params = new HttpParams()
@@ -129,18 +141,6 @@ export class ApiService {
       .get<any[]>(environment.US_ZIP_VALIDATOR_URL, { params })
       .pipe(retry(3), catchError(this.handleError));
   }
-
-  // public postOrder(orderData) {
-  //   // alert(orderData.pickupContactName);
-  //   this.httpClient.post<any>('http://localhost:8080/transportapp/demo/order/create', orderData).subscribe(
-  //     (res) => console.log(res),
-  //     (err) => console.log(err)
-  //   );
-  // }
-
-  // public postOrder() {
-  //   this.httpClient.post('http://localhost:8080/transportapp/demo/order/create');
-  // }
 
   public getVehicleYears() {
     const vehicleYears: number[] = [];

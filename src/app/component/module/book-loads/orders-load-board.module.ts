@@ -13,10 +13,10 @@ import { SearchFiltersDialogComponent } from './search-filters-dialog/search-fil
 // import { SearchFiltersComponent } from './search-filters/search-filters.component';
 // import { SearchFiltersDialogComponent } from './search-filters-dialog/search-filters-dialog.component';
 
-import { AppRoutingModule } from '../app-routing.module';
+import { AppRoutingModule } from '../../../app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from '../../../material.module';
 
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 // import { MatSelectModule } from '@angular/material';

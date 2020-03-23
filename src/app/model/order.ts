@@ -79,7 +79,7 @@ export interface Order {
     /*Phone 1 (can be multiple) required,
     Phone 1 notes optional*/
 //    @NotEmpty(message = "shipperPhones is required")
-    shipperPhones: {};                                              // Phone 1 (can be multiple)    required
+    shipperPhones: {};                                            // Phone 1 (can be multiple)    required
 //    @Email(message = "BROKER_EMAIL is invalid")
 //    @NotEmpty(message = "brokerEmail is required")
     brokerEmail: string;                                            // Broker email                 required
