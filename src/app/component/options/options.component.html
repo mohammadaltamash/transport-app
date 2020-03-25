@@ -11,7 +11,7 @@
         <div id="logo" [routerLink]="['/']">
             <b>Transport<br>App<br>Logo</b>
         </div>
-        <div id="book_loads">
+        <div id="book_loads" *ngIf="!isDriver()">
             <div>BOOK<br><b>LOADS</b><br>
                 <mat-icon>keyboard_arrow_down</mat-icon>
             </div>
@@ -28,7 +28,7 @@
                 <mat-icon>dashboard</mat-icon>
                 <div>Dashboard</div>
             </div>
-            <div [routerLink]="['/order']">
+            <div [routerLink]="['/order']" *ngIf="!isDriver()">
                 <mat-icon>add</mat-icon>
                 <div>Import/ Create<br>Order</div>
             </div>
@@ -38,5 +38,5 @@
             </div>
         </div>
     </main>
-    <div style="float:bottom; font-size: xx-small; color: white;">{{loggedInAs()}}</div>
-    <button (click)="logout()">Logout</button>
+    <div id="loggedInAs" style="float:bottom; font-size: xx-small; color: white;">{{loggedInAs()}}</div>
+    <button id="logout" (click)="logout()">Logout</button>

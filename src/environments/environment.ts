@@ -14,7 +14,10 @@ export const environment = {
   US_ZIP_VALIDATOR_URL: 'https://us-zipcode.api.smartystreets.com/lookup',
 
   NEW_ORDER: 'NEW',
-  ACCEPTED_ORDER: 'ACCEPTED'
+  ASSIGNED_ORDER: 'ASSIGNED',
+  ACCEPTED_ORDER: 'ACCEPTED',
+
+  USER_DRIVER: 'DRIVER'
 };
 
 /*

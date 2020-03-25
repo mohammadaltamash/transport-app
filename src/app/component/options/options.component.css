@@ -49,3 +49,17 @@ main {
   row-gap: 2vh;
 }
 
+#loggedInAs {
+  margin-top: 50px;
+}
+
+#logout{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: inherit;
+  cursor: pointer;
+  margin: auto;
+  text-align: center;
+  justify-items: center;
+}

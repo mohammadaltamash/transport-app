@@ -4,8 +4,10 @@ import { ApiService } from '../../../../service/api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../../../model/user';
+
+import { ErrorHandler } from '../../../../helper/error_handler';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +17,16 @@ import { User } from '../../../../model/user';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  returnUrl: string;
+  invalid: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private route: ActivatedRoute,
+    private router: Router,
+    public errorHandler: ErrorHandler
   ) {}
 
   ngOnInit() {
@@ -28,6 +34,7 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   onSubmit() {
@@ -44,12 +51,19 @@ export class LoginComponent implements OnInit {
       .subscribe((data: User) => {
         console.log(data);
         if (this.authenticationService.loggedIn) {
-          this.router.navigate(['/']);
+          this.router.navigateByUrl(this.returnUrl);
         }
+      },
+      error => {
+        this.invalid = true;
       });
   }
 
   loggedIn() {
     return this.authenticationService.loggedIn;
+  }
+
+  get formControls() {
+    return this.loginForm.controls;
   }
 }

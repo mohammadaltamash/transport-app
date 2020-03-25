@@ -1,6 +1,6 @@
 <mat-toolbar mat-dialog-title color="primary">Shipper Load ID # {{data.id}}</mat-toolbar>
 <!-- {{ let order=data }} -->
-<form id="askToBookForm" [formGroup]="askToBookForm" (ngSubmit)="onSubmit()">
+<form id="askToBookForm" [formGroup]="askToBookForm" (ngSubmit)="onSubmit(data.id)">
     <main mat-dialog-content>
         <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4>
 
@@ -65,7 +65,10 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button id="askToBook" mat-stroked-button [routerLink]="['/loadboard']" type="submit">ASK TO BOOK</button>
+        <div id="askToBook">
+        <button mat-stroked-button [routerLink]="['/loadboard']" type="button" (click)="closeDialog()">Close</button>&nbsp;
+        <button id="askToBook" mat-stroked-button [routerLink]="['/orders']" type="submit">ASK TO BOOK</button>
+        </div>
         <mat-card id="summary">
             <div matLine id="grid1">
                 <div>{{ data.pickupAddress }}</div>

@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { DriversListDialogComponent } from '../../drivers-list-dialog/drivers-list-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { OrderListComponent } from './order-list/order-list.component';
     MatGoogleMapsAutocompleteModule
   ],
   entryComponents: [
-    OrderComponent
-  ],
+    OrderComponent,
+    OrderListComponent,
+    DriversListDialogComponent
+  ]
 })
 export class OrdersManageModule { }

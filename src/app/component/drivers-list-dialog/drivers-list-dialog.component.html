@@ -1,0 +1,24 @@
+<mat-nav-list>
+    <mat-list-item *ngFor="let driver of drivers; let i = index" >
+
+
+
+        <!-- <div id="listItem"> -->
+        <div id="grid1">
+            <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
+            <!-- <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
+                <div matLine># <b>{{ order.id }}</b></div> -->
+        </div>
+
+        <div id="grid2">
+            <div matLine>{{ driver.email }}</div>
+        </div>
+
+        <div >
+            <div matLine>{{ driver.address }}</div>
+        </div>
+
+
+    </mat-list-item>
+</mat-nav-list>
+<button mat-stroked-button type="button" (click)="onCloseClick()" style="float: right">Close</button>&nbsp;

@@ -1,13 +1,33 @@
-<main>
-    <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field id="email">
-            <input matInput formControlName="email" type="text" placeholder="Email">
-        </mat-form-field>
-        <mat-form-field id="password">
-            <input matInput formControlName="password" type="password" placeholder="Password">
-        </mat-form-field>
-        <button mat-flat-button color="primary" id="submitButton" type="submit">Login</button>
-    </form>
-    <a [routerLink]="['/register']">Sign up</a>
-</main>
+<div class="loginDiv">
+    <!-- <div class="insideDiv"> -->
+    <!-- <div class="border"> -->
+    <div class="insideDiv">
+        <div id="signIn">SIGN IN</div>
+        <div id="signUp" class="inactive"><a [routerLink]="['/register']">SIGN UP</a></div>
+
+        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field id="email">
+                <input matInput formControlName="email" placeholder="Email" required>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'email', 'required')">
+                    {{ errorHandler.validationMessages['required'] }}
+                </mat-error>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'email', 'email')">
+                    {{ errorHandler.validationMessages['email'] }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field id="password">
+                <input matInput formControlName="password" type="password" placeholder="Password" required>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'password', 'required')">
+                    {{ errorHandler.validationMessages['required'] }}
+                </mat-error>
+            </mat-form-field>
+            <div id="loginError" *ngIf="invalid">{{ errorHandler.validationMessages['invalidCredentials'] }}</div>
+
+            <button id="submitButton" type="submit">LOGIN</button>
+        </form>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+</div>
 <!-- <a routerLink="register">Sign up</a> -->

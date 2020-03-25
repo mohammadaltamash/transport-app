@@ -12,8 +12,10 @@
     <!-- <button mat-stroked-button>New ({{ new }})</button> -->
     <span [ngClass]="getClassByStatus('new')" (click)="onStatusClick('new')">New ({{ new }})</span>
     <!-- <button class="ovalButtonChecked" style="position: relative"><mat-icon style="position: absolute; left: 5px; margin: auto">check</mat-icon>New ({{ new }})</button> -->
-    <span [ngClass]="getClassByStatus('accepted')" (click)="onStatusClick('accepted')">Accepted ({{ accepted }})</span>
-    <span [ngClass]="getClassByStatus('assigned')" (click)="onStatusClick('assigned')">Assigned ({{ assigned }})</span>
+    <span id="accepted" [ngClass]="getClassByStatus('accepted')" (click)="onStatusClick('accepted')">Accepted
+      ({{ accepted }})</span>
+    <span id="assigned" [ngClass]="getClassByStatus('assigned')" (click)="onStatusClick('assigned')">Assigned
+      ({{ assigned }})</span>
     <span [ngClass]="getClassByStatus('pickedup')" (click)="onStatusClick('pickedup')">Picked up ({{ pickedup }})</span>
     <span [ngClass]="getClassByStatus('delivered')" (click)="onStatusClick('delivered')">Delivered
       ({{ delivered }})</span>
@@ -29,9 +31,9 @@
   </div>
 
   <mat-nav-list id="list">
-      <!-- [ngClass]="(selectedOrder.id === order.id) ? 'selectedItem' : ''" -->
-    <mat-list-item *ngFor="let order of orders" [ngClass]="(selectedOrder === order) ? 'selectedListItem' : ''"
-      (click)="this.onItemClick(order)">
+    <!-- [ngClass]="(selectedOrder.id === order.id) ? 'selectedItem' : ''" -->
+    <mat-list-item *ngFor="let order of orders; let i = index"
+      [ngClass]="(selectedOrder === order) ? 'selectedListItem' : ''" (click)="this.onItemClick(order, i)">
       <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
       <p matLine>
         <span>
@@ -77,15 +79,19 @@
         <mat-card-subtitle>
           <mat-icon>person</mat-icon> DRIVER
         </mat-card-subtitle>
-        <div>{{ selectedOrder !== undefined && selectedOrder.orderDriver !== null?  selectedOrder.orderDriver  : 'UNASSIGNED'}}</div>
-        <div>
-          <mat-icon>phone</mat-icon>
-        </div>
-        <div>
-          <mat-icon>email</mat-icon>
-        </div>
-        <div>
-          <mat-icon>directions_car</mat-icon>
+        <div id="assignDriverAction" *ngIf="selectedOrder === undefined || selectedOrder.orderDriver === null"><button
+            mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver()" type="button">ASSIGN DRIVER</button></div>
+        <div *ngIf="selectedOrder !== undefined && selectedOrder.orderDriver !== null">
+          <div>{{ selectedOrder.orderDriver }}</div>
+          <div>
+            <mat-icon>phone</mat-icon>
+          </div>
+          <div>
+            <mat-icon>email</mat-icon>
+          </div>
+          <div>
+            <mat-icon>directions_car</mat-icon>
+          </div>
         </div>
       </mat-card>
       <mat-card id="vehicle">
@@ -177,7 +183,10 @@
       <mat-card id="activity">
         <mat-card-subtitle>
           <mat-icon>local_activity</mat-icon> ACTIVITY
-        </mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
+        </mat-card-subtitle>
+        <div id="bookAction" *ngIf="isAssigned()"><button mat-button [ngClass]="'ovalShape'"
+            (click)="bookClicked()">BOOK ORDER</button></div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
         deleniti atque iure nisi. Exercitationem qui porro amet, maxime sapiente at voluptas eaque aut quod eligendi,
         libero obcaecati earum deleniti cum dolorum commodi laboriosam voluptatum laborum iure tempora, odio nobis
         fugiat enim. Fuga aliquam debitis quia ea labore assumenda, officia nostrum dolore velit iusto ipsam voluptate

@@ -532,6 +532,11 @@ footer {
   border: none;
 }
 
+#submitButton {
+  margin-right: 1vw;
+  border-radius: 25px;
+}
+
 .mat-dialog-actions {
   /* background-color: yellow; */
 }

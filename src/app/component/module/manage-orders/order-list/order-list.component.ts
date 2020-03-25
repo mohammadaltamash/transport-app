@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ApiService } from '../../../../service/api.service';
 import { Order } from '../../../../model/order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Utilities } from 'src/app/helper/utilities';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/app/model/user';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { DriversListDialogComponent } from 'src/app/component/drivers-list-dialog/drivers-list-dialog.component';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-order-list',
@@ -32,9 +39,17 @@ export class OrderListComponent implements OnInit {
   pickedupOrders: Order[] = [];
   deliveredOrders: Order[] = [];
   selectedOrder: Order;
+  selectedItem: number;
+  drivers: User[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private utilities: Utilities,
+    public driversDialog: MatDialog
+  ) {}
 
   ngOnInit() {
     // this.apiService
@@ -51,24 +66,29 @@ export class OrderListComponent implements OnInit {
     //   });
 
     this.getOrdersByStatus();
-    // this.apiService
-    //   .getOrdersByStatus(environment.NEW_ORDER)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((data: any[]) => {
-    //     this.new = data.length;
-    //     console.log(data);
-    //     this.newOrders = data;
-    //   });
-    // this.apiService
-    //   .getOrdersByStatus(environment.ACCEPTED_ORDER)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((data: any[]) => {
-    //     this.accepted = data.length;
-    //     console.log(data);
-    //     this.acceptedOrders = data;
-    //   });
     this.setOrdersCountByStatus();
+    this.updateDriversList();
+    // of(this.setAssigned()).subscribe(assigned => {
+    //   this.assigned = assigned;
+    //   // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
+    // });
+    // of(this.setAccepted()).subscribe(accepted => {
+    //   this.accepted = accepted;
+    //   // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
+    // });
   }
+
+  // nafterViewInit() {
+  //   this.getOrdersByStatus();
+  //   this.setOrdersCountByStatus();
+  // }
+
+  // setAssigned() {
+  //   return this.assigned - 1;
+  // }
+  // setAccepted() {
+  //   return this.accepted + 1;
+  // }
 
   getClassByStatus(orderStatus: string) {
     if (orderStatus === 'all') {
@@ -101,7 +121,6 @@ export class OrderListComponent implements OnInit {
       } else {
         this.stepAll = false;
       }
-
     } else if (orderStatus === 'new') {
       this.stepAll = false;
       this.stepNew = this.stepNew !== true;
@@ -128,7 +147,7 @@ export class OrderListComponent implements OnInit {
       this.stepAll = true;
     }
     // this.setOrdersInList(orderStatus);
-    this.getOrdersByStatus() ;
+    this.getOrdersByStatus();
   }
 
   // setOrdersInList(orderStatus: string) {
@@ -151,28 +170,28 @@ export class OrderListComponent implements OnInit {
     const status = this.getStatusCSVString();
     if (status === 'all') {
       this.apiService
-      .getOrders()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any[]) => {
-        this.all = data.length;
-        console.log(data);
-        this.orders = data;
-        if (data.length > 0) {
-          this.selectedOrder = this.orders[0];
-        }
-      });
+        .getOrders()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          this.all = data.length;
+          console.log(data);
+          this.orders = data;
+          if (data.length > 0) {
+            this.selectedOrder = this.orders[0];
+          }
+        });
     } else {
       this.apiService
-      .getOrdersByStatusIn(status)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any[]) => {
-        // this.accepted = data.length;
-        console.log(data);
-        this.orders = data;
-        if (data.length > 0) {
-          this.selectedOrder = this.orders[0];
-        }
-      });
+        .getOrdersByStatusIn(status)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data: any[]) => {
+          // this.accepted = data.length;
+          console.log(data);
+          this.orders = data;
+          if (data.length > 0) {
+            this.selectedOrder = this.orders[0];
+          }
+        });
     }
   }
 
@@ -241,7 +260,77 @@ export class OrderListComponent implements OnInit {
     return Object.keys(object);
   }
 
-  onItemClick(order: Order) {
+  isAssigned() {
+    return (
+      this.selectedOrder !== undefined &&
+      this.selectedOrder.orderStatus === environment.ASSIGNED_ORDER
+    );
+  }
+
+  bookClicked() {
+    this.selectedOrder.orderStatus = environment.ACCEPTED_ORDER;
+    this.selectedOrder.brokerContactName = this.authenticationService.currentUserValue.fullName;
+    this.selectedOrder.brokerCompanyName = this.authenticationService.currentUserValue.companyName;
+    this.selectedOrder.brokerAddress = this.authenticationService.currentUserValue.address;
+    this.selectedOrder.brokerZip = this.authenticationService.currentUserValue.zip;
+    this.selectedOrder.brokerLatitude = this.authenticationService.currentUserValue.latitude;
+    this.selectedOrder.brokerLongitude = this.authenticationService.currentUserValue.longitude;
+    this.selectedOrder.shipperPhones = this.authenticationService.currentUserValue.phones;
+    this.selectedOrder.brokerEmail = this.authenticationService.currentUserValue.email;
+    this.apiService.updateOrder(this.selectedOrder).subscribe(
+      // data => console.log(data.deliveryDates.endDate),
+      res => console.log(res),
+      err => console.log(err)
+    );
+    this.utilities.openSnackBar('Order has been booked', '');
+    // this.setOrdersCountByStatus();
+    // this.getOrdersByStatus();
+    this.accepted = this.accepted + 1;
+    this.assigned = this.assigned - 1;
+    document.getElementById('accepted').innerText =
+      'Accepted (' + this.accepted + ')';
+    document.getElementById('assigned').innerText =
+      'Assigned (' + this.assigned + ')';
+    if (this.stepAll === false) {
+      this.orders.splice(this.selectedItem, 1);
+    }
+  }
+
+  onItemClick(order: Order, index: number) {
     this.selectedOrder = order;
+    this.selectedItem = index;
+  }
+
+  updateDriversList() {
+    this.userService
+      .getUsersByType(environment.USER_DRIVER)
+      // .pipe(takeUntil(this.destroy$))
+      .subscribe((data: User[]) => {
+        this.drivers = data;
+        console.log(data);
+      });
+  }
+
+  onAssignDriver(): void {
+    const dialogRef = this.driversDialog.open(DriversListDialogComponent, {
+      width: '30vw',
+      data: this.drivers
+    });
   }
 }
+
+// @Component({
+//   selector: 'app-drivers-list-dialog-component',
+//   templateUrl: 'drivers-list-dialog.html'
+// })
+// export class DriversListDialogComponent {
+//   drivers: User[];
+//   constructor(
+//     public dialogRef: MatDialogRef<DriversListDialogComponent>,
+//     @Inject(MAT_DIALOG_DATA) public data: User[],
+//     private userService: UserService
+//   ) {
+//     this.drivers = data;
+//   }
+
+// }

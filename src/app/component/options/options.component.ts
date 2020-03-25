@@ -28,4 +28,8 @@ export class OptionsComponent implements OnInit {
     return this.authenticationService.currentUserValue.email;
   }
 
+  isDriver() {
+    return this.authenticationService.currentUserValue.type === 'DRIVER';
+  }
+
 }

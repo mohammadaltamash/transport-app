@@ -18,6 +18,7 @@ export class LoadBoardComponent implements OnInit {
 
   orders: Order[] = [];
   selectedOrder: Order; // ?
+  selectedItem: number; // ?
   // bookDialog: AskToBookDialogComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -41,8 +42,9 @@ export class LoadBoardComponent implements OnInit {
       });
   }
 
-  showDialog(order: Order) {
+  showDialog(order: Order, index: number) {
     // this.bookDialog.openDialog();
-    this.askToBookDialogComponent.openDialog(order);
+    const result = this.askToBookDialogComponent.openDialog(order);
+    this.selectedItem = index;
   }
 }

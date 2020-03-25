@@ -1,30 +1,88 @@
-<main>
-    <form id="orderForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <mat-form-field id="fullName">
-            <input matInput formControlName="fullName" type="text" placeholder="Full Name">
-        </mat-form-field>
-        <mat-form-field id="email">
-            <input matInput formControlName="email" type="text" placeholder="Email">
-        </mat-form-field>
-        <mat-form-field id="password">
-            <input matInput formControlName="password" type="password" placeholder="Password">
-        </mat-form-field>
-        <mat-form-field id="companyName">
-            <input matInput formControlName="companyName" type="text" placeholder="Company Name">
-        </mat-form-field>
-        <mat-form-field id="address">
-            <input matInput formControlName="address" type="text" placeholder="Address">
-        </mat-form-field>
-        <mat-form-field id="zip">
-            <input matInput formControlName="zip" type="text" placeholder="Zip">
-        </mat-form-field>
-        <!-- <mat-form-field id="zip">
-        <input matInput formControlName="phones" type="text" placeholder="zip">
-    </mat-form-field> -->
-        <mat-form-field id="type">
-            <input matInput formControlName="type" type="text" placeholder="Type">
-        </mat-form-field>
-        <button mat-flat-button color="primary" id="submitButton" type="submit">Sign up</button>
-    </form>
-    <a [routerLink]="['/login']">Login</a>
-</main>
+<div class="loginDiv">
+    <div class="insideDiv">
+        <div id="signIn"><a [routerLink]="['/login']">SIGN IN</a></div>
+        <div id="signUp">SIGN UP</div>
+
+        <form id="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <mat-form-field id="fullName">
+                <input matInput formControlName="fullName" type="text" placeholder="Full Name">
+            </mat-form-field>
+            <mat-form-field id="email">
+                <input matInput formControlName="email" type="text" placeholder="Email" required>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'email', 'required')">
+                    {{ errorHandler.validationMessages['required'] }}
+                </mat-error>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'email', 'email')">
+                    {{ errorHandler.validationMessages['email'] }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field id="password">
+                <input matInput formControlName="password" type="password" placeholder="Password" required>
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'password', 'required')">
+                    {{ errorHandler.validationMessages['required'] }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field id="companyName">
+                <input matInput formControlName="companyName" type="text" placeholder="Company Name">
+            </mat-form-field>
+            <mat-form-field id="address">
+                <!-- <input matInput formControlName="address" type="text" placeholder="Address"> -->
+                <input matInput id="address" formControlName="address" placeholder="Address" matGoogleMapsAutocomplete
+                    [country]="country" (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                    (onLocationSelected)="onLocationSelected($event)" (blur)="this.onAddressLostFocus()">
+                <mat-error *ngIf="errorHandler.handleError(formControls, 'address', 'required')">
+                    {{ errorHandler.validationMessages['required'] }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field id="zip">
+                <input matInput formControlName="zip" type="text" (keyup)="onZipChanged()" placeholder="Zip"
+                    maxlength="5" inputmode="numeric" pattern="[0-9]*" digitOnly>
+                <!-- <mat-error *ngIf="invalidZip">
+                    {{ errorHandler.validationMessages['invalidZip'] }}
+                </mat-error> -->
+            </mat-form-field>
+
+
+            <div formArrayName="phonez" id="phonez" *ngFor="let pickupPhone of phonez.controls; let i = index">
+                <div [formGroupName]="i" class="phonesGrid">
+
+                    <!-- Phone -->
+                    <mat-form-field id="phone">
+                        <input matInput id="pickupPhone{{i + 1}}" formControlName="phone" placeholder="Phone {{i + 1}}"
+                            [textMask]="{mask: phoneMask}">
+
+                    </mat-form-field>
+                    <!-- <div class="notesgrid"> -->
+
+                    <!-- Phone notes -->
+                    <!-- <mat-form-field class="note">
+                            <input matInput id="pickupPhoneNote{{i + 1}}" formControlName="note"
+                                placeholder="Phone {{i + 1}} notes">
+                        </mat-form-field> -->
+                    <mat-icon id="phoneClose" *ngIf="this.phonez.length != 1"
+                        (click)="onRemovePhoneControl(this.phonez, i)" class="close">close</mat-icon>
+                    <div id="addPhone">
+                        <button class="addButton" type="button" *ngIf="this.phonez.length != 3 && i === this.phonez.length - 1"
+                            (click)="onAddPhoneControl(this.phonez)" required><mat-icon>add</mat-icon></button></div>
+                    <!-- </div> -->
+                </div>
+
+            </div>
+
+            <!-- <div id="addPhone">
+                <button mat-flat-button class="addButton" type="button" *ngIf="this.phonez.length != 3"
+                    (click)="onAddPhoneControl(this.phonez)" required>Add
+                    another phone <i class="material-icons">add</i></button></div> -->
+                    <mat-form-field id="type">
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="type" required>
+                              <mat-option *ngFor="let type of types" [value]="type">
+                                {{ type }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+            <!-- <button mat-flat-button color="primary" id="submitButton" type="submit">Sign up</button> -->
+            <button id="submitButton" type="submit">SIGN UP</button>
+        </form>
+    </div>
+</div>

@@ -34,20 +34,20 @@ export class ApiService {
     return throwError(errorMessage);
   }
 
-  getOptions() {
-    return this.authenticationService.loggedIn
-      ? {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.authenticationService.accessToken}`
-          })
-        }
-      : {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json'
-          })
-        };
-  }
+  // getOptions() {
+  //   return this.authenticationService.loggedIn
+  //     ? {
+  //         headers: new HttpHeaders({
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${this.authenticationService.accessToken}`
+  //         })
+  //       }
+  //     : {
+  //         headers: new HttpHeaders({
+  //           'Content-Type': 'application/json'
+  //         })
+  //       };
+  // }
 
   // Order
 
@@ -55,23 +55,38 @@ export class ApiService {
     return this.httpClient
       .post<Order>(
         environment.REST_SERVICE_URL + '/order/create',
-        order,
-        this.getOptions()
+        order
+        // ,
+        // this.getOptions()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public updateOrder(order: Order): Observable<Order> {
+    return this.httpClient
+      .put<Order>(
+        environment.REST_SERVICE_URL + '/order/update',
+        order
+        // ,
+        // this.getOptions()
       )
       .pipe(catchError(this.handleError));
   }
 
   public getOrders() {
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE_URL + '/order/get', this.getOptions())
+      .get<Order[]>(environment.REST_SERVICE_URL + '/order/get'
+      // , this.getOptions()
+      )
       .pipe(retry(3), catchError(this.handleError));
   }
 
   public getOrdersByStatus(status: string) {
     return this.httpClient
       .get<Order[]>(
-        environment.REST_SERVICE_URL + '/order/get/status/' + status,
-        this.getOptions()
+        environment.REST_SERVICE_URL + '/order/get/status/' + status
+        // ,
+        // this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
@@ -79,8 +94,9 @@ export class ApiService {
   public getOrdersByStatusIn(statuses: string) {
     return this.httpClient
       .get<Order[]>(
-        environment.REST_SERVICE_URL + '/order/get/statusin/' + statuses,
-        this.getOptions()
+        environment.REST_SERVICE_URL + '/order/get/statusin/' + statuses
+        // ,
+        // this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
@@ -88,8 +104,9 @@ export class ApiService {
   public getOrdersCountByStatus(status: string) {
     return this.httpClient
       .get<number>(
-        environment.REST_SERVICE_URL + '/order/get/statuscount/' + status,
-        this.getOptions()
+        environment.REST_SERVICE_URL + '/order/get/statuscount/' + status
+        // ,
+        // this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
@@ -112,8 +129,9 @@ export class ApiService {
   public getUserByEmail(email: string) {
     return this.httpClient
       .get<User>(
-        environment.REST_SERVICE_URL + `/user/get/${email}`,
-        this.getOptions()
+        environment.REST_SERVICE_URL + `/user/get/${email}`
+        // ,
+        // this.getOptions()
       )
       .pipe(retry(3), catchError(this.handleError));
   }

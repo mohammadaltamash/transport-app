@@ -45,6 +45,7 @@ import { JwtModule} from '@auth0/angular-jwt';
 import { LoginComponent } from './component/module/auth-components/login/login.component';
 import { RegisterComponent } from './component/module/auth-components/register/register.component';
 import { InterceptorService } from './service/interceptor.service';
+import { DriversListDialogComponent } from './component/drivers-list-dialog/drivers-list-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { InterceptorService } from './service/interceptor.service';
     OptionsComponent,
     FooterComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    DriversListDialogComponent
     // OrderDialogComponent
 
     // LoadBoardComponent,
@@ -126,9 +128,7 @@ import { InterceptorService } from './service/interceptor.service';
     // AskToBookComponent
     // LoadBoardComponent
   // ],
-  providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
-  ],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

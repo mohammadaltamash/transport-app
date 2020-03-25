@@ -6,6 +6,7 @@
 * {
   /* font-family: 'Times New Roman', Times, serif */
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
 }
 body {
   margin: 0;
@@ -50,13 +51,13 @@ mat-toolbar, mat-dialog-title {
 
 button[type=submit] {
   /* border: 5px solid; */
-  margin-right: 1vw;
-  border-radius: 25px;
+  /* margin-right: 1vw;
+  border-radius: 25px; */
 }
 
-button[type=button] {
+/* button[type=button] {
   border-radius: 25px;
-}
+} */
 
 button[type=button]:hover {
   background-color: #f0f0f0;
@@ -182,6 +183,10 @@ button[type=button]:hover {
 /* .ovalButtonChecked mat-icon {
   margin: auto;
   outline: none;
+} */
+
+/* .inactive {
+  color: #cccccc;
 } */
 
 .selectedListItem {

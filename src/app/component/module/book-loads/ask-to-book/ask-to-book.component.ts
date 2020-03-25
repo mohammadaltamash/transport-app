@@ -1,8 +1,23 @@
-import { Component, OnInit, Inject, Optional, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  Optional,
+  ViewEncapsulation
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { Order } from '../../../../model/order';
-import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+  FormControl
+} from '@angular/forms';
+import { ApiService } from 'src/app/service/api.service';
+import { Utilities } from 'src/app/helper/utilities';
+import { environment } from '../../../../../environments/environment';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-ask-to-book',
@@ -11,7 +26,6 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
   // encapsulation: ViewEncapsulation.None,
 })
 export class AskToBookComponent implements OnInit {
-
   daysToPay: string[] = [
     'Immediately',
     '2 Bus. Days (Quick Pay)',
@@ -37,12 +51,7 @@ export class AskToBookComponent implements OnInit {
     'Other'
   ];
 
-  offerValidity: string[] = [
-    '1 hr',
-    '4 hrs',
-    '12 hrs',
-    '24 hrs'
-  ];
+  offerValidity: string[] = ['1 hr', '4 hrs', '12 hrs', '24 hrs'];
 
   askToBookForm: FormGroup;
   pickupStart = new Date();
@@ -52,24 +61,25 @@ export class AskToBookComponent implements OnInit {
   selectedDate = new Date();
   date: FormControl;
   // dateClass: string;
-  
-  constructor(private dialogRef: MatDialogRef<AskToBookComponent>,
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-              private formBuilder: FormBuilder) {
-                
-                this.pickupEnd.setDate(this.pickupEnd.getDate() + 1);
-                this.pickupStart.setDate(this.pickupStart.getDate() - 5);
-                this.selectedDate.setDate(this.selectedDate.getDate() - 2);
-                this.date = new FormControl(this.selectedDate);
 
-                
-              }
-
+  constructor(
+    private dialogRef: MatDialogRef<AskToBookComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
+    private authenticationService: AuthenticationService,
+    private utilities: Utilities
+  ) {
+    this.pickupEnd.setDate(this.pickupEnd.getDate() + 1);
+    this.pickupStart.setDate(this.pickupStart.getDate() - 5);
+    this.selectedDate.setDate(this.selectedDate.getDate() - 2);
+    this.date = new FormControl(this.selectedDate);
+  }
 
   ngOnInit() {
     this.askToBookForm = this.formBuilder.group({
       // id: '',
-      brokerOrderId: ['', Validators.required],
+      brokerOrderId: '',
       carrierPay: [this.data.carrierPay, Validators.required],
 
       daysToPay: '',
@@ -81,8 +91,28 @@ export class AskToBookComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.askToBookForm.reset();
+  onSubmit(orderId: number) {
+    // this.askToBookForm.setValue(order);
+    // if (this.askToBookForm.invalid) {
+    //   return;
+    // }
+    const o: Order = this.askToBookForm.value;
+    o.id = orderId;
+    o.orderStatus = environment.ASSIGNED_ORDER;
+    o.askedToBook = this.authenticationService.currentUserValue.id;
+    this.apiService.updateOrder(o)
+        .subscribe(
+          // data => console.log(data.deliveryDates.endDate),
+          res => console.log(res),
+          err => console.log(err)
+        );
+    this.utilities.openSnackBar('Order has been asked to be booked', '');
+    // this.askToBookForm.reset();
+
+    this.dialogRef.close();
+  }
+
+  closeDialog() {
     this.dialogRef.close();
   }
 
@@ -95,5 +125,4 @@ export class AskToBookComponent implements OnInit {
     // return (date === 1 || date === 20) ? 'example-custom-date-class' : '';
     return 'example-custom-date-class';
   }
-
 }

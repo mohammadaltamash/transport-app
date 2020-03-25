@@ -11,7 +11,7 @@ export interface User {
     zip: string;
     latitude: number;
     longitude: number;
-    phones: {};
+    phones: [];
     email: string;
     type: string;
 }
