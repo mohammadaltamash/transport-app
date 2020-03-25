@@ -14,10 +14,10 @@ import {
   FormBuilder,
   FormControl
 } from '@angular/forms';
-import { ApiService } from 'src/app/service/api.service';
-import { Utilities } from 'src/app/helper/utilities';
+import { ApiService } from '../../../../service/api.service';
+import { Utilities } from '../../../../helper/utilities';
 import { environment } from '../../../../../environments/environment';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AuthenticationService } from '../../../../service/authentication.service';
 
 @Component({
   selector: 'app-ask-to-book',

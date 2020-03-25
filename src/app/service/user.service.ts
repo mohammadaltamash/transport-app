@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../model/user';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { catchError, retry } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 

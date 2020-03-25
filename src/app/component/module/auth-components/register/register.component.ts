@@ -3,11 +3,11 @@ import { Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { User } from 'src/app/model/user';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { User } from '../../../../model/user';
+import { AuthenticationService } from '../../../../service/authentication.service';
 import PlaceResult = google.maps.places.PlaceResult;
 import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
-import { ErrorHandler } from 'src/app/helper/error_handler';
+import { ErrorHandler } from '../../../../helper/error_handler';
 
 @Component({
   selector: 'app-register',

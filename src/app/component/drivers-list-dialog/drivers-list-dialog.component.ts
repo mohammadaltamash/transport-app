@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { User } from 'src/app/model/user';
+import { User } from '../../model/user';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UserService } from 'src/app/service/user.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-drivers-list-dialog',

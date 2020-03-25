@@ -3,13 +3,13 @@ import { ApiService } from '../../../../service/api.service';
 import { Order } from '../../../../model/order';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Utilities } from 'src/app/helper/utilities';
-import { UserService } from 'src/app/service/user.service';
-import { User } from 'src/app/model/user';
+import { environment } from '../../../../../environments/environment';
+import { Utilities } from '../../../../helper/utilities';
+import { UserService } from '../../../../service/user.service';
+import { User } from '../../../../model/user';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DriversListDialogComponent } from 'src/app/component/drivers-list-dialog/drivers-list-dialog.component';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { DriversListDialogComponent } from '../../../../component/drivers-list-dialog/drivers-list-dialog.component';
+import { AuthenticationService } from '../../../../service/authentication.service';
 
 @Component({
   selector: 'app-order-list',
