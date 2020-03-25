@@ -193,6 +193,10 @@ button[type=button]:hover {
   background-color: rgb(235, 240, 243);
 }
 
+mat-toolbar {
+  align-content: center;
+}
+
 mat-card {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(155, 155, 155, 0.3) !important;
   -moz-box-shadow: 0px 0px 10px 0px rgba(155, 155, 155 ,0.3) !important;
