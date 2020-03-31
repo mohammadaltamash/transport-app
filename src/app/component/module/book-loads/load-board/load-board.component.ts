@@ -12,7 +12,7 @@ import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-load-board',
   templateUrl: './load-board.component.html',
-  styleUrls: ['./load-board.component.css']
+  styleUrls: ['./load-board.component.scss']
 })
 export class LoadBoardComponent implements OnInit {
   @ViewChild(AskToBookDialogComponent) askToBookDialogComponent;

@@ -22,7 +22,7 @@ import { AuthenticationService } from '../../../../service/authentication.servic
 @Component({
   selector: 'app-ask-to-book',
   templateUrl: './ask-to-book.component.html',
-  styleUrls: ['./ask-to-book.component.css']
+  styleUrls: ['./ask-to-book.component.scss']
   // encapsulation: ViewEncapsulation.None,
 })
 export class AskToBookComponent implements OnInit {

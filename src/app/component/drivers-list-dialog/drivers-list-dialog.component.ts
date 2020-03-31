@@ -6,7 +6,7 @@ import { UserService } from '../../service/user.service';
 @Component({
   selector: 'app-drivers-list-dialog',
   templateUrl: './drivers-list-dialog.component.html',
-  styleUrls: ['./drivers-list-dialog.component.css']
+  styleUrls: ['./drivers-list-dialog.component.scss']
 })
 export class DriversListDialogComponent implements OnInit {
 

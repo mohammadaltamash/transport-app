@@ -15,7 +15,7 @@ import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.css']
+  styleUrls: ['./order-list.component.scss']
 })
 export class OrderListComponent implements OnInit {
   all = 0;

@@ -6,7 +6,7 @@ import { Order } from '../../../../model/order';
 @Component({
   selector: 'app-ask-to-book-dialog',
   templateUrl: './ask-to-book-dialog.component.html',
-  styleUrls: ['./ask-to-book-dialog.component.css']
+  styleUrls: ['./ask-to-book-dialog.component.scss']
 })
 export class AskToBookDialogComponent implements OnInit {
 
