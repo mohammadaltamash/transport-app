@@ -118,8 +118,8 @@
         </div>
 
         <div id="addPickupPhone">
-          <button mat-flat-button class="addButton" type="button" *ngIf="this.pickupPhonez.length != 3"
-            (click)="onAddPhoneControl(this.pickupPhonez)" required>Add
+          <button class="addButton" type="button" *ngIf="this.pickupPhonez.length != 3"
+            (click)="onAddPhoneControl(this.pickupPhonez)">Add
             another phone <i class="material-icons">add</i></button></div>
 
         <div class="pickupContactLocationContinued">

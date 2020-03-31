@@ -80,6 +80,9 @@
                                 {{ type }}
                               </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="errorHandler.handleError(formControls, 'email', 'required')">
+                                    {{ errorHandler.validationMessages['requiredItem'] }}
+                                </mat-error>
                           </mat-form-field>
             <!-- <button mat-flat-button color="primary" id="submitButton" type="submit">Sign up</button> -->
             <button id="submitButton" type="submit">SIGN UP</button>

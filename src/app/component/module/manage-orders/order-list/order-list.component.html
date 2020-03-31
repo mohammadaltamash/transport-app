@@ -70,8 +70,8 @@
 
   <div id="detail">
     <div id="summary">
-      <h2>Order {{selectedOrder !== undefined ? selectedOrder.id : '#'}}
-        {{ selectedOrder !== undefined ? selectedOrder.orderStatus : '' }}
+      <h2>Order {{selectedOrder !== null ? selectedOrder.id : '#'}}
+        {{ selectedOrder !== null ? selectedOrder.orderStatus : '' }}
       </h2>
     </div>
     <div id="detailLeft">
@@ -79,9 +79,9 @@
         <mat-card-subtitle>
           <mat-icon>person</mat-icon> DRIVER
         </mat-card-subtitle>
-        <div id="assignDriverAction" *ngIf="selectedOrder === undefined || selectedOrder.orderDriver === null"><button
+        <div id="assignDriverAction" *ngIf="selectedOrder === null || selectedOrder.orderDriver === null"><button
             mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver()" type="button">ASSIGN DRIVER</button></div>
-        <div *ngIf="selectedOrder !== undefined && selectedOrder.orderDriver !== null">
+        <div *ngIf="selectedOrder !== null && selectedOrder.orderDriver !== null">
           <div>{{ selectedOrder.orderDriver }}</div>
           <div>
             <mat-icon>phone</mat-icon>
@@ -98,10 +98,10 @@
         <mat-card-subtitle>
           <mat-icon>directions_car</mat-icon> VEHICLE
         </mat-card-subtitle>
-        <b><span>{{selectedOrder !== undefined ? selectedOrder.vehicleYear : ''}} </span>
-          <span>{{selectedOrder !== undefined ? selectedOrder.vehicleMake : ''}} </span>
-          <span>{{selectedOrder !== undefined ? selectedOrder.vehicleModel : ''}} </span></b>
-        <span>{{selectedOrder !== undefined ? selectedOrder.vehicleAutoType : ''}}</span>
+        <b><span>{{selectedOrder !== null ? selectedOrder.vehicleYear : ''}} </span>
+          <span>{{selectedOrder !== null ? selectedOrder.vehicleMake : ''}} </span>
+          <span>{{selectedOrder !== null ? selectedOrder.vehicleModel : ''}} </span></b>
+        <span>{{selectedOrder !== null ? selectedOrder.vehicleAutoType : ''}}</span>
       </mat-card>
       <mat-card id="pickupAndDelivery">
         <div id="pickup">
@@ -109,18 +109,18 @@
             <mat-icon>arrow_upward</mat-icon> PICKUP
           </mat-card-subtitle>
           <div>
-            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.pickupAddress : ''}}</b>
+            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null ? selectedOrder.pickupAddress : ''}}</b>
           </div>
           <div>
-            <mat-icon>person</mat-icon>{{selectedOrder !== undefined ? selectedOrder.pickupContactName : ''}}
+            <mat-icon>person</mat-icon>{{selectedOrder !== null ? selectedOrder.pickupContactName : ''}}
           </div>
           <!-- <div>
-            <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? getKey(selectedOrder.pickupPhones) : ''}}
+            <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.pickupPhones) : ''}}
           </div> -->
-          <ng-container *ngIf="selectedOrder !== undefined">
+          <ng-container *ngIf="selectedOrder !== null">
             <div *ngFor="let phone of getKeys(selectedOrder.pickupPhones)">
               <div>
-                <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+                <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
               </div>
             </div>
           </ng-container>
@@ -130,18 +130,18 @@
             <mat-icon>arrow_downward</mat-icon> DELIVERY
           </mat-card-subtitle>
           <div>
-            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.deliveryAddress : ''}}</b>
+            <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null ? selectedOrder.deliveryAddress : ''}}</b>
           </div>
           <div>
-            <mat-icon>person</mat-icon>{{selectedOrder !== undefined ? selectedOrder.deliveryContactName : ''}}
+            <mat-icon>person</mat-icon>{{selectedOrder !== null ? selectedOrder.deliveryContactName : ''}}
           </div>
           <!-- <div>
-            <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? getKey(selectedOrder.deliveryPhones) : ''}}
+            <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.deliveryPhones) : ''}}
           </div> -->
-          <ng-container *ngIf="selectedOrder !== undefined">
+          <ng-container *ngIf="selectedOrder !== null">
             <div *ngFor="let phone of getKeys(selectedOrder.deliveryPhones)">
               <div>
-                <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+                <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
               </div>
             </div>
           </ng-container>
@@ -151,7 +151,7 @@
         <mat-card-subtitle>
           <mat-icon>comment</mat-icon> DISPATCH INSTRUCTIONS
         </mat-card-subtitle>
-        <div>{{selectedOrder !== undefined ? selectedOrder.dispatchInstructions : 'No instructions from the broker'}}
+        <div>{{selectedOrder !== null ? selectedOrder.dispatchInstructions : 'No instructions from the broker'}}
         </div>
       </mat-card>
       <div id="attachments">
@@ -173,7 +173,7 @@
           <mat-icon>attach_money</mat-icon> PAYMENT
         </mat-card-subtitle>
         <div id="carrierPay">Carrier Pay</div>
-        <div id="carrierPayValue">{{selectedOrder !== undefined ? selectedOrder.carrierPay : ''}}</div>
+        <div id="carrierPayValue">{{selectedOrder !== null ? selectedOrder.carrierPay : ''}}</div>
         <div id="onDelivery">On Delivery</div>
         <div id="onDeliveryValue"></div>
         <div id="receivables">Receivables</div>
@@ -200,20 +200,20 @@
         </mat-card-subtitle>
 
         <div>
-          <mat-icon>person</mat-icon><b>{{selectedOrder !== undefined ? selectedOrder.brokerCompanyName : ''}}</b>
+          <mat-icon>person</mat-icon><b>{{selectedOrder !== null ? selectedOrder.brokerCompanyName : ''}}</b>
         </div>
         <div>
-          <mat-icon>location_on</mat-icon>{{selectedOrder !== undefined ? selectedOrder.brokerAddress : ''}}
+          <mat-icon>location_on</mat-icon>{{selectedOrder !== null ? selectedOrder.brokerAddress : ''}}
         </div>
-        <ng-container *ngIf="selectedOrder !== undefined">
+        <ng-container *ngIf="selectedOrder !== null">
           <div *ngFor="let phone of getKeys(selectedOrder.shipperPhones)">
             <div>
-              <mat-icon>phone</mat-icon>{{selectedOrder !== undefined ? phone : ''}}
+              <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
             </div>
           </div>
         </ng-container>
         <div>
-          <mat-icon>email</mat-icon>{{selectedOrder !== undefined ? selectedOrder.brokerEmail : ''}}
+          <mat-icon>email</mat-icon>{{selectedOrder !== null ? selectedOrder.brokerEmail : ''}}
         </div>
       </mat-card>
     </div>

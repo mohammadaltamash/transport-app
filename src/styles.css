@@ -1,4 +1,4 @@
-@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 @import "~saturn-datepicker/bundle.css";
@@ -41,8 +41,8 @@ mat-toolbar, mat-dialog-title {
   /* position: sticky;
   top: 0;
   z-index: 1; */
-  justify-content: center;
-  text-align: center;
+  justify-content: center !important;
+  text-align: center !important;
   /* box-shadow: 0 10px 10px lightgray */
   /* box-shadow: 10 5px 5px #999; */
 }
@@ -65,8 +65,24 @@ button[type=button]:hover {
 
 .addButton {
   /* border-radius: 25px; */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  justify-self: center;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
   background-color: #f0f0f0;
+  padding: 7px 28px;
+  font-size: 1rem;
+  color: gray;
+  white-space: nowrap;
+  line-height: 1;
 }
+/* .addButton::after {
+  font-family: "Material Icons";
+  content: " +";
+} */
 
 .mat-flat-button {
   border-radius: 25px;
@@ -216,6 +232,7 @@ mat-dialog-content {
 
 .close {
   cursor: pointer;
+  color: gray;
 }
 
 /* app-order */

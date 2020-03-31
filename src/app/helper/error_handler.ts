@@ -11,6 +11,7 @@ export class ErrorHandler {
       //   required: '<strong>Broker Order ID</strong> is mandatory'
       // },
       required: 'Please fill out',
+      requiredItem: 'Please select',
       invalidZip: 'Invalid zipcode',
       // phone: 'Atlease one phone is required',
       email: 'Email is invalid',

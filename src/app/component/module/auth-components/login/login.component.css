@@ -8,6 +8,10 @@
   background-color: #56baed;
 }
 
+.logo {
+  
+}
+
 .insideDiv {
   display: grid;
   grid-template-areas:

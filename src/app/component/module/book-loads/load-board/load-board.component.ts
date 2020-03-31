@@ -7,6 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { AskToBookDialogComponent } from '../ask-to-book-dialog/ask-to-book-dialog.component';
 // import { AskToBookComponent } from '../ask-to-book/ask-to-book.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-load-board',
@@ -24,6 +25,7 @@ export class LoadBoardComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private appComponent: AppComponent,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     // this.bookDialog = new AskToBookDialogComponent(null);
@@ -46,5 +48,6 @@ export class LoadBoardComponent implements OnInit {
     // this.bookDialog.openDialog();
     const result = this.askToBookDialogComponent.openDialog(order);
     this.selectedItem = index;
+    this.appComponent.setCurrentOrderValue(order);
   }
 }

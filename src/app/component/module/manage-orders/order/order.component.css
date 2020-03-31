@@ -86,9 +86,9 @@ h1 {
   text-align: left;
 }
 
-/* .addPhoneButton {
+.addPhoneButton {
   background-color: #f0f0f0;
-} */
+}
 
 .maindivs {
   display: grid;

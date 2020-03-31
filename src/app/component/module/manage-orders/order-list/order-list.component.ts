@@ -10,6 +10,7 @@ import { User } from '../../../../model/user';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DriversListDialogComponent } from '../../../../component/drivers-list-dialog/drivers-list-dialog.component';
 import { AuthenticationService } from '../../../../service/authentication.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-order-list',
@@ -47,6 +48,7 @@ export class OrderListComponent implements OnInit {
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
     private userService: UserService,
+    private appComponent: AppComponent,
     private utilities: Utilities,
     public driversDialog: MatDialog
   ) {}
@@ -65,6 +67,9 @@ export class OrderListComponent implements OnInit {
     //     }
     //   });
 
+    this.appComponent.currentOrder.subscribe(
+      o => this.selectedOrder = o
+    );
     this.getOrdersByStatus();
     this.setOrdersCountByStatus();
     this.updateDriversList();
@@ -262,7 +267,7 @@ export class OrderListComponent implements OnInit {
 
   isAssigned() {
     return (
-      this.selectedOrder !== undefined &&
+      this.selectedOrder !== null &&
       this.selectedOrder.orderStatus === environment.ASSIGNED_ORDER
     );
   }

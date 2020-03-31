@@ -19,8 +19,8 @@ main {
   /* grid-template-columns: repeat(auto-fill, minmax(110px, auto)); */
   gap: 0.7vw;
   /* align-content: space-around; */
-  align-content: space-around;
-  /* justify-content: space-between; */
+  /* align-content: space-around; */
+  justify-content: center;
   /* height: 64px; */
 
   /* position: sticky; */
