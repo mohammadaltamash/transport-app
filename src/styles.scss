@@ -3,6 +3,8 @@
 /* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 @import "~saturn-datepicker/bundle.css";
 
+$bgcolor: rgb(235, 240, 243);
+
 * {
   /* font-family: 'Times New Roman', Times, serif */
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -11,7 +13,7 @@
 body {
   margin: 0;
   /* background-color: rgb(215, 231, 241); */
-  background-color: rgb(235, 240, 243);
+  background-color: $bgcolor;
   /* background-color: #fdfdfd; */
   /* font-family: Roboto, "Helvetica Neue", sans-serif; */
   /* overflow: hidden; */
@@ -68,21 +70,21 @@ button[type=button]:hover {
   border: none;
   outline: none;
   cursor: pointer;
-  justify-self: center;
-  text-align: center;
+  // justify-self: center;
+  // text-align: center;
   text-decoration: none;
-  display: inline-block;
+  // display: inline-block;
   background-color: #f0f0f0;
-  padding: 7px 28px;
+  padding: 7px 10px;
   font-size: 1rem;
   color: gray;
-  white-space: nowrap;
-  line-height: 1;
+  // white-space: nowrap;
+  // line-height: 1;
 }
-/* .addButton::after {
-  font-family: "Material Icons";
+.addButton::after {
+  // font-family: "material-icons";
   content: " +";
-} */
+}
 
 .mat-flat-button {
   border-radius: 25px;

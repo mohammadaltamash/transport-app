@@ -120,7 +120,7 @@
         <div id="addPickupPhone">
           <button class="addButton" type="button" *ngIf="this.pickupPhonez.length != 3"
             (click)="onAddPhoneControl(this.pickupPhonez)">Add
-            another phone <i class="material-icons">add</i></button></div>
+            another phone</button></div>
 
         <div class="pickupContactLocationContinued">
           <!-- Signature not required -->
@@ -234,9 +234,9 @@
         </div>
 
         <div id="addDeliveryPhone">
-          <button mat-flat-button class="addPhoneButton" type="button" *ngIf="this.deliveryPhonez.length != 3"
+          <button class="addButton" type="button" *ngIf="this.deliveryPhonez.length != 3"
             (click)="onAddPhoneControl(this.deliveryPhonez)">Add
-            another phone <i class="material-icons">add</i></button></div>
+            another phone</button></div>
 
         <div class="deliveryContactLocationContinued">
           <!-- Signature not required -->
@@ -525,9 +525,9 @@
         </div>
 
         <div id="addShipperPhone">
-          <button mat-flat-button class="addPhoneButton" type="button" *ngIf="this.shipperPhonez.length != 3"
+          <button class="addButton" type="button" *ngIf="this.shipperPhonez.length != 3"
             (click)="onAddPhoneControl(this.shipperPhonez)">Add
-            another phone <i class="material-icons">add</i></button></div>
+            another phone</button></div>
 
         <!-- Broker email -->
         <mat-form-field id="brokerEmail" class="shipperInformationContinued">
@@ -541,7 +541,7 @@
         </mat-form-field>
       </div>
     </mat-card>
-
+&nbsp;
     <!-- <mat-card-footer> -->
     <!-- <footer>
       <button mat-flat-button type="button">Cancel</button>
