@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Order {
 
     id: number;
@@ -88,4 +90,7 @@ export interface Order {
     orderCategory: string;
     orderDriver: string;
     askedToBook: number;
+    createdBy: User;
+    createdAt: Date;
+    updatedAt: Date;
 }

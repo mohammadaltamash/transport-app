@@ -28,13 +28,18 @@
         <mat-card id="listItem" *ngFor="let order of orders; let i = index">
             <!-- <div id="listItem"> -->
                 <div id="grid1">
-                    <div matLine>{{ order.pickupAddress }}</div>
+                    <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
+                    <div>{{shouldDisplayAddress(order)}}</div>
+                    <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
+                    <div matLine>Pickup Zip {{ order.pickupZip }}</div>
                     <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
                     <div matLine># <b>{{ order.id }}</b></div>
                 </div>
 
                 <div id="grid2">
-                    <div matLine>{{ order.deliveryAddress }}</div>
+                    <div>{{shouldDisplayAddress(order)}}</div>
+                    <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.deliveryAddress }}&nbsp;</div>
+                    <div matLine>Delivery Zip {{ order.deliveryZip }}</div>
                     <div matLine>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
                 </div>
 
@@ -49,7 +54,7 @@
                     <div matLine>{{ order.carrierPay }}</div>
                     <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
-                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">ASK TO BOOK</button><br><br>
+                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">ASK TO BOOK</button><br>
                         <button id="viewDetailsButton" mat-button>VIEW DETAILS</button>
                     </div>
                 </div>

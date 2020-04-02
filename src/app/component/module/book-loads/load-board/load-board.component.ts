@@ -8,6 +8,7 @@ import { AskToBookDialogComponent } from '../ask-to-book-dialog/ask-to-book-dial
 // import { AskToBookComponent } from '../ask-to-book/ask-to-book.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { AppComponent } from 'src/app/app.component';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-load-board',
@@ -26,7 +27,8 @@ export class LoadBoardComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private appComponent: AppComponent,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    public authenticationService: AuthenticationService,
   ) {
     // this.bookDialog = new AskToBookDialogComponent(null);
   }
@@ -49,5 +51,9 @@ export class LoadBoardComponent implements OnInit {
     const result = this.askToBookDialogComponent.openDialog(order);
     this.selectedItem = index;
     this.appComponent.setCurrentOrderValue(order);
+  }
+
+  shouldDisplayAddress(order: Order) {
+    return order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email;
   }
 }
