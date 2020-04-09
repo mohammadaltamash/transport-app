@@ -57,10 +57,10 @@ export class AuthenticationService {
           localStorage.setItem('current_user', JSON.stringify(user));
           this.currentUserSubject.next(user);
         })
-      );
-    // .pipe(
-    //       catchError(this.handleError)
-    //     );
+      )
+      .pipe(
+          catchError(this.handleError)
+        );
   }
 
   register(user: User) {

@@ -14,4 +14,7 @@ export interface User {
     phones: [];
     email: string;
     type: string;
+    // orders: [];
+    createdAt: Date;
+    updatedAt: Date;
 }

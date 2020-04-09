@@ -1,3 +1,5 @@
+// @import "../../../../../styles.scss";
+
 main {
   display: grid;
   grid-template-areas:
@@ -11,6 +13,7 @@ main {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  align-items: start;
 }
 #orderStatus {
   grid-area: orderStatus;
@@ -188,3 +191,38 @@ mat-icon {
 /* #driver > div > mat-icon {
   font-size: small;
 } */
+
+#activity {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.activityList {
+  // display: grid;
+  // grid-template-columns: 1fr;
+  border-bottom: 1px solid rgba(237,237,237,1);
+  margin: 10px;
+  padding: 5px;
+}
+
+#newOrderMessage {
+  margin: 0 10px 0 10px;
+}
+
+#changedPropertiesList {
+  display: grid;
+  grid-template-areas: "timestamp message bookButton";
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+.timestamp {
+  grid-area: timestamp;
+  color: grey;
+}
+#message {
+  grid-area: message;
+  margin: 0 10px 0 10px;
+}
+#bookButton {
+  grid-area: bookButton;
+}

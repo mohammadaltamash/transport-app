@@ -29,7 +29,7 @@
             <!-- <div id="listItem"> -->
                 <div id="grid1">
                     <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
-                    <div>{{shouldDisplayAddress(order)}}</div>
+                    <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
                     <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
                     <div matLine>Pickup Zip {{ order.pickupZip }}</div>
                     <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div id="grid2">
-                    <div>{{shouldDisplayAddress(order)}}</div>
+                    <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
                     <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.deliveryAddress }}&nbsp;</div>
                     <div matLine>Delivery Zip {{ order.deliveryZip }}</div>
                     <div matLine>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>

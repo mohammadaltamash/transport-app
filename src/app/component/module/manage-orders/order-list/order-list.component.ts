@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DriversListDialogComponent } from '../../../../component/drivers-list-dialog/drivers-list-dialog.component';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { AppComponent } from 'src/app/app.component';
+import { AuditResponse } from 'src/app/model/audit-response';
 
 @Component({
   selector: 'app-order-list',
@@ -42,6 +43,7 @@ export class OrderListComponent implements OnInit {
   selectedOrder: Order;
   selectedItem: number;
   drivers: User[];
+  auditResponse: AuditResponse;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -68,8 +70,14 @@ export class OrderListComponent implements OnInit {
     //   });
 
     this.appComponent.currentOrder.subscribe(
-      o => this.selectedOrder = o
+      o => {
+        this.selectedOrder = o;
+        // this.getOrderAudit(this.selectedOrder.id);
+      }
     );
+    // if (this.selectedOrder !== null) {
+    //   this.getOrderAudit(this.selectedOrder.id);
+    // }
     this.getOrdersByStatus();
     this.setOrdersCountByStatus();
     this.updateDriversList();
@@ -183,6 +191,7 @@ export class OrderListComponent implements OnInit {
           this.orders = data;
           if (data.length > 0) {
             this.selectedOrder = this.orders[0];
+            this.getOrderAudit(this.selectedOrder.id);
           }
         });
     } else {
@@ -195,6 +204,7 @@ export class OrderListComponent implements OnInit {
           this.orders = data;
           if (data.length > 0) {
             this.selectedOrder = this.orders[0];
+            this.getOrderAudit(this.selectedOrder.id);
           }
         });
     }
@@ -304,6 +314,7 @@ export class OrderListComponent implements OnInit {
   onItemClick(order: Order, index: number) {
     this.selectedOrder = order;
     this.selectedItem = index;
+    this.getOrderAudit(this.selectedOrder.id);
   }
 
   updateDriversList() {
@@ -321,6 +332,38 @@ export class OrderListComponent implements OnInit {
       width: '30vw',
       data: this.drivers
     });
+  }
+
+  getOrderAudit(id: number) {
+    this.apiService
+    .getAudit('Order', id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: AuditResponse) => {
+      this.auditResponse = data;
+      console.log(`AuditResponse: ${data}`);
+    });
+  }
+
+  getName(response: { fullName: string; userName: string; }) {
+    return response.fullName !== null ? response.fullName : response.userName;
+  }
+
+  getActionString(response: AuditResponse, property) {
+    const name = this.getName(response);
+    if (response.operation === 'ADD') {
+      return `${name} created order`;
+    } else if (response.operation === 'MOD') {
+      if (property.propertyName === 'orderStatus') {
+        if (property.value === 'DELIVERED') {
+          return `${name} asked to book order`;
+        }
+      }
+      return `${name} changed '${property.formattedPropertyName}' to '${property.value}'`;
+    }
+  }
+
+  showBookOrder(property: string, value: string) {
+    return property === 'orderStatus' && value === 'DELIVERED' ;
   }
 }
 

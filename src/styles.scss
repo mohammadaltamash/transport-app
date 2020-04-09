@@ -174,13 +174,14 @@ button[type=button]:hover {
 .ovalShape {
   /* background-color: ; */
   /* border: 1px solid green; */
-  border-radius: 25px;
+  border-radius: 25px !important;
   font-size: medium;
   color: white;
   background-color: darkblue;
   /* padding: 10px; */
   /* outline: none; */
   padding: 7px 20px 7px 20px;
+  // line-height: 20px !important
   /* margin-bottom: 0; */
 }
 

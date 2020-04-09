@@ -14,6 +14,7 @@ import { User } from '../model/user';
 
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../service/authentication.service';
+import { AuditResponse } from '../model/audit-response';
 
 @Injectable({
   providedIn: 'root'
@@ -157,6 +158,14 @@ export class ApiService {
       .set('zipcode', zipcode);
     return this.httpClient
       .get<any[]>(environment.US_ZIP_VALIDATOR_URL, { params })
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  // Audit
+
+  public getAudit(clazz: string, id: number) {
+    return this.httpClient
+      .get<AuditResponse>(environment.REST_SERVICE_URL + `/audit/get/${clazz}/${id}` )
       .pipe(retry(3), catchError(this.handleError));
   }
 

@@ -186,13 +186,40 @@
         </mat-card-subtitle>
         <div id="bookAction" *ngIf="isAssigned()"><button mat-button [ngClass]="'ovalShape'"
             (click)="bookClicked()">BOOK ORDER</button></div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic incidunt obcaecati, quis
-        deleniti atque iure nisi. Exercitationem qui porro amet, maxime sapiente at voluptas eaque aut quod eligendi,
-        libero obcaecati earum deleniti cum dolorum commodi laboriosam voluptatum laborum iure tempora, odio nobis
-        fugiat enim. Fuga aliquam debitis quia ea labore assumenda, officia nostrum dolore velit iusto ipsam voluptate
-        nesciunt necessitatibus minus, quas consequatur commodi voluptatibus, quos est mollitia eos sequi repellendus!
-        Est libero laboriosam et provident quos culpa minus vel rem, distinctio maxime officiis, unde voluptate
-        architecto. Vero reprehenderit itaque eius commodi molestias temporibus repellat id alias, earum vitae quisquam?
+
+
+        <div id="auditResponseList">
+          <!-- [ngClass]="(selectedOrder.id === order.id) ? 'selectedItem' : ''" -->
+          <div *ngFor="let response of auditResponse">
+            <div class="activityList">
+
+              <!-- Rev # {{ response.revision }} -->
+              <ng-container *ngIf="response.operation === 'ADD'">
+                <!-- <div class="createRow"> -->
+                <span class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                <span id="newOrderMessage">{{ getActionString(response, null) }}</span><br>
+                <!-- </div> -->
+              </ng-container>
+              <ng-container *ngIf="response.operation === 'MOD'">
+                <div class="modifiedProperties">
+
+                  <!-- <div id="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}&nbsp;</div> -->
+                  <!-- <div id="optionalTitle" *ngIf="response.changedProperties.length > 1">{{getName(response)}} changed:</div> -->
+
+                  <div id="changedPropertiesList" *ngFor="let property of response.changedProperties">
+                    <div class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                    <div id="message">{{ getActionString(response, property) }} </div>
+                    <div id="bookButton"><button mat-button *ngIf="showBookOrder(property.propertyName, property.value)"
+                        [ngClass]="'ovalShape'">Book Order</button>
+                    </div>
+                    <!-- </div> -->
+                  </div>
+
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
       </mat-card>
       <mat-card id="shipper">
         <mat-card-subtitle>
