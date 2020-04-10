@@ -21,6 +21,7 @@ export interface Order {
 //    @NotEmpty(message = "pickupDates is required")
     pickupDates: {begin: '', end: ''};                                                // Pickup dates                 required
     pickupDatesRestrictions: string;                                // Pickup dates restrictions
+    preferredPickupDate: Date;
 
     // Delivery Contact & Location
     deliveryContactName: string;                                    // Contact name
@@ -38,6 +39,7 @@ export interface Order {
     deliverySignatureNotRequired: boolean;                          // Signature not required
     deliveryDates: {begin: '', end: ''};                                              // Delivery dates               required
     deliveryDatesRestrictions: string;                              // Delivery dates restrictions
+    preferredDeliveryDate: Date;
 
     // Add New Vehicle
     vehicleYear: number;                                    // Year

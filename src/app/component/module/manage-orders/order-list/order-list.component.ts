@@ -358,7 +358,7 @@ export class OrderListComponent implements OnInit {
           return `${name} asked to book order`;
         }
       }
-      return `${name} changed '${property.formattedPropertyName}' to '${property.value}'`;
+      return `${name} changed ${property.formattedPropertyName} to '${property.value}'`;
     }
   }
 

@@ -13,14 +13,14 @@ main {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  align-items: start;
+  // align-items: start;
 }
 #orderStatus {
   grid-area: orderStatus;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, auto));
   gap: 0.7vw;
-  /* height: 64px; */
+  height: 64px;
 
   /* position: sticky; */
   /* top: 0; */
@@ -87,6 +87,8 @@ main {
   row-gap: 20px;
   /* padding: 1.5vw; */
   padding: 0 1.5vw 0 1.5vw;
+  // align-items: start;
+  align-content: start;
 }
 /* h4 {
     color: grey;
@@ -106,6 +108,7 @@ mat-icon {
     grid-area: detailLeft;
 
     display: grid;
+    grid-template-rows: repeat(5, min-content);
     row-gap: 20px;
 }
 #detailRight {

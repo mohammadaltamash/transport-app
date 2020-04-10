@@ -2,8 +2,7 @@ import {
   Component,
   OnInit,
   Inject,
-  Optional,
-  ViewEncapsulation
+  Optional
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';

@@ -41,7 +41,7 @@ main, footer {
 
 /* mat-dialog-content {} */
 
-/* mat-toolbar { */
+/* mat-toolbar {
   /* position: sticky;
   top: 0;
   z-index: 1; */
@@ -204,7 +204,8 @@ h1 {
   display: grid;
   grid-template-areas:
     "pickupSignatureNotRequired ."
-    "pickupDates                pickupDatesRestrictions"; 
+    "pickupDates                pickupDatesRestrictions"
+    "preferredPickupDate        ."; 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 
@@ -219,6 +220,9 @@ h1 {
 }
 #pickupDatesRestrictions {
   grid-area: pickupDatesRestrictions;
+}
+#preferredPickupDate {
+  grid-area: preferredPickupDate;
 }
 
 /* Delivery Contact & Location */
@@ -270,7 +274,8 @@ h1 {
   display: grid;
   grid-template-areas:
     "deliverySignatureNotRequired ."
-    "deliveryDates                deliveryDatesRestrictions"; 
+    "deliveryDates                deliveryDatesRestrictions"
+    "preferredDeliveryDate        ."; 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 
@@ -285,6 +290,9 @@ h1 {
 }
 #deliveryDatesRestrictions {
   grid-area: deliveryDatesRestrictions;
+}
+#preferredDeliveryDate {
+  grid-area: preferredDeliveryDate;
 }
 
 /* Add New Vehicle */

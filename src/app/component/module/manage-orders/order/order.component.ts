@@ -69,6 +69,11 @@ export class OrderComponent implements OnInit {
   deliveryZipValid = true;
   brokerZipValid = true;
 
+  preferredPickupDateBegin;
+  preferredPickupDateEnd;
+  preferredDeliveryDateBegin;
+  preferredDeliveryDateEnd;
+
   orders: Order[] = [];
   pagedOrders: Order[] = [];
   order: Order;
@@ -190,6 +195,7 @@ export class OrderComponent implements OnInit {
       pickupDates: [{}, Validators.required],
       // pickupDates: {},
       pickupDatesRestrictions: this.datesRestrictions[0],
+      preferredPickupDate: {value: '', disabled: true},
 
       // Delivery Contact & Location
       deliveryContactName: '',
@@ -202,6 +208,7 @@ export class OrderComponent implements OnInit {
       // deliveryDates: [{}, Validators.required],
       deliveryDates: [{}, Validators.required],
       deliveryDatesRestrictions: this.datesRestrictions[0],
+      preferredDeliveryDate: {value: '', disabled: true},
 
       // Add New Vehicle
       vehicleYear: '',
@@ -239,7 +246,9 @@ export class OrderComponent implements OnInit {
       brokerEmail: ['', [Validators.required, Validators.email]]
     });
     this.formControls.pickupDatesRestrictions.disable();
+    this.formControls.preferredPickupDate.disable();
     this.formControls.deliveryDatesRestrictions.disable();
+    this.formControls.preferredDeliveryDate.disable();
     this.formControls.paymentOnPickupMethod.disable();
     this.formControls.paymentOnDeliveryMethod.disable();
     // this.formControls.paymentTermBusinessDays.disable();
@@ -374,16 +383,24 @@ export class OrderComponent implements OnInit {
   onPickupDatesChange() {
     if (this.formControls.pickupDates.value === null) {
       this.formControls.pickupDatesRestrictions.disable();
+      this.formControls.preferredPickupDate.disable();
     } else {
       this.formControls.pickupDatesRestrictions.enable();
+      this.formControls.preferredPickupDate.enable();
+      this.preferredPickupDateBegin = JSON.parse(JSON.stringify(this.createOrderForm.get(['pickupDates']).value)).begin;
+      this.preferredPickupDateEnd = JSON.parse(JSON.stringify(this.createOrderForm.get(['pickupDates']).value)).end;
     }
   }
 
   onDeliveryDatesChange() {
     if (this.formControls.deliveryDates.value === null) {
       this.formControls.deliveryDatesRestrictions.disable();
+      this.formControls.preferredDeliveryDate.disable();
     } else {
       this.formControls.deliveryDatesRestrictions.enable();
+      this.formControls.preferredDeliveryDate.enable();
+      this.preferredDeliveryDateBegin = JSON.parse(JSON.stringify(this.createOrderForm.get(['deliveryDates']).value)).begin;
+      this.preferredDeliveryDateEnd = JSON.parse(JSON.stringify(this.createOrderForm.get(['deliveryDates']).value)).end;
     }
   }
 

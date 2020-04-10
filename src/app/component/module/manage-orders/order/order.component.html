@@ -137,7 +137,7 @@
             <sat-datepicker #pickupDates [rangeMode]="true" [selectFirstDateOnClose]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="pickupDates"></sat-datepicker-toggle>
           </mat-form-field>
-
+          {{createOrderForm.get(['pickupDates']['begin'])}}
           <!-- Pickup dates restrictions -->
           <mat-form-field id="pickupDatesRestrictions">
             <mat-label>Pickup dates restrictions</mat-label>
@@ -146,6 +146,14 @@
                 {{ datesRestriction }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+
+           <!-- Preferred pickup dates -->
+          <mat-form-field id="preferredPickupDate">
+            <input matInput [matDatepicker]="preferredPickupDate" formControlName="preferredPickupDate"
+              placeholder="Preferred Pickup Date" [min]="preferredPickupDateBegin" [max]="preferredPickupDateEnd">
+            <mat-datepicker-toggle matSuffix [for]="preferredPickupDate"></mat-datepicker-toggle>
+            <mat-datepicker #preferredPickupDate></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
@@ -263,6 +271,14 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+
+          <!-- Preferred delivery date -->
+          <mat-form-field id="preferredDeliveryDate">
+            <input matInput [matDatepicker]="preferredDeliveryDate" formControlName="preferredDeliveryDate"
+              placeholder="Preferred Delivery Date" [min]="preferredDeliveryDateBegin" [max]="preferredDeliveryDateEnd">
+            <mat-datepicker-toggle matSuffix [for]="preferredDeliveryDate"></mat-datepicker-toggle>
+            <mat-datepicker #preferredDeliveryDate></mat-datepicker>
+          </mat-form-field>
         </div>
       </div>
     </mat-card>
@@ -364,7 +380,7 @@
 
         <!-- Carrier pay -->
         <mat-form-field id="carrierPay">
-          <input matInput formControlName="carrierPay" maxlength="6" inputmode="numeric" pattern="[0-9]*" digitOnly
+          <input matInput formControlName="carrierPay" inputmode="numeric" digitOnly decimal=true autocomplete=off
             placeholder="Carrier pay" required>
           <mat-error *ngIf="errorHandling('carrierPay', 'required')">
             {{ this.validationMessages['required'] }}
@@ -373,7 +389,7 @@
 
         <!-- Amount on pickup -->
         <mat-form-field id="amountOnPickup">
-          <input matInput formControlName="amountOnPickup" maxlength="6" inputmode="numeric" pattern="[0-9]*" digitOnly
+          <input matInput formControlName="amountOnPickup" inputmode="numeric" digitOnly decimal=true autocomplete=off
             placeholder="Amount on pickup" (keyup)="onAmountOnPickupKeyUp()">
         </mat-form-field>
 
@@ -389,8 +405,8 @@
 
         <!-- Amount on delivery -->
         <mat-form-field id="amountOnDelivery">
-          <input matInput formControlName="amountOnDelivery" maxlength="6" inputmode="numeric" pattern="[0-9]*"
-            digitOnly placeholder="Amount on delivery" (keyup)="onAmountOnDeliveryKeyUp()">
+          <input matInput formControlName="amountOnDelivery" inputmode="numeric"
+            digitOnly decimal=true  autocomplete=off placeholder="Amount on delivery" (keyup)="onAmountOnDeliveryKeyUp()">
         </mat-form-field>
 
         <!-- Payment on delivery method -->
