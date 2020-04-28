@@ -49,9 +49,23 @@ form {
   }
   
   #map {
-    /* overflow: hidden; */
+    // overflow: hidden;
+    // grid-area: map;
     height: 100%;
+    width: 100%;
   }
+
+  // .mapHidden {
+  //   height: 100%;
+  //   width: 0;
+  //   transition: width 2s;
+  // }
+
+  // .mapExpanded {
+  //   height: 100%;
+  //   width: 100%;
+  //   transition: width 1s;
+  // }
   
   .example-custom-date-class {
     background: orange;
@@ -64,7 +78,3 @@ form {
   // .mat-calendar-body-selected {
   //   color: red !important;
   // }
-  agm-map {
-    // height: 100%;
-    // width: 100%;
-  }

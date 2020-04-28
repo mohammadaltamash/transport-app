@@ -15,6 +15,7 @@ import { User } from '../model/user';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../service/authentication.service';
 import { AuditResponse } from '../model/audit-response';
+import { OrderCarrier } from '../model/order-carrier';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,35 @@ export class ApiService {
         order
         // ,
         // this.getOptions()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public bookOrder(orderId: number, orderCarrier: OrderCarrier): Observable<OrderCarrier> {
+    return this.httpClient
+      .put<OrderCarrier>(
+        environment.REST_SERVICE_URL + `/order/bookingrequest/book/${orderId}`,
+        orderCarrier
+        // ,
+        // this.getOptions()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public acceptOrDecline(orderId: number, orderCarrierId: number, acceptOrDecline: string): Observable<OrderCarrier> {
+    return this.httpClient
+      .put<OrderCarrier>(
+        environment.REST_SERVICE_URL + `/order/bookingrequest/${orderId}/${orderCarrierId}/${acceptOrDecline}`,
+        null
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public assignDriver(driverId: number, orderId: number): Observable<Order> {
+    return this.httpClient
+      .put<Order>(
+        environment.REST_SERVICE_URL + `/order/assigndriver/${driverId}/${orderId}`,
+        null
       )
       .pipe(catchError(this.handleError));
   }
@@ -137,6 +167,18 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
+  // Order Carrier
+
+  public createOrderRequest(orderCarrier: OrderCarrier, orderId: number, email: string): Observable<OrderCarrier> {
+    return this.httpClient
+      .post<OrderCarrier>(
+        environment.REST_SERVICE_URL + `/order/bookingrequest/${orderId}/${email}`, orderCarrier
+        // ,
+        // this.getOptions()
+      )
+      .pipe(catchError(this.handleError));
+  }
+
   // Address
 
   public verifyAddress(address: string) {
@@ -165,7 +207,7 @@ export class ApiService {
 
   public getAudit(clazz: string, id: number) {
     return this.httpClient
-      .get<AuditResponse>(environment.REST_SERVICE_URL + `/audit/get/${clazz}/${id}` )
+      .get<AuditResponse[]>(environment.REST_SERVICE_URL + `/audit/get/${clazz}/${id}` )
       .pipe(retry(3), catchError(this.handleError));
   }
 

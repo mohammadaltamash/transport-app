@@ -1,24 +1,35 @@
-<mat-nav-list>
-    <mat-list-item *ngFor="let driver of drivers; let i = index" >
+<h1 mat-dialog-title>ASSIGN DRIVER</h1>
+<form id="askToBookForm" [formGroup]="assignDriverForm" (ngSubmit)="onSubmit()">
+    <main mat-dialog-content>
+        <mat-list>
+            <mat-list-item *ngFor="let driver of drivers; let i = index">
 
+                <mat-radio-button matLine [value]="i" (change)="selection = $event.value" disableRipple>
 
-
-        <!-- <div id="listItem"> -->
-        <div id="grid1">
-            <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
-            <!-- <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
+                    <!-- <div id="listItem"> -->
+                    <div id="grid1">
+                        <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
+                        <!-- <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
                 <div matLine># <b>{{ order.id }}</b></div> -->
-        </div>
+                    </div>
 
-        <div id="grid2">
-            <div matLine>{{ driver.email }}</div>
-        </div>
+                    <div id="grid2">
+                        <div matLine>{{ driver.email }}</div>
+                    </div>
 
-        <div >
-            <div matLine>{{ driver.address }}</div>
-        </div>
+                    <div>
+                        <div matLine>{{ driver.address }}</div>
+                    </div>
 
-
-    </mat-list-item>
-</mat-nav-list>
-<button mat-stroked-button type="button" (click)="onCloseClick()" style="float: right">Close</button>&nbsp;
+                </mat-radio-button>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-list>
+    </main>
+    <div mat-dialog-actions>
+        <div id="submitError" *ngIf="invalid">Please select a driver</div>
+        <button mat-button (click)="onCloseClick()" type="button">Close</button>
+        <button mat-button [mat-dialog-close] type="submit">Assign Driver</button>
+        <button mat-button (click)="onNewDriver()" type="button">Add Driver</button>
+    </div>
+</form>

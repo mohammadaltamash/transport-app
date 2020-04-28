@@ -26,11 +26,16 @@ export class OptionsComponent implements OnInit {
 
   loggedInAs() {
     const nameMatch = this.authenticationService.currentUserValue.email.match(/^([^@]*)@/);
-    return nameMatch ? nameMatch[1] : null;
+    // return nameMatch ? nameMatch[1] : null;
+    return this.authenticationService.currentUserValue.email;
   }
 
   isDriver() {
     return this.authenticationService.currentUserValue.type === 'DRIVER';
+  }
+
+  type() {
+    return this.authenticationService.currentUserValue.type;
   }
 
 }

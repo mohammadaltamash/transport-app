@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ApiService } from '../../../../service/api.service';
 import { Order } from '../../../../model/order';
 import { takeUntil } from 'rxjs/operators';
@@ -12,6 +12,10 @@ import { DriversListDialogComponent } from '../../../../component/drivers-list-d
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { AppComponent } from 'src/app/app.component';
 import { AuditResponse } from 'src/app/model/audit-response';
+import { OrderStatus } from 'src/app/model/order-status';
+import { BookOrderDialogComponent } from '../book-order-dialog/book-order-dialog.component';
+import { OrderCarrier } from 'src/app/model/order-carrier';
+import { InviteOrderDialogComponent } from '../invite-order-dialog/invite-order-dialog.component';
 
 @Component({
   selector: 'app-order-list',
@@ -21,6 +25,7 @@ import { AuditResponse } from 'src/app/model/audit-response';
 export class OrderListComponent implements OnInit {
   all = 0;
   new = 0;
+  booked = 0;
   accepted = 0;
   assigned = 0;
   pickedup = 0;
@@ -28,6 +33,7 @@ export class OrderListComponent implements OnInit {
 
   stepAll = true;
   stepNew = false;
+  stepBooked = false;
   stepAccepted = false;
   stepAssigned = false;
   stepPickedup = false;
@@ -35,15 +41,16 @@ export class OrderListComponent implements OnInit {
 
   orders: Order[] = [];
   // allOrders: Order[] = [];
-  newOrders: Order[] = [];
-  acceptedOrders: Order[] = [];
-  assignedOrders: Order[] = [];
-  pickedupOrders: Order[] = [];
-  deliveredOrders: Order[] = [];
+  // newOrders: Order[] = [];
+  // bookedOrders: Order[] = [];
+  // acceptedOrders: Order[] = [];
+  // assignedOrders: Order[] = [];
+  // pickedupOrders: Order[] = [];
+  // deliveredOrders: Order[] = [];
   selectedOrder: Order;
   selectedItem: number;
   drivers: User[];
-  auditResponse: AuditResponse;
+  auditResponse: AuditResponse[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -52,7 +59,9 @@ export class OrderListComponent implements OnInit {
     private userService: UserService,
     private appComponent: AppComponent,
     private utilities: Utilities,
-    public driversDialog: MatDialog
+    public driversDialog: MatDialog,
+    public bookingDialog: MatDialog,
+    public invitationDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -69,12 +78,10 @@ export class OrderListComponent implements OnInit {
     //     }
     //   });
 
-    this.appComponent.currentOrder.subscribe(
-      o => {
-        this.selectedOrder = o;
-        // this.getOrderAudit(this.selectedOrder.id);
-      }
-    );
+    this.appComponent.currentOrder.subscribe(o => {
+      this.selectedOrder = o;
+      // this.getOrderAudit(this.selectedOrder.id);
+    });
     // if (this.selectedOrder !== null) {
     //   this.getOrderAudit(this.selectedOrder.id);
     // }
@@ -108,6 +115,8 @@ export class OrderListComponent implements OnInit {
       return this.getClass(this.stepAll);
     } else if (orderStatus === 'new') {
       return this.getClass(this.stepNew);
+    } else if (orderStatus === 'booked') {
+      return this.getClass(this.stepBooked);
     } else if (orderStatus === 'accepted') {
       return this.getClass(this.stepAccepted);
     } else if (orderStatus === 'assigned') {
@@ -127,6 +136,7 @@ export class OrderListComponent implements OnInit {
       if (this.stepAll === false) {
         this.stepAll = true;
         this.stepNew = false;
+        this.stepBooked = false;
         this.stepAccepted = false;
         this.stepAssigned = false;
         this.stepPickedup = false;
@@ -137,6 +147,9 @@ export class OrderListComponent implements OnInit {
     } else if (orderStatus === 'new') {
       this.stepAll = false;
       this.stepNew = this.stepNew !== true;
+    } else if (orderStatus === 'booked') {
+      this.stepAll = false;
+      this.stepBooked = this.stepBooked !== true;
     } else if (orderStatus === 'accepted') {
       this.stepAll = false;
       this.stepAccepted = this.stepAccepted !== true;
@@ -152,6 +165,7 @@ export class OrderListComponent implements OnInit {
     }
     if (
       this.stepNew === false &&
+      this.stepBooked === false &&
       this.stepAccepted === false &&
       this.stepAssigned === false &&
       this.stepPickedup === false &&
@@ -181,6 +195,8 @@ export class OrderListComponent implements OnInit {
 
   getOrdersByStatus() {
     const status = this.getStatusCSVString();
+    this.selectedOrder = null;
+    this.auditResponse = null;
     if (status === 'all') {
       this.apiService
         .getOrders()
@@ -219,6 +235,9 @@ export class OrderListComponent implements OnInit {
       if (this.stepNew) {
         status += status === '' ? 'NEW' : ', NEW';
       }
+      if (this.stepBooked) {
+        status += status === '' ? 'BOOKED' : ', BOOKED';
+      }
       if (this.stepAccepted) {
         status += status === '' ? 'ACCEPTED' : ', ACCEPTED';
       }
@@ -241,6 +260,12 @@ export class OrderListComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: number) => {
         this.new = data;
+      });
+    this.apiService
+      .getOrdersCountByStatus('BOOKED')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: number) => {
+        this.booked = data;
       });
     this.apiService
       .getOrdersCountByStatus('ACCEPTED')
@@ -327,35 +352,52 @@ export class OrderListComponent implements OnInit {
       });
   }
 
-  onAssignDriver(): void {
+  onAssignDriver(orderNumber: number): void {
     const dialogRef = this.driversDialog.open(DriversListDialogComponent, {
       width: '30vw',
-      data: this.drivers
+      data: {
+        drivers: this.drivers,
+        orderId: orderNumber
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground',
+      autoFocus: false
     });
+  }
+
+  getDispatchInstructions() {
+    return this.selectedOrder !== null &&
+      this.selectedOrder.dispatchInstructions.length !== 0
+      ? this.selectedOrder.dispatchInstructions
+      : 'No instructions from the broker';
   }
 
   getOrderAudit(id: number) {
     this.apiService
-    .getAudit('Order', id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((data: AuditResponse) => {
-      this.auditResponse = data;
-      console.log(`AuditResponse: ${data}`);
-    });
+      .getAudit('Order', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: AuditResponse[]) => {
+        this.auditResponse = data;
+        console.log(`AuditResponse: ${data}`);
+      });
   }
 
-  getName(response: { fullName: string; userName: string; }) {
+  getName(response: { fullName: string; userName: string }) {
     return response.fullName !== null ? response.fullName : response.userName;
   }
 
+  getOrderCarrier(value) {
+    return JSON.parse(value);
+  }
   getActionString(response: AuditResponse, property) {
     const name = this.getName(response);
     if (response.operation === 'ADD') {
       return `${name} created order`;
     } else if (response.operation === 'MOD') {
-      if (property.propertyName === 'orderStatus') {
-        if (property.value === 'DELIVERED') {
-          return `${name} asked to book order`;
+      if (property.propertyName === 'bookingRequestCarriers') {
+        const orderCarrier: OrderCarrier = this.getOrderCarrier(property.value);
+        if (orderCarrier.status === OrderStatus.BOOKING_REQUEST) {
+          return `${name} sent a booking request`;
         }
       }
       return `${name} changed ${property.formattedPropertyName} to '${property.value}'`;
@@ -363,7 +405,54 @@ export class OrderListComponent implements OnInit {
   }
 
   showBookOrder(property: string, value: string) {
-    return property === 'orderStatus' && value === 'DELIVERED' ;
+    if (property === 'bookingRequestCarriers') {
+      const orderCarrier: OrderCarrier = this.getOrderCarrier(value);
+      return (orderCarrier.status === OrderStatus.BOOKING_REQUEST
+      );
+    }
+    return false;
+  }
+
+  openBookingDialog(orderCarrierRecord: string) {
+    // this.bookDialog.openDialog();
+    // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
+    // this.selectedItem = index;
+    // this.appComponent.setCurrentOrderValue(order);
+    const dialogRef = this.bookingDialog.open(BookOrderDialogComponent, {
+      // width: '50vw',
+      // height: '95vh',
+      data: {
+        order: this.selectedOrder,
+        orderCarrier: JSON.parse(orderCarrierRecord)
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
+  }
+
+  openInvitationDialog(orderCarrierRecord: string) {
+    // this.bookDialog.openDialog();
+    // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
+    // this.selectedItem = index;
+    // this.appComponent.setCurrentOrderValue(order);
+    const dialogRef = this.invitationDialog.open(InviteOrderDialogComponent, {
+      // width: '50vw',
+      // height: '95vh',
+      data: {
+        order: this.selectedOrder,
+        orderCarrier: JSON.parse(orderCarrierRecord)
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
   }
 }
 

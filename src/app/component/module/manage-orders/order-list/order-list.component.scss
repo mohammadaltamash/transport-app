@@ -214,8 +214,8 @@ mat-icon {
 
 #changedPropertiesList {
   display: grid;
-  grid-template-areas: "timestamp message bookButton";
-  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "timestamp message bookButton invitationButton";
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
 }
 .timestamp {
@@ -228,4 +228,25 @@ mat-icon {
 }
 #bookButton {
   grid-area: bookButton;
+}
+#invitationButton {
+  grid-area: invitationButton;
+}
+
+#editOrder {
+  // border-radius: 50%;
+  // border: 1px solid;
+  // width: 30px;
+  // height: 30px;
+  // margin: 10px 0 0 10px;
+  cursor: pointer;
+}
+
+#editOrder:hover {
+  // background-color: lightgray;
+  font-weight: bold;
+}
+
+#editIcon {
+  margin: 0 auto;
 }

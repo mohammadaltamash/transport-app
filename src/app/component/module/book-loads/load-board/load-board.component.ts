@@ -16,7 +16,7 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./load-board.component.scss']
 })
 export class LoadBoardComponent implements OnInit {
-  @ViewChild(AskToBookDialogComponent) askToBookDialogComponent;
+  @ViewChild(AskToBookDialogComponent) askToBookDialogComponent: { openDialog: (arg0: Order) => void; };
 
   orders: Order[] = [];
   selectedOrder: Order; // ?

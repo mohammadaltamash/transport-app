@@ -1,4 +1,5 @@
 import { User } from './user';
+import { OrderCarrier } from './order-carrier';
 
 export interface Order {
 
@@ -22,6 +23,7 @@ export interface Order {
     pickupDates: {begin: '', end: ''};                                                // Pickup dates                 required
     pickupDatesRestrictions: string;                                // Pickup dates restrictions
     preferredPickupDate: Date;
+    committedPickupDate: Date;
 
     // Delivery Contact & Location
     deliveryContactName: string;                                    // Contact name
@@ -40,6 +42,7 @@ export interface Order {
     deliveryDates: {begin: '', end: ''};                                              // Delivery dates               required
     deliveryDatesRestrictions: string;                              // Delivery dates restrictions
     preferredDeliveryDate: Date;
+    committedDeliveryDate: Date;
 
     // Add New Vehicle
     vehicleYear: number;                                    // Year
@@ -90,8 +93,13 @@ export interface Order {
 
     orderStatus: string;
     orderCategory: string;
-    orderDriver: string;
-    askedToBook: number;
+
+    bookingRequestCarriers: OrderCarrier[]; // by carriers (to assign order to carrier)
+    assignedToCarrierEmail: User; // By broker to carrier. orderStatus changes to ASSIGNED
+    assignedToDriver: User;
+
+    distance: number;
+
     createdBy: User;
     createdAt: Date;
     updatedAt: Date;

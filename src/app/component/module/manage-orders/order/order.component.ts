@@ -137,6 +137,7 @@ export class OrderComponent implements OnInit {
   ];
 
   validationMessages = {};
+  formIsValid = true;
   // formErrors = {};
 
   createOrderForm: FormGroup;
@@ -279,6 +280,9 @@ export class OrderComponent implements OnInit {
     // const val = document.getElementById('pickupPhone1');
     // alert(this.createOrderForm.get('phone').value);
     // const pickupPhone1 = this.formControls.pickupPhone1.value;
+    if (!this.createOrderForm.valid) {
+      this.formIsValid = false;
+    }
     if (this.createOrderForm.hasError) {
       // alert('Form has errors');
       // console.log(this.createOrderForm.hasError);

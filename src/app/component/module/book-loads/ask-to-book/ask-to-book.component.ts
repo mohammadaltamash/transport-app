@@ -2,7 +2,10 @@ import {
   Component,
   OnInit,
   Inject,
-  Optional
+  Optional,
+  AfterViewInit,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
@@ -17,6 +20,10 @@ import { ApiService } from '../../../../service/api.service';
 import { Utilities } from '../../../../helper/utilities';
 import { environment } from '../../../../../environments/environment';
 import { AuthenticationService } from '../../../../service/authentication.service';
+import { OrderCarrier } from '../../../../model/order-carrier';
+import { OrderStatus } from 'src/app/model/order-status';
+import { Constants } from 'src/app/model/constants';
+import { MapHelper } from 'src/app/helper/map_helper';
 
 @Component({
   selector: 'app-ask-to-book',
@@ -24,40 +31,39 @@ import { AuthenticationService } from '../../../../service/authentication.servic
   styleUrls: ['./ask-to-book.component.scss']
   // encapsulation: ViewEncapsulation.None,
 })
-export class AskToBookComponent implements OnInit {
-  daysToPay: string[] = [
-    'Immediately',
-    '2 Bus. Days (Quick Pay)',
-    '5 Bus. Dys',
-    '10 Bus. Days',
-    '15 Bus. Days',
-    '30 Bus. Days'
-  ];
+export class AskToBookComponent implements OnInit, AfterViewInit {
+  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
+  map: google.maps.Map;
+  // lat = 40.73061;
+  // lng = -73.935242;
+  // coordinates = new google.maps.LatLng(this.lat, this.lng);
+  // mapOptions: google.maps.MapOptions = {
+  //   center: this.coordinates,
+  //   zoom: 8
+  // };
+  // marker = new google.maps.Marker({
+  //   position: this.coordinates,
+  //   map: this.map,
+  //   title: 'Hello world',
+  // });
+  markers: any[];
 
-  paymentTermBegins: string[] = [
-    'Pickup',
-    'Delivery',
-    'Receiving a uShip code',
-    'Receiving a signed BOL'
-  ];
+  daysToPay = Constants.DAYS_TO_PAY;
 
-  offerReason: string[] = [
-    'Not applicable',
-    'Carrier pay is low',
-    'Pick-up dates don\'t work for me',
-    'Delivery dates don\'t work for me',
-    'Do not agree with the payment terms',
-    'Other'
-  ];
+  paymentTermBegins = Constants.PAYMENT_TERM_BEGINS;
 
-  offerValidity: string[] = ['1 hr', '4 hrs', '12 hrs', '24 hrs'];
+  offerReason = Constants.OFFER_REASON;
 
-  askToBookForm: FormGroup;
+  offerValidity = Constants.OFFER_VALIDITY;
+
+  bookingRequestForm: FormGroup;
   pickupStart = new Date();
   pickupEnd = new Date();
   deliveryStart = new Date();
   deliveryEnd = new Date();
   selectedDate = new Date();
+  selectedPickupDate = new Date();
+  selectedDeliveryDate = new Date();
   date: FormControl;
   // dateClass: string;
 
@@ -67,45 +73,98 @@ export class AskToBookComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
-    private utilities: Utilities
+    private utilities: Utilities,
+    private mapHelper: MapHelper
   ) {
     this.pickupEnd.setDate(this.pickupEnd.getDate() + 1);
     this.pickupStart.setDate(this.pickupStart.getDate() - 5);
-    this.selectedDate.setDate(this.selectedDate.getDate() - 2);
+    this.selectedDate.setDate(new Date().getDate() + 1);
+    this.selectedPickupDate =
+      this.data.preferredPickupDate !== null
+        ? new Date(this.data.preferredPickupDate)
+        : data.pickupDates.begin;
+    this.selectedDeliveryDate =
+      this.data.preferredDeliveryDate !== null
+        ? new Date(this.data.preferredDeliveryDate)
+        : data.deliveryDates.begin;
     this.date = new FormControl(this.selectedDate);
+
+    this.markers = [];
+    this.markers.push({
+      latitude: data.pickupLatitude,
+      longitude: data.pickupLongitude,
+      title: 'Pickup location',
+      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+    });
+    this.markers.push({
+      latitude: data.deliveryLatitude,
+      longitude: data.deliveryLongitude,
+      title: 'Drop off location',
+      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+    });
   }
 
   ngOnInit() {
-    this.askToBookForm = this.formBuilder.group({
+    this.bookingRequestForm = this.formBuilder.group({
       // id: '',
       brokerOrderId: '',
       carrierPay: [this.data.carrierPay, Validators.required],
 
       daysToPay: '',
-      paymentTermBegins: [this.data.paymentTermBegins],
-      pickupDates: [this.data.pickupDates[0], Validators.required],
-      deliveryDates: [this.data.deliveryDates, Validators.required],
+      paymentTermBegins: [this.data.paymentTermBegins], //?
+      committedPickupDate: [this.selectedPickupDate, Validators.required],
+      committedDeliveryDate: [this.selectedDeliveryDate, Validators.required],
       offerReason: '',
       offerValidity: ''
     });
   }
 
-  onSubmit(orderId: number) {
+  ngAfterViewInit(): void {
+    this.mapHelper.initializeMap(this.gmap, this.markers);
+  }
+
+  onSubmit() {
     // this.askToBookForm.setValue(order);
     // if (this.askToBookForm.invalid) {
     //   return;
     // }
-    const o: Order = this.askToBookForm.value;
-    o.id = orderId;
+    const o: Order = this.data;
+    // o.id = orderId;
     o.orderStatus = environment.ASSIGNED_ORDER;
-    o.askedToBook = this.authenticationService.currentUserValue.id;
-    this.apiService.updateOrder(o)
-        .subscribe(
-          // data => console.log(data.deliveryDates.endDate),
-          res => console.log(res),
-          err => console.log(err)
-        );
-    this.utilities.openSnackBar('Order has been asked to be booked', '');
+    const carriers = o.bookingRequestCarriers;
+    const orderCarrier: OrderCarrier = new OrderCarrier();
+    // carrierPay: number;
+    // daysToPay: string;
+    // paymentTermBegins: string;
+    // committedPickupDate: Date;
+    // committedDeliveryDate: Date;
+    // offerReason: string;
+    // offerValidity: string;
+    // orderCarrier.order = o;
+    // orderCarrier.carrier = this.authenticationService.currentUserValue;
+    orderCarrier.status = OrderStatus.BOOKING_REQUEST;
+    orderCarrier.carrierPay = this.bookingRequestForm.value.carrierPay;
+    orderCarrier.daysToPay = this.bookingRequestForm.value.daysToPay;
+    orderCarrier.paymentTermBegins = this.bookingRequestForm.value.paymentTermBegins;
+    orderCarrier.committedPickupDate = this.bookingRequestForm.value.committedPickupDate;
+    orderCarrier.committedDeliveryDate = this.bookingRequestForm.value.committedDeliveryDate;
+    orderCarrier.offerReason = this.bookingRequestForm.value.offerReason;
+    orderCarrier.offerValidity = this.bookingRequestForm.value.offerValidity;
+    carriers.push(orderCarrier);
+    // o.askedToBook = this.authenticationService.currentUserValue.id;
+    o.bookingRequestCarriers = carriers;
+    this.apiService
+      .createOrderRequest(
+        orderCarrier,
+        this.data.id,
+        this.authenticationService.currentUserValue.email
+      )
+      .subscribe(
+        // data => console.log(data.deliveryDates.endDate),
+        res => console.log(res),
+        err => console.log(err)
+      );
+    this.utilities.openSnackBar('Booking request has been sent', '');
     // this.askToBookForm.reset();
 
     this.dialogRef.close();
@@ -124,4 +183,50 @@ export class AskToBookComponent implements OnInit {
     // return (date === 1 || date === 20) ? 'example-custom-date-class' : '';
     return 'example-custom-date-class';
   }
+
+  // mapInitializer(): void {
+  //   // this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
+  //   this.map = new google.maps.Map(this.gmap.nativeElement);
+  //   // this.marker.addListener('click', () => {
+  //   //   const infoWindow = new google.maps.InfoWindow({
+  //   //     content: this.marker.getTitle()
+  //   //   });
+  //   //   infoWindow.open(this.marker.getMap(), this.marker);
+  //   // });
+  //   // default marker
+  //   // this.marker.setMap(this.map);
+  //   this.loadAllMarkers();
+  // }
+
+  // loadAllMarkers() {
+  //   const bounds = new google.maps.LatLngBounds();
+  //   this.markers.forEach(markerInfo => {
+  //     // console.log(markerInfo);
+  //     const marker = new google.maps.Marker({
+  //       ...markerInfo
+  //       // position: markerInfo.position,
+  //       // map: this.map,
+  //       // title: markerInfo.title
+  //     });
+  //     const infoWindow = new google.maps.InfoWindow({
+  //       // content: marker.getTitle()
+  //       content: this.getMarkerInfo(marker.getTitle())
+  //     });
+  //     marker.addListener('click', () => {
+  //       infoWindow.open(marker.getMap(), marker);
+  //     });
+  //     marker.setMap(this.map);
+
+  //     // const bounds = new google.maps.LatLngBounds();
+  //     bounds.extend(marker.getPosition());
+  //     // this.map.setCenter(bounds.getCenter());
+  //     // this.map.fitBounds(bounds);
+  //   });
+  //   this.map.setCenter(bounds.getCenter());
+  //   this.map.fitBounds(bounds);
+  // }
+
+  // getMarkerInfo(title: string) {
+  //   return `<html><body><div style="font-weight: bold">${title}</div><div></div></body></html>`;
+  // }
 }

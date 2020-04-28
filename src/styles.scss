@@ -146,6 +146,10 @@ button[type=button]:hover {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.backdropBackgroundTransparent {
+  background-color: transparent;
+}
+
 .ovalButton {
   background-color: dimgray;
   border-radius: 25px;

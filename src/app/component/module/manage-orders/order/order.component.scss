@@ -531,7 +531,7 @@ footer {
   /* padding: 1.25vw; */
   /* padding-top: 1vw;
   padding-bottom: 1vw; */
-  justify-content: right;
+  justify-items: right;
 
   /* position: sticky;
   bottom: 0;  */
@@ -547,4 +547,14 @@ footer {
 
 .mat-dialog-actions {
   /* background-color: yellow; */
+}
+
+#formErrors {
+  border: 1px solid red;
+  color: red;
+  justify-self: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  padding: 7px 0;
 }

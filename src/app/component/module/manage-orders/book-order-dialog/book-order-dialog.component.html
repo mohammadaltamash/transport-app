@@ -1,11 +1,11 @@
-<mat-toolbar mat-dialog-title color="primary">Shipper Load ID # {{data.id}}</mat-toolbar>
-<!-- {{ let order=data }} -->
-<form id="askToBookForm" [formGroup]="bookingRequestForm" (ngSubmit)="onSubmit()">
+<h1 mat-dialog-title>BOOK ORDER</h1>
+<form id="askToBookForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
     <main mat-dialog-content>
         <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4>
 
         <mat-form-field id="carrierPay">
-            <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly decimal=true autocomplete=off>
+            <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly decimal=true
+                autocomplete=off>
             <mat-hint>Make an Offer</mat-hint>
         </mat-form-field>
         <mat-form-field id="daysToPay">
@@ -26,15 +26,17 @@
         </mat-form-field>
 
         <mat-form-field id="committedPickupDate">
-            <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate" placeholder="Pickup Date"
-                [min]="data.pickupDates['begin']" [max]="data.pickupDates['end']" [value]="selectedPickupDate">
+            <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
+                placeholder="Pickup Date" [min]="data.order.pickupDates['begin']" [max]="data.order.pickupDates['end']"
+                [value]="data.orderCarrier.committedPickupDate">
             <mat-datepicker-toggle matSuffix [for]="committedPickupDate"></mat-datepicker-toggle>
             <mat-datepicker #committedPickupDate></mat-datepicker>
         </mat-form-field>
-        
+
         <mat-form-field id="committedDeliveryDate">
-            <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate" placeholder="Delivery Date"
-                [min]="data.deliveryDates['begin']" [max]="data.deliveryDates['end']" [value]="selectedDeliveryDate">
+            <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate"
+                placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']" [max]="data.order.deliveryDates['end']"
+                [value]="data.orderCarrier.committedDeliveryDate">
             <mat-datepicker-toggle matSuffix [for]="committedDeliveryDate"></mat-datepicker-toggle>
             <mat-datepicker #committedDeliveryDate></mat-datepicker>
         </mat-form-field>
@@ -54,26 +56,30 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <div id="askToBook">
-        <button mat-stroked-button type="button" (click)="closeDialog()">Close</button>&nbsp;
-        <button id="askToBook" mat-stroked-button type="submit">BOOKING REQUEST</button>
-        </div>
-        <strong>{{data.distance}} mi</strong>
+        ={{distance}}=
+        <strong>{{data.order.distance}} mi</strong>
+        {{this.data.order.pickupLatitude}}
+        {{this.data.order.pickupLongitude}}
+        {{this.data.order.deliveryLatitude}}
+        {{this.data.order.deliveryLongitude}}
         <mat-card id="summary">
             <div matLine id="grid1">
                 <div>{{ data.pickupAddress }}</div>
-                <div>EST. {{ data.pickupDates.begin }} - EST. {{ data.pickupDates.end }}</div>
+                <div>EST. {{ data.order.pickupDates.begin }} - EST. {{ data.order.pickupDates.end }}</div>
                 <div># <b>{{ data.id }}</b></div>
             </div>
 
             <div matLine id="grid2">
                 <div>{{ data.deliveryAddress }}</div>
-                <div>EST. {{ data.deliveryDates.begin }} - EST. {{ data.deliveryDates.end }}</div>
+                <div>EST. {{ data.order.deliveryDates.begin }} - EST. {{ data.order.deliveryDates.end }}</div>
             </div>
         </mat-card>
     </main>
-    <div #mapContainer id="map">
-        <!-- <agm-marker [latitude]="data.pickupLatitude" [longitude]="data.pickupLongitude"></agm-marker>
-        <agm-marker [latitude]="data.deliveryLatitude" [longitude]="data.deliveryLongitude"></agm-marker> -->
+    <!-- <div #mapContainer id="map" [ngClass]="{'mapExpanded': this.expandedMap, 'mapHidden': !this.expandedMap}"></div> -->
+    <div #mapContainer id="map"></div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onCloseClick()" type="button">Close</button>
+        <!-- <button mat-button id="mapButton" (click) ="onMapButtonClick()" type="button">Map</button> -->
+        <button mat-button [mat-dialog-close] type="submit">BOOK ORDER</button>
     </div>
 </form>

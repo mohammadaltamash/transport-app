@@ -17,6 +17,7 @@ import { AppRoutingModule } from '../../../app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
+import { AgmCoreModule } from '@agm/core';
 
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 // import { MatSelectModule } from '@angular/material';
@@ -35,14 +36,18 @@ import { MaterialModule } from '../../../material.module';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDadXWhxzrxjqRs9ID3LqnuCUoA5vUJ_VM'
+      // libraries: ['places']
+    }),
     // SatDatepickerModule,
     // SatNativeDateModule
   ],
   exports: [
     // LoadBoardComponent,
     // AskToBookComponent,
-    // AskToBookDialogComponent,
+    AskToBookDialogComponent
     // SearchFiltersComponent,
     // SearchFiltersDialogComponent
   ],

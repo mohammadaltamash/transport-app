@@ -49,8 +49,8 @@ form {
   }
   
   #map {
-    /* overflow: hidden; */
     height: 100%;
+    width: 100%;
   }
   
   .example-custom-date-class {
@@ -64,7 +64,3 @@ form {
   // .mat-calendar-body-selected {
   //   color: red !important;
   // }
-  agm-map {
-    // height: 100%;
-    // width: 100%;
-  }

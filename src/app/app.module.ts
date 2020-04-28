@@ -6,9 +6,6 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import { OrderComponent } from './order/order.component';
-// import { OrderListComponent } from './order-list/order-list.component';
-// import { DashboardComponent } from './dashboard/dashboard.component';
 import { OptionsComponent } from './component/options/options.component';
 import { FooterComponent } from './footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,18 +20,10 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { DigitOnlyModule } from '@uiowa/digit-only';
 
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-// import { AgmCoreModule } from '@agm/core';
-// import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AgmCoreModule } from '@agm/core';
-// import { OrderDialogComponent } from './order-dialog/order-dialog.component';
-// import { LoadBoardComponent } from './load-board/load-board.component';
-// import { SearchFiltersComponent } from './search-filters/search-filters.component';
-// import { SearchFiltersDialogComponent } from './search-filters-dialog/search-filters-dialog.component';
-// import { AskToBookComponent } from './ask-to-book/ask-to-book.component';
-// import { AskToBookDialogComponent } from './ask-to-book-dialog/ask-to-book-dialog.component';
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -46,6 +35,7 @@ import { LoginComponent } from './component/module/auth-components/login/login.c
 import { RegisterComponent } from './component/module/auth-components/register/register.component';
 import { InterceptorService } from './service/interceptor.service';
 import { DriversListDialogComponent } from './component/drivers-list-dialog/drivers-list-dialog.component';
+import { CreateDialogComponent } from './component/create-dialog/create-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +47,8 @@ import { DriversListDialogComponent } from './component/drivers-list-dialog/driv
     FooterComponent,
     LoginComponent,
     RegisterComponent,
-    DriversListDialogComponent
+    DriversListDialogComponent,
+    CreateDialogComponent
     // OrderDialogComponent
 
     // LoadBoardComponent,
@@ -98,7 +89,7 @@ import { DriversListDialogComponent } from './component/drivers-list-dialog/driv
 
     MatGoogleMapsAutocompleteModule,
 
-    AgmCoreModule.forRoot(),
+    // AgmCoreModule.forRoot(),
 
     OrdersLoadBoardModule,
     OrdersManageModule,

@@ -1,5 +1,6 @@
 export interface AuditResponse {
 
+    id: number;
     revision: number;
     userName: string;
     fullName: string;
@@ -8,7 +9,7 @@ export interface AuditResponse {
     changedProperties: {
         propertyName: '',
         formattedPropertyName: '',
-        value: '',
-        previousValue: ''
+        value: {},
+        previousValue: {}
     };
 }

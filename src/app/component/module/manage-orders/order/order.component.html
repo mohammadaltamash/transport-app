@@ -94,9 +94,9 @@
               <mat-error *ngIf="this.phonesAreEmpty(this.pickupPhonez)">
                 {{ this.validationMessages['required'] }}
               </mat-error>
-              <mat-error>
+              <!-- <mat-error>
                 Please complete
-              </mat-error>
+              </mat-error> -->
             </mat-form-field>
             <div class="notesgrid">
 
@@ -151,7 +151,7 @@
            <!-- Preferred pickup dates -->
           <mat-form-field id="preferredPickupDate">
             <input matInput [matDatepicker]="preferredPickupDate" formControlName="preferredPickupDate"
-              placeholder="Preferred Pickup Date" [min]="preferredPickupDateBegin" [max]="preferredPickupDateEnd">
+              placeholder="Preferred pickup date" [min]="preferredPickupDateBegin" [max]="preferredPickupDateEnd">
             <mat-datepicker-toggle matSuffix [for]="preferredPickupDate"></mat-datepicker-toggle>
             <mat-datepicker #preferredPickupDate></mat-datepicker>
           </mat-form-field>
@@ -275,7 +275,7 @@
           <!-- Preferred delivery date -->
           <mat-form-field id="preferredDeliveryDate">
             <input matInput [matDatepicker]="preferredDeliveryDate" formControlName="preferredDeliveryDate"
-              placeholder="Preferred Delivery Date" [min]="preferredDeliveryDateBegin" [max]="preferredDeliveryDateEnd">
+              placeholder="Preferred delivery date" [min]="preferredDeliveryDateBegin" [max]="preferredDeliveryDateEnd">
             <mat-datepicker-toggle matSuffix [for]="preferredDeliveryDate"></mat-datepicker-toggle>
             <mat-datepicker #preferredDeliveryDate></mat-datepicker>
           </mat-form-field>
@@ -571,7 +571,8 @@
   </main>
 
   <footer mat-dialog-actions>
-    <div *ngIf="this.createOrderForm.errors !== null">Please correct errors in form</div>
+    <div id="formErrors" *ngIf="!formIsValid">Please correct form errors</div>
+
     <button mat-flat-button class="oval_button" type="button" (click)="this.closeDialog()">CANCEL</button>
     <button mat-flat-button color="primary" id="submitButton" type="submit">CREATE ORDER</button>
   </footer>

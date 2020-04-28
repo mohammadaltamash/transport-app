@@ -15,13 +15,20 @@ import { OrderComponent } from './order/order.component';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { DriversListDialogComponent } from '../../drivers-list-dialog/drivers-list-dialog.component';
+import { OrdersLoadBoardModule } from '../book-loads/orders-load-board.module';
+import { BookOrderComponent } from './book-order/book-order.component';
+import { BookOrderDialogComponent } from './book-order-dialog/book-order-dialog.component';
+import { InviteOrderDialogComponent } from './invite-order-dialog/invite-order-dialog.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     OrderComponent,
     OrderDialogComponent,
-    OrderListComponent
+    OrderListComponent,
+    BookOrderComponent,
+    BookOrderDialogComponent,
+    InviteOrderDialogComponent
   ],
   imports: [
     CommonModule,

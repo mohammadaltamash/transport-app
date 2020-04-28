@@ -30,6 +30,7 @@
                 <div id="grid1">
                     <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
                     <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
+                    <div matLine>Created By {{ order.createdBy.email }}</div>
                     <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
                     <div matLine>Pickup Zip {{ order.pickupZip }}</div>
                     <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
@@ -52,9 +53,10 @@
 
                 <div id="grid4">
                     <div matLine>{{ order.carrierPay }}</div>
+                    <div matLine><strong>{{ order.distance }} mi</strong></div>
                     <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
-                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">ASK TO BOOK</button><br>
+                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">BOOKING REQUEST</button><br>
                         <button id="viewDetailsButton" mat-button>VIEW DETAILS</button>
                     </div>
                 </div>
