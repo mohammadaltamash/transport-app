@@ -5,9 +5,10 @@ main {
   grid-template-areas:
     "orderStatus    orderStatus"
     "search         detail"
-    "list           detail";
+    "list           detail"
+    "navControls    detail";
   grid-template-columns: 400px 1fr;
-  grid-template-rows: 64px 60px 1fr;
+  grid-template-rows: 64px 60px 1fr 64px;
   /* grid-template: 1fr 1fr; */
   /* width: 100vw; */
   height: 100%;
@@ -67,10 +68,17 @@ main {
 #list {
   grid-area: list;
   /* overflow: auto;
-    height: 100vh; */
+    // height: 100vh; */
   border-right: 1px solid lightgray;
   overflow-y: auto;
   background-color: white;
+}
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  // overflow-y: auto;
+}
+pagination-controls {
+  grid-area: navControls;
 }
 /* #list > * {
     vertical-align: top;

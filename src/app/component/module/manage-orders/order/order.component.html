@@ -137,7 +137,7 @@
             <sat-datepicker #pickupDates [rangeMode]="true" [selectFirstDateOnClose]="true"></sat-datepicker>
             <sat-datepicker-toggle matSuffix [for]="pickupDates"></sat-datepicker-toggle>
           </mat-form-field>
-          {{createOrderForm.get(['pickupDates']['begin'])}}
+          <!-- {{createOrderForm.get(['pickupDates']['begin'])}} -->
           <!-- Pickup dates restrictions -->
           <mat-form-field id="pickupDatesRestrictions">
             <mat-label>Pickup dates restrictions</mat-label>
@@ -303,7 +303,6 @@
         <mat-form-field id="vehicleMake">
           <mat-label>Make</mat-label>
           <mat-select formControlName="vehicleMake" (selectionChange)="changeModels()" required>
-            <!-- <mat-option></mat-option> -->
             <mat-option *ngFor="let vehicleMake of this.getMakes()" [value]="vehicleMake">
               {{ vehicleMake }}
             </mat-option>
@@ -317,7 +316,6 @@
         <mat-form-field id="vehicleModel">
           <mat-label>Model</mat-label>
           <mat-select formControlName="vehicleModel">
-            <!-- <mat-option></mat-option> -->
             <mat-option *ngFor="let vehicleModel of vehicleModels" [value]="vehicleModel">
               {{ vehicleModel }}
             </mat-option>

@@ -19,6 +19,9 @@ import { OrdersLoadBoardModule } from '../book-loads/orders-load-board.module';
 import { BookOrderComponent } from './book-order/book-order.component';
 import { BookOrderDialogComponent } from './book-order-dialog/book-order-dialog.component';
 import { InviteOrderDialogComponent } from './invite-order-dialog/invite-order-dialog.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { InviteOrderDialogComponent } from './invite-order-dialog/invite-order-d
     SatNativeDateModule,
     TextMaskModule,
     DigitOnlyModule,
-    MatGoogleMapsAutocompleteModule
+    MatGoogleMapsAutocompleteModule,
+    ScrollingModule,
+    NgxSpinnerModule,
+    NgxPaginationModule
   ],
   entryComponents: [
     OrderComponent,

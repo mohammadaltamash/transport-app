@@ -25,4 +25,6 @@ export class Constants {
   ];
 
   static OFFER_VALIDITY: string[] = ['1 hr', '4 hrs', '12 hrs', '24 hrs'];
+
+  static ORDERS_PER_PAGE = 7;
 }

@@ -16,6 +16,7 @@ import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../service/authentication.service';
 import { AuditResponse } from '../model/audit-response';
 import { OrderCarrier } from '../model/order-carrier';
+import { PagedOrders } from '../model/paged-orders';
 
 @Injectable({
   providedIn: 'root'
@@ -122,10 +123,20 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getOrdersByStatusIn(statuses: string) {
+  public getOrdersByStatusIn(statuses: string, page: number, pageSize: number) {
     return this.httpClient
-      .get<Order[]>(
-        environment.REST_SERVICE_URL + '/order/get/statusin/' + statuses
+      .get<PagedOrders>(
+        environment.REST_SERVICE_URL + `/order/get/statusin/${statuses}/${page}/${pageSize}`
+        // ,
+        // this.getOptions()
+      )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public getOrdersCount() {
+    return this.httpClient
+      .get<number>(
+        environment.REST_SERVICE_URL + '/order/count'
         // ,
         // this.getOptions()
       )
@@ -142,10 +153,10 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getPagedOrders() {
+  public getPagedOrders(page: number, pageSize: number) {
     // const options = { params: new HttpParams({fromString: 'page=0'}) };
     return this.httpClient
-      .get<Order[]>(environment.REST_SERVICE_URL + '/order/getpage/1')
+      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/getpage/${page}/${pageSize}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 

@@ -7,7 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { Utilities } from '../../../../helper/utilities';
 import { UserService } from '../../../../service/user.service';
 import { User } from '../../../../model/user';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DriversListDialogComponent } from '../../../../component/drivers-list-dialog/drivers-list-dialog.component';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { AppComponent } from 'src/app/app.component';
@@ -16,6 +16,9 @@ import { OrderStatus } from 'src/app/model/order-status';
 import { BookOrderDialogComponent } from '../book-order-dialog/book-order-dialog.component';
 import { OrderCarrier } from 'src/app/model/order-carrier';
 import { InviteOrderDialogComponent } from '../invite-order-dialog/invite-order-dialog.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Constants } from 'src/app/model/constants';
+import { PagedOrders } from 'src/app/model/paged-orders';
 
 @Component({
   selector: 'app-order-list',
@@ -23,6 +26,7 @@ import { InviteOrderDialogComponent } from '../invite-order-dialog/invite-order-
   styleUrls: ['./order-list.component.scss']
 })
 export class OrderListComponent implements OnInit {
+  config: any;
   all = 0;
   new = 0;
   booked = 0;
@@ -61,10 +65,18 @@ export class OrderListComponent implements OnInit {
     private utilities: Utilities,
     public driversDialog: MatDialog,
     public bookingDialog: MatDialog,
-    public invitationDialog: MatDialog
+    public invitationDialog: MatDialog,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
+    this.config = {
+      currentPage: 0,
+      itemsPerPage: Constants.ORDERS_PER_PAGE,
+      totalItems: 0
+    };
+
+    // this.spinner.show();
     // this.apiService
     //   .getOrders()
     //   .pipe(takeUntil(this.destroy$))
@@ -96,6 +108,7 @@ export class OrderListComponent implements OnInit {
     //   this.accepted = accepted;
     //   // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
     // });
+    // this.spinner.hide();
   }
 
   // nafterViewInit() {
@@ -132,6 +145,7 @@ export class OrderListComponent implements OnInit {
   }
 
   onStatusClick(orderStatus: string) {
+    this.config.currentPage = 0;
     if (orderStatus === 'all') {
       if (this.stepAll === false) {
         this.stepAll = true;
@@ -194,31 +208,106 @@ export class OrderListComponent implements OnInit {
   // }
 
   getOrdersByStatus() {
+    // const status = this.getStatusCSVString();
+    // this.selectedOrder = null;
+    // this.auditResponse = null;
+    // if (status === 'all') {
+    //   this.spinner.show();
+
+    //   // this.apiService
+    //   //   .getOrdersCount()
+    //   //   // .pipe(takeUntil(this.destroy$))
+    //   //   .subscribe((data: number) => {
+    //   //     console.log(data);
+    //   //     this.config.totalItems = data;
+    //   //     this.all = data;
+    //   //   });
+    //   this.apiService
+    //     .getPagedOrders(0, this.config.itemsPerPage)
+    //     // .pipe(takeUntil(this.destroy$))
+    //     .subscribe((data: PagedOrders) => {
+    //       // this.all = data.length;
+    //       this.spinner.hide();
+    //       console.log(data);
+    //       this.orders = data.orders;
+    //       this.config.totalItems = data.totalItems;
+    //       this.all = data.totalItems;
+    //       if (data.orders.length > 0) {
+    //         this.selectedOrder = this.orders[0];
+    //         this.getOrderAudit(this.selectedOrder.id);
+    //       }
+    //     });
+    //   // this.apiService
+    //   //   .getOrders()
+    //   //   .pipe(takeUntil(this.destroy$))
+    //   //   .subscribe((data: any[]) => {
+    //   //     this.spinner.hide();
+    //   //     this.all = data.length;
+    //   //     console.log(data);
+    //   //     this.orders = data;
+    //   //     if (data.length > 0) {
+    //   //       this.selectedOrder = this.orders[0];
+    //   //       this.getOrderAudit(this.selectedOrder.id);
+    //   //     }
+    //   //   });
+    // } else {
+    //   this.spinner.show();
+    //   this.apiService
+    //     .getOrdersByStatusIn(status, 0, this.config.itemsPerPage)
+    //     .pipe(takeUntil(this.destroy$))
+    //     .subscribe((data: any[]) => {
+    //       this.spinner.hide();
+    //       // this.accepted = data.length;
+    //       console.log(data);
+    //       this.orders = data;
+    //       if (data.length > 0) {
+    //         this.selectedOrder = this.orders[0];
+    //         this.getOrderAudit(this.selectedOrder.id);
+    //       }
+    //     });
+    // }
+
+    this.fetchOrders(0);
+  }
+
+  pageChange(newPage: number) {
+    this.fetchOrders(newPage - 1);
+    this.config.currentPage = newPage;
+  }
+
+  fetchOrders(pageNumber: number) {
     const status = this.getStatusCSVString();
     this.selectedOrder = null;
     this.auditResponse = null;
     if (status === 'all') {
+      this.spinner.show();
       this.apiService
-        .getOrders()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((data: any[]) => {
-          this.all = data.length;
+        .getPagedOrders(pageNumber, this.config.itemsPerPage)
+        // .pipe(takeUntil(this.destroy$))
+        .subscribe((data: PagedOrders) => {
+          // this.all = data.length;
+          this.spinner.hide();
           console.log(data);
-          this.orders = data;
-          if (data.length > 0) {
+          this.orders = data.orders;
+          this.config.totalItems = data.totalItems;
+          this.all = data.totalItems;
+          if (data.orders.length > 0) {
             this.selectedOrder = this.orders[0];
             this.getOrderAudit(this.selectedOrder.id);
           }
         });
     } else {
+      this.spinner.show();
       this.apiService
-        .getOrdersByStatusIn(status)
+        .getOrdersByStatusIn(status, pageNumber, this.config.itemsPerPage)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((data: any[]) => {
+        .subscribe((data: PagedOrders) => {
+          this.spinner.hide();
           // this.accepted = data.length;
           console.log(data);
-          this.orders = data;
-          if (data.length > 0) {
+          this.orders = data.orders;
+          this.config.totalItems = data.totalItems;
+          if (data.orders.length > 0) {
             this.selectedOrder = this.orders[0];
             this.getOrderAudit(this.selectedOrder.id);
           }
@@ -367,7 +456,7 @@ export class OrderListComponent implements OnInit {
 
   getDispatchInstructions() {
     return this.selectedOrder !== null &&
-      this.selectedOrder.dispatchInstructions.length !== 0
+      this.selectedOrder.dispatchInstructions !== null
       ? this.selectedOrder.dispatchInstructions
       : 'No instructions from the broker';
   }

@@ -35,6 +35,7 @@ main {
   -webkit-box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
   -moz-box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
   box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
+  // box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
 }
 #search {
   /* max-height: 20px; */
@@ -75,6 +76,10 @@ mat-form-field-flex {
   gap: 4vw;
   /* border: 1px solid; */
   /* max-height: 100px; */
+}
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
 }
 
 #grid1 {

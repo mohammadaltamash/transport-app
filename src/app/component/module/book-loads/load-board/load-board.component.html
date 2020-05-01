@@ -1,4 +1,10 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    <p class="loading">Loading...</p>
+</ngx-spinner>
 <main>
+    <!-- <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading">Loading...</p>
+    </ngx-spinner> -->
     <mat-toolbar id="newOrderOptions">
         <mat-form-field id="search">
             <input matInput type="search">
@@ -24,9 +30,10 @@
         </button>
     </mat-toolbar>
 
-    <div id="list">
-        <mat-card id="listItem" *ngFor="let order of orders; let i = index">
-            <!-- <div id="listItem"> -->
+    <cdk-virtual-scroll-viewport itemSize="127">
+        <div id="list">
+            <mat-card id="listItem" *cdkVirtualFor="let order of orders | paginate: config; let i = index">
+                <!-- <div id="listItem"> -->
                 <div id="grid1">
                     <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
                     <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
@@ -56,12 +63,15 @@
                     <div matLine><strong>{{ order.distance }} mi</strong></div>
                     <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
-                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">BOOKING REQUEST</button><br>
+                        <button id="askToBookButton" mat-button (click)="showDialog(order, i)">BOOKING
+                            REQUEST</button><br>
                         <button id="viewDetailsButton" mat-button>VIEW DETAILS</button>
                     </div>
                 </div>
-            <!-- </div> -->
+                <!-- </div> -->
             </mat-card>
         </div>
+    </cdk-virtual-scroll-viewport>
+    <pagination-controls (pageChange)="pageChange($event)" class="pagination"></pagination-controls>
     <app-ask-to-book-dialog></app-ask-to-book-dialog>
 </main>

@@ -18,6 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 import { AgmCoreModule } from '@agm/core';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 // import { MatSelectModule } from '@angular/material';
@@ -43,6 +46,9 @@ import { AgmCoreModule } from '@agm/core';
     }),
     // SatDatepickerModule,
     // SatNativeDateModule
+    ScrollingModule,
+    NgxSpinnerModule,
+    NgxPaginationModule
   ],
   exports: [
     // LoadBoardComponent,

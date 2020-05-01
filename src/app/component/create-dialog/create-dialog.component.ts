@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { RegisterComponent } from '../module/auth-components/register/register.component';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
 import { ApiService } from 'src/app/service/api.service';
 import { Utilities } from 'src/app/helper/utilities';

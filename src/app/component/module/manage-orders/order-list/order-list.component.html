@@ -1,7 +1,9 @@
 <!-- <div>
     <mat-checkbox class="mat-stroked-button" style="border: 1 px solid; text-decoration-line: none;" formControlName="enclosedTrailer">Enclosed trailer</mat-checkbox>
 </div> -->
-
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+  <p class="loading">Loading...</p>
+</ngx-spinner>
 <main>
   <mat-toolbar id=orderStatus>
     <span [ngClass]="getClassByStatus('all')" (click)="onStatusClick('all')">All ({{ all }})</span>
@@ -33,39 +35,48 @@
 
   <mat-nav-list id="list">
     <!-- [ngClass]="(selectedOrder.id === order.id) ? 'selectedItem' : ''" -->
-    <mat-list-item *ngFor="let order of orders; let i = index"
-      [ngClass]="(selectedOrder === order) ? 'selectedListItem' : ''" (click)="this.onItemClick(order, i)">
-      <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
-      <p matLine>
-        <span>
-          {{ order.id }}
-          {{ order.orderStatus }}
-        </span>
-      </p>
-      <p matLine>
-        <span>
-          {{ order.brokerContactName }}
-        </span>
-      </p>
-      <p matLine>
-        <span>
-          {{ order.vehicleYear }}
-          {{ order.vehicleMake }}
-        </span>
-      </p>
-      <p matLine>
-        <span>
-          {{ order.pickupAddress }}
-        </span>
-      </p>
-      <p matLine>
-        <span>
-          {{ order.deliveryAddress }}
-        </span>
-      </p>
-      <mat-divider></mat-divider>
-    </mat-list-item>
+    <!-- // 102px of item height -->
+    <cdk-virtual-scroll-viewport itemSize="102">
+      <mat-list-item *cdkVirtualFor="let order of orders | paginate: config; let i = index"
+        [ngClass]="(selectedOrder === order) ? 'selectedListItem' : ''" (click)="this.onItemClick(order, i)">
+
+        <!-- <cdk-virtual-scroll-viewport itemSize="18" style="height:40vh">
+                <div *cdkVirtualFor="let item of list">{{item}}</div>
+            </cdk-virtual-scroll-viewport> -->
+        <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
+        <p matLine>
+          <span>
+            {{ order.id }}
+            {{ order.orderStatus }}
+          </span>
+        </p>
+        <p matLine>
+          <span>
+            {{ order.brokerContactName }}
+          </span>
+        </p>
+        <p matLine>
+          <span>
+            {{ order.vehicleYear }}
+            {{ order.vehicleMake }}
+          </span>
+        </p>
+        <p matLine>
+          <span>
+            {{ order.pickupAddress }}
+          </span>
+        </p>
+        <p matLine>
+          <span>
+            {{ order.deliveryAddress }}
+          </span>
+        </p>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+      <!-- <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls> -->
+    </cdk-virtual-scroll-viewport>
   </mat-nav-list>
+  <pagination-controls (pageChange)="pageChange($event)" class="pagination"></pagination-controls>
   <!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
     <div *cdkVirtualFor="let order of orders" class="example-item">{{order.brokerContactName}}</div>
   </cdk-virtual-scroll-viewport> -->
@@ -74,7 +85,9 @@
     <div id="summary">
       <h2>Order {{selectedOrder !== null ? selectedOrder.id : '#'}}
         {{ selectedOrder !== null ? selectedOrder.orderStatus : '' }}
-        <ng-container *ngIf="selectedOrder !== null && selectedOrder.orderStatus === 'NEW'"><mat-icon id="editOrder">edit</mat-icon></ng-container>
+        <ng-container *ngIf="selectedOrder !== null && selectedOrder.orderStatus === 'NEW'">
+          <mat-icon id="editOrder">edit</mat-icon>
+        </ng-container>
       </h2>
     </div>
     <div id="detailLeft">
@@ -195,9 +208,9 @@
         </mat-card-subtitle>
         <ng-container *ngIf="orders.length > 0">
           <div id="carrierPay">Carrier Pay</div>
-          <div id="carrierPayValue">{{selectedOrder !== null ? selectedOrder.carrierPay : ''}}</div>
+          <div id="carrierPayValue">{{selectedOrder !== null ? this.selectedOrder.carrierPay : ''}}</div>
           <div id="onDelivery">On Delivery</div>
-          <div id="onDeliveryValue"></div>
+          <div id="onDeliveryValue">{{selectedOrder !== null ? this.selectedOrder.amountOnDelivery : ''}}</div>
           <div id="receivables">Receivables</div>
           <div id="receivablesValue"></div>
           <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY

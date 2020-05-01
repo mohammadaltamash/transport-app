@@ -219,6 +219,16 @@ button[type=button]:hover {
   background-color: rgb(235, 240, 243);
 }
 
+.loading{
+  color: white;
+  padding-top: 50px;
+}
+
+.pagination {
+  background: white;
+  justify-self: center;
+}
+
 mat-toolbar {
   align-content: center;
 }
@@ -266,6 +276,12 @@ app-order {
     background-color: lightgray;
     height: 100vh;
 } */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

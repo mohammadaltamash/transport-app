@@ -207,7 +207,7 @@ h1 {
     "pickupDates                pickupDatesRestrictions"
     "preferredPickupDate        ."; 
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 
   column-gap: 1.5vw;
   align-items: center;
@@ -277,7 +277,7 @@ h1 {
     "deliveryDates                deliveryDatesRestrictions"
     "preferredDeliveryDate        ."; 
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 
   column-gap: 1.5vw;
   align-items: center;
