@@ -166,6 +166,12 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
+  public searchOrders(searchKeyword: string, searchText: string, page: number, pageSize: number) {
+    return this.httpClient
+      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/search/${searchKeyword}/${searchText}/${page}/${pageSize}`)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
   // User
 
   public getUserByEmail(email: string) {

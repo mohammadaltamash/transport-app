@@ -25,12 +25,17 @@
   </mat-toolbar>
 
   <div id="search">
-    <a id="searchIcon" href="#">
+    <!-- <a id="searchIcon" href="#">
       <mat-icon>search</mat-icon>
-    </a>
-    <mat-form-field id="searchText" appearance="none">
-      <input matInput type="text" placeholder="Type: Order ID, Driver, Make or Model">
-    </mat-form-field>
+    </a> -->
+    <form id="searchForm" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="none">
+        <input matInput id="searchText" type="text" formControlName="searchText" (change)="onSearchChanged()" placeholder="Type: Order ID, Driver, Make or Model">
+      </mat-form-field>
+      <button id="searchIcon" href="#" type=submit>
+          <mat-icon>search</mat-icon>
+      </button>
+    </form>
   </div>
 
   <mat-nav-list id="list">
@@ -102,7 +107,7 @@
             </div>
           </div>
           <button mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button">
-            {{selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
+            {{selectedOrder === null || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
         </div>
         <div *ngIf="selectedOrder !== null && selectedOrder.assignedToDriver !== null">
           <!-- <div>

@@ -19,6 +19,7 @@ import { InviteOrderDialogComponent } from '../invite-order-dialog/invite-order-
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Constants } from 'src/app/model/constants';
 import { PagedOrders } from 'src/app/model/paged-orders';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-order-list',
@@ -43,6 +44,8 @@ export class OrderListComponent implements OnInit {
   stepPickedup = false;
   stepDelivered = false;
 
+  isSearching = false;
+
   orders: Order[] = [];
   // allOrders: Order[] = [];
   // newOrders: Order[] = [];
@@ -57,6 +60,8 @@ export class OrderListComponent implements OnInit {
   auditResponse: AuditResponse[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  searchForm: FormGroup;
+
   constructor(
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
@@ -66,7 +71,8 @@ export class OrderListComponent implements OnInit {
     public driversDialog: MatDialog,
     public bookingDialog: MatDialog,
     public invitationDialog: MatDialog,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -109,6 +115,40 @@ export class OrderListComponent implements OnInit {
     //   // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
     // });
     // this.spinner.hide();
+
+    this.searchForm = this.formBuilder.group({
+      searchText: ''
+    });
+  }
+
+  onSubmit() {
+    if (this.searchForm.value.searchText.trim() === '') {
+      return;
+    }
+    // this.spinner.show();
+    this.isSearching = true;
+    // alert(this.searchForm.value.searchText);
+    // this.apiService.searchOrders('MAKE', this.searchForm.value.searchText.trim(), 0, this.config.itemsPerPage)
+    //     .subscribe((data: PagedOrders) => {
+    //       console.log(data);
+    //       this.orders = data.orders;
+    //       this.config.totalItems = data.totalItems;
+    //       if (data.totalItems > 0) {
+    //         this.selectedOrder = data[0];
+    //         // this.config.itemsPerPage = data.length < this.config.itemsPerPage ? data.length : this.config.itemsPerPage;
+    //         this.config.currentPage = 0;
+    //       }
+    //     });
+    // this.spinner.hide();
+    this.config.currentPage = 0;
+    this.fetchOrders(0);
+  }
+
+  onSearchChanged() {
+    if (this.searchForm.value.searchText.trim() === '') {
+      this.isSearching = false;
+      this.pageChange(1);
+    }
   }
 
   // nafterViewInit() {
@@ -145,6 +185,8 @@ export class OrderListComponent implements OnInit {
   }
 
   onStatusClick(orderStatus: string) {
+    this.isSearching = false;
+    this.searchForm.controls.searchText.patchValue('');
     this.config.currentPage = 0;
     if (orderStatus === 'all') {
       if (this.stepAll === false) {
@@ -279,7 +321,22 @@ export class OrderListComponent implements OnInit {
     const status = this.getStatusCSVString();
     this.selectedOrder = null;
     this.auditResponse = null;
-    if (status === 'all') {
+    if (this.isSearching) {
+      this.spinner.show();
+      this.apiService
+        .searchOrders('MAKE', this.searchForm.value.searchText.trim(), pageNumber, this.config.itemsPerPage)
+        .subscribe((data: PagedOrders) => {
+          this.spinner.hide();
+          console.log(data);
+          this.orders = data.orders;
+          this.config.totalItems = data.totalItems;
+          if (data.totalItems > 0) {
+            this.selectedOrder = this.orders[0];
+            // this.config.currentPage = 0;
+            this.getOrderAudit(this.selectedOrder.id);
+          }
+        });
+    } else if (status === 'all') {
       this.spinner.show();
       this.apiService
         .getPagedOrders(pageNumber, this.config.itemsPerPage)
@@ -291,7 +348,7 @@ export class OrderListComponent implements OnInit {
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
           this.all = data.totalItems;
-          if (data.orders.length > 0) {
+          if (data.totalItems > 0) {
             this.selectedOrder = this.orders[0];
             this.getOrderAudit(this.selectedOrder.id);
           }
@@ -307,7 +364,7 @@ export class OrderListComponent implements OnInit {
           console.log(data);
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
-          if (data.orders.length > 0) {
+          if (data.totalItems > 0) {
             this.selectedOrder = this.orders[0];
             this.getOrderAudit(this.selectedOrder.id);
           }
@@ -544,19 +601,3 @@ export class OrderListComponent implements OnInit {
     // });
   }
 }
-
-// @Component({
-//   selector: 'app-drivers-list-dialog-component',
-//   templateUrl: 'drivers-list-dialog.html'
-// })
-// export class DriversListDialogComponent {
-//   drivers: User[];
-//   constructor(
-//     public dialogRef: MatDialogRef<DriversListDialogComponent>,
-//     @Inject(MAT_DIALOG_DATA) public data: User[],
-//     private userService: UserService
-//   ) {
-//     this.drivers = data;
-//   }
-
-// }

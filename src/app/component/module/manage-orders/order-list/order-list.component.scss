@@ -32,7 +32,7 @@ main {
   /* background-color: rgb(63, 63, 63); */
   background-color: rgb(63, 63, 63);
 }
-#search {
+#searchForm {
   grid-area: search;
   display: grid;
   grid-template-areas: "searchIcon searchText";
