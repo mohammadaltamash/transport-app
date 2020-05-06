@@ -88,7 +88,7 @@ export class OrderComponent implements OnInit {
     'Motorcycle',
     'Pickup',
     'Suv',
-    'Van'
+    'Van',
   ];
 
   datesRestrictions: string[] = [
@@ -529,9 +529,9 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  onGermanAddressMapped($event: GermanAddress) {
-    console.log('onGermanAddressMapped', $event);
-  }
+  // onGermanAddressMapped($event: GermanAddress) {
+  //   console.log('onGermanAddressMapped', $event);
+  // }
 
   onZipChanged(zipCategory: string) {
     if (this.createOrderForm.get(zipCategory).value.length === 5) {

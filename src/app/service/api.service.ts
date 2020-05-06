@@ -17,6 +17,7 @@ import { AuthenticationService } from '../service/authentication.service';
 import { AuditResponse } from '../model/audit-response';
 import { OrderCarrier } from '../model/order-carrier';
 import { PagedOrders } from '../model/paged-orders';
+import { CityZipLatLong } from '../model/city-zip-lat-long';
 
 @Injectable({
   providedIn: 'root'
@@ -166,9 +167,15 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public searchOrders(searchKeyword: string, searchText: string, page: number, pageSize: number) {
+  public searchOrders(statuses: string, searchText: string, page: number, pageSize: number) {
     return this.httpClient
-      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/search/${searchKeyword}/${searchText}/${page}/${pageSize}`)
+      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/search/${statuses}/${searchText}/${page}/${pageSize}`)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public getCircularDistance(latitude: number, longitude: number, distance: number, page: number, pageSize: number) {
+    return this.httpClient
+      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/getinradius/${latitude}/${longitude}/${distance}/${page}/${pageSize}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 
@@ -225,6 +232,14 @@ export class ApiService {
   public getAudit(clazz: string, id: number) {
     return this.httpClient
       .get<AuditResponse[]>(environment.REST_SERVICE_URL + `/audit/get/${clazz}/${id}` )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  // CityZipLatLong
+
+  public getCityZipLatLong(text: string) {
+    return this.httpClient
+      .get<CityZipLatLong[]>(environment.REST_SERVICE_URL + `/location/${text}` )
       .pipe(retry(3), catchError(this.handleError));
   }
 

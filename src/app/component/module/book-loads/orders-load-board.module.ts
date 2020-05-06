@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoadBoardComponent } from './load-board/load-board.component';
 import { AskToBookComponent } from './ask-to-book/ask-to-book.component';
 import { AskToBookDialogComponent } from './ask-to-book-dialog/ask-to-book-dialog.component';
-import { SearchFiltersComponent } from './search-filters/search-filters.component';
 import { SearchFiltersDialogComponent } from './search-filters-dialog/search-filters-dialog.component';
 // import { FormsModule } from '@angular/forms';
 // import { MaterialModule } from '../material.module';
@@ -21,6 +20,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 // import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
 // import { MatSelectModule } from '@angular/material';
@@ -31,7 +31,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     LoadBoardComponent,
     AskToBookComponent,
     AskToBookDialogComponent,
-    SearchFiltersComponent,
     SearchFiltersDialogComponent
   ],
   imports: [
@@ -48,7 +47,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     // SatNativeDateModule
     ScrollingModule,
     NgxSpinnerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    AutocompleteLibModule
   ],
   exports: [
     // LoadBoardComponent,

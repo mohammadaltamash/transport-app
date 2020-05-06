@@ -27,7 +27,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
   map: google.maps.Map;
   markers: any[];
   expandedMap = false;
-  distance: number;
+  // distance: number;
 
   daysToPay = Constants.DAYS_TO_PAY;
   paymentTermBegins = Constants.PAYMENT_TERM_BEGINS;
@@ -54,9 +54,9 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     //   title: 'Pickup location',
     //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
     // };
-    this.mapHelper.distance.subscribe(
-      d => this.distance = d
-    );
+    // this.mapHelper.distance.subscribe(
+    //   d => this.distance = d
+    // );
 
     this.markers = [];
     // this.markers.push(m);
@@ -96,12 +96,12 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
       offerValidity: this.data.orderCarrier.offerValidity
     });
 
-    this.mapHelper.getDistanceMatrix(
-      this.data.order.pickupLatitude,
-      this.data.order.pickupLongitude,
-      this.data.order.deliveryLatitude,
-      this.data.order.deliveryLongitude
-    );
+    // this.mapHelper.getDistanceMatrix(
+    //   this.data.order.pickupLatitude,
+    //   this.data.order.pickupLongitude,
+    //   this.data.order.deliveryLatitude,
+    //   this.data.order.deliveryLongitude
+    // );
 
     // alert(this.distance);
   }

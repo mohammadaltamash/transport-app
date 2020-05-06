@@ -1,0 +1,177 @@
+<h1 mat-dialog-title>Advanced Search</h1>
+<!-- <mat-toolbar mat-dialog-title color="primary">Advanced Search</mat-toolbar> -->
+<form id="filterForm" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+    <main mat-dialog-content>
+        <!-- <mat-form-field>
+            <input matInput formControlName="address" placeholder="Free form">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput formControlName="miles" placeholder="Miles">
+        </mat-form-field> -->
+        <!-- <li *ngFor="let location of locationArray">
+            {{ location | json }}
+        </li> -->
+        <div id="origin">
+            <h2 class="mat-headline">ORIGIN</h2>
+            <h4>1) Search type:</h4>
+            <!-- <mat-form-field> -->
+            <mat-radio-group aria-label="Select an option">
+                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
+                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+            </mat-radio-group>
+            <!-- </mat-form-field> -->
+            <h4>2) Add up to 5 Origin Cities</h4>
+            <!-- <mat-form-field>
+                <input matInput formControlName="originOptionCity" placeholder="Origin (city, zip)" autocomplete=off>
+            </mat-form-field> -->
+            <div class="ng-autocomplete">
+                <ng-autocomplete [data]="locationArray" [searchKeyword]="keyword" (selected)='selectEvent($event)'
+                    (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)'
+                    [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" 
+                    [minQueryLength]="2">
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                    <div class="autocomplete">
+                        <span [innerHTML]="item.city"></span>,
+                        <span [innerHTML]="item.state"></span>,
+                        <span [innerHTML]="item.zip"></span>
+                    </div>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                </ng-template>
+            </div>
+            <ul *ngFor="let location of selectedLocations; let i = index">
+                <li>{{location.city}}, {{location.state}}, {{location.zip}} <span (click)="onRemoveLocation(i)"><mat-icon class="close">close</mat-icon></span></li>
+            </ul>
+            No Cities Added
+            <mat-form-field>
+                <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
+            </mat-form-field>
+        </div>
+        <div id="destination">
+            <h2 class="mat-headline">DESTINATION</h2>
+            <h4>1) Search type:</h4>
+            <!-- <mat-form-field> -->
+            <mat-radio-group aria-label="Select an option">
+                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
+                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+            </mat-radio-group>
+            <!-- </mat-form-field> -->
+            <mat-form-field>
+                <input matInput formControlName="destinationOptionCity" placeholder="Origin (city, zip)"
+                    autocomplete=off>
+            </mat-form-field>
+            No Cities Added
+            <mat-form-field>
+                <input matInput formControlName="destinationOptionRegion" placeholder="Origin (city, zip)"
+                    autocomplete=off>
+            </mat-form-field>
+        </div>
+        <div id="filters">
+            <h2 class="mat-headline">FILTERS</h2>
+            <h4>Sort & Highlight</h4>
+            <mat-form-field id="primarySort">
+                <mat-label>Primary Sort</mat-label>
+                <mat-select formControlName="primarySort">
+                    <mat-option *ngFor="let sort of primarySort" [value]="sort">
+                        {{ sort }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field id="secondarySort">
+                <mat-label>Secondary Sort</mat-label>
+                <mat-select formControlName="secondarySort">
+                    <mat-option *ngFor="let sort of secondarySort" [value]="sort">
+                        {{ sort }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field id="hightlightByPostedWithin">
+                <mat-label>hightlightBy (Posted Within)</mat-label>
+                <mat-select formControlName="hightlightByPostedWithin">
+                    <mat-option *ngFor="let hightlight of hightlightByPostedWithin" [value]="hightlight">
+                        {{ hightlight }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field id="dateAndTime">
+                <mat-label>Date & Time</mat-label>
+                <mat-select formControlName="dateAndTime">
+                    <mat-option *ngFor="let datetime of dateAndTime" [value]="datetime">
+                        {{ datetime }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div>
+                <h4>vehicle/s</h4>
+                <mat-form-field>
+                    <mat-label>Trailer Type</mat-label>
+                    <mat-select formControlName="trailerType">
+                        <mat-option *ngFor="let trailrType of trailerType" [value]="trailrType">
+                            {{ trailrType }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Trailer Condition</mat-label>
+                    <mat-select formControlName="trailerCondition">
+                        <mat-option *ngFor="let condition of trailerCondition" [value]="condition">
+                            {{ condition }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Vehicle Type</mat-label>
+                    <mat-select formControlName="vehicleType">
+                        <mat-option *ngFor="let vehicleType of vehicleTypes" [value]="vehicleType">
+                            {{ vehicleType }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Min #</mat-label>
+                    <mat-select formControlName="minOfVehicles">
+                        <mat-option *ngFor="let min of minOfVehicles" [value]="min">
+                            {{ min }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Max #</mat-label>
+                    <mat-select formControlName="maxOfVehicles">
+                        <mat-option *ngFor="let max of maxOfVehicles" [value]="max">
+                            {{ max }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <h4>Payment</h4>
+                <mat-form-field>
+                    <mat-label>Payment</mat-label>
+                    <mat-select formControlName="paymentTerms">
+                        <mat-option *ngFor="let paymentTerm of paymentTerms" [value]="paymentTerm">
+                            {{ paymentTerm }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Carrier Pay (min)</mat-label>
+                    <input matInput formControlName="carrierPay">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>$/Mile Per Car (min)</mat-label>
+                    <input matInput formControlName="perMilePerCarMin" autocomplete=off>
+                    <mat-hint>Example: 0.75</mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+    </main>
+    <footer mat-dialog-actions>
+        <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>&nbsp;
+        <button mat-flat-button color="primary" id="submitButton" type="submit">Apply</button>
+    </footer>
+</form>

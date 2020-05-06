@@ -321,10 +321,11 @@ export class OrderListComponent implements OnInit {
     const status = this.getStatusCSVString();
     this.selectedOrder = null;
     this.auditResponse = null;
+    this.spinner.show();
     if (this.isSearching) {
-      this.spinner.show();
+      // this.spinner.show();
       this.apiService
-        .searchOrders('MAKE', this.searchForm.value.searchText.trim(), pageNumber, this.config.itemsPerPage)
+        .searchOrders(null, this.searchForm.value.searchText.trim(), pageNumber, this.config.itemsPerPage)
         .subscribe((data: PagedOrders) => {
           this.spinner.hide();
           console.log(data);
@@ -337,7 +338,7 @@ export class OrderListComponent implements OnInit {
           }
         });
     } else if (status === 'all') {
-      this.spinner.show();
+      // this.spinner.show();
       this.apiService
         .getPagedOrders(pageNumber, this.config.itemsPerPage)
         // .pipe(takeUntil(this.destroy$))
@@ -354,7 +355,7 @@ export class OrderListComponent implements OnInit {
           }
         });
     } else {
-      this.spinner.show();
+      // this.spinner.show();
       this.apiService
         .getOrdersByStatusIn(status, pageNumber, this.config.itemsPerPage)
         .pipe(takeUntil(this.destroy$))

@@ -6,22 +6,29 @@
         <p class="loading">Loading...</p>
     </ngx-spinner> -->
     <mat-toolbar id="newOrderOptions">
-        <mat-form-field id="search">
-            <input matInput type="search">
-            <!-- <mat-icon matSuffix>search</mat-icon> -->
-        </mat-form-field>
+        <!-- <button mat-button><mat-icon matPrefix>search</mat-icon></button> -->
+        <form id="searchForm" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+            <mat-form-field id="search">
+                <input matInput id="searchText" type="text" formControlName="searchText" (change)="onSearchChanged()" placeholder="Type: Order ID, Make or Model">
+                <!-- <mat-icon matSuffix>search</mat-icon> -->
+            </mat-form-field>
+
+            <button mat-button id="searchIcon" href="#" type=submit>
+                <mat-icon matPrefix>search</mat-icon>
+            </button>
+        </form>
         &nbsp;|&nbsp;
-        <button id="origin" mat-stroked-button>
+        <button id="origin" mat-stroked-button (click)="showFiltersDialog()">
             Add an Origin
         </button>
         &nbsp;
         <mat-icon>compare_arrows</mat-icon>
         &nbsp;
-        <button mat-stroked-button>
+        <button mat-stroked-button (click)="showFiltersDialog()">
             Add a Destination
         </button>
         &nbsp;
-        <button mat-button [routerLink]="['/searchfilters']">
+        <button mat-button (click)="showFiltersDialog()">
             Filters <mat-icon>filter_list</mat-icon>
         </button>
         &nbsp;
