@@ -1,5 +1,5 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
-    <p class="loading">Loading...</p>
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="large">
+    <p class="loading"></p>
 </ngx-spinner>
 <main>
     <!-- <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
@@ -7,7 +7,7 @@
     </ngx-spinner> -->
     <mat-toolbar id="newOrderOptions">
         <!-- <button mat-button><mat-icon matPrefix>search</mat-icon></button> -->
-        <form id="searchForm" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <form id="searchForm" [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
             <mat-form-field id="search">
                 <input matInput id="searchText" type="text" formControlName="searchText" (change)="onSearchChanged()" placeholder="Type: Order ID, Make or Model">
                 <!-- <mat-icon matSuffix>search</mat-icon> -->
@@ -28,7 +28,7 @@
             Add a Destination
         </button>
         &nbsp;
-        <button mat-button (click)="showFiltersDialog()">
+        <button mat-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0" matBadgePosition="after" (click)="showFiltersDialog()">
             Filters <mat-icon>filter_list</mat-icon>
         </button>
         &nbsp;

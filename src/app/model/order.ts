@@ -99,7 +99,8 @@ export interface Order {
     assignedToDriver: User;
 
     distance: number;
-    radiusDistance: number;
+    radiusPickupDistance: number;
+    radiusDeliveryDistance: number;
 
     createdBy: User;
     createdAt: Date;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +11,8 @@ import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
   styleUrls: ['./search-filters-dialog.component.scss']
 })
 export class SearchFiltersDialogComponent implements OnInit {
+  @ViewChild('autoOrigin') autoOrigin: { clear: () => void; };
+  @ViewChild('autoDestination') autoDestination: { clear: () => void; };
   primarySort: string[] = [
     'First Available Date',
     'Carrier Pay',
@@ -66,19 +68,9 @@ export class SearchFiltersDialogComponent implements OnInit {
   public locationArray: CityZipLatLong[] = [];
   // public originLocations: LatLng[] = [];
   keyword = 'city';
-  selectedLocations: CityZipLatLong[] = [];
+  selectedOriginCities: CityZipLatLong[] = [];
+  selectedDestinationCities: CityZipLatLong[] = [];
   // isLoading = false;
-  // data = [
-  //   {
-  //     id: 1,
-  //     name: 'Usa'
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'England'
-  //   }
-  // ];
-  // public locationArray: any[] = [];
 
   filterForm: FormGroup;
 
@@ -109,6 +101,14 @@ export class SearchFiltersDialogComponent implements OnInit {
     //       this.locationArray.push(location);
     //     }
     //   });
+    if (localStorage.getItem('selectedOriginCities') !== null &&
+            JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) {
+      this.selectedOriginCities = JSON.parse(localStorage.getItem('selectedOriginCities'));
+    }
+    if (localStorage.getItem('selectedDestinationCities') !== null &&
+            JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) {
+      this.selectedDestinationCities = JSON.parse(localStorage.getItem('selectedDestinationCities'));
+    }
   }
 
   // openDialog(): void {
@@ -150,13 +150,36 @@ export class SearchFiltersDialogComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.data.apply = true;
-
+    // if (this.selectedOriginCities.length > 0) {
+    localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
+    // }
+    // if (this.selectedDestinationCities.length > 0) {
+    localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
+    // }
     this.dialogRef.close({ apply: true });
   }
 
   onCloseClick() {
     this.dialogRef.close({ apply: false });
+  }
+
+  onResetFilterClick() {
+    localStorage.removeItem('selectedOriginCities');
+    localStorage.removeItem('selectedDestinationCities');
+    this.selectedOriginCities = [];
+    this.selectedDestinationCities = [];
+  }
+
+  showResetFilterButton() {
+    return (localStorage.getItem('selectedOriginCities') !== null &&
+                JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
+           (localStorage.getItem('selectedDestinationCities') !== null &&
+                JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0);
+  }
+
+  enableApplyButton() {
+    // return this.selectedOriginCities.length > 0 || this.selectedDestinationCities.length > 0;
+    return true;
   }
 
   originCityChange(e: { target: { value: string; }; }) {
@@ -165,10 +188,21 @@ export class SearchFiltersDialogComponent implements OnInit {
     // alert(locations[0].city);
   }
 
-  selectEvent(item: CityZipLatLong) {
-    if (this.selectedLocations.length < 5) {
-      this.selectedLocations.push(item);
+  selectEvent(item: CityZipLatLong, cityType: string) {
+    if (cityType === 'origin') {
+      if (this.selectedOriginCities.length < 5 &&
+            !(this.selectedOriginCities.some(e => e.city === item.city && e.zip === item.zip))) {
+        this.selectedOriginCities.push(item);
+      }
+      this.autoOrigin.clear();
+    } else if (cityType === 'destination') {
+      if (this.selectedDestinationCities.length < 5 &&
+            !(this.selectedDestinationCities.some(e => e.city === item.city && e.zip === item.zip))) {
+        this.selectedDestinationCities.push(item);
+      }
+      this.autoDestination.clear();
     }
+    this.locationArray = [];
   }
 
   onChangeSearch(val: string) {
@@ -185,8 +219,12 @@ export class SearchFiltersDialogComponent implements OnInit {
 
   }
 
-  onRemoveLocation(index: number) {
-    this.selectedLocations.splice(index, 1);
+  onRemoveLocation(index: number, cityType: string) {
+    if (cityType === 'origin') {
+      this.selectedOriginCities.splice(index, 1);
+    } else if (cityType === 'destination') {
+      this.selectedDestinationCities.splice(index, 1);
+    }
   }
 }
 

@@ -18,6 +18,8 @@ import { AuditResponse } from '../model/audit-response';
 import { OrderCarrier } from '../model/order-carrier';
 import { PagedOrders } from '../model/paged-orders';
 import { CityZipLatLong } from '../model/city-zip-lat-long';
+import { LatitudeLongitude } from '../model/latitude-longitude';
+import { LatitudeLongitudeRefs } from '../model/latitude-longitude-refs';
 
 @Injectable({
   providedIn: 'root'
@@ -173,9 +175,20 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getCircularDistance(latitude: number, longitude: number, distance: number, page: number, pageSize: number) {
+  public getCircularDistance(latitudeLongitudeRefs: LatitudeLongitudeRefs, distance: number, page: number, pageSize: number) {
+    const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
     return this.httpClient
-      .get<PagedOrders>(environment.REST_SERVICE_URL + `/order/getinradius/${latitude}/${longitude}/${distance}/${page}/${pageSize}`)
+      .get<PagedOrders>(environment.REST_SERVICE_URL
+          + `/order/getinradius/${distance}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public getCircularDistanceBoth(pickupLatitude: number, pickupLongitude: number, deliveryLatitude: number, deliveryLongitude: number,
+                                 distance: number, page: number, pageSize: number) {
+    return this.httpClient
+      .get<PagedOrders>(environment.REST_SERVICE_URL
+          + `/order/getinradius/${pickupLatitude}/${pickupLongitude}/${deliveryLatitude}/${deliveryLongitude}/
+          ${distance}/${page}/${pageSize}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 
