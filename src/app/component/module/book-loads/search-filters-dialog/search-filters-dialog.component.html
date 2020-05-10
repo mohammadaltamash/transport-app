@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>Advanced Search</h1>
-<button mat-stroked-button *ngIf="showResetFilterButton()" (click)="onResetFilterClick()" type="button">Reset FIlters</button>
+<button mat-stroked-button *ngIf="showResetFilterButton()" (click)="onResetFilterClick()" type="button">Reset
+    FIlters</button>
 <!-- <mat-toolbar mat-dialog-title color="primary">Advanced Search</mat-toolbar> -->
 <form id="filterForm" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <main mat-dialog-content>
@@ -29,8 +30,7 @@
                 <ng-autocomplete #autoOrigin [data]="locationArray" [searchKeyword]="keyword"
                     (selected)="selectEvent($event, 'origin')" (inputChanged)='onChangeSearch($event)'
                     (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2"
-                    placeHolder="Origin (city, zip)">
+                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2" placeHolder="Origin (city, zip)">
                 </ng-autocomplete>
 
                 <ng-template #itemTemplate let-item>
@@ -46,9 +46,28 @@
                 </ng-template>
             </div>
             <ul *ngFor="let location of selectedOriginCities; let i = index">
-                <li>{{location.city}}, {{location.state}}, {{location.zip}} <span (click)="onRemoveLocation(i, 'origin')">
-                        <mat-icon class="close">close</mat-icon>
-                    </span></li>
+                <mat-card>
+                    <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
+                            {{location.zip}}</span>
+                        <div class="radio-toolbar">
+                            <input type="radio" id="25Origin{{i}}" name="Origin{{i}}" value=25
+                                (change)="onOriginCitiesRadiusChecked($event, i)">
+                            <label for="25Origin{{i}}">25</label>
+                            <input type="radio" id="50Origin{{i}}" name="Origin{{i}}" value=50
+                                (change)="onOriginCitiesRadiusChecked($event, i)">
+                            <label for="50Origin{{i}}">50</label>
+                            <input type="radio" id="100Origin{{i}}" name="Origin{{i}}" value=100
+                                (change)="onOriginCitiesRadiusChecked($event, i)">
+                            <label for="100Origin{{i}}">100</label>
+                            <input type="radio" id="200Origin{{i}}" name="Origin{{i}}" value=200
+                                (change)="onOriginCitiesRadiusChecked($event, i)">
+                            <label for="200Origin{{i}}">200</label>
+                        </div>
+                        <span class="closeLocation" (click)="onRemoveLocation(i, 'origin')">
+                            <mat-icon class="close">close</mat-icon>
+                        </span>
+                    </li>
+                </mat-card>
             </ul>
             <ng-container *ngIf="selectedOriginCities.length === 0">No Cities Added</ng-container>
             <mat-form-field>
@@ -73,8 +92,7 @@
                 <ng-autocomplete #autoDestination [data]="locationArray" [searchKeyword]="keyword"
                     (selected)="selectEvent($event, 'destination')" (inputChanged)='onChangeSearch($event)'
                     (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2"
-                    placeHolder="Destination (city, zip)">
+                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2" placeHolder="Destination (city, zip)">
                 </ng-autocomplete>
 
                 <ng-template #itemTemplate let-item>
@@ -90,9 +108,28 @@
                 </ng-template>
             </div>
             <ul *ngFor="let location of selectedDestinationCities; let i = index">
-                <li>{{location.city}}, {{location.state}}, {{location.zip}} <span (click)="onRemoveLocation(i, 'destination')">
-                        <mat-icon class="close">close</mat-icon>
-                    </span></li>
+                <mat-card>
+                    <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
+                            {{location.zip}}</span>
+                        <div class="radio-toolbar">
+                            <input type="radio" id="25Destination{{i}}" name="Destination{{i}}" value=25
+                                (change)="onDestinationCitiesRadiusChecked($event, i)">
+                            <label for="25Destination{{i}}">25</label>
+                            <input type="radio" id="50Destination{{i}}" name="Destination{{i}}" value=50
+                                (change)="onDestinationCitiesRadiusChecked($event, i)">
+                            <label for="50Destination{{i}}">50</label>
+                            <input type="radio" id="100Destination{{i}}" name="Destination{{i}}" value=100
+                                (change)="onDestinationCitiesRadiusChecked($event, i)">
+                            <label for="100Destination{{i}}">100</label>
+                            <input type="radio" id="200Destination{{i}}" name="Destination{{i}}" value=200
+                                (change)="onDestinationCitiesRadiusChecked($event, i)">
+                            <label for="200Destination{{i}}">200</label>
+                        </div>
+                        <span class="closeLocation" (click)="onRemoveLocation(i, 'destination')">
+                            <mat-icon class="close">close</mat-icon>
+                        </span>
+                    </li>
+                </mat-card>
             </ul>
             <ng-container *ngIf="selectedDestinationCities.length === 0">No Cities Added</ng-container>
             <mat-form-field>
@@ -202,6 +239,7 @@
     </main>
     <footer mat-dialog-actions>
         <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>&nbsp;
-        <button mat-flat-button color="primary" id="submitButton" [disabled]="!enableApplyButton()" type="submit">Apply</button>
+        <button mat-flat-button color="primary" id="submitButton" [disabled]="!enableApplyButton()"
+            type="submit">Apply</button>
     </footer>
 </form>

@@ -7,4 +7,5 @@ export interface CityZipLatLong {
     longitude: number;
     timezone: number;
     geopoint: string;
+    distance: number;
 }

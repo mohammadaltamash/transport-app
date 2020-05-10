@@ -20,7 +20,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { SearchFiltersDialogComponent } from '../search-filters-dialog/search-filters-dialog.component';
 import { CommonModelService } from 'src/app/service/common-model.service';
 import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
-import { LatitudeLongitudeRefs } from 'src/app/model/latitude-longitude-refs';
+import { LatitudeLongitudeDistanceRefs } from 'src/app/model/latitude-longitude-distance-refs';
 
 @Component({
   selector: 'app-load-board',
@@ -39,6 +39,8 @@ export class LoadBoardComponent implements OnInit {
   selectedItem: number; // ?
   selectedOriginCities: CityZipLatLong[] = [];
   selectedDestinationCities: CityZipLatLong[] = [];
+  // selectedOriginCitiesRadius = [];
+  // selectedDestinationCitiesRadius = [];
 
   isSearching = false;
   // bookDialog: AskToBookDialogComponent;
@@ -116,24 +118,42 @@ export class LoadBoardComponent implements OnInit {
         this.selectedDestinationCities = JSON.parse(
           localStorage.getItem('selectedDestinationCities')
         );
+        // this.selectedOriginCitiesRadius = JSON.parse(
+        //   localStorage.getItem('selectedOriginCitiesRadius')
+        // );
+        // this.selectedDestinationCitiesRadius = JSON.parse(
+        //   localStorage.getItem('selectedDestinationCities')
+        // );
         const pickupLatLongArray = [];
         this.selectedOriginCities.forEach(item => {
           const latLong = {
             latitude: item.latitude,
-            longitude: item.longitude
+            longitude: item.longitude,
+            distance: item.distance
           };
           pickupLatLongArray.push(latLong);
         });
+        // for (let i = 0; i < this.selectedOriginCities.length; i++) {
+        //   const latLong = {
+        //     latitude: this.selectedOriginCities[i].latitude,
+        //     longitude: this.selectedOriginCities[i].longitude,
+        //     distance: this.selectedOriginCitiesRadius[i]
+        //   };
+        //   pickupLatLongArray.push(latLong);
+        // }
+
         const deliveryLatLongArray = [];
-        this.selectedOriginCities.forEach(item => {
+        this.selectedDestinationCities.forEach(item => {
           const latLong = {
             latitude: item.latitude,
-            longitude: item.longitude
+            longitude: item.longitude,
+            distance: item.distance
           };
           deliveryLatLongArray.push(latLong);
         });
+
         this.spinner.show();
-        const latitudeLongitudeRefs: LatitudeLongitudeRefs = new LatitudeLongitudeRefs();
+        const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
         // const latLong1 = {
         //   latitude: 42.997075,
         //   longitude: -103.074280
@@ -183,6 +203,7 @@ export class LoadBoardComponent implements OnInit {
                (localStorage.getItem('selectedDestinationCities') === null ||
                     JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0)) {
         this.fetchOrders(0);
+        this.config.currentPage = 0;
       }
     });
   }
@@ -235,19 +256,21 @@ export class LoadBoardComponent implements OnInit {
       this.selectedOriginCities.forEach(item => {
         const latLong = {
           latitude: item.latitude,
-          longitude: item.longitude
+          longitude: item.longitude,
+          distance: item.distance
         };
         pickupLatLongArray.push(latLong);
       });
       const deliveryLatLongArray = [];
-      this.selectedOriginCities.forEach(item => {
+      this.selectedDestinationCities.forEach(item => {
         const latLong = {
           latitude: item.latitude,
-          longitude: item.longitude
+          longitude: item.longitude,
+          distance: item.distance
         };
         deliveryLatLongArray.push(latLong);
       });
-      const latitudeLongitudeRefs: LatitudeLongitudeRefs = new LatitudeLongitudeRefs();
+      const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
       // const latLong1 = {
       //   latitude: 42.997075,
       //   longitude: -103.074280
@@ -310,11 +333,11 @@ export class LoadBoardComponent implements OnInit {
     let count = 0;
     if (localStorage.getItem('selectedOriginCities') !== null &&
             JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) {
-      count++;
+      count += JSON.parse(localStorage.getItem('selectedOriginCities')).length;
     }
     if (localStorage.getItem('selectedDestinationCities') !== null &&
             JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) {
-      count++;
+      count += JSON.parse(localStorage.getItem('selectedDestinationCities')).length;
     }
     return count;
   }

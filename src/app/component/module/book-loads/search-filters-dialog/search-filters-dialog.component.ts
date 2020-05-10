@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -10,9 +10,10 @@ import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
   templateUrl: './search-filters-dialog.component.html',
   styleUrls: ['./search-filters-dialog.component.scss']
 })
-export class SearchFiltersDialogComponent implements OnInit {
+export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   @ViewChild('autoOrigin') autoOrigin: { clear: () => void; };
   @ViewChild('autoDestination') autoDestination: { clear: () => void; };
+  // @ViewChild('25Origin0') origin0: ElementRef;
   primarySort: string[] = [
     'First Available Date',
     'Carrier Pay',
@@ -70,6 +71,10 @@ export class SearchFiltersDialogComponent implements OnInit {
   keyword = 'city';
   selectedOriginCities: CityZipLatLong[] = [];
   selectedDestinationCities: CityZipLatLong[] = [];
+  // selectedOriginCitiesRadius = [];
+  // selectedDestinationCitiesRadius = [];
+  DEFAULT_DISTANCE_RADIUS = 50;
+
   // isLoading = false;
 
   filterForm: FormGroup;
@@ -104,10 +109,12 @@ export class SearchFiltersDialogComponent implements OnInit {
     if (localStorage.getItem('selectedOriginCities') !== null &&
             JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) {
       this.selectedOriginCities = JSON.parse(localStorage.getItem('selectedOriginCities'));
+      // this.selectedOriginCitiesRadius = JSON.parse(localStorage.getItem('selectedOriginCitiesRadius'));
     }
     if (localStorage.getItem('selectedDestinationCities') !== null &&
             JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) {
       this.selectedDestinationCities = JSON.parse(localStorage.getItem('selectedDestinationCities'));
+      // this.selectedDestinationCitiesRadius = JSON.parse(localStorage.getItem('selectedDestinationCitiesRadius'));
     }
   }
 
@@ -147,14 +154,50 @@ export class SearchFiltersDialogComponent implements OnInit {
       carrierPay: '',
       perMilePerCarMin: ''
     });
+    // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
+    //   document.getElementById('25miles-{{' + i + '}}').setAttribute('checked', 'true');
+    // }
+    // document.getElementById('25Origin0').checked = true;
+  }
+
+  // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
+    //   document.getElementById('25miles-{{' + i + '}}').setAttribute('checked', 'true');
+    // }
+    // document.getElementById('25Origin0').checked = true;
+    // this.origin0.nativeElement.checked = true;
+
+  ngAfterViewInit() {
+    // this.origin0.nativeElement.checked = true;
+    for (let i = 0; i < this.selectedOriginCities.length; i++) {
+      this.setDistanceCheck(i, 25, this.selectedOriginCities, '25Origin');
+      this.setDistanceCheck(i, 50, this.selectedOriginCities, '50Origin');
+      this.setDistanceCheck(i, 100, this.selectedOriginCities, '100Origin');
+      this.setDistanceCheck(i, 200, this.selectedOriginCities, '200Origin');
+    }
+    for (let j = 0; j < this.selectedDestinationCities.length; j++) {
+      this.setDistanceCheck(j, 25, this.selectedDestinationCities, '25Destination');
+      this.setDistanceCheck(j, 50, this.selectedDestinationCities, '50Destination');
+      this.setDistanceCheck(j, 100, this.selectedDestinationCities, '100Destination');
+      this.setDistanceCheck(j, 200, this.selectedDestinationCities, '200Destination');
+    }
+  }
+
+  setDistanceCheck(i: number, d: number, cityZipArray: CityZipLatLong[], id: string) {
+    if (cityZipArray[i].distance === d) {
+      document.getElementById(id + i).setAttribute('checked', 'true');
+    } else {
+      document.getElementById(id + i).removeAttribute('checked');
+    }
   }
 
   onSubmit() {
     // if (this.selectedOriginCities.length > 0) {
     localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
+    // localStorage.setItem('selectedOriginCitiesRadius', JSON.stringify(this.selectedOriginCitiesRadius));
     // }
     // if (this.selectedDestinationCities.length > 0) {
     localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
+    // localStorage.setItem('selectedDestinationCitiesRadius', JSON.stringify(this.selectedDestinationCitiesRadius));
     // }
     this.dialogRef.close({ apply: true });
   }
@@ -166,8 +209,12 @@ export class SearchFiltersDialogComponent implements OnInit {
   onResetFilterClick() {
     localStorage.removeItem('selectedOriginCities');
     localStorage.removeItem('selectedDestinationCities');
+    localStorage.removeItem('selectedOriginCitiesRadius');
+    localStorage.removeItem('selectedDestinationCitiesRadius');
     this.selectedOriginCities = [];
     this.selectedDestinationCities = [];
+    // this.selectedOriginCitiesRadius = [];
+    // this.selectedDestinationCitiesRadius = [];
   }
 
   showResetFilterButton() {
@@ -192,13 +239,21 @@ export class SearchFiltersDialogComponent implements OnInit {
     if (cityType === 'origin') {
       if (this.selectedOriginCities.length < 5 &&
             !(this.selectedOriginCities.some(e => e.city === item.city && e.zip === item.zip))) {
+        item.distance = this.DEFAULT_DISTANCE_RADIUS;
         this.selectedOriginCities.push(item);
+        // this.selectedOriginCitiesRadius.push(this.DEFAULT_DISTANCE_RADIUS);
+        // this.setDistanceCheck(this.selectedOriginCities.length, this.DEFAULT_DISTANCE_RADIUS, this.selectedOriginCities,
+        //   this.DEFAULT_DISTANCE_RADIUS + 'Origin');
+        // document.getElementById(
+        //   this.DEFAULT_DISTANCE_RADIUS + 'Origin' + (this.selectedOriginCities.length - 1)).setAttribute('checked', 'true');
       }
       this.autoOrigin.clear();
     } else if (cityType === 'destination') {
       if (this.selectedDestinationCities.length < 5 &&
             !(this.selectedDestinationCities.some(e => e.city === item.city && e.zip === item.zip))) {
+        item.distance = this.DEFAULT_DISTANCE_RADIUS;
         this.selectedDestinationCities.push(item);
+        // this.selectedDestinationCitiesRadius.push(this.DEFAULT_DISTANCE_RADIUS);
       }
       this.autoDestination.clear();
     }
@@ -222,9 +277,24 @@ export class SearchFiltersDialogComponent implements OnInit {
   onRemoveLocation(index: number, cityType: string) {
     if (cityType === 'origin') {
       this.selectedOriginCities.splice(index, 1);
+      // this.selectedOriginCitiesRadius.splice(index, 1);
     } else if (cityType === 'destination') {
       this.selectedDestinationCities.splice(index, 1);
+      // this.selectedDestinationCitiesRadius.splice(index, 1);
     }
+  }
+
+  onOriginCitiesRadiusChecked(e, index) {
+    this.selectedOriginCities[index].distance = +e.target.value;
+    // this.selectedOriginCitiesRadius[index] = e.target.value;
+  }
+  onDestinationCitiesRadiusChecked(e, index) {
+    this.selectedDestinationCities[index].distance = +e.target.value;
+    // this.selectedDestinationCitiesRadius[index] = e.target.value;
+  }
+
+  getChecked() {
+    return false;
   }
 }
 

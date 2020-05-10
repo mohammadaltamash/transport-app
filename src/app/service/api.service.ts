@@ -18,8 +18,8 @@ import { AuditResponse } from '../model/audit-response';
 import { OrderCarrier } from '../model/order-carrier';
 import { PagedOrders } from '../model/paged-orders';
 import { CityZipLatLong } from '../model/city-zip-lat-long';
-import { LatitudeLongitude } from '../model/latitude-longitude';
-import { LatitudeLongitudeRefs } from '../model/latitude-longitude-refs';
+import { LatitudeLongitudeDistance } from '../model/latitude-longitude-distance';
+import { LatitudeLongitudeDistanceRefs } from '../model/latitude-longitude-distance-refs';
 
 @Injectable({
   providedIn: 'root'
@@ -175,7 +175,7 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getCircularDistance(latitudeLongitudeRefs: LatitudeLongitudeRefs, distance: number, page: number, pageSize: number) {
+  public getCircularDistance(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, distance: number, page: number, pageSize: number) {
     const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
     return this.httpClient
       .get<PagedOrders>(environment.REST_SERVICE_URL
