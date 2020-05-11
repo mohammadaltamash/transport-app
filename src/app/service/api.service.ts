@@ -136,6 +136,16 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
+  public getOrdersByStatesIn(pickupStates: string, deliveryStates: string, statuses: string, page: number, pageSize: number) {
+    return this.httpClient
+      .get<PagedOrders>(
+        environment.REST_SERVICE_URL + `/order/get/statesin//${pickupStates}${deliveryStates}/${statuses}/${page}/${pageSize}`
+        // ,
+        // this.getOptions()
+      )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
   public getOrdersCount() {
     return this.httpClient
       .get<number>(

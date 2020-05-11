@@ -57,7 +57,9 @@ export class OrderComponent implements OnInit {
   country = 'us';
   addressIsValid = false;
   pickupAddress: string;
+  pickupAddressState: string;
   deliveryAddress: string;
+  deliveryAddressState: string;
   brokerAddress: string;
   // pickupZip = null;
   // deliveryZip = null;
@@ -331,6 +333,8 @@ export class OrderComponent implements OnInit {
       o.pickupAddress = this.pickupAddress;
       o.deliveryAddress = this.deliveryAddress;
       o.brokerAddress = this.brokerAddress;
+      o.pickupAddressState = this.pickupAddressState;
+      o.deliveryAddressState = this.deliveryAddressState;
       o.pickupLatitude = this.pickupLatitude;
       o.pickupLongitude = this.pickupLongitude;
       o.deliveryLatitude = this.deliveryLatitude;
@@ -441,12 +445,14 @@ export class OrderComponent implements OnInit {
       if (postalCode !== null) {
         this.formControls.pickupZip.setValue(Number(postalCode));
       }
+      this.pickupAddressState = this.extractFromAddress(address_components, 'administrative_area_level_1');
     } else if (zipCategory === 'delivery') {
       this.deliveryAddress = result.formatted_address;
       this.formControls.deliveryZip.setValue('');
       if (postalCode !== null) {
         this.formControls.deliveryZip.setValue(Number(postalCode));
       }
+      this.deliveryAddressState = this.extractFromAddress(address_components, 'administrative_area_level_1');
     } else if (zipCategory === 'broker') {
       this.brokerAddress = result.formatted_address;
       this.formControls.brokerZip.setValue('');

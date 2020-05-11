@@ -64,13 +64,41 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   minOfVehicles: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   maxOfVehicles: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   paymentTerms: string[] = ['COP/COD', 'uShip Code', 'Billing'];
+  regionsAndStates = [
+    {
+      region: ['Northeast'],
+      states: ['Maine', 'New Hampshire', 'Vermont', 'Massachusetts', 'Rhode Island', 'Connecticut', 'New York', 'Pennsylvania',
+                'New Jersey']
+    },
+    {
+      region: ['Midwest'],
+      states: ['Wisconsin', 'Michigan', 'Illinois', 'Indiana', 'Ohio', 'North Dakota', 'South Dakota', 'Nebraska', 'Kansas', 'Minnesota',
+                'Iowa', 'Missouri']
+    },
+    {
+      region: ['South'],
+      states: ['Delaware', 'Maryland', 'District of Columbia', 'Virginia', 'West Virginia', 'North Carolina', 'South Carolina', 'Georgia',
+                'Florida', 'Kentucky', 'Tennessee', 'Mississippi', 'Alabama', 'Oklahoma', 'Texas', 'Arkansas', 'Louisiana']
+    },
+    {
+      region: ['West'],
+      states: ['Idaho', 'Montana', 'Wyoming', 'Nevada', 'Utah', 'Colorado', 'Arizona', 'New Mexico', 'Alaska', 'Washington', 'Oregon',
+                'California', 'Hawaii']
+    }
+  ];
 
+  cityZipFetchOrigin = true;
+  stateFetchOrigin = false;
+  cityZipFetchDestination = true;
+  stateFetchDestination = false;
   // public locationArray: LatLng[] = [];
   public locationArray: CityZipLatLong[] = [];
   // public originLocations: LatLng[] = [];
   keyword = 'city';
   selectedOriginCities: CityZipLatLong[] = [];
   selectedDestinationCities: CityZipLatLong[] = [];
+  selectedOriginStates = [];
+  selectedDestinationStates = [];
   // selectedOriginCitiesRadius = [];
   // selectedDestinationCitiesRadius = [];
   DEFAULT_DISTANCE_RADIUS = 50;
@@ -135,12 +163,14 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
-      address: '',
-      miles: '',
       originOptionCity: '',
       originOptionRegion: '',
+      pickupAddress: '',
+      pickupMiles: '',
       destinationOptionCity: '',
       destinationOptionRegion: '',
+      destinationAddress: '',
+      destinationMiles: '',
       primarySort: 'Post Date',
       secondarySort: '',
       hightlightByPostedWithin: 'None',
@@ -191,14 +221,20 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    // if (this.selectedOriginCities.length > 0) {
     localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
-    // localStorage.setItem('selectedOriginCitiesRadius', JSON.stringify(this.selectedOriginCitiesRadius));
-    // }
-    // if (this.selectedDestinationCities.length > 0) {
     localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
-    // localStorage.setItem('selectedDestinationCitiesRadius', JSON.stringify(this.selectedDestinationCitiesRadius));
-    // }
+    localStorage.setItem('selectedOriginStates', JSON.stringify(this.selectedOriginStates));
+    if (this.cityZipFetchOrigin) {
+      localStorage.setItem('cityZipFetchOrigin', 'true');
+    } else {
+      localStorage.setItem('cityZipFetchOrigin', 'false');
+    }
+    localStorage.setItem('selectedDestinationStates', JSON.stringify(this.selectedDestinationStates));
+    if (this.cityZipFetchDestination) {
+      localStorage.setItem('cityZipFetchDestination', 'true');
+    } else {
+      localStorage.setItem('cityZipFetchDestination', 'false');
+    }
     this.dialogRef.close({ apply: true });
   }
 
@@ -209,12 +245,8 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   onResetFilterClick() {
     localStorage.removeItem('selectedOriginCities');
     localStorage.removeItem('selectedDestinationCities');
-    localStorage.removeItem('selectedOriginCitiesRadius');
-    localStorage.removeItem('selectedDestinationCitiesRadius');
     this.selectedOriginCities = [];
     this.selectedDestinationCities = [];
-    // this.selectedOriginCitiesRadius = [];
-    // this.selectedDestinationCitiesRadius = [];
   }
 
   showResetFilterButton() {
@@ -270,7 +302,7 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onFocused(e) {
+  onFocused(e: any) {
 
   }
 
@@ -284,14 +316,61 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onOriginCitiesRadiusChecked(e, index) {
+  onOriginCitiesRadiusChecked(e: { target: { value: string | number; }; }, index: string | number) {
     this.selectedOriginCities[index].distance = +e.target.value;
     // this.selectedOriginCitiesRadius[index] = e.target.value;
   }
-  onDestinationCitiesRadiusChecked(e, index) {
+  onDestinationCitiesRadiusChecked(e: { target: { value: string | number; }; }, index: string | number) {
     this.selectedDestinationCities[index].distance = +e.target.value;
     // this.selectedDestinationCitiesRadius[index] = e.target.value;
   }
+
+  onOriginCityStateSelection(event: { value: string; }) {
+    // const value = event.value;
+    if (event.value === '1') {
+      this.cityZipFetchOrigin = true;
+      this.stateFetchOrigin = false;
+    } else {
+      this.cityZipFetchOrigin = false;
+      this.stateFetchOrigin = true;
+    }
+  }
+
+  onDestinationCityStateSelection(event: { value: string; }) {
+    // const value = event.value;
+    if (event.value === '1') {
+      this.cityZipFetchDestination = true;
+      this.stateFetchDestination = false;
+    } else {
+      this.cityZipFetchDestination = false;
+      this.stateFetchDestination = true;
+    }
+  }
+
+  onOriginStateToggle(event: { checked: any; }, i: string | number , j: string | number) {
+    // console.log(event.source.value);
+    const state = this.regionsAndStates[i].states[j];
+    if (event.checked && !this.selectedOriginStates.some(s => s === state)) {
+      this.selectedOriginStates.push(state);
+    } else {
+      const index = this.selectedOriginStates.indexOf(state);
+      this.selectedOriginStates.splice(index, 1);
+    }
+  }
+
+  onDestinationStateToggle(event: { checked: any; }, i: string | number , j: string | number) {
+    // console.log(event.source.value);
+    const state = this.regionsAndStates[i].states[j];
+    if (event.checked && !this.selectedDestinationStates.some(s => s === state)) {
+      this.selectedDestinationStates.push(state);
+    } else {
+      const index = this.selectedDestinationStates.indexOf(state);
+      this.selectedDestinationStates.splice(index, 1);
+    }
+  }
+  // onOriginStateClick(event) {
+  //   console.log(event.source.value);
+  // }
 
   getChecked() {
     return false;

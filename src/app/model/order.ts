@@ -12,6 +12,7 @@ export interface Order {
     pickupContactName: string;                                      // Contact name
     pickupCompanyName: string;                                      // Company name
     pickupAddress: string;                                          // Pickup address               required
+    pickupAddressState: string;
     pickupZip: string;                                              // Pickup zip                    required
     pickupLatitude: number;
     pickupLongitude: number;
@@ -30,6 +31,7 @@ export interface Order {
     deliveryCompanyName: string;                                    // Company name
 //    @NotEmpty(message = "deliveryAddress is required")
     deliveryAddress: string;                                        // Delivery address             required
+    deliveryAddressState: string;
 //    @NotEmpty(message = "deliveryZip is required")
     deliveryZip: string;                                            // Zip                          required
     deliveryLatitude: number;

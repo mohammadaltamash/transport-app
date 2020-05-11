@@ -18,124 +18,188 @@
             <h4>1) Search type:</h4>
             <!-- <mat-form-field> -->
             <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
-                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+                <mat-radio-button value="1" [checked]="cityZipFetchOrigin" name="originFetch"
+                    (change)="onOriginCityStateSelection($event)">City Search (city, zip)
+                </mat-radio-button>
+                <mat-radio-button value="2" [checked]="stateFetchOrigin" name="originFetch"
+                    (change)="onOriginCityStateSelection($event)">Region Search (states, regions)
+                </mat-radio-button>
             </mat-radio-group>
             <!-- </mat-form-field> -->
-            <h4>2) Add up to 5 Origin Cities</h4>
             <!-- <mat-form-field>
                 <input matInput formControlName="originOptionCity" placeholder="Origin (city, zip)" autocomplete=off>
             </mat-form-field> -->
-            <div class="ng-autocomplete">
-                <ng-autocomplete #autoOrigin [data]="locationArray" [searchKeyword]="keyword"
-                    (selected)="selectEvent($event, 'origin')" (inputChanged)='onChangeSearch($event)'
-                    (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2" placeHolder="Origin (city, zip)">
-                </ng-autocomplete>
+            <ng-container *ngIf="cityZipFetchOrigin">
+                <h4>2) Add up to 5 Origin Cities</h4>
+                <div class="ng-autocomplete">
+                    <ng-autocomplete #autoOrigin [data]="locationArray" [searchKeyword]="keyword"
+                        (selected)="selectEvent($event, 'origin')" (inputChanged)='onChangeSearch($event)'
+                        (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2" placeHolder="Origin (city, zip)">
+                    </ng-autocomplete>
 
-                <ng-template #itemTemplate let-item>
-                    <div class="autocomplete">
-                        <span [innerHTML]="item.city"></span>,
-                        <span [innerHTML]="item.state"></span>,
-                        <span [innerHTML]="item.zip"></span>
-                    </div>
-                </ng-template>
-
-                <ng-template #notFoundTemplate let-notFound>
-                    <div [innerHTML]="notFound"></div>
-                </ng-template>
-            </div>
-            <ul *ngFor="let location of selectedOriginCities; let i = index">
-                <mat-card>
-                    <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
-                            {{location.zip}}</span>
-                        <div class="radio-toolbar">
-                            <input type="radio" id="25Origin{{i}}" name="Origin{{i}}" value=25
-                                (change)="onOriginCitiesRadiusChecked($event, i)">
-                            <label for="25Origin{{i}}">25</label>
-                            <input type="radio" id="50Origin{{i}}" name="Origin{{i}}" value=50
-                                (change)="onOriginCitiesRadiusChecked($event, i)">
-                            <label for="50Origin{{i}}">50</label>
-                            <input type="radio" id="100Origin{{i}}" name="Origin{{i}}" value=100
-                                (change)="onOriginCitiesRadiusChecked($event, i)">
-                            <label for="100Origin{{i}}">100</label>
-                            <input type="radio" id="200Origin{{i}}" name="Origin{{i}}" value=200
-                                (change)="onOriginCitiesRadiusChecked($event, i)">
-                            <label for="200Origin{{i}}">200</label>
+                    <ng-template #itemTemplate let-item>
+                        <div class="autocomplete">
+                            <span [innerHTML]="item.city"></span>,
+                            <span [innerHTML]="item.state"></span>,
+                            <span [innerHTML]="item.zip"></span>
                         </div>
-                        <span class="closeLocation" (click)="onRemoveLocation(i, 'origin')">
-                            <mat-icon class="close">close</mat-icon>
-                        </span>
-                    </li>
-                </mat-card>
-            </ul>
-            <ng-container *ngIf="selectedOriginCities.length === 0">No Cities Added</ng-container>
-            <mat-form-field>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                </div>
+                <ul *ngFor="let location of selectedOriginCities; let i = index">
+                    <mat-card>
+                        <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
+                                {{location.zip}}</span>
+                            <div class="radio-toolbar">
+                                <input type="radio" id="25Origin{{i}}" name="Origin{{i}}" value=25
+                                    (change)="onOriginCitiesRadiusChecked($event, i)">
+                                <label for="25Origin{{i}}">25</label>
+                                <input type="radio" id="50Origin{{i}}" name="Origin{{i}}" value=50 checked
+                                    (change)="onOriginCitiesRadiusChecked($event, i)">
+                                <label for="50Origin{{i}}">50</label>
+                                <input type="radio" id="100Origin{{i}}" name="Origin{{i}}" value=100
+                                    (change)="onOriginCitiesRadiusChecked($event, i)">
+                                <label for="100Origin{{i}}">100</label>
+                                <input type="radio" id="200Origin{{i}}" name="Origin{{i}}" value=200
+                                    (change)="onOriginCitiesRadiusChecked($event, i)">
+                                <label for="200Origin{{i}}">200</label>
+                            </div>
+                            <span class="closeLocation" (click)="onRemoveLocation(i, 'origin')">
+                                <mat-icon class="close">close</mat-icon>
+                            </span>
+                        </li>
+                    </mat-card>
+                </ul>
+                <ng-container *ngIf="selectedOriginCities.length === 0">No Cities Added</ng-container>
+            </ng-container>
+            <ng-container *ngIf="stateFetchOrigin">
+                <!-- <mat-form-field>
                 <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
-            </mat-form-field>
+            </mat-form-field> -->
+                <mat-accordion>
+                    <ng-container *ngFor="let regionAndState of regionsAndStates; let i = index">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-checkbox id="regionAndState{{i}}"></mat-checkbox>
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    {{regionAndState.region}}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <mat-nav-list>
+                                <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
+                                    <mat-checkbox matLine id="state{{i}}{{j}}"
+                                        (change)="onOriginStateToggle($event, i, j)">{{state}}</mat-checkbox>
+                                    <mat-divider></mat-divider>
+                                </mat-list-item>
+                            </mat-nav-list>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+                <ng-container *ngIf="selectedOriginStates.length === 0">No States Added</ng-container>
+            </ng-container>
         </div>
         <div id="destination">
             <h2 class="mat-headline">DESTINATION</h2>
             <h4>1) Search type:</h4>
             <!-- <mat-form-field> -->
             <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="1" [checked]="true">City Search (city, zip)</mat-radio-button>
-                <mat-radio-button value="2">Region Search (states, regions)</mat-radio-button>
+                <mat-radio-button value="1" [checked]="cityZipFetchDestination" name="originFetch"
+                    (change)="onDestinationCityStateSelection($event)">City Search (city, zip)
+                </mat-radio-button>
+                <mat-radio-button value="2" [checked]="stateFetchDestination" name="originFetch"
+                    (change)="onDestinationCityStateSelection($event)">Region Search (states, regions)
+                </mat-radio-button>
             </mat-radio-group>
             <!-- </mat-form-field> -->
             <!-- <mat-form-field>
                 <input matInput formControlName="destinationOptionCity" placeholder="Origin (city, zip)"
                     autocomplete=off>
             </mat-form-field> -->
-            <h4>2) Add up to 5 Destination Cities</h4>
-            <div class="ng-autocomplete">
-                <ng-autocomplete #autoDestination [data]="locationArray" [searchKeyword]="keyword"
-                    (selected)="selectEvent($event, 'destination')" (inputChanged)='onChangeSearch($event)'
-                    (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2" placeHolder="Destination (city, zip)">
-                </ng-autocomplete>
+            <ng-container *ngIf="cityZipFetchDestination">
+                <h4>2) Add up to 5 Destination Cities</h4>
+                <div class="ng-autocomplete">
+                    <ng-autocomplete #autoDestination [data]="locationArray" [searchKeyword]="keyword"
+                        (selected)="selectEvent($event, 'destination')" (inputChanged)='onChangeSearch($event)'
+                        (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                        [notFoundTemplate]="notFoundTemplate" [minQueryLength]="2"
+                        placeHolder="Destination (city, zip)">
+                    </ng-autocomplete>
 
-                <ng-template #itemTemplate let-item>
-                    <div class="autocomplete">
-                        <span [innerHTML]="item.city"></span>,
-                        <span [innerHTML]="item.state"></span>,
-                        <span [innerHTML]="item.zip"></span>
-                    </div>
-                </ng-template>
-
-                <ng-template #notFoundTemplate let-notFound>
-                    <div [innerHTML]="notFound"></div>
-                </ng-template>
-            </div>
-            <ul *ngFor="let location of selectedDestinationCities; let i = index">
-                <mat-card>
-                    <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
-                            {{location.zip}}</span>
-                        <div class="radio-toolbar">
-                            <input type="radio" id="25Destination{{i}}" name="Destination{{i}}" value=25
-                                (change)="onDestinationCitiesRadiusChecked($event, i)">
-                            <label for="25Destination{{i}}">25</label>
-                            <input type="radio" id="50Destination{{i}}" name="Destination{{i}}" value=50
-                                (change)="onDestinationCitiesRadiusChecked($event, i)">
-                            <label for="50Destination{{i}}">50</label>
-                            <input type="radio" id="100Destination{{i}}" name="Destination{{i}}" value=100
-                                (change)="onDestinationCitiesRadiusChecked($event, i)">
-                            <label for="100Destination{{i}}">100</label>
-                            <input type="radio" id="200Destination{{i}}" name="Destination{{i}}" value=200
-                                (change)="onDestinationCitiesRadiusChecked($event, i)">
-                            <label for="200Destination{{i}}">200</label>
+                    <ng-template #itemTemplate let-item>
+                        <div class="autocomplete">
+                            <span [innerHTML]="item.city"></span>,
+                            <span [innerHTML]="item.state"></span>,
+                            <span [innerHTML]="item.zip"></span>
                         </div>
-                        <span class="closeLocation" (click)="onRemoveLocation(i, 'destination')">
-                            <mat-icon class="close">close</mat-icon>
-                        </span>
-                    </li>
-                </mat-card>
-            </ul>
-            <ng-container *ngIf="selectedDestinationCities.length === 0">No Cities Added</ng-container>
-            <mat-form-field>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                </div>
+                <ul *ngFor="let location of selectedDestinationCities; let i = index">
+                    <mat-card>
+                        <li class="locationRef"><span class="cityZip">{{location.city}}, {{location.state}},
+                                {{location.zip}}</span>
+                            <div class="radio-toolbar">
+                                <input type="radio" id="25Destination{{i}}" name="Destination{{i}}" value=25
+                                    (change)="onDestinationCitiesRadiusChecked($event, i)">
+                                <label for="25Destination{{i}}">25</label>
+                                <input type="radio" id="50Destination{{i}}" name="Destination{{i}}" value=50 checked
+                                    (change)="onDestinationCitiesRadiusChecked($event, i)">
+                                <label for="50Destination{{i}}">50</label>
+                                <input type="radio" id="100Destination{{i}}" name="Destination{{i}}" value=100
+                                    (change)="onDestinationCitiesRadiusChecked($event, i)">
+                                <label for="100Destination{{i}}">100</label>
+                                <input type="radio" id="200Destination{{i}}" name="Destination{{i}}" value=200
+                                    (change)="onDestinationCitiesRadiusChecked($event, i)">
+                                <label for="200Destination{{i}}">200</label>
+                            </div>
+                            <span class="closeLocation" (click)="onRemoveLocation(i, 'destination')">
+                                <mat-icon class="close">close</mat-icon>
+                            </span>
+                        </li>
+                    </mat-card>
+                </ul>
+                <ng-container *ngIf="selectedDestinationCities.length === 0">No Cities Added</ng-container>
+                <!-- <mat-form-field>
                 <input matInput formControlName="destinationOptionRegion" placeholder="Origin (city, zip)"
                     autocomplete=off>
-            </mat-form-field>
+            </mat-form-field> -->
+            </ng-container>
+            <ng-container *ngIf="stateFetchDestination">
+                <!-- <mat-form-field>
+                <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
+            </mat-form-field> -->
+                <mat-accordion>
+                    <ng-container *ngFor="let regionAndState of regionsAndStates; let i = index">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-checkbox id="regionAndState{{i}}"></mat-checkbox>
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    {{regionAndState.region}}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <mat-nav-list>
+                                <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
+                                    <mat-checkbox matLine id="state{{i}}{{j}}"
+                                        (change)="onDestinationStateToggle($event, i, j)">{{state}}</mat-checkbox>
+                                    <mat-divider></mat-divider>
+                                </mat-list-item>
+                            </mat-nav-list>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </mat-accordion>
+                <ng-container *ngIf="selectedDestinationStates.length === 0">No States Added</ng-container>
+            </ng-container>
         </div>
         <div id="filters">
             <h2 class="mat-headline">FILTERS</h2>

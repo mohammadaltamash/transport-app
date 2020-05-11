@@ -250,6 +250,12 @@ button[type=button]:hover {
 .radio-toolbar label:hover {
   background-color: rgb(236, 236, 236);
 }
+.radio-toolbar label::-moz-selection {
+  background-color: inherit;
+}
+.radio-toolbar label::selection {
+  background-color: inherit;
+}
 .radio-toolbar input[type="radio"]:focus + label {
   border: 1px dashed blue;
 }
