@@ -85,7 +85,7 @@
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox id="regionAndState{{i}}"></mat-checkbox>
+                                    <mat-checkbox id="originRegionAndState{{i}}"></mat-checkbox>
                                 </mat-panel-title>
                                 <mat-panel-description>
                                     {{regionAndState.region}}
@@ -93,7 +93,7 @@
                             </mat-expansion-panel-header>
                             <mat-nav-list>
                                 <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
-                                    <mat-checkbox matLine id="state{{i}}{{j}}"
+                                    <mat-checkbox matLine id="originState{{i}}{{j}}"
                                         (change)="onOriginStateToggle($event, i, j)">{{state}}</mat-checkbox>
                                     <mat-divider></mat-divider>
                                 </mat-list-item>
@@ -182,7 +182,7 @@
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox id="regionAndState{{i}}"></mat-checkbox>
+                                    <mat-checkbox id="destinationRegionAndState{{i}}"></mat-checkbox>
                                 </mat-panel-title>
                                 <mat-panel-description>
                                     {{regionAndState.region}}
@@ -190,7 +190,7 @@
                             </mat-expansion-panel-header>
                             <mat-nav-list>
                                 <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
-                                    <mat-checkbox matLine id="state{{i}}{{j}}"
+                                    <mat-checkbox matLine id="destinationState{{i}}{{j}}"
                                         (change)="onDestinationStateToggle($event, i, j)">{{state}}</mat-checkbox>
                                     <mat-divider></mat-divider>
                                 </mat-list-item>
