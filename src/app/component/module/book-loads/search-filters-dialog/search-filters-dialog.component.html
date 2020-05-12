@@ -79,13 +79,15 @@
             <ng-container *ngIf="stateFetchOrigin">
                 <!-- <mat-form-field>
                 <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
-            </mat-form-field> -->
+            </mat-form-field> -->``
                 <mat-accordion>
                     <ng-container *ngFor="let regionAndState of regionsAndStates; let i = index">
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox id="originRegionAndState{{i}}"></mat-checkbox>
+                                    <mat-checkbox id="originRegionAndState{{i}}" (click)="stopPropagation($event)" 
+                                    [checked]="onOriginRegionAndStateChecked(i)" [indeterminate]="onOriginRegionAndStateIntermediate(i)"
+                                    (change)="onOriginRegionAndStateClicked($event, i)"></mat-checkbox>
                                 </mat-panel-title>
                                 <mat-panel-description>
                                     {{regionAndState.region}}
@@ -94,7 +96,7 @@
                             <mat-nav-list>
                                 <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
                                     <mat-checkbox matLine id="originState{{i}}{{j}}"
-                                        (change)="onOriginStateToggle($event, i, j)">{{state}}</mat-checkbox>
+                                        (change)="onOriginStateToggle($event, i, j)" [checked]="onOriginStateChecked(i, j)">{{state}}</mat-checkbox>
                                     <mat-divider></mat-divider>
                                 </mat-list-item>
                             </mat-nav-list>
@@ -182,7 +184,9 @@
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox id="destinationRegionAndState{{i}}"></mat-checkbox>
+                                    <mat-checkbox id="destinationRegionAndState{{i}}" (click)="stopPropagation($event)"
+                                    [checked]="onDestinationRegionAndStateChecked(i)" [indeterminate]="onDestinationRegionAndStateIntermediate(i)"
+                                    (change)="onDestinationRegionAndStateClicked($event, i)"></mat-checkbox>
                                 </mat-panel-title>
                                 <mat-panel-description>
                                     {{regionAndState.region}}
@@ -191,7 +195,7 @@
                             <mat-nav-list>
                                 <mat-list-item *ngFor="let state of regionAndState.states; let j = index">
                                     <mat-checkbox matLine id="destinationState{{i}}{{j}}"
-                                        (change)="onDestinationStateToggle($event, i, j)">{{state}}</mat-checkbox>
+                                        (change)="onDestinationStateToggle($event, i, j)" [checked]="onDestinationStateChecked(i, j)">{{state}}</mat-checkbox>
                                     <mat-divider></mat-divider>
                                 </mat-list-item>
                             </mat-nav-list>

@@ -108,8 +108,11 @@ export class LoadBoardComponent implements OnInit {
     this.commonModelService.openFilterDialog().subscribe(data => {
       console.log(data);
       if (data.apply) {
-        const cityZipFetch = localStorage.getItem('cityZipFetchOrigin');
-        if (cityZipFetch === 'true') {
+        this.spinner.show();
+        const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
+        const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
+        let latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs;
+        if (cityZipFetchOrigin === 'true' || cityZipFetchDestination === 'true') {
           this.selectedOriginCities = JSON.parse(
             localStorage.getItem('selectedOriginCities')
           );
@@ -135,8 +138,9 @@ export class LoadBoardComponent implements OnInit {
             deliveryLatLongArray.push(latLong);
           });
 
-          this.spinner.show();
-          const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
+          // this.spinner.show();
+          // const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
+          latitudeLongitudeRefs = new LatitudeLongitudeDistanceRefs();
           // const latLong1 = {
           //   latitude: 42.997075,
           //   longitude: -103.074280
@@ -157,55 +161,83 @@ export class LoadBoardComponent implements OnInit {
           //   longitude: -103.03584344219247
           // };
           // deliveryLatLongArray.push(latLong4);
-
           latitudeLongitudeRefs.pickupLatLongs = pickupLatLongArray;
           latitudeLongitudeRefs.deliveryLatLongs = deliveryLatLongArray;
-          if (
-            latitudeLongitudeRefs.pickupLatLongs.length > 0 ||
-            latitudeLongitudeRefs.deliveryLatLongs.length > 0
-          ) {
-            this.apiService
-              .getCircularDistance(
-                latitudeLongitudeRefs,
-                1000,
+          // if (
+          //   latitudeLongitudeRefs.pickupLatLongs.length > 0 ||
+          //   latitudeLongitudeRefs.deliveryLatLongs.length > 0
+          // ) {
+          //   this.apiService
+          //     .getFilteredOrders(
+          //       latitudeLongitudeRefs,
+          //       1000,
+          //       0,
+          //       this.config.itemsPerPage
+          //     )
+          //     // .pipe(takeUntil(this.destroy$))
+          //     .subscribe((pagedOrders: PagedOrders) => {
+          //       this.spinner.hide();
+          //       this.orders = pagedOrders.orders;
+          //       this.config.totalItems = pagedOrders.totalItems;
+          //       if (pagedOrders.orders.length > 0) {
+          //         this.selectedOrder = this.orders[0];
+          //       }
+          //     });
+          // }
+        }
+        let selectedOriginStatesCsv = null;
+        if (cityZipFetchOrigin === 'false') {
+          const selectedOriginStates: [] = JSON.parse(localStorage.getItem('selectedOriginStates'));
+          // const selectedOriginStatesCsv = selectedOriginStates.join(', ');
+          selectedOriginStatesCsv = selectedOriginStates.join(', ');
+          // this.spinner.show();
+          // this.apiService
+          // .getOrdersByStatesIn(selectedOriginStatesCsv, '', selectedOriginStatesCsv, 0, this.config.itemsPerPage)
+          // // .pipe(takeUntil(this.destroy$))
+          // .subscribe((pagedOrders: PagedOrders) => {
+          //   this.spinner.hide();
+          //   this.orders = pagedOrders.orders;
+          //   this.config.totalItems = pagedOrders.totalItems;
+          //   if (pagedOrders.orders.length > 0) {
+          //     this.selectedOrder = this.orders[0];
+          //   }
+          // });
+        }
+        let selectedDestinationStatesCsv = null;
+        if (cityZipFetchDestination === 'false') {
+          const selectedDestinationStates: [] = JSON.parse(localStorage.getItem('selectedDestinationStates'));
+          selectedDestinationStatesCsv = selectedDestinationStates.join(', ');
+          // this.spinner.show();
+          // this.apiService
+          // .getOrdersByStatesIn(selectedOriginStatesCsv, '', selectedOriginStatesCsv, 0, this.config.itemsPerPage)
+          // // .pipe(takeUntil(this.destroy$))
+          // .subscribe((pagedOrders: PagedOrders) => {
+          //   this.spinner.hide();
+          //   this.orders = pagedOrders.orders;
+          //   this.config.totalItems = pagedOrders.totalItems;
+          //   if (pagedOrders.orders.length > 0) {
+          //     this.selectedOrder = this.orders[0];
+          //   }
+          // });
+        }
+        this.apiService
+              .getFilteredOrders(
+                latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv, 1000,
                 0,
                 this.config.itemsPerPage
               )
               // .pipe(takeUntil(this.destroy$))
               .subscribe((pagedOrders: PagedOrders) => {
-                // this.all = data.length;
                 this.spinner.hide();
-                // console.log(data);
                 this.orders = pagedOrders.orders;
                 this.config.totalItems = pagedOrders.totalItems;
-                // this.all = data.totalItems;
                 if (pagedOrders.orders.length > 0) {
                   this.selectedOrder = this.orders[0];
                 }
-
-                // localStorage.removeItem('selectedOriginCities');
-                // localStorage.removeItem('selectedDestinationCities');
               });
-            // } else {
-            //   this.fetchOrders(0);
-          }
-        } else {
-          const selectedOriginStates: [] = JSON.parse(localStorage.getItem('selectedOriginStates'));
-          const selectedOriginStatesCsv = selectedOriginStates.join(', ');
-          this.spinner.show();
-          this.apiService
-          .getOrdersByStatesIn(selectedOriginStatesCsv, '', selectedOriginStatesCsv, 0, this.config.itemsPerPage)
-          // .pipe(takeUntil(this.destroy$))
-          .subscribe((pagedOrders: PagedOrders) => {
-            this.spinner.hide();
-            this.orders = pagedOrders.orders;
-            this.config.totalItems = pagedOrders.totalItems;
-            if (pagedOrders.orders.length > 0) {
-              this.selectedOrder = this.orders[0];
-            }
-          });
-        }
       }
+
+
       if (
         localStorage.getItem('selectedOriginCities') === null ||
         JSON.parse(localStorage.getItem('selectedOriginCities')).length === 0 ||
@@ -309,8 +341,8 @@ export class LoadBoardComponent implements OnInit {
       latitudeLongitudeRefs.pickupLatLongs = pickupLatLongArray;
       latitudeLongitudeRefs.deliveryLatLongs = deliveryLatLongArray;
       this.apiService
-        .getCircularDistance(
-          latitudeLongitudeRefs,
+        .getFilteredOrders(
+          latitudeLongitudeRefs,null,null,
           1000,
           pageNumber,
           this.config.itemsPerPage

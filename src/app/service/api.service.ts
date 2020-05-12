@@ -185,11 +185,12 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getCircularDistance(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, distance: number, page: number, pageSize: number) {
+  public getFilteredOrders(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, originStatesCsv: string, destinationStatesCsv: string,
+                           distance: number, page: number, pageSize: number) {
     const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
     return this.httpClient
       .get<PagedOrders>(environment.REST_SERVICE_URL
-          + `/order/getinradius/${distance}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
+          + `/order/getinradius/${originStatesCsv}/${destinationStatesCsv}/${distance}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 

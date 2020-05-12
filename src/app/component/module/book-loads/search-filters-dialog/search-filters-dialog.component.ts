@@ -91,6 +91,10 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   stateFetchOrigin = false;
   cityZipFetchDestination = true;
   stateFetchDestination = false;
+  stateOriginCheckedAll = false;
+  stateOriginCheckedIntermediate = false;
+  stateDestinationCheckedAll = false;
+  stateDestinationCheckedIntermediate = false;
   // public locationArray: LatLng[] = [];
   public locationArray: CityZipLatLong[] = [];
   // public originLocations: LatLng[] = [];
@@ -143,6 +147,31 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
             JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) {
       this.selectedDestinationCities = JSON.parse(localStorage.getItem('selectedDestinationCities'));
       // this.selectedDestinationCitiesRadius = JSON.parse(localStorage.getItem('selectedDestinationCitiesRadius'));
+    }
+    if (localStorage.getItem('selectedOriginStates') !== null &&
+            JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) {
+      this.selectedOriginStates = JSON.parse(localStorage.getItem('selectedOriginStates'));
+    }
+    if (localStorage.getItem('selectedDestinationStates') !== null &&
+            JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0) {
+      this.selectedDestinationStates = JSON.parse(localStorage.getItem('selectedDestinationStates'));
+    }
+
+    const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
+    const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
+    if (cityZipFetchOrigin === 'true') {
+      this.cityZipFetchOrigin = true;
+      this.stateFetchOrigin = false;
+    } else {
+      this.cityZipFetchOrigin = false;
+      this.stateFetchOrigin = true;
+    }
+    if (cityZipFetchDestination === 'true') {
+      this.cityZipFetchDestination = true;
+      this.stateFetchDestination = false;
+    } else {
+      this.cityZipFetchDestination = false;
+      this.stateFetchDestination = true;
     }
   }
 
@@ -247,6 +276,12 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     localStorage.removeItem('selectedDestinationCities');
     this.selectedOriginCities = [];
     this.selectedDestinationCities = [];
+    this.cityZipFetchOrigin = true;
+    this.cityZipFetchDestination = true;
+    this.stateFetchOrigin = false;
+    this.stateFetchDestination = false;
+    localStorage.setItem('cityZipFetchOrigin', 'true');
+    localStorage.setItem('cityZipFetchDestination', 'true');
   }
 
   showResetFilterButton() {
@@ -368,38 +403,73 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       this.selectedDestinationStates.splice(index, 1);
     }
   }
-  // onOriginStateClick(event) {
-  //   console.log(event.source.value);
-  // }
 
-  getChecked() {
-    return false;
+  onOriginStateChecked(i: string | number , j: string | number) {
+    // console.log(event.source.value);
+    const state = this.regionsAndStates[i].states[j];
+    if (this.selectedOriginStates.some(s => s === state)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onDestinationStateChecked(i: string | number , j: string | number) {
+    // console.log(event.source.value);
+    const state = this.regionsAndStates[i].states[j];
+    if (this.selectedDestinationStates.some(s => s === state)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  stopPropagation(e) {
+    e.stopPropagation();
+  }
+
+  onOriginRegionAndStateChecked(i: number) {
+    const length = this.regionsAndStates[i].states.filter((rs: string) => this.selectedOriginStates.includes(rs)).length;
+    return length === this.regionsAndStates[i].states.length;
+  }
+  onOriginRegionAndStateIntermediate(i: number) {
+    const length = this.regionsAndStates[i].states.filter((rs: string) => this.selectedOriginStates.includes(rs)).length;
+    return length > 0 && length < this.regionsAndStates[i].states.length;
+  }
+  onOriginRegionAndStateClicked(event: any, i: number) {
+    if (event.checked) {
+      this.regionsAndStates[i].states.forEach(s => {
+        if (!this.selectedOriginStates.some(os => os === s)) {
+          this.selectedOriginStates.push(s);
+        }
+      });
+    } else {
+      this.regionsAndStates[i].states.forEach(s => {
+        const index = this.selectedOriginStates.indexOf(s);
+        this.selectedOriginStates.splice(index, 1);
+      });
+    }
+  }
+  onDestinationRegionAndStateChecked(i: number) {
+    const length = this.regionsAndStates[i].states.filter((rs: string) => this.selectedDestinationStates.includes(rs)).length;
+    return length === this.regionsAndStates[i].states.length;
+  }
+  onDestinationRegionAndStateIntermediate(i: number) {
+    const length = this.regionsAndStates[i].states.filter((rs: string) => this.selectedDestinationStates.includes(rs)).length;
+    return length > 0 && length < this.regionsAndStates[i].states.length;
+  }
+  onDestinationRegionAndStateClicked(event: any, i: number) {
+    if (event.checked) {
+      this.regionsAndStates[i].states.forEach(s => {
+        if (!this.selectedDestinationStates.some(os => os === s)) {
+          this.selectedDestinationStates.push(s);
+        }
+      });
+    } else {
+      this.regionsAndStates[i].states.forEach(s => {
+        const index = this.selectedDestinationStates.indexOf(s);
+        this.selectedDestinationStates.splice(index, 1);
+      });
+    }
   }
 }
-
-// export class LatLng {
-//   zip: string;
-//   city: string;
-//   state: string;
-//   latitude: number;
-//   longitude: number;
-//   timezone: number;
-//   // geopoint: string;
-//   constructor(
-//     zip: string,
-//     city: string,
-//     state: string,
-//     latitude: number,
-//     longitude: number
-//     // timezone: number,
-//     // geopoint: string
-//   ) {
-//     this.zip = zip;
-//     this.city = city;
-//     this.state = state;
-//     this.latitude = latitude;
-//     this.longitude = longitude;
-//     // this.timezone = timezone;
-//     // this.geopoint = geopoint;
-//   }
-// }
