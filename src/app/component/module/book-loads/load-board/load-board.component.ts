@@ -111,7 +111,7 @@ export class LoadBoardComponent implements OnInit {
         this.spinner.show();
         const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
         const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
-        let latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs;
+        const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
         if (cityZipFetchOrigin === 'true' || cityZipFetchDestination === 'true') {
           this.selectedOriginCities = JSON.parse(
             localStorage.getItem('selectedOriginCities')
@@ -140,7 +140,7 @@ export class LoadBoardComponent implements OnInit {
 
           // this.spinner.show();
           // const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
-          latitudeLongitudeRefs = new LatitudeLongitudeDistanceRefs();
+          // latitudeLongitudeRefs = new LatitudeLongitudeDistanceRefs();
           // const latLong1 = {
           //   latitude: 42.997075,
           //   longitude: -103.074280
@@ -189,7 +189,9 @@ export class LoadBoardComponent implements OnInit {
         if (cityZipFetchOrigin === 'false') {
           const selectedOriginStates: [] = JSON.parse(localStorage.getItem('selectedOriginStates'));
           // const selectedOriginStatesCsv = selectedOriginStates.join(', ');
-          selectedOriginStatesCsv = selectedOriginStates.join(', ');
+          if (selectedOriginStates.length > 0) {
+            selectedOriginStatesCsv = selectedOriginStates.join(', ');
+          }
           // this.spinner.show();
           // this.apiService
           // .getOrdersByStatesIn(selectedOriginStatesCsv, '', selectedOriginStatesCsv, 0, this.config.itemsPerPage)
@@ -206,7 +208,9 @@ export class LoadBoardComponent implements OnInit {
         let selectedDestinationStatesCsv = null;
         if (cityZipFetchDestination === 'false') {
           const selectedDestinationStates: [] = JSON.parse(localStorage.getItem('selectedDestinationStates'));
-          selectedDestinationStatesCsv = selectedDestinationStates.join(', ');
+          if (selectedDestinationStates.length > 0) {
+            selectedDestinationStatesCsv = selectedDestinationStates.join(', ');
+          }
           // this.spinner.show();
           // this.apiService
           // .getOrdersByStatesIn(selectedOriginStatesCsv, '', selectedOriginStatesCsv, 0, this.config.itemsPerPage)
@@ -220,9 +224,11 @@ export class LoadBoardComponent implements OnInit {
           //   }
           // });
         }
+        if (latitudeLongitudeRefs.pickupLatLongs !== undefined || latitudeLongitudeRefs.deliveryLatLongs !== undefined
+              || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null) {
         this.apiService
               .getFilteredOrders(
-                latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv, 1000,
+                latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv,
                 0,
                 this.config.itemsPerPage
               )
@@ -235,19 +241,23 @@ export class LoadBoardComponent implements OnInit {
                   this.selectedOrder = this.orders[0];
                 }
               });
+        } else {
+          this.fetchOrders(0);
+          this.config.currentPage = 1;
+        }
       }
 
 
-      if (
-        localStorage.getItem('selectedOriginCities') === null ||
-        JSON.parse(localStorage.getItem('selectedOriginCities')).length === 0 ||
-        localStorage.getItem('selectedDestinationCities') === null ||
-          JSON.parse(localStorage.getItem('selectedDestinationCities')).length >
-            0
-      ) {
-        this.fetchOrders(0);
-        this.config.currentPage = 0;
-      }
+      // if (
+      //   localStorage.getItem('selectedOriginCities') === null ||
+      //   JSON.parse(localStorage.getItem('selectedOriginCities')).length === 0 ||
+      //   localStorage.getItem('selectedDestinationCities') === null ||
+      //     JSON.parse(localStorage.getItem('selectedDestinationCities')).length >
+      //       0
+      // ) {
+      //   this.fetchOrders(0);
+      //   this.config.currentPage = 0;
+      // }
     });
   }
 
@@ -343,7 +353,6 @@ export class LoadBoardComponent implements OnInit {
       this.apiService
         .getFilteredOrders(
           latitudeLongitudeRefs,null,null,
-          1000,
           pageNumber,
           this.config.itemsPerPage
         )

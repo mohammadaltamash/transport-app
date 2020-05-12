@@ -186,11 +186,11 @@ export class ApiService {
   }
 
   public getFilteredOrders(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, originStatesCsv: string, destinationStatesCsv: string,
-                           distance: number, page: number, pageSize: number) {
+                           page: number, pageSize: number) {
     const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
     return this.httpClient
       .get<PagedOrders>(environment.REST_SERVICE_URL
-          + `/order/getinradius/${originStatesCsv}/${destinationStatesCsv}/${distance}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
+          + `/order/getinradius/${originStatesCsv}/${destinationStatesCsv}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 

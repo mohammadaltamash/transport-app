@@ -159,14 +159,14 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
 
     const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
     const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
-    if (cityZipFetchOrigin === 'true') {
+    if (cityZipFetchOrigin === null || cityZipFetchOrigin === 'true') {
       this.cityZipFetchOrigin = true;
       this.stateFetchOrigin = false;
     } else {
       this.cityZipFetchOrigin = false;
       this.stateFetchOrigin = true;
     }
-    if (cityZipFetchDestination === 'true') {
+    if (cityZipFetchDestination === null || cityZipFetchDestination === 'true') {
       this.cityZipFetchDestination = true;
       this.stateFetchDestination = false;
     } else {
@@ -250,6 +250,10 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    // if (this.selectedOriginCities.length > 0 ||
+    //     this.selectedDestinationCities.length > 0 ||
+    //     this.selectedOriginStates.length > 0 ||
+    //     this.selectedDestinationStates.length > 0) {
     localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
     localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
     localStorage.setItem('selectedOriginStates', JSON.stringify(this.selectedOriginStates));
@@ -265,6 +269,9 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       localStorage.setItem('cityZipFetchDestination', 'false');
     }
     this.dialogRef.close({ apply: true });
+    // } else {
+    //   this.dialogRef.close({ apply: false });
+    // }
   }
 
   onCloseClick() {
@@ -272,28 +279,36 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   onResetFilterClick() {
-    localStorage.removeItem('selectedOriginCities');
-    localStorage.removeItem('selectedDestinationCities');
     this.selectedOriginCities = [];
     this.selectedDestinationCities = [];
     this.cityZipFetchOrigin = true;
     this.cityZipFetchDestination = true;
     this.stateFetchOrigin = false;
     this.stateFetchDestination = false;
-    localStorage.setItem('cityZipFetchOrigin', 'true');
-    localStorage.setItem('cityZipFetchDestination', 'true');
+    localStorage.removeItem('selectedOriginCities');
+    localStorage.removeItem('selectedDestinationCities');
+    localStorage.removeItem('selectedOriginStates');
+    localStorage.removeItem('selectedDestinationStates');
+    localStorage.removeItem('cityZipFetchOrigin');
+    localStorage.removeItem('cityZipFetchDestination');
   }
 
   showResetFilterButton() {
-    return (localStorage.getItem('selectedOriginCities') !== null &&
-                JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
-           (localStorage.getItem('selectedDestinationCities') !== null &&
-                JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0);
+    return localStorage.getItem('selectedOriginCities') ||
+           localStorage.getItem('selectedDestinationCities') ||
+           localStorage.getItem('selectedOriginStates') ||
+           localStorage.getItem('selectedDestinationStates');
+      // localStorage.getItem('selectedOriginCities') !== null &&
+      //           JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
+      //      (localStorage.getItem('selectedDestinationCities') !== null &&
+      //           JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0)
   }
 
   enableApplyButton() {
-    // return this.selectedOriginCities.length > 0 || this.selectedDestinationCities.length > 0;
-    return true;
+    return this.selectedOriginCities.length > 0 ||
+           this.selectedDestinationCities.length > 0 ||
+           this.selectedOriginStates.length > 0 ||
+           this.selectedDestinationStates.length > 0;
   }
 
   originCityChange(e: { target: { value: string; }; }) {
