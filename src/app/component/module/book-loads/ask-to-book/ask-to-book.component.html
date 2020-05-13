@@ -58,7 +58,7 @@
         <button mat-stroked-button type="button" (click)="closeDialog()">Close</button>&nbsp;
         <button id="askToBook" mat-stroked-button type="submit">BOOKING REQUEST</button>
         </div>
-        <strong>{{data.distance}} mi</strong>
+        <strong>{{ data.distance * 0.00062137 | number:'1.2-2'}} mi</strong>
         <mat-card id="summary">
             <div matLine id="grid1">
                 <div>{{ data.pickupAddress }}</div>

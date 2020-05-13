@@ -67,7 +67,7 @@
 
                 <div id="grid4">
                     <div matLine>{{ order.carrierPay }}</div>
-                    <div matLine><strong>{{ order.distance }} mi</strong></div>
+                    <div matLine><strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong></div>
                     <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
                         <button id="askToBookButton" mat-button (click)="showDialog(order, i)">BOOKING

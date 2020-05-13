@@ -250,28 +250,33 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    // if (this.selectedOriginCities.length > 0 ||
-    //     this.selectedDestinationCities.length > 0 ||
-    //     this.selectedOriginStates.length > 0 ||
-    //     this.selectedDestinationStates.length > 0) {
-    localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
-    localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
-    localStorage.setItem('selectedOriginStates', JSON.stringify(this.selectedOriginStates));
-    if (this.cityZipFetchOrigin) {
-      localStorage.setItem('cityZipFetchOrigin', 'true');
+    if (
+        // this.selectedOriginCities.length > 0 ||
+        // this.selectedDestinationCities.length > 0 ||
+        // this.selectedOriginStates.length > 0 ||
+        // this.selectedDestinationStates.length > 0
+        this.enableApply()) {
+      localStorage.setItem('selectedOriginCities', JSON.stringify(this.selectedOriginCities));
+      localStorage.setItem('selectedDestinationCities', JSON.stringify(this.selectedDestinationCities));
+      localStorage.setItem('selectedOriginStates', JSON.stringify(this.selectedOriginStates));
+      localStorage.setItem('selectedDestinationStates', JSON.stringify(this.selectedDestinationStates));
+      if (this.cityZipFetchOrigin) {
+        localStorage.setItem('cityZipFetchOrigin', 'true');
+      } else {
+        localStorage.setItem('cityZipFetchOrigin', 'false');
+      }
+      localStorage.setItem('selectedDestinationStates', JSON.stringify(this.selectedDestinationStates));
+      if (this.cityZipFetchDestination) {
+        localStorage.setItem('cityZipFetchDestination', 'true');
+      } else {
+        localStorage.setItem('cityZipFetchDestination', 'false');
+      }
+      // this.dialogRef.close({ apply: true });
     } else {
-      localStorage.setItem('cityZipFetchOrigin', 'false');
-    }
-    localStorage.setItem('selectedDestinationStates', JSON.stringify(this.selectedDestinationStates));
-    if (this.cityZipFetchDestination) {
-      localStorage.setItem('cityZipFetchDestination', 'true');
-    } else {
-      localStorage.setItem('cityZipFetchDestination', 'false');
+      this.resetFilter();
+      // this.dialogRef.close({ apply: false });
     }
     this.dialogRef.close({ apply: true });
-    // } else {
-    //   this.dialogRef.close({ apply: false });
-    // }
   }
 
   onCloseClick() {
@@ -279,8 +284,14 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   onResetFilterClick() {
+    this.resetFilter();
+  }
+
+  resetFilter() {
     this.selectedOriginCities = [];
     this.selectedDestinationCities = [];
+    this.selectedOriginStates = [];
+    this.selectedDestinationStates = [];
     this.cityZipFetchOrigin = true;
     this.cityZipFetchDestination = true;
     this.stateFetchOrigin = false;
@@ -294,17 +305,24 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   }
 
   showResetFilterButton() {
-    return localStorage.getItem('selectedOriginCities') ||
-           localStorage.getItem('selectedDestinationCities') ||
-           localStorage.getItem('selectedOriginStates') ||
-           localStorage.getItem('selectedDestinationStates');
+    return (localStorage.getItem('selectedOriginCities') !== null
+                && JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
+           (localStorage.getItem('selectedDestinationCities') !== null
+                && JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) ||
+           (localStorage.getItem('selectedOriginStates') !== null
+                && JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) ||
+           (localStorage.getItem('selectedDestinationStates') !== null
+                && JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0);
+          //  localStorage.getItem('selectedDestinationCities') ||
+          //  localStorage.getItem('selectedOriginStates') ||
+          //  localStorage.getItem('selectedDestinationStates');
       // localStorage.getItem('selectedOriginCities') !== null &&
       //           JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
       //      (localStorage.getItem('selectedDestinationCities') !== null &&
       //           JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0)
   }
 
-  enableApplyButton() {
+  enableApply() {
     return this.selectedOriginCities.length > 0 ||
            this.selectedDestinationCities.length > 0 ||
            this.selectedOriginStates.length > 0 ||
@@ -380,9 +398,11 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     if (event.value === '1') {
       this.cityZipFetchOrigin = true;
       this.stateFetchOrigin = false;
+      this.selectedOriginStates = [];
     } else {
       this.cityZipFetchOrigin = false;
       this.stateFetchOrigin = true;
+      this.selectedOriginCities = [];
     }
   }
 
@@ -391,9 +411,11 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     if (event.value === '1') {
       this.cityZipFetchDestination = true;
       this.stateFetchDestination = false;
+      this.selectedDestinationStates = [];
     } else {
       this.cityZipFetchDestination = false;
       this.stateFetchDestination = true;
+      this.selectedDestinationCities = [];
     }
   }
 

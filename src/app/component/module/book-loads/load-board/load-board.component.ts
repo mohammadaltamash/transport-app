@@ -224,7 +224,8 @@ export class LoadBoardComponent implements OnInit {
           //   }
           // });
         }
-        if (latitudeLongitudeRefs.pickupLatLongs !== undefined || latitudeLongitudeRefs.deliveryLatLongs !== undefined
+        if ((latitudeLongitudeRefs.pickupLatLongs !== undefined && latitudeLongitudeRefs.pickupLatLongs.length > 0)
+          || (latitudeLongitudeRefs.deliveryLatLongs !== undefined && latitudeLongitudeRefs.deliveryLatLongs.length > 0)
               || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null) {
         this.apiService
               .getFilteredOrders(
@@ -403,6 +404,19 @@ export class LoadBoardComponent implements OnInit {
       JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0
     ) {
       count += JSON.parse(localStorage.getItem('selectedDestinationCities'))
+        .length;
+    }
+    if (
+      localStorage.getItem('selectedOriginStates') !== null &&
+      JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0
+    ) {
+      count += JSON.parse(localStorage.getItem('selectedOriginStates')).length;
+    }
+    if (
+      localStorage.getItem('selectedDestinationStates') !== null &&
+      JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0
+    ) {
+      count += JSON.parse(localStorage.getItem('selectedDestinationStates'))
         .length;
     }
     return count;
