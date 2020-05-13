@@ -108,11 +108,17 @@ export class LoadBoardComponent implements OnInit {
     this.commonModelService.openFilterDialog().subscribe(data => {
       console.log(data);
       if (data.apply) {
-        this.spinner.show();
-        const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
-        const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
-        const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
-        if (cityZipFetchOrigin === 'true' || cityZipFetchDestination === 'true') {
+        this.fetchFilteredOrders(0);
+      }
+    });
+  }
+
+  fetchFilteredOrders(pageNumber: number) {
+    this.spinner.show();
+    const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
+    const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
+    const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
+    if (cityZipFetchOrigin === 'true' || cityZipFetchDestination === 'true') {
           this.selectedOriginCities = JSON.parse(
             localStorage.getItem('selectedOriginCities')
           );
@@ -185,8 +191,8 @@ export class LoadBoardComponent implements OnInit {
           //     });
           // }
         }
-        let selectedOriginStatesCsv = null;
-        if (cityZipFetchOrigin === 'false') {
+    let selectedOriginStatesCsv = null;
+    if (cityZipFetchOrigin === 'false') {
           const selectedOriginStates: [] = JSON.parse(localStorage.getItem('selectedOriginStates'));
           // const selectedOriginStatesCsv = selectedOriginStates.join(', ');
           if (selectedOriginStates.length > 0) {
@@ -205,8 +211,8 @@ export class LoadBoardComponent implements OnInit {
           //   }
           // });
         }
-        let selectedDestinationStatesCsv = null;
-        if (cityZipFetchDestination === 'false') {
+    let selectedDestinationStatesCsv = null;
+    if (cityZipFetchDestination === 'false') {
           const selectedDestinationStates: [] = JSON.parse(localStorage.getItem('selectedDestinationStates'));
           if (selectedDestinationStates.length > 0) {
             selectedDestinationStatesCsv = selectedDestinationStates.join(', ');
@@ -224,13 +230,13 @@ export class LoadBoardComponent implements OnInit {
           //   }
           // });
         }
-        if ((latitudeLongitudeRefs.pickupLatLongs !== undefined && latitudeLongitudeRefs.pickupLatLongs.length > 0)
+    if ((latitudeLongitudeRefs.pickupLatLongs !== undefined && latitudeLongitudeRefs.pickupLatLongs.length > 0)
           || (latitudeLongitudeRefs.deliveryLatLongs !== undefined && latitudeLongitudeRefs.deliveryLatLongs.length > 0)
               || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null) {
         this.apiService
               .getFilteredOrders(
                 latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv,
-                0,
+                pageNumber,
                 this.config.itemsPerPage
               )
               // .pipe(takeUntil(this.destroy$))
@@ -246,20 +252,6 @@ export class LoadBoardComponent implements OnInit {
           this.fetchOrders(0);
           this.config.currentPage = 1;
         }
-      }
-
-
-      // if (
-      //   localStorage.getItem('selectedOriginCities') === null ||
-      //   JSON.parse(localStorage.getItem('selectedOriginCities')).length === 0 ||
-      //   localStorage.getItem('selectedDestinationCities') === null ||
-      //     JSON.parse(localStorage.getItem('selectedDestinationCities')).length >
-      //       0
-      // ) {
-      //   this.fetchOrders(0);
-      //   this.config.currentPage = 0;
-      // }
-    });
   }
 
   shouldDisplayAddress(order: Order) {
@@ -296,79 +288,15 @@ export class LoadBoardComponent implements OnInit {
             this.selectedOrder = this.orders[0];
           }
         });
-    } else if (
-      (localStorage.getItem('selectedOriginCities') !== null &&
-        JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
-      (localStorage.getItem('selectedDestinationCities') !== null &&
-        JSON.parse(localStorage.getItem('selectedDestinationCities')).length >
-          0)
-    ) {
-      this.selectedOriginCities = JSON.parse(
-        localStorage.getItem('selectedOriginCities')
-      );
-      this.selectedDestinationCities = JSON.parse(
-        localStorage.getItem('selectedDestinationCities')
-      );
-      const pickupLatLongArray = [];
-      this.selectedOriginCities.forEach(item => {
-        const latLong = {
-          latitude: item.latitude,
-          longitude: item.longitude,
-          distance: item.distance
-        };
-        pickupLatLongArray.push(latLong);
-      });
-      const deliveryLatLongArray = [];
-      this.selectedDestinationCities.forEach(item => {
-        const latLong = {
-          latitude: item.latitude,
-          longitude: item.longitude,
-          distance: item.distance
-        };
-        deliveryLatLongArray.push(latLong);
-      });
-      const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = new LatitudeLongitudeDistanceRefs();
-      // const latLong1 = {
-      //   latitude: 42.997075,
-      //   longitude: -103.074280
-      // };
-      // pickupLatLongArray.push(latLong1);
-      // const latLong2 = {
-      //   latitude: 43.055871742848105,
-      //   longitude: -103.03584344219247
-      // };
-      // pickupLatLongArray.push(latLong2);
-      // const latLong3 = {
-      //   latitude: 42.997075,
-      //   longitude: -103.074280
-      // };
-      // deliveryLatLongArray.push(latLong3);
-      // const latLong4 = {
-      //   latitude: 43.055871742848105,
-      //   longitude: -103.03584344219247
-      // };
-      // deliveryLatLongArray.push(latLong4);
-
-      latitudeLongitudeRefs.pickupLatLongs = pickupLatLongArray;
-      latitudeLongitudeRefs.deliveryLatLongs = deliveryLatLongArray;
-      this.apiService
-        .getFilteredOrders(
-          latitudeLongitudeRefs,null,null,
-          pageNumber,
-          this.config.itemsPerPage
-        )
-        // .pipe(takeUntil(this.destroy$))
-        .subscribe((pagedOrders: PagedOrders) => {
-          // this.all = data.length;
-          this.spinner.hide();
-          // console.log(data);
-          this.orders = pagedOrders.orders;
-          this.config.totalItems = pagedOrders.totalItems;
-          // this.all = data.totalItems;
-          if (pagedOrders.orders.length > 0) {
-            this.selectedOrder = this.orders[0];
-          }
-        });
+    } else if ((localStorage.getItem('selectedOriginCities') !== null
+                && JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
+           (localStorage.getItem('selectedDestinationCities') !== null
+                && JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) ||
+           (localStorage.getItem('selectedOriginStates') !== null
+                && JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) ||
+           (localStorage.getItem('selectedDestinationStates') !== null
+                && JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0)) {
+                  this.fetchFilteredOrders(pageNumber);
     } else {
       this.apiService
         .getOrdersByStatusIn(
