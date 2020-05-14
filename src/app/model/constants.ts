@@ -27,4 +27,20 @@ export class Constants {
   static OFFER_VALIDITY: string[] = ['1 hr', '4 hrs', '12 hrs', '24 hrs'];
 
   static ORDERS_PER_PAGE = 7;
+
+  static getSortName(displayName: string) {
+    if (displayName === 'First Available Date') {
+      return '';
+    } else if (displayName === 'Carrier Pay') {
+      return 'carrierPay';
+    } else if (displayName === '$/mile') {
+      return 'perMile';
+    } else if (displayName === 'Post Date') {
+      return 'createdAt';
+    } else if (displayName === 'Distance') {
+      return 'distance';
+    } else {
+      return '';
+    }
+  }
 }

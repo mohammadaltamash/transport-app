@@ -66,11 +66,11 @@ mat-form-field-flex {
 
 #listItem {
   display: grid;
-  grid-template-areas: "grid1 grid2 grid3 grid4";
+  grid-template-areas: "grid1 grid2 grid3 grid4 grid5";
   /* grid-auto-flow: row; */
   /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
   /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
   /* grid-template-rows: 1fr 1fr; */
   gap: 4vw;
@@ -109,12 +109,15 @@ cdk-virtual-scroll-viewport {
 #grid4 {
   grid-area: "grid4";
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   /* grid-template-rows: 1fr; */
   /* gap: 2vw; */
 }
 #grid4 > div > button {
   min-width: 180px;
+}
+#grid5 {
+  grid-area: "grid5";
 }
 #askToBookButton {
   background-color: green;

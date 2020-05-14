@@ -18,14 +18,17 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     'First Available Date',
     'Carrier Pay',
     '$/mile',
-    'Post Date'
+    'Post Date',
+    'Distance'
   ];
   defaultPrimarySort = 'Post Date';
   secondarySort: string[] = [
+    '',
     'First Available Date',
     'Carrier Pay',
     '$/mile',
-    'Post Date'
+    'Post Date',
+    'Distance'
   ];
   hightlightByPostedWithin: string[] = [
     'None',
@@ -192,11 +195,6 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       this.cityZipFetchDestination = false;
       this.stateFetchDestination = true;
     }
-
-    // // Filters
-    // if (localStorage.getItem('vehicleType') !== null) {
-    //   this.filterForm.value.vehicleType = localStorage.getItem('vehicleType');
-    // }
   }
 
   // openDialog(): void {
@@ -224,18 +222,19 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       destinationOptionRegion: '',
       destinationAddress: '',
       destinationMiles: '',
-      primarySort: this.defaultPrimarySort,
-      secondarySort: '',
+      primarySort: localStorage.getItem('primarySort') !== null ? localStorage.getItem('primarySort') : this.defaultPrimarySort,
+      secondarySort: localStorage.getItem('secondarySort') !== null ? localStorage.getItem('secondarySort') : '',
       hightlightByPostedWithin: 'None',
       dateAndTime: '',
       trailerType: 'All',
-      trailerCondition: this.defaultTrailerCondition,
-      vehicleType: '',
+      trailerCondition: localStorage.getItem('trailerCondition') !== null ? localStorage.getItem('trailerCondition') :
+                        this.defaultTrailerCondition,
+      vehicleType: localStorage.getItem('vehicleType') !== null ? localStorage.getItem('vehicleType') : '',
       minOfVehicles: '',
       maxOfVehicles: '',
       paymentTerms: '',
-      carrierPay: '',
-      perMilePerCarMin: ''
+      carrierPay: localStorage.getItem('carrierPay') !== null ? localStorage.getItem('carrierPay') : '',
+      perMilePerCarMin: localStorage.getItem('perMilePerCarMin') !== null ? localStorage.getItem('perMilePerCarMin') : ''
     });
     // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
     //   document.getElementById('25miles-{{' + i + '}}').setAttribute('checked', 'true');
@@ -262,25 +261,6 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       this.setDistanceCheck(j, 50, this.selectedDestinationCities, '50Destination');
       this.setDistanceCheck(j, 100, this.selectedDestinationCities, '100Destination');
       this.setDistanceCheck(j, 200, this.selectedDestinationCities, '200Destination');
-    }
-    // Filters
-    if (localStorage.getItem('primarySort') !== null) {
-      this.filterForm.get('primarySort').setValue(localStorage.getItem('primarySort'));
-    }
-    if (localStorage.getItem('secondarySort') !== null) {
-      this.filterForm.get('secondarySort').setValue(localStorage.getItem('secondarySort'));
-    }
-    if (localStorage.getItem('trailerCondition') !== null) {
-      this.filterForm.get('trailerCondition').setValue(localStorage.getItem('trailerCondition'));
-    }
-    if (localStorage.getItem('vehicleType') !== null) {
-      this.filterForm.get('vehicleType').setValue(localStorage.getItem('vehicleType'));
-    }
-    if (localStorage.getItem('carrierPay') !== null) {
-      this.filterForm.get('carrierPay').setValue(localStorage.getItem('carrierPay'));
-    }
-    if (localStorage.getItem('perMilePerCarMin') !== null) {
-      this.filterForm.get('perMilePerCarMin').setValue(localStorage.getItem('perMilePerCarMin'));
     }
   }
 

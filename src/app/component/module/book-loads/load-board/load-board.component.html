@@ -66,8 +66,15 @@
                 </div>
 
                 <div id="grid4">
-                    <div matLine>{{ order.carrierPay }}</div>
-                    <div matLine><strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong></div>
+                    <div matLine>Carrier pay&nbsp;<strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div>
+                    <div matLine>Distance&nbsp;<strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong></div>
+                    <!-- <div matLine><strong>{{ order.carrierPay / (order.distance * 0.00062137) | number:'1.2-2'}} $/mi</strong></div> -->
+                    <div matLine>Per mile&nbsp;<strong>{{ order.perMile | number:'1.2-2'}} $/mi</strong></div>
+                    <div matLine>On pickup&nbsp;<strong>${{ order.amountOnPickup | number:'1.2-2'}}</strong></div>
+                    <div matLine>On delivery&nbsp;<strong>${{ order.amountOnDelivery | number:'1.2-2'}}</strong></div>
+                </div>
+
+                <div id="grid5">
                     <div matLine>
                         <!-- <button mat-stroked-button [routerLink]="['/asktobook']">ASK TO BOOK</button><br> -->
                         <button id="askToBookButton" mat-button (click)="showDialog(order, i)">BOOKING

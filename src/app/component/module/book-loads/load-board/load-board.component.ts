@@ -18,6 +18,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommonModelService } from 'src/app/service/common-model.service';
 import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
 import { LatitudeLongitudeDistanceRefs } from 'src/app/model/latitude-longitude-distance-refs';
+import { SearchFiltersDialogComponent } from '../search-filters-dialog/search-filters-dialog.component';
 
 @Component({
   selector: 'app-load-board',
@@ -230,14 +231,25 @@ export class LoadBoardComponent implements OnInit {
           //   }
           // });
         }
+    let primarySort = localStorage.getItem('primarySort');
+    let secondarySort = localStorage.getItem('secondarySort');
+    primarySort = Constants.getSortName(primarySort);
+    secondarySort = Constants.getSortName(secondarySort);
+
+    if (primarySort === '') {
+      primarySort = null;
+    }
+    if (secondarySort === '') {
+      secondarySort = null;
+    }
     if ((latitudeLongitudeRefs.pickupLatLongs !== undefined && latitudeLongitudeRefs.pickupLatLongs.length > 0)
           || (latitudeLongitudeRefs.deliveryLatLongs !== undefined && latitudeLongitudeRefs.deliveryLatLongs.length > 0)
-              || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null) {
+              || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null || primarySort !== null) {
         this.apiService
               .getFilteredOrders(
                 latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv,
-                pageNumber,
-                this.config.itemsPerPage
+                primarySort, secondarySort,
+                pageNumber, this.config.itemsPerPage
               )
               // .pipe(takeUntil(this.destroy$))
               .subscribe((pagedOrders: PagedOrders) => {
@@ -288,19 +300,21 @@ export class LoadBoardComponent implements OnInit {
             this.selectedOrder = this.orders[0];
           }
         });
-    } else if ((localStorage.getItem('selectedOriginCities') !== null
-                && JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
-           (localStorage.getItem('selectedDestinationCities') !== null
-                && JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) ||
-           (localStorage.getItem('selectedOriginStates') !== null
-                && JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) ||
-           (localStorage.getItem('selectedDestinationStates') !== null
-                && JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0)) {
+    } else if (SearchFiltersDialogComponent.hasFilter()
+      // (localStorage.getItem('selectedOriginCities') !== null
+      //           && JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) ||
+      //      (localStorage.getItem('selectedDestinationCities') !== null
+      //           && JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) ||
+      //      (localStorage.getItem('selectedOriginStates') !== null
+      //           && JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) ||
+      //      (localStorage.getItem('selectedDestinationStates') !== null
+      //           && JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0)
+                ) {
                   this.fetchFilteredOrders(pageNumber);
     } else {
       this.apiService
         .getOrdersByStatusIn(
-          environment.NEW_ORDER,
+          environment.NEW_ORDER, null, null,
           pageNumber,
           this.config.itemsPerPage
         )

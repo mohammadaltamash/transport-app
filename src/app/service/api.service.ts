@@ -126,10 +126,10 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getOrdersByStatusIn(statuses: string, page: number, pageSize: number) {
+  public getOrdersByStatusIn(statuses: string, primarySort: string, secondarySort: string, page: number, pageSize: number) {
     return this.httpClient
       .get<PagedOrders>(
-        environment.REST_SERVICE_URL + `/order/get/statusin/${statuses}/${page}/${pageSize}`
+        environment.REST_SERVICE_URL + `/order/get/statusin/${statuses}/${primarySort}/${secondarySort}/${page}/${pageSize}`
         // ,
         // this.getOptions()
       )
@@ -186,22 +186,24 @@ export class ApiService {
   }
 
   public getFilteredOrders(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, originStatesCsv: string, destinationStatesCsv: string,
+                           primarySort: string, secondarySort: string,
                            page: number, pageSize: number) {
     const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
     return this.httpClient
       .get<PagedOrders>(environment.REST_SERVICE_URL
-          + `/order/getinradius/${originStatesCsv}/${destinationStatesCsv}/${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
+          + `/order/getfilteredorders/${originStatesCsv}/${destinationStatesCsv}/${primarySort}/${secondarySort}/`
+          + `${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 
-  public getCircularDistanceBoth(pickupLatitude: number, pickupLongitude: number, deliveryLatitude: number, deliveryLongitude: number,
-                                 distance: number, page: number, pageSize: number) {
-    return this.httpClient
-      .get<PagedOrders>(environment.REST_SERVICE_URL
-          + `/order/getinradius/${pickupLatitude}/${pickupLongitude}/${deliveryLatitude}/${deliveryLongitude}/
-          ${distance}/${page}/${pageSize}`)
-      .pipe(retry(3), catchError(this.handleError));
-  }
+  // public getCircularDistanceBoth(pickupLatitude: number, pickupLongitude: number, deliveryLatitude: number, deliveryLongitude: number,
+  //                                distance: number, page: number, pageSize: number) {
+  //   return this.httpClient
+  //     .get<PagedOrders>(environment.REST_SERVICE_URL
+  //         + `/order/getinradius/${pickupLatitude}/${pickupLongitude}/${deliveryLatitude}/${deliveryLongitude}/
+  //         ${distance}/${page}/${pageSize}`)
+  //     .pipe(retry(3), catchError(this.handleError));
+  // }
 
   // User
 

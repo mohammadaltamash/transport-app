@@ -104,6 +104,8 @@ export interface Order {
     radiusPickupDistance: number;
     radiusDeliveryDistance: number;
 
+    perMile: number;
+
     createdBy: User;
     createdAt: Date;
     updatedAt: Date;

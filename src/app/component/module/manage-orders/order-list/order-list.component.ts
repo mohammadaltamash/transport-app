@@ -357,7 +357,7 @@ export class OrderListComponent implements OnInit {
     } else {
       // this.spinner.show();
       this.apiService
-        .getOrdersByStatusIn(status, pageNumber, this.config.itemsPerPage)
+        .getOrdersByStatusIn(status, null, null, pageNumber, this.config.itemsPerPage)
         .pipe(takeUntil(this.destroy$))
         .subscribe((data: PagedOrders) => {
           this.spinner.hide();
