@@ -187,12 +187,19 @@ export class ApiService {
 
   public getFilteredOrders(latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs, originStatesCsv: string, destinationStatesCsv: string,
                            primarySort: string, secondarySort: string,
+                           fieldEqualToJson: {},
+                           fieldGreaterThanEqualJson: {},
                            page: number, pageSize: number) {
     const latitudeLongitudeList = encodeURIComponent(JSON.stringify(latitudeLongitudeRefs));
+    // const fieldEqualTo = encodeURIComponent(JSON.stringify(Array.from(fieldEqualToMap.entries())));
+    // const fieldGreaterThanEqual = encodeURIComponent(JSON.stringify(Array.from(fieldGreaterThanEqualToMap.entries())));
+    const fieldEqualTo = encodeURIComponent(JSON.stringify(fieldEqualToJson));
+    const fieldGreaterThanEqual = encodeURIComponent(JSON.stringify(fieldGreaterThanEqualJson));
     return this.httpClient
       .get<PagedOrders>(environment.REST_SERVICE_URL
-          + `/order/getfilteredorders/${originStatesCsv}/${destinationStatesCsv}/${primarySort}/${secondarySort}/`
-          + `${page}/${pageSize}/?refs=${latitudeLongitudeList}`)
+          + `/order/getfilteredorders/${originStatesCsv}/${destinationStatesCsv}/${primarySort}/${secondarySort}`
+          + `/${page}/${pageSize}/?refs=${latitudeLongitudeList}`
+          + `&fieldequalto=${fieldEqualTo}&fieldgreaterthanequalto=${fieldGreaterThanEqual}`)
       .pipe(retry(3), catchError(this.handleError));
   }
 

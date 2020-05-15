@@ -39,6 +39,14 @@ export class Constants {
       return 'createdAt';
     } else if (displayName === 'Distance') {
       return 'distance';
+    } else if (displayName === 'trailerCondition') {
+      return 'vehicleInoperable';
+    } else if (displayName === 'vehicleType') {
+      return 'vehicleAutoType';
+    } else if (displayName === 'carrierPay') {
+      return 'carrierPay';
+    } else if (displayName === 'perMilePerCarMin') {
+      return 'perMile';
     } else {
       return '';
     }

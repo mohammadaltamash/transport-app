@@ -233,22 +233,63 @@ export class LoadBoardComponent implements OnInit {
         }
     let primarySort = localStorage.getItem('primarySort');
     let secondarySort = localStorage.getItem('secondarySort');
+    let trailerCondition = localStorage.getItem('trailerCondition');
+    let vehicleType = localStorage.getItem('vehicleType');
+    let carrierPay = localStorage.getItem('carrierPay');
+    let perMilePerCarMin = localStorage.getItem('perMilePerCarMin');
     primarySort = Constants.getSortName(primarySort);
     secondarySort = Constants.getSortName(secondarySort);
-
+    // trailerCondition = Constants.getSortName(trailerCondition);
+    // vehicleType = Constants.getSortName(vehicleType);
+    // carrierPay = Constants.getSortName(carrierPay);
+    // perMilePerCarMin = Constants.getSortName(perMilePerCarMin);
     if (primarySort === '') {
       primarySort = null;
     }
     if (secondarySort === '') {
       secondarySort = null;
     }
+    if (trailerCondition === '') {
+      trailerCondition = null;
+    }
+    if (vehicleType === '') {
+      vehicleType = null;
+    }
+    if (carrierPay === '') {
+      carrierPay = null;
+    }
+    if (perMilePerCarMin === '') {
+      perMilePerCarMin = null;
+    }
+    const fieldEqualToMap = new Map();
+    const fieldGreaterThanEqualToMap =  new Map();
+    if (trailerCondition !== null && trailerCondition !== 'All') { // check
+      fieldEqualToMap.set(Constants.getSortName('trailerCondition'), trailerCondition === 'Operable' ? 0 : 1);
+    }
+    if (vehicleType !== null) {
+      fieldEqualToMap.set(Constants.getSortName('vehicleType'), '\'' + vehicleType + '\'');
+    }
+    if (carrierPay !== null) {
+      fieldGreaterThanEqualToMap.set(Constants.getSortName('carrierPay'), carrierPay);
+    }
+    if (perMilePerCarMin !== null) {
+      fieldGreaterThanEqualToMap.set(Constants.getSortName('perMilePerCarMin'), perMilePerCarMin);
+    }
+    const fieldEqualToJson = {};
+    fieldEqualToMap.forEach((value, key) => {
+      fieldEqualToJson[key] = value;
+    });
+    const fieldGreaterThanEqualToJson = {};
+    fieldGreaterThanEqualToMap.forEach((value, key) => {
+      fieldGreaterThanEqualToJson[key] = value;
+    });
     if ((latitudeLongitudeRefs.pickupLatLongs !== undefined && latitudeLongitudeRefs.pickupLatLongs.length > 0)
           || (latitudeLongitudeRefs.deliveryLatLongs !== undefined && latitudeLongitudeRefs.deliveryLatLongs.length > 0)
               || selectedOriginStatesCsv !== null || selectedDestinationStatesCsv !== null || primarySort !== null) {
         this.apiService
               .getFilteredOrders(
                 latitudeLongitudeRefs, selectedOriginStatesCsv, selectedDestinationStatesCsv,
-                primarySort, secondarySort,
+                primarySort, secondarySort, fieldEqualToJson, fieldGreaterThanEqualToJson,
                 pageNumber, this.config.itemsPerPage
               )
               // .pipe(takeUntil(this.destroy$))
