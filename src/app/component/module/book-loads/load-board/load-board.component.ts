@@ -402,6 +402,27 @@ export class LoadBoardComponent implements OnInit {
       count += JSON.parse(localStorage.getItem('selectedDestinationStates'))
         .length;
     }
+    const primarySort = localStorage.getItem('primarySort');
+    if (primarySort !== 'Post Date' && primarySort !== null && primarySort !== '') {
+      count++;
+    }
+    if (localStorage.getItem('secondarySort') !== null && localStorage.getItem('secondarySort') !== '') {
+      count++;
+    }
+    const trailerCondition = localStorage.getItem('trailerCondition');
+    if (trailerCondition !== 'All' && trailerCondition !== null && trailerCondition !== '') {
+      count++;
+    }
+    if (localStorage.getItem('vehicleType') !== null && localStorage.getItem('vehicleType') !== '') {
+      count++;
+    }
+    if (localStorage.getItem('carrierPay') !== null && localStorage.getItem('carrierPay') !== '') {
+      count++;
+    }
+    if (localStorage.getItem('perMilePerCarMin') !== null && localStorage.getItem('perMilePerCarMin') !== '') {
+      count++;
+    }
+
     return count;
   }
 }
