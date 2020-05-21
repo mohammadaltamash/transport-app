@@ -22,6 +22,11 @@ import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { environment } from '../../../../../environments/environment';
+import { AppComponent } from 'src/app/app.component';
+import { Constants } from 'src/app/model/constants';
+import { PagedOrders } from 'src/app/model/paged-orders';
+import { MessageService } from 'src/app/service/message.service';
+import { EventMessages } from 'src/app/model/event-messages';
 
 @Component({
   selector: 'app-order',
@@ -143,6 +148,8 @@ export class OrderComponent implements OnInit {
   // formErrors = {};
 
   createOrderForm: FormGroup;
+  // currentOrders: Order[];
+  currentNew: number;
 
   ///////////////////////////////////////// Callbacks /////////////////////////////////////////
 
@@ -156,6 +163,8 @@ export class OrderComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OrderComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private appComponent: AppComponent,
+    public messageService: MessageService
   ) {
     this.validationMessages = {
       // brokerOrderId: {
@@ -171,6 +180,12 @@ export class OrderComponent implements OnInit {
     //   brokerOrderId: ''
     // };
     // this.document = document;
+    // this.appComponent.currentOrders.subscribe(
+    //   o => this.orders = o
+    // );
+    this.appComponent.currentNew.subscribe(
+      n => this.currentNew = n
+    );
   }
 
   ngOnInit() {
@@ -265,6 +280,8 @@ export class OrderComponent implements OnInit {
       this.vehicleModels = vehicleModels;
       // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
     });
+
+    this.messageService._connect();
   }
 
   ngDestroy() {
@@ -359,11 +376,28 @@ export class OrderComponent implements OnInit {
       //   );
 
       this.apiService.postOrder(o)
-        .subscribe(
+                     .subscribe((data: Order) => {
+                        console.log(data);
+                        if (data) {
+                          // const currentOrdersValue = this.appComponent.currentOrdersValue;
+                          // currentOrdersValue.unshift(data);
+                          // this.appComponent.setCurrentOrdersValue(currentOrdersValue);
+
+                          // const newCount = this.appComponent.currentNewValue + 1;
+                          // this.appComponent.setCurrentNewValue(newCount);
+                          // this.apiService
+                          //       .getPagedOrders(0, Constants.ORDERS_PER_PAGE)
+                          //       // .pipe(takeUntil(this.destroy$))
+                          //       .subscribe((result: PagedOrders) => {
+                          //         this.appComponent.setCurrentOrdersValue(result.orders);
+                          //       });
+                          this.messageService._send(EventMessages.NEW_ORDER);
+                        }
+        });
           // data => console.log(data.deliveryDates.endDate),
-          res => console.log(res),
-          err => console.log(err)
-        );
+        //   res => console.log(res),
+        //   err => console.log(err)
+        // );
       this.openSnackBar('Order has been created', '');
       // this.dialogRef.close();
       // this.router.navigate(['/orders']);

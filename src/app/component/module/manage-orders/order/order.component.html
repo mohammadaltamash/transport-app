@@ -51,6 +51,9 @@
 
             <!-- <mat-label>Address << using the directive >></mat-label> -->
             <!-- (blur)="addressLostFocus()" -->
+            <!-- matGoogleMapsAutocomplete [country]="country"
+              (onAutocompleteSelected)="onAutocompleteSelected($event, 'pickup')"
+              (onLocationSelected)="onLocationSelected($event, 'pickup')" -->
             <input matInput id="pickupAddress" formControlName="pickupAddress" placeholder="Pickup address" required
               matGoogleMapsAutocomplete [country]="country"
               (onAutocompleteSelected)="onAutocompleteSelected($event, 'pickup')"

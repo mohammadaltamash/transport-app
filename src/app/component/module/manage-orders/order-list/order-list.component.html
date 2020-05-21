@@ -86,6 +86,8 @@
     <div *cdkVirtualFor="let order of orders" class="example-item">{{order.brokerContactName}}</div>
   </cdk-virtual-scroll-viewport> -->
 
+  <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
+  <button (click)="sendMessage()">Send Message</button>
   <div id="detail">
     <div id="summary">
       <h2>Order {{selectedOrder !== null ? selectedOrder.id : '#'}}
@@ -104,6 +106,9 @@
           <div *ngIf="selectedOrder !== null && selectedOrder.assignedToDriver !== null">
             <div>
               {{ selectedOrder.assignedToDriver.fullName !== null ? selectedOrder.assignedToDriver.fullName : selectedOrder.assignedToDriver.email}}
+              <!-- {{ 
+                selectedDriver.fullName !== null ? selectedDriver.fullName : selectedDriver.email
+                 }} -->
             </div>
           </div>
           <button mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button">

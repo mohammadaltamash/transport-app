@@ -20,6 +20,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Constants } from 'src/app/model/constants';
 import { PagedOrders } from 'src/app/model/paged-orders';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { CommonModelService } from 'src/app/service/common-model.service';
+
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-order-list',
@@ -56,11 +60,14 @@ export class OrderListComponent implements OnInit {
   // deliveredOrders: Order[] = [];
   selectedOrder: Order;
   selectedItem: number;
+  selectedDriver: User;
   drivers: User[];
   auditResponse: AuditResponse[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   searchForm: FormGroup;
+
+  input;
 
   constructor(
     private apiService: ApiService,
@@ -68,12 +75,41 @@ export class OrderListComponent implements OnInit {
     private userService: UserService,
     private appComponent: AppComponent,
     private utilities: Utilities,
+    private commonModelService: CommonModelService,
     public driversDialog: MatDialog,
     public bookingDialog: MatDialog,
     public invitationDialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    public messageService: MessageService
+  ) {
+    // this.appComponent.currentOrders.subscribe(
+    //   o => this.orders = o
+    // );
+    // this.appComponent.currentNew.subscribe(
+    //   n => this.new = n
+    // );
+    // // this.appComponent.currentAccepted.subscribe(
+    // //   ((data: number) => {
+    // //     // a => this.accepted = a
+    // //     this.accepted = data;
+    // //     // this.getOrdersByStatus();
+    // //     // this.onStatusClick(OrderStatus.ACCEPTED);
+    // //     // this.fetchOrders(0);
+    // //     // this.config.currentPage = 1;
+    // //   }));
+    // this.messageService._connect();
+    // this.appComponent.currentAccepted.subscribe(
+    //   n => this.accepted = n
+    // );
+    // this.appComponent.currentAssigned.subscribe(
+    //   n => this.assigned = n
+    // );
+    // this.appComponent.selectedDriver.subscribe(
+    //   n => this.selectedDriver = n
+    // );
+    this.selectedItem = 0;
+  }
 
   ngOnInit() {
     this.config = {
@@ -103,9 +139,10 @@ export class OrderListComponent implements OnInit {
     // if (this.selectedOrder !== null) {
     //   this.getOrderAudit(this.selectedOrder.id);
     // }
-    this.getOrdersByStatus();
-    this.setOrdersCountByStatus();
-    this.updateDriversList();
+    // this.getOrdersByStatus();
+    // this.setOrdersCountByStatus();
+    // this.updateDriversList();
+    this.renderData();
     // of(this.setAssigned()).subscribe(assigned => {
     //   this.assigned = assigned;
     //   // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
@@ -119,6 +156,23 @@ export class OrderListComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchText: ''
     });
+
+    this.appComponent.currentOrders.subscribe(
+      o => this.orders = o
+    );
+    this.appComponent.currentNew.subscribe(
+      n => this.new = n
+    );
+    this.appComponent.currentAccepted.subscribe(
+      n => this.accepted = n
+    );
+    this.appComponent.currentAssigned.subscribe(
+      n => this.assigned = n
+    );
+    // this.appComponent.selectedDriver.subscribe(
+    //   n => this.selectedDriver = n
+    // );
+    this.messageService._connect();
   }
 
   onSubmit() {
@@ -249,6 +303,12 @@ export class OrderListComponent implements OnInit {
   //   }
   // }
 
+  renderData() {
+    this.getOrdersByStatus();
+    this.setOrdersCountByStatus();
+    this.updateDriversList();
+  }
+
   getOrdersByStatus() {
     // const status = this.getStatusCSVString();
     // this.selectedOrder = null;
@@ -309,7 +369,7 @@ export class OrderListComponent implements OnInit {
     //     });
     // }
 
-    this.fetchOrders(0);
+    this.fetchOrders(this.selectedItem);
   }
 
   pageChange(newPage: number) {
@@ -320,6 +380,7 @@ export class OrderListComponent implements OnInit {
   fetchOrders(pageNumber: number) {
     const status = this.getStatusCSVString();
     this.selectedOrder = null;
+    this.selectedDriver = null;
     this.auditResponse = null;
     this.spinner.show();
     if (this.isSearching) {
@@ -332,7 +393,8 @@ export class OrderListComponent implements OnInit {
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
           if (data.totalItems > 0) {
-            this.selectedOrder = this.orders[0];
+            this.selectedOrder = this.orders[this.selectedItem];
+            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             // this.config.currentPage = 0;
             this.getOrderAudit(this.selectedOrder.id);
           }
@@ -350,7 +412,8 @@ export class OrderListComponent implements OnInit {
           this.config.totalItems = data.totalItems;
           this.all = data.totalItems;
           if (data.totalItems > 0) {
-            this.selectedOrder = this.orders[0];
+            this.selectedOrder = this.orders[this.selectedItem];
+            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
           }
         });
@@ -366,7 +429,8 @@ export class OrderListComponent implements OnInit {
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
           if (data.totalItems > 0) {
-            this.selectedOrder = this.orders[0];
+            this.selectedOrder = this.orders[this.selectedItem];
+            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
           }
         });
@@ -406,7 +470,8 @@ export class OrderListComponent implements OnInit {
       .getOrdersCountByStatus('NEW')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: number) => {
-        this.new = data;
+        // this.new = data;
+        this.appComponent.setCurrentNewValue(data);
       });
     this.apiService
       .getOrdersCountByStatus('BOOKED')
@@ -419,6 +484,8 @@ export class OrderListComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: number) => {
         this.accepted = data;
+        // this.appComponent.setCurrentAcceptedValue(data);
+        // this.appComponent.setCurrentNewValue(this.new - 1);
       });
     this.apiService
       .getOrdersCountByStatus('ASSIGNED')
@@ -472,8 +539,8 @@ export class OrderListComponent implements OnInit {
     this.utilities.openSnackBar('Order has been booked', '');
     // this.setOrdersCountByStatus();
     // this.getOrdersByStatus();
-    this.accepted = this.accepted + 1;
-    this.assigned = this.assigned - 1;
+    // this.accepted = this.accepted + 1;
+    // this.assigned = this.assigned - 1;
     document.getElementById('accepted').innerText =
       'Accepted (' + this.accepted + ')';
     document.getElementById('assigned').innerText =
@@ -486,6 +553,7 @@ export class OrderListComponent implements OnInit {
   onItemClick(order: Order, index: number) {
     this.selectedOrder = order;
     this.selectedItem = index;
+    this.selectedDriver = order.assignedToDriver;
     this.getOrderAudit(this.selectedOrder.id);
   }
 
@@ -497,19 +565,6 @@ export class OrderListComponent implements OnInit {
         this.drivers = data;
         console.log(data);
       });
-  }
-
-  onAssignDriver(orderNumber: number): void {
-    const dialogRef = this.driversDialog.open(DriversListDialogComponent, {
-      width: '30vw',
-      data: {
-        drivers: this.drivers,
-        orderId: orderNumber
-      },
-      disableClose: true,
-      backdropClass: 'backdropBackground',
-      autoFocus: false
-    });
   }
 
   getDispatchInstructions() {
@@ -533,10 +588,10 @@ export class OrderListComponent implements OnInit {
     return response.fullName !== null ? response.fullName : response.userName;
   }
 
-  getOrderCarrier(value) {
+  getOrderCarrier(value: string) {
     return JSON.parse(value);
   }
-  getActionString(response: AuditResponse, property) {
+  getActionString(response: AuditResponse, property: { propertyName: string; value: any; formattedPropertyName: any; }) {
     const name = this.getName(response);
     if (response.operation === 'ADD') {
       return `${name} created order`;
@@ -552,6 +607,8 @@ export class OrderListComponent implements OnInit {
   }
 
   showBookOrder(property: string, value: string) {
+  //  if (this.authenticationService.currentUserValue.email === this.selectedOrder.createdBy.email &&
+  //         property === 'bookingRequestCarriers') {
     if (property === 'bookingRequestCarriers') {
       const orderCarrier: OrderCarrier = this.getOrderCarrier(value);
       return (orderCarrier.status === OrderStatus.BOOKING_REQUEST
@@ -559,6 +616,18 @@ export class OrderListComponent implements OnInit {
     }
     return false;
   }
+
+  // showInviteButton(property: string, value: string) {
+  //   if (this.authenticationService.currentUserValue.email === this.selectedOrder.createdBy.email &&
+  //         property === 'bookingRequestCarriers') {
+  //     const orderCarrier: OrderCarrier = this.getOrderCarrier(value);
+  //     orderCarrier.carrier !== undefined &&
+  //     orderCarrier.carrier.email === this.selectedOrder.createdBy.email
+  //     return (orderCarrier.status === OrderStatus.BOOKING_REQUEST
+  //     );
+  //   }
+  //   return false;
+  // }
 
   openBookingDialog(orderCarrierRecord: string) {
     // this.bookDialog.openDialog();
@@ -586,19 +655,77 @@ export class OrderListComponent implements OnInit {
     // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
     // this.selectedItem = index;
     // this.appComponent.setCurrentOrderValue(order);
-    const dialogRef = this.invitationDialog.open(InviteOrderDialogComponent, {
-      // width: '50vw',
-      // height: '95vh',
-      data: {
-        order: this.selectedOrder,
-        orderCarrier: JSON.parse(orderCarrierRecord)
-      },
-      disableClose: true,
-      backdropClass: 'backdropBackground'
+
+    // const dialogRef = this.invitationDialog.open(InviteOrderDialogComponent, {
+    //   // width: '50vw',
+    //   // height: '95vh',
+    //   data: {
+    //     order: this.selectedOrder,
+    //     orderCarrier: JSON.parse(orderCarrierRecord)
+    //   },
+    //   disableClose: true,
+    //   backdropClass: 'backdropBackground'
+    // });
+
+    this.commonModelService.openInviteDialog(this.selectedOrder, JSON.parse(orderCarrierRecord))
+                              .subscribe(data => {
+                                console.log(data);
+                                if (data.accepted) {
+                                  if (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED) {
+                                    // this.new -= 1;
+                                    // this.accepted += 1;
+                                    this.appComponent.setCurrentNewValue(this.new - 1);
+                                    this.appComponent.setCurrentAcceptedValue(this.accepted + 1);
+                                    // this.selectedOrder.orderStatus =
+                                    // const selOrder = this.selectedOrder;
+                                    // this.fetchOrders(this.config.currentPage - 1);
+                                    // this.selectedOrder = selOrder;
+                                  }
+                                  this.fetchOrders(this.config.currentPage - 1);
+                                }
     });
 
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
     // });
+  }
+
+  onAssignDriver(orderNumber: number): void {
+    // const dialogRef = this.driversDialog.open(DriversListDialogComponent, {
+    //   width: '30vw',
+    //   data: {
+    //     drivers: this.drivers,
+    //     orderId: orderNumber
+    //   },
+    //   disableClose: true,
+    //   backdropClass: 'backdropBackground',
+    //   autoFocus: false
+    // });
+
+    this.commonModelService.openAssignDriverDialog(this.drivers, orderNumber)
+                              .subscribe(data => {
+                                console.log(data);
+                                // this.appComponent.setSelectedDriverValue(null);
+                                // this.appComponent.setCurrentAcceptedValue(50);
+                                if (data.accepted) {
+                                  // this.appComponent.setSelectedDriverValue(data.assignedToDriver);
+                                  // this.selectedOrder.assignedToDriver = data.assignedToDriver;
+                                  if (this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED) {
+                                    // this.accepted -= 1;
+                                    // this.assigned += 1;
+                                    this.appComponent.setCurrentAcceptedValue(this.accepted - 1);
+                                    this.appComponent.setCurrentAssignedValue(this.assigned + 1);
+                                    // this.fetchOrders(this.config.currentPage - 1);
+                                  }
+                                  // this.apiService.getOrderById(+orderNumber).subscribe(order => {
+                                  //   this.selectedOrder.assignedToDriver =
+                                  // });
+                                  this.fetchOrders(this.config.currentPage - 1);
+                                }
+                              });
+  }
+
+  sendMessage() {
+    this.messageService._send(this.input);
   }
 }

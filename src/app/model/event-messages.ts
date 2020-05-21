@@ -1,0 +1,11 @@
+export class EventMessages {
+
+    static NEW_ORDER = 'NEW_ORDER';
+    static STATUS_TO_ACCEPTED = 'STATUS_TO_ACCEPTED';
+    static STATUS_TO_ASSIGNED = 'STATUS_TO_ASSIGNED';
+    static STATUS_FROM_NEW = 'STATUS_FROM_NEW';
+    static NEW_COUNT = 'NEW_COUNT';
+    static ACCEPTED_COUNT = 'ACCEPTED_COUNT';
+    static ASSIGNED_COUNT = 'ASSIGNED_COUNT';
+    // static RENDER_ORDERS = 'RENDER_ORDERS';
+}

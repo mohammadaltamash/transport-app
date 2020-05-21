@@ -8,6 +8,9 @@ import { Utilities } from 'src/app/helper/utilities';
 import { OrderCarrier } from 'src/app/model/order-carrier';
 import { OrderStatus } from 'src/app/model/order-status';
 import { MapHelper } from 'src/app/helper/map_helper';
+import { AppComponent } from 'src/app/app.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invite-order-dialog',
@@ -28,7 +31,10 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
   // selectedPickupDate = new Date();
   // selectedDeliveryDate = new Date();
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
   bookingForm: FormGroup;
+
+  currentAccepted: number;
 
   constructor(
     private dialogRef: MatDialogRef<InviteOrderDialogComponent>,
@@ -36,7 +42,8 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private utilities: Utilities,
-    private mapHelper: MapHelper
+    private mapHelper: MapHelper,
+    private appComponent: AppComponent
   ) {
     this.markers = [];
     this.markers.push({
@@ -51,6 +58,10 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
       title: 'Drop off location',
       icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
     });
+
+    // this.appComponent.currentAccepted.subscribe(
+    //   a => this.currentAccepted = a
+    // );
   }
 
   ngOnInit() {
@@ -74,19 +85,34 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(buttonType: string) {
-    alert(buttonType);
+    // alert(buttonType);
     // return;
-    this.apiService.acceptOrDecline(this.data.order.id, this.data.orderCarrier.id, buttonType).subscribe(
-      // data => console.log(data.deliveryDates.endDate),
-      res => console.log(res),
-      err => console.log(err)
+    this.apiService.acceptOrDecline(this.data.order.id, this.data.orderCarrier.id, buttonType)
+                   .subscribe(((data: OrderCarrier) => {
+                            // data => console.log(data.deliveryDates.endDate),
+                            // res => console.log(res),
+                            // err => console.log(err)
+                            // if (data.status === OrderStatus.ACCEPTED) {
+                            //   // const acceptCount = this.appComponent.currentAcceptedValue + 1;
+                            //   // this.appComponent.setCurrentAcceptedValue(acceptCount);
+                            //   this.apiService.getOrdersCountByStatus('ACCEPTED')
+                            //                   .pipe(takeUntil(this.destroy$))
+                            //                   .subscribe((count: number) => {
+                            //                     // this.accepted = data;
+                            //                     this.appComponent.setCurrentAcceptedValue(count);
+                            //     // this.appComponent.setCurrentNewValue(this.new - 1);
+                            //   });
+                            // }
+                            })
     );
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
     if (buttonType === OrderStatus.ACCEPTED) {
       this.utilities.openSnackBar('Order accepted', '');
+      this.dialogRef.close({ accepted: true });
     } else if (buttonType === OrderStatus.DECLINED) {
       this.utilities.openSnackBar('Order declined', '');
+      this.dialogRef.close({ accepted: false });
     }
   }
 

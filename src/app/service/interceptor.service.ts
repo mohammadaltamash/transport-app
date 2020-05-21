@@ -20,7 +20,7 @@ export class InterceptorService implements HttpInterceptor {
         headers: req.headers.set(
             'Authorization',
             'Bearer ' + localStorage.getItem('access_token')
-        ),
+        )
         // url: reqUrl + '' + req.url
         });
     }

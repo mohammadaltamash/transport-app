@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/service/api.service';
 import { Utilities } from 'src/app/helper/utilities';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
-import { RegisterComponent } from '../module/auth-components/register/register.component';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-drivers-list-dialog',
@@ -27,6 +27,7 @@ export class DriversListDialogComponent implements OnInit {
     private apiService: ApiService,
     private utilities: Utilities,
     public newUserDialog: MatDialog
+    // private commonModelService: CommonModelService
   ) {
     this.drivers = data.drivers;
   }
@@ -67,11 +68,15 @@ export class DriversListDialogComponent implements OnInit {
     if (this.selection !== undefined) {
       this.apiService
         .assignDriver(this.drivers[this.selection].id, this.data.orderId)
-        .subscribe(
-          // data => console.log(data.deliveryDates.endDate),
-          res => console.log(res),
-          err => console.log(err)
+            .subscribe(result => {
+              console.log(result);
+              this.dialogRef.close({ accepted: true, assignedToDriver: result.assignedToDriver });
+            }
+          // res => console.log(res),
+          // err => console.log(err)
         );
+      this.utilities.openSnackBar('Driver accepted', '');
+      // this.dialogRef.close({ accepted: true });
     } else {
       this.invalid = true;
       this.assignDriverForm.reset();
@@ -85,6 +90,13 @@ export class DriversListDialogComponent implements OnInit {
       disableClose: true,
       backdropClass: 'backdropBackgroundTransparent'
     });
+
+    // this.commonModelService.openNewDriverDialog().subscribe(data => {
+
+    //   if (data.created) {
+    //     this.drivers.push(data.driver);
+    //   }
+    //   });
   }
 
   onCloseClick() {
