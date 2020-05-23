@@ -7,6 +7,7 @@ import { Order } from '../model/order';
 import { DriversListDialogComponent } from '../component/drivers-list-dialog/drivers-list-dialog.component';
 import { User } from '../model/user';
 import { CreateDialogComponent } from '../component/create-dialog/create-dialog.component';
+import { BookOrderDialogComponent } from '../component/module/manage-orders/book-order-dialog/book-order-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,25 @@ export class CommonModelService {
       data: 'DRIVER',
       disableClose: true,
       backdropClass: 'backdropBackgroundTransparent'
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  openBookingDialog(selectedOrder: Order, orderCarrierRecord: string): Observable<any> {
+    // this.bookDialog.openDialog();
+    // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
+    // this.selectedItem = index;
+    // this.appComponent.setCurrentOrderValue(order);
+    const dialogRef = this.dialog.open(BookOrderDialogComponent, {
+      // width: '50vw',
+      // height: '95vh',
+      data: {
+        order: selectedOrder,
+        orderCarrier: JSON.parse(orderCarrierRecord)
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
     });
 
     return dialogRef.afterClosed();

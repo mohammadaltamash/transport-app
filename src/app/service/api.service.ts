@@ -79,10 +79,18 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  public bookOrder(orderId: number, orderCarrier: OrderCarrier): Observable<OrderCarrier> {
+  // public getOrderCarrier(id: string) {
+  //   return this.httpClient
+  //     .get<OrderCarrier>(environment.REST_SERVICE_URL + '/ordercarrier/${orderId}'
+  //     // , this.getOptions()
+  //     )
+  //     .pipe(retry(3), catchError(this.handleError));
+  // }
+
+  public bookOrder(orderId: number, carrierId: number, orderCarrier: OrderCarrier): Observable<OrderCarrier> {
     return this.httpClient
       .put<OrderCarrier>(
-        environment.REST_SERVICE_URL + `/order/bookingrequest/book/${orderId}`,
+        environment.REST_SERVICE_URL + `/order/bookingrequest/book/${orderId}/${carrierId}`,
         orderCarrier
         // ,
         // this.getOptions()
@@ -225,7 +233,7 @@ export class ApiService {
   }
 
   // Order Carrier
-
+  // Order request from carrier
   public createOrderRequest(orderCarrier: OrderCarrier, orderId: number, email: string): Observable<OrderCarrier> {
     return this.httpClient
       .post<OrderCarrier>(

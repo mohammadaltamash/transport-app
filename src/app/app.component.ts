@@ -9,6 +9,8 @@ import { OrderStatus } from './model/order-status';
 import { Constants } from './model/constants';
 import { takeUntil } from 'rxjs/operators';
 import { PagedOrders } from './model/paged-orders';
+import { UserService } from './service/user.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-root',
@@ -36,12 +38,16 @@ export class AppComponent {
   private selectedDriverSubject: BehaviorSubject<User>;
   public selectedDriver: Observable<User>;
 
+  private driversSubject: BehaviorSubject<User[]>;
+  public drivers: Observable<User[]>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private userService: UserService
   ) {
     this.currentOrderSubject = new BehaviorSubject<Order>(null
       // JSON.parse(localStorage.getItem('current_user'))
@@ -79,6 +85,15 @@ export class AppComponent {
 
     this.selectedDriverSubject = new BehaviorSubject<User>(null);
     this.selectedDriver = this.selectedDriverSubject.asObservable();
+
+    this.driversSubject = new BehaviorSubject<User[]>([]);
+    this.drivers = this.driversSubject.asObservable();
+    this.userService
+          .getUsersByType(environment.USER_DRIVER)
+          // .pipe(takeUntil(this.destroy$))
+          .subscribe((users: User[]) => {
+            this.setDriversValue(users);
+          });
 
     this.authenticationService.currentUser.subscribe(
       u => this.currentUser = u
@@ -140,5 +155,13 @@ export class AppComponent {
 
   setSelectedDriverValue(u: User) {
     this.selectedDriverSubject.next(u);
+  }
+
+  public get driverValue(): User[] {
+    return this.driversSubject.value;
+  }
+
+  setDriversValue(drivers: User[]) {
+    this.driversSubject.next(drivers);
   }
 }

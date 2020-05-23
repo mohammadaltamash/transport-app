@@ -136,7 +136,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     // const oc: OrderCarrier = orderCarriers.find(c => c.carrier.id === this.data.orderCarrier.id);
     // oc.status = 'BOOKED';
     const jsonString = JSON.stringify(orderCarrier);
-    this.apiService.bookOrder(this.data.order.id, orderCarrier).subscribe(
+    this.apiService.bookOrder(this.data.order.id, this.data.orderCarrier.carrierId, orderCarrier).subscribe(
       // data => console.log(data.deliveryDates.endDate),
       res => console.log(res),
       err => console.log(err)
@@ -145,10 +145,11 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
     this.utilities.openSnackBar('', '');
     console.log(orderCarrier);
+    this.dialogRef.close({ booked: true });
   }
 
   onCloseClick() {
-    this.dialogRef.close();
+    this.dialogRef.close({ booked: true });
   }
 
   // onMapButtonClick() {

@@ -91,7 +91,7 @@
   <div id="detail">
     <div id="summary">
       <h2>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
-        {{ selectedOrder !== null ? selectedOrder.orderStatus : '' }}
+        {{ (selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.orderStatus : '' }}
         <ng-container *ngIf="selectedOrder !== null && selectedOrder.orderStatus === 'NEW'">
           <mat-icon id="editOrder">edit</mat-icon>
         </ng-container>
@@ -105,7 +105,7 @@
         <div id="assignDriverAction" *ngIf="orders.length > 0">
           <div *ngIf="selectedOrder !== null && selectedOrder.assignedToDriver !== null">
             <div>
-              {{ selectedOrder.assignedToDriver.fullName !== null ? selectedOrder.assignedToDriver.fullName : selectedOrder.assignedToDriver.email}}
+              {{ (selectedOrder.assignedToDriver.fullName !== null && selectedOrder.assignedToDriver.fullName !== '' && selectedOrder.assignedToDriver.fullName !== undefined) ? selectedOrder.assignedToDriver.fullName : selectedOrder.assignedToDriver.email}}
               <!-- {{ 
                 selectedDriver.fullName !== null ? selectedDriver.fullName : selectedDriver.email
                  }} -->
@@ -218,9 +218,9 @@
         </mat-card-subtitle>
         <ng-container *ngIf="orders.length > 0">
           <div id="carrierPay">Carrier Pay</div>
-          <div id="carrierPayValue">{{selectedOrder !== null ? this.selectedOrder.carrierPay : ''}}</div>
+          <div id="carrierPayValue">{{(selectedOrder !== null ? this.selectedOrder.carrierPay : '') | number:'1.2-2'}}</div>
           <div id="onDelivery">On Delivery</div>
-          <div id="onDeliveryValue">{{selectedOrder !== null ? this.selectedOrder.amountOnDelivery : ''}}</div>
+          <div id="onDeliveryValue">{{(selectedOrder !== null ? this.selectedOrder.amountOnDelivery : '') | number:'1.2-2'}}</div>
           <div id="receivables">Receivables</div>
           <div id="receivablesValue"></div>
           <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY
@@ -244,7 +244,7 @@
               <ng-container *ngIf="response.operation === 'ADD'">
                 <!-- <div class="createRow"> -->
                 <span class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-                <span id="newOrderMessage">{{ getActionString(response, null) }}</span><br>
+                <span class="newOrderMessage">{{ getActionString(response, null) }}</span><br>
                 <!-- </div> -->
               </ng-container>
               <ng-container *ngIf="response.operation === 'MOD'">
@@ -254,8 +254,9 @@
                   <!-- <div id="optionalTitle" *ngIf="response.changedProperties.length > 1">{{getName(response)}} changed:</div> -->
 
                   <!-- Book Order / Invititation button -->
-                  <div id="changedPropertiesList" *ngFor="let property of response.changedProperties">
-                    <div class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                  <!-- <div id="changedPropertiesList" *ngFor="let property of response.changedProperties; let i = index">
+                    <div *ngIf="i === 0" class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                    <div *ngIf="i !== 0" class="timestamp_transparent">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</div>
                     <div id="message">{{ getActionString(response, property) }} </div>
                     <div id="bookButton"><button mat-button *ngIf="showBookOrder(property.propertyName, property.value)"
                         [ngClass]="'ovalShape'" (click)="openBookingDialog(property.value)">Book Order</button>
@@ -264,6 +265,19 @@
                         *ngIf="showBookOrder(property.propertyName, property.value)" [ngClass]="'ovalShape'"
                         (click)="openInvitationDialog(property.value)">Order Invitation</button>
                     </div>
+                  </div> -->
+                  <div id="changedPropertiesList" *ngFor="let property of response.changedProperties; let i = index">
+                    <ng-container *ngIf="i === 0">
+                    <div class="timestamp">{{ response.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                    <div id="message">{{ getActionString(response, property) }} </div>
+                    <div id="bookButton"><button mat-button *ngIf="showBookOrderButton(property.propertyName, property.value)"
+                        [ngClass]="'ovalShape'" (click)="openBookingDialog(property.value)">Book Order</button>
+                    </div>
+                    <div id="invitationButton"><button mat-button
+                        *ngIf="showOrderInviteButton(property.propertyName, property.value)" [ngClass]="'ovalShape'"
+                        (click)="openInvitationDialog(property.value)">Offer Received</button>
+                    </div>
+                  </ng-container>
                     <!-- </div> -->
                   </div>
 

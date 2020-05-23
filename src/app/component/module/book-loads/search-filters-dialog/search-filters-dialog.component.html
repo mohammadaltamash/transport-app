@@ -213,7 +213,8 @@
         </div>
         <div id="filters">
             <h2 class="mat-headline">FILTERS</h2>
-            <h4>Sort & Highlight</h4>
+            <!-- <h4>Sort & Highlight</h4> -->
+            <h4>Sort</h4>
             <mat-form-field id="primarySort">
                 <mat-label>Primary Sort</mat-label>
                 <mat-select formControlName="primarySort">
@@ -230,7 +231,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field id="hightlightByPostedWithin">
+            <!-- <mat-form-field id="hightlightByPostedWithin">
                 <mat-label>hightlightBy (Posted Within)</mat-label>
                 <mat-select formControlName="hightlightByPostedWithin">
                     <mat-option *ngFor="let hightlight of hightlightByPostedWithin" [value]="hightlight">
@@ -245,17 +246,17 @@
                         {{ datetime }}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
             <div>
-                <h4>vehicle/s</h4>
-                <mat-form-field>
+                <h4>Vehicle/s</h4>
+                <!-- <mat-form-field>
                     <mat-label>Trailer Type</mat-label>
                     <mat-select formControlName="trailerType">
                         <mat-option *ngFor="let trailrType of trailerType" [value]="trailrType">
                             {{ trailrType }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field>
                     <mat-label>Trailer Condition</mat-label>
                     <mat-select formControlName="trailerCondition">
@@ -272,7 +273,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field>
+                <!-- <mat-form-field>
                     <mat-label>Min #</mat-label>
                     <mat-select formControlName="minOfVehicles">
                         <mat-option *ngFor="let min of minOfVehicles" [value]="min">
@@ -287,18 +288,18 @@
                             {{ max }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
             <div>
                 <h4>Payment</h4>
-                <mat-form-field>
+                <!-- <mat-form-field>
                     <mat-label>Payment</mat-label>
                     <mat-select formControlName="paymentTerms">
                         <mat-option *ngFor="let paymentTerm of paymentTerms" [value]="paymentTerm">
                             {{ paymentTerm }}
                         </mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field>
                     <mat-label>Carrier Pay (min)</mat-label>
                     <input matInput formControlName="carrierPay">

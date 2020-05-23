@@ -585,10 +585,10 @@ export class OrderListComponent implements OnInit {
   }
 
   getName(response: { fullName: string; userName: string }) {
-    return response.fullName !== null ? response.fullName : response.userName;
+    return response.fullName !== null && response.fullName !== '' ? response.fullName : response.userName;
   }
 
-  getOrderCarrier(value: string) {
+  getOrderCarrierJson(value: string) {
     return JSON.parse(value);
   }
   getActionString(response: AuditResponse, property: { propertyName: string; value: any; formattedPropertyName: any; }) {
@@ -597,22 +597,81 @@ export class OrderListComponent implements OnInit {
       return `${name} created order`;
     } else if (response.operation === 'MOD') {
       if (property.propertyName === 'bookingRequestCarriers') {
-        const orderCarrier: OrderCarrier = this.getOrderCarrier(property.value);
-        if (orderCarrier.status === OrderStatus.BOOKING_REQUEST) {
-          return `${name} sent a booking request`;
+        const orderCarrier = this.getOrderCarrierJson(property.value);
+        const carrier = orderCarrier.carrierFullName != null && orderCarrier.carrierFullName !== '' ?
+                              orderCarrier.carrierFullName : orderCarrier.carrierEmail;
+        if (orderCarrier.status === OrderStatus.BOOKED) {
+          return `${name} made an offer for approval to ${carrier}`;
+        } else if (orderCarrier.status === OrderStatus.BOOKING_REQUEST) {
+          return `${carrier} sent a booking request`;
         }
       }
+      // if (property.propertyName === 'assignedToCarrier') {
+      //   const carrierName: string[] = property.value.split('|');
+      //   let carrier = null;
+      //   if (carrierName[0] !== 'null') {
+      //     carrier = carrierName[0];
+      //   } else {
+      //     carrier = carrierName[1];
+      //   }
+      //   // const carrier = orderCarrier.carrier.fullName !== null ? orderCarrier.carrier.fullName : orderCarrier.carrier.email;
+      //   return `${name} sent order offer to ${carrier}`;
+      // }
+      if (property.propertyName === 'orderStatus') {
+        if (property.value === OrderStatus.ACCEPTED) {
+          return `${name} accepted order`;
+        }
+      }
+      if (property.propertyName === 'orderStatus') {
+        if (property.value === OrderStatus.DECLINED) {
+          return `${name} declined order`;
+        }
+      }
+      if (property.propertyName === 'assignedToDriver') {
+        // const driverName: string[] = property.value.split('|');
+        // let driver = null;
+        // if (driverName[0] !== 'null') {
+        //   driver = driverName[0];
+        // } else {
+        //   driver = driverName[1];
+        // }
+        // const driver = this.selectedOrder.assignedToDriver.fullName === null ?
+        //                   this.selectedOrder.assignedToDriver.fullName : this.selectedOrder.assignedToDriver.email;
+        return `${name} assigned to driver ${property.value}`;
+      }
+      // if (property.formattedPropertyName === 'Booking Request By Carriers') {
+      //   return `${name} assigned to driver`;
+      // }
       return `${name} changed ${property.formattedPropertyName} to '${property.value}'`;
     }
   }
 
-  showBookOrder(property: string, value: string) {
+  showBookOrderButton(property: string, value: string) {
   //  if (this.authenticationService.currentUserValue.email === this.selectedOrder.createdBy.email &&
   //         property === 'bookingRequestCarriers') {
+    if (property === 'bookingRequestCarriers' &&
+        this.selectedOrder.createdBy.email === this.authenticationService.currentUserValue.email &&
+        this.selectedOrder.orderStatus === OrderStatus.NEW) {
+      // const orderCarrier = this.getOrderCarrierJson(value);
+      // const orderCarrierStatus = this.selectedOrder.bookingRequestCarriers
+      //                                 .filter(rc => rc.id = this.getOrderCarrierJson(value).id)[0].status;
+      const orderCarrierStatus =  JSON.parse(value).status;
+      return (orderCarrierStatus !== OrderStatus.BOOKED &&
+                this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
+    }
+    return false;
+  }
+
+  showOrderInviteButton(property: string, value: string) {
     if (property === 'bookingRequestCarriers') {
-      const orderCarrier: OrderCarrier = this.getOrderCarrier(value);
-      return (orderCarrier.status === OrderStatus.BOOKING_REQUEST
-      );
+      const carrierEmail =  JSON.parse(value).carrierEmail;
+      if (carrierEmail === this.authenticationService.currentUserValue.email &&
+          this.selectedOrder.orderStatus === OrderStatus.NEW) {
+        const orderCarrierStatus = this.selectedOrder.bookingRequestCarriers
+                                    .filter(rc => rc.id = this.getOrderCarrierJson(value).id)[0].status;
+        return (orderCarrierStatus === OrderStatus.BOOKED &&
+                  this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
+      }
     }
     return false;
   }
@@ -634,20 +693,35 @@ export class OrderListComponent implements OnInit {
     // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
     // this.selectedItem = index;
     // this.appComponent.setCurrentOrderValue(order);
-    const dialogRef = this.bookingDialog.open(BookOrderDialogComponent, {
-      // width: '50vw',
-      // height: '95vh',
-      data: {
-        order: this.selectedOrder,
-        orderCarrier: JSON.parse(orderCarrierRecord)
-      },
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
+    // const dialogRef = this.bookingDialog.open(BookOrderDialogComponent, {
+    //   // width: '50vw',
+    //   // height: '95vh',
+    //   data: {
+    //     order: this.selectedOrder,
+    //     orderCarrier: JSON.parse(orderCarrierRecord)
+    //   },
+    //   disableClose: true,
+    //   backdropClass: 'backdropBackground'
+    // });
 
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log('The dialog was closed');
     // });
+    this.commonModelService.openBookingDialog(this.selectedOrder, orderCarrierRecord)
+                              .subscribe(data => {
+                                console.log(data);
+                                if (data.booked) {
+
+                                  // this.fetchOrders(this.config.currentPage);
+                                  this.apiService
+                                          .getAudit('Order', this.selectedOrder.id)
+                                          .pipe(takeUntil(this.destroy$))
+                                          .subscribe((response: AuditResponse[]) => {
+                                            this.auditResponse = response;
+                                            // console.log(`AuditResponse: ${response}`);
+                                          });
+                                }
+    });
   }
 
   openInvitationDialog(orderCarrierRecord: string) {
@@ -681,7 +755,7 @@ export class OrderListComponent implements OnInit {
                                     // this.fetchOrders(this.config.currentPage - 1);
                                     // this.selectedOrder = selOrder;
                                   }
-                                  this.fetchOrders(this.config.currentPage - 1);
+                                  this.fetchOrders(this.config.currentPage);
                                 }
     });
 
@@ -707,7 +781,7 @@ export class OrderListComponent implements OnInit {
                                 console.log(data);
                                 // this.appComponent.setSelectedDriverValue(null);
                                 // this.appComponent.setCurrentAcceptedValue(50);
-                                if (data.accepted) {
+                                if (data.assigned) {
                                   // this.appComponent.setSelectedDriverValue(data.assignedToDriver);
                                   // this.selectedOrder.assignedToDriver = data.assignedToDriver;
                                   if (this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED) {
@@ -720,7 +794,7 @@ export class OrderListComponent implements OnInit {
                                   // this.apiService.getOrderById(+orderNumber).subscribe(order => {
                                   //   this.selectedOrder.assignedToDriver =
                                   // });
-                                  this.fetchOrders(this.config.currentPage - 1);
+                                  this.fetchOrders(this.config.currentPage);
                                 }
                               });
   }

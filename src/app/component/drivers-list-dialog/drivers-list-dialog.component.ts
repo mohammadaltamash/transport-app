@@ -7,6 +7,8 @@ import { ApiService } from 'src/app/service/api.service';
 import { Utilities } from 'src/app/helper/utilities';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
 import { AppComponent } from 'src/app/app.component';
+import { CommonModelService } from 'src/app/service/common-model.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-drivers-list-dialog',
@@ -25,11 +27,19 @@ export class DriversListDialogComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private appComponent: AppComponent,
     private utilities: Utilities,
     public newUserDialog: MatDialog
     // private commonModelService: CommonModelService
   ) {
     this.drivers = data.drivers;
+    // this.userService
+    //   .getUsersByType(environment.USER_DRIVER)
+    //   // .pipe(takeUntil(this.destroy$))
+    //   .subscribe((users: User[]) => {
+    //     this.drivers = users;
+    //     console.log(data);
+    //   });
   }
 
   ngOnInit() {
@@ -45,6 +55,9 @@ export class DriversListDialogComponent implements OnInit {
       // ),
       // offerReason: this.data.orderCarrier.offerReason,
       // offerValidity: this.data.orderCarrier.offerValidity
+    });
+    this.appComponent.drivers.subscribe(users => {
+      this.drivers = users;
     });
   }
 
@@ -70,7 +83,7 @@ export class DriversListDialogComponent implements OnInit {
         .assignDriver(this.drivers[this.selection].id, this.data.orderId)
             .subscribe(result => {
               console.log(result);
-              this.dialogRef.close({ accepted: true, assignedToDriver: result.assignedToDriver });
+              this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
             }
           // res => console.log(res),
           // err => console.log(err)
@@ -91,15 +104,15 @@ export class DriversListDialogComponent implements OnInit {
       backdropClass: 'backdropBackgroundTransparent'
     });
 
-    // this.commonModelService.openNewDriverDialog().subscribe(data => {
+    // this.commonModelService.openNewDriverDialog().subscribe(user => {
 
-    //   if (data.created) {
-    //     this.drivers.push(data.driver);
+    //   if (user) {
+    //     this.drivers.push(user);
     //   }
     //   });
   }
 
   onCloseClick() {
-    this.dialogRef.close();
+    this.dialogRef.close({ assigned: false });
   }
 }

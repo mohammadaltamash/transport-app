@@ -18,6 +18,10 @@
             </button>
         </form>
         &nbsp;|&nbsp;
+        <button mat-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0" matBadgePosition="after" (click)="showFiltersDialog()">
+                Filters <mat-icon>filter_list</mat-icon>
+            </button>
+            &nbsp;
         <button id="origin" mat-stroked-button (click)="showFiltersDialog()">
             Add an Origin
         </button>
@@ -28,13 +32,13 @@
             Add a Destination
         </button>
         &nbsp;
-        <button mat-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0" matBadgePosition="after" (click)="showFiltersDialog()">
+        <!-- <button mat-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0" matBadgePosition="after" (click)="showFiltersDialog()">
             Filters <mat-icon>filter_list</mat-icon>
         </button>
-        &nbsp;
-        <button mat-button>
+        &nbsp; -->
+        <!-- <button mat-button>
             Saved <mat-icon>keyboard_arrow_down</mat-icon>
-        </button>
+        </button> -->
     </mat-toolbar>
 
     <cdk-virtual-scroll-viewport itemSize="127">

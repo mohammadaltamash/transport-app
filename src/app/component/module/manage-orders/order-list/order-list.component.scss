@@ -8,7 +8,7 @@ main {
     "list           detail"
     "navControls    detail";
   grid-template-columns: 400px 1fr;
-  grid-template-rows: 64px 60px 1fr 64px;
+  grid-template-rows: 64px 60px 1fr 54px;
   /* grid-template: 1fr 1fr; */
   /* width: 100vw; */
   height: 100%;
@@ -79,6 +79,7 @@ cdk-virtual-scroll-viewport {
 }
 pagination-controls {
   grid-area: navControls;
+  width: 100%;
 }
 /* #list > * {
     vertical-align: top;
@@ -216,7 +217,7 @@ mat-icon {
   padding: 5px;
 }
 
-#newOrderMessage {
+.newOrderMessage {
   margin: 0 10px 0 10px;
 }
 
@@ -230,6 +231,9 @@ mat-icon {
   grid-area: timestamp;
   color: grey;
 }
+/* .timestamp_transparent {
+  color: transparent;
+} */
 #message {
   grid-area: message;
   margin: 0 10px 0 10px;

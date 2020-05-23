@@ -18,6 +18,8 @@ import {
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { ErrorHandler } from '../../helper/error_handler';
+import { environment } from 'src/environments/environment';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-create-dialog',
@@ -45,6 +47,7 @@ export class CreateDialogComponent implements OnInit {
     private utilities: Utilities,
 
     private authenticationService: AuthenticationService,
+    private appComponent: AppComponent,
     private router: Router,
     public errorHandler: ErrorHandler
   ) {}
@@ -91,6 +94,16 @@ export class CreateDialogComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: boolean) => {
         console.log(data);
+        if (this.data === 'DRIVER') {
+          this.userService
+          .getUsersByType(environment.USER_DRIVER)
+          // .pipe(takeUntil(this.destroy$))
+          .subscribe((users: User[]) => {
+            this.appComponent.setDriversValue(users);
+            // this.drivers = users;
+            console.log(data);
+          });
+        }
         if (data) {
           // ${this.registerForm.get('email')}
           alert(`User registered successfully!`);
