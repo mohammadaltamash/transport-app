@@ -11,6 +11,7 @@ import { MapHelper } from 'src/app/helper/map_helper';
 import { AppComponent } from 'src/app/app.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-invite-order-dialog',
@@ -32,7 +33,7 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
   // selectedDeliveryDate = new Date();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  bookingForm: FormGroup;
+  inviteForm: FormGroup;
 
   currentAccepted: number;
 
@@ -41,6 +42,7 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private authenticationService: AuthenticationService,
     private utilities: Utilities,
     private mapHelper: MapHelper,
     private appComponent: AppComponent
@@ -65,7 +67,7 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.bookingForm = this.formBuilder.group({
+    this.inviteForm = this.formBuilder.group({
       // id: '',
       brokerOrderId: this.data.order.brokerOrderId,
       carrierPay: this.data.order.carrierPay,
@@ -120,4 +122,11 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
+  shouldDisplayAddress(order: Order) {
+    return (
+      order.createdBy !== null &&  order.createdBy !== undefined &&
+      order.createdBy.email ===
+        this.authenticationService.currentUserValue.email
+    );
+  }
 }

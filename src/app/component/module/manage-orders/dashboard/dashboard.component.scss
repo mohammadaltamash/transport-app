@@ -9,8 +9,12 @@ mat-card-title {
 .count {
   font-size: 5rem;
   color: gray;
+  line-height: 100px;
 }
 
+div > div {
+  padding: 40px;
+}
 /* app-dashboard */
 .dashboard {
     /* background-color: silver; */

@@ -27,7 +27,7 @@ import { SearchFiltersDialogComponent } from '../search-filters-dialog/search-fi
 })
 export class LoadBoardComponent implements OnInit {
   @ViewChild(AskToBookDialogComponent) askToBookDialogComponent: {
-    openDialog: (arg0: Order) => void;
+    openDialog: (arg0: Order, arg1: boolean) => void;
   };
 
   config: any;
@@ -98,9 +98,9 @@ export class LoadBoardComponent implements OnInit {
     }
   }
 
-  showDialog(order: Order, index: number) {
+  showDialog(order: Order, index: number, requestBooking: boolean) {
     // this.bookDialog.openDialog();
-    const result = this.askToBookDialogComponent.openDialog(order);
+    const result = this.askToBookDialogComponent.openDialog(order, requestBooking);
     this.selectedItem = index;
     this.appComponent.setCurrentOrderValue(order);
   }
@@ -267,7 +267,7 @@ export class LoadBoardComponent implements OnInit {
       fieldEqualToMap.set(Constants.getSortName('trailerCondition'), trailerCondition === 'Operable' ? 0 : 1);
     }
     if (vehicleType !== null) {
-      fieldEqualToMap.set(Constants.getSortName('vehicleType'), '\'' + vehicleType + '\'');
+      fieldEqualToMap.set(Constants.getSortName('vehicleType'), vehicleType);
     }
     if (carrierPay !== null) {
       fieldGreaterThanEqualToMap.set(Constants.getSortName('carrierPay'), carrierPay);

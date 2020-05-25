@@ -23,6 +23,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppModule } from 'src/app/app.module';
 import { AppComponent } from 'src/app/app.component';
+import { AppRoutingModule } from '../../../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AppComponent } from 'src/app/app.component';
     MatGoogleMapsAutocompleteModule,
     ScrollingModule,
     NgxSpinnerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    AppRoutingModule
   ],
   providers: [AppComponent],
   entryComponents: [

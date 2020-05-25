@@ -295,23 +295,106 @@ export class ApiService {
 
   public getMakes() {
     return [
-      'General Motors',
-      'Fiat Chrysler Automobiles',
-      'Ford Motor Company'
-    ];
+      'BMW',
+      'Mercedes - Benz',
+      'Dodge',
+      'Jeep',
+      'Ram',
+      'Ford',
+      'Lincoln',
+      'Buick',
+      'Cadillac',
+      'Chevrolet',
+      'GMC',
+      'Acura',
+      'Honda',
+      'Hyundai',
+      'Kia',
+      'Infiniti',
+      'Nissan',
+      'Rivian',
+      'Subaru',
+      'Tesla',
+      'Lexus',
+      'Toyota',
+      'Volkswagen',
+      'Volvo'
+  ];
   }
 
   public getModels(make: string) {
     switch (make) {
-      case 'General Motors': {
-        return ['Buick', 'Cadillac', 'Chevrolet', 'GMC'];
-      }
-      case 'Fiat Chrysler Automobiles': {
-        return ['Chrysler', 'Dodge', 'Jeep', 'RAM'];
-      }
-      case 'Ford Motor Company': {
-        return ['Ford', 'Lincoln Motor Company'];
-      }
+      case 'BMW': { return ['X3', 'X4', 'X5', 'X6', 'X7'];
+        }
+        case 'Mercedes - Benz': {
+          return ['C-Class', 'GLE-Class', 'GLS-Class'];
+        }
+        case 'Dodge': {
+          return ['Durango'];
+        }
+        case 'Jeep': {
+          return ['Cherokee', 'Gladiator', 'Grand Cherokee', 'Grand Cherokee', 'Wrangler'];
+        }
+        case 'Ram': {
+          return ['1500', '1500 Classic'];
+        }
+        case 'Ford': {
+          return ['Bronco', 'Escape', 'Expedition', 'Expedition MAX', 'Explorer', 'F-150', 'Mustang', 'Ranger', 'Super Duty', 'Transit'];
+        }
+        case 'Lincoln': {
+          return ['Aviator', 'Continental', 'Corsair', 'Navigator'];
+        }
+        case 'Buick': {
+          return ['Enclave'];
+        }
+        case 'Cadillac': {
+          return ['CT4', 'CT5', 'CT6', 'Escalade', 'Escalade ESV', 'XT4', 'XT5', 'XT6'];
+        }
+        case 'Chevrolet': {
+          return ['Bolt', 'Camaro', 'Colorado', 'Corvette', 'Express', 'Malibu', 'Silverado', 'Sonic', 'Suburban', 'Tahoe', 'Traverse'];
+        }
+        case 'GMC': {
+          return ['Acadia', 'Canyon', 'Savana', 'Sierra', 'Yukon', 'Yukon XL'];
+        }
+        case 'Acura': {
+          return ['ILX', 'MDX', 'NSX', 'RDX', 'TLX'];
+        }
+        case 'Honda': {
+          return ['Accord', 'Civic', 'CR-V', 'Insight', 'Odyssey', 'Passport', 'Pilot', 'Ridgeline'];
+        }
+        case 'Hyundai': {
+          return ['Elantra', 'Santa Fe', 'Sonata'];
+        }
+        case 'Kia': {
+          return ['Optima', 'Sorento', 'Telluride'];
+        }
+        case 'Infiniti': {
+          return ['QX60'];
+        }
+        case 'Nissan': {
+          return ['Altima', 'Frontier', 'Leaf', 'Maxima', 'Murano', 'NV', 'Pathfinder', 'Rogue', 'Titan'];
+        }
+        case 'Rivian': {
+          return ['R1S', 'R1T'];
+        }
+        case 'Subaru': {
+          return ['Ascent', 'Impreza', 'Legacy', 'Outback'];
+        }
+        case 'Tesla': {
+          return ['Model 3', 'Model S', 'Model X'];
+        }
+        case 'Lexus': {
+          return ['ES'];
+        }
+        case 'Toyota': {
+          return ['Avalon', 'Camry', 'Corolla', 'Highlander', 'Sequoia', 'Sienna', 'Tacoma', 'Tundra'];
+        }
+        case 'Volkswagen': {
+          return ['Atlas', 'Passat'];
+        }
+        case 'Volvo': {
+          return ['S60'];
+        }
     }
     return [];
   }

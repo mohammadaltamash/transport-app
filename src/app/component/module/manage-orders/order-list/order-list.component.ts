@@ -67,7 +67,7 @@ export class OrderListComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  input;
+  // input;
 
   constructor(
     private apiService: ApiService,
@@ -799,7 +799,7 @@ export class OrderListComponent implements OnInit {
                               });
   }
 
-  sendMessage() {
-    this.messageService._send(this.input);
-  }
+  // sendMessage() {
+  //   this.messageService._send(this.input);
+  // }
 }

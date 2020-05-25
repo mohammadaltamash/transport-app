@@ -16,6 +16,7 @@ import { Utilities } from 'src/app/helper/utilities';
 import { OrderCarrier } from 'src/app/model/order-carrier';
 import { OrderStatus } from 'src/app/model/order-status';
 import { MapHelper } from 'src/app/helper/map_helper';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-book-order-dialog',
@@ -44,6 +45,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private authenticationService: AuthenticationService,
     private utilities: Utilities,
     private mapHelper: MapHelper
   ) {
@@ -155,4 +157,11 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
   // onMapButtonClick() {
   //   this.expandedMap = !this.expandedMap;
   // }
+  shouldDisplayAddress(order: Order) {
+    return (
+      order.createdBy !== null &&  order.createdBy !== undefined &&
+      order.createdBy.email ===
+        this.authenticationService.currentUserValue.email
+    );
+  }
 }

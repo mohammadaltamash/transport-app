@@ -40,7 +40,7 @@ main {
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 2vh;
-  padding-bottom: 20px;
+  // padding-bottom: 20px;
 }
 
 #manage_orders {
@@ -50,11 +50,13 @@ main {
 }
 
 #loggedInAs {
+  // position: fixed;
   margin-top: 50px;
-  margin-bottom: 5px;
+  // bottom: 0;
   /* border: 1px solid white;
   border-radius: 50%; */
   padding: 0;
+  text-align: center;
 }
 
 #logout{
@@ -66,4 +68,8 @@ main {
   margin: auto;
   text-align: center;
   justify-items: center;
+}
+
+.mat-divider {
+  border-top-color: rgba(255, 255, 255, 0.12);
 }

@@ -1,3 +1,7 @@
+$bgcolor: rgb(235, 240, 243);
+// $blue_button: darken(cyan, 25%);
+$blue_button: darken(cornflowerblue, 20%);;
+$secondary_button: darken($bgcolor, 5%);
 main {
   display: grid;
   grid-template-areas:
@@ -35,7 +39,7 @@ main {
   background-color: white;
   -webkit-box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
   -moz-box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
-  box-shadow: 0px 10px 10px 0px rgba(155, 155, 155, 0.3);
+  box-shadow: 0px 2px 10px 0px rgba(155, 155, 155, 0.3);
   // box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
 }
 #search {
@@ -43,12 +47,17 @@ main {
   /* padding: 0; */
   /* line-height: 20px; */
 }
-.mat-icon {
-  /* font-size: normal; */
+#searchIcon {
+  // border-radius: 50%;
+  // max-width: 25px;
+  // justify-items: left;
+  // height: 50px;
 }
-mat-form-field-flex {
-  /* padding: 0 !important;
-  max-height: 40px !important; */
+#searchText {
+  // font-size: small;
+}
+.mat-form-field {
+  font-size: medium;
 }
 
 #list {
@@ -75,6 +84,7 @@ mat-form-field-flex {
   /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
   /* grid-template-rows: 1fr 1fr; */
   gap: 4vw;
+  padding-left: 50px;
   /* border: 1px solid; */
   /* max-height: 100px; */
 }
@@ -87,7 +97,8 @@ cdk-virtual-scroll-viewport {
   grid-area: "grid1";
   display: grid;
   grid-template-columns: 1fr;
-  align-content: flex-start;
+  // align-content: flex-start;
+  margin: auto;
   /* grid-template-rows: repeat(auto-fill, minmax(50px, 100px)); */
   /* grid-template-rows: 1fr; */
   /* gap: 2vw; */
@@ -97,6 +108,7 @@ cdk-virtual-scroll-viewport {
   display: grid;
   grid-template-columns: 1fr;
   align-content: flex-start;
+  margin: auto;
   /* grid-template-rows: 1fr; */
   /* gap: 2vw; */
 }
@@ -104,6 +116,7 @@ cdk-virtual-scroll-viewport {
   grid-area: "grid3";
   display: grid;
   grid-template-columns: 1fr;
+  margin: auto;
   /* grid-template-rows: 1fr; */
   /* gap: 2vw; */
 }
@@ -111,6 +124,7 @@ cdk-virtual-scroll-viewport {
   grid-area: "grid4";
   display: grid;
   grid-template-columns: 1fr;
+  margin: auto;
   /* grid-template-rows: 1fr; */
   /* gap: 2vw; */
 }
@@ -119,13 +133,27 @@ cdk-virtual-scroll-viewport {
 }
 #grid5 {
   grid-area: "grid5";
+  margin: auto;
+  padding: 5px;
+  text-align: center;
 }
-#askToBookButton {
-  background-color: green;
+
+.carrierPay {
+  font-size: x-large; 
+  margin-bottom: 10px;
+  // justify-content: space-evenly;
+}
+
+.askToBookButton {
+  background-color: $blue_button;
   color: white;
+  width: 100%;
+  margin-bottom: 10px;
 }
-#viewDetailsButton {
-  background-color: rgb(235, 232, 232);
+
+.viewDetailsButton {
+  background-color: $secondary_button;
+  width: 100%;
 }
 
 .inoperable {
@@ -138,5 +166,6 @@ mat-list-item {
 
 .pagination {
   width: 100%;
-  // justify-items: center;
+  margin: auto;
+  text-align: center;
 }

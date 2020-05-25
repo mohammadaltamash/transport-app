@@ -1,70 +1,91 @@
-form {
+#dialog {
     display: grid;
+    grid-template-areas: "askToBookForm map";
     grid-template-columns: 1fr 2fr;
-  }
-  main {
-    display: grid;
-    grid-template-areas:
-      "bookLoadHeading      bookLoadHeading     .                     ."
-      "carrierPay           carrierPay          .                     ."
-      "daysToPay            daysToPay           paymentTermBegins     paymentTermBegins"
-      "committedPickupDate  committedPickupDate committedDeliveryDate committedDeliveryDate"
-      "offerReason          offerReason         offerReason           offerValidity"
-      "askToBook            askToBook           askToBook             askToBook"
-      "summary              summary             summary               summary";
-    /* grid-template-columns: 1fr 1fr; */
-    column-gap: 2vw;
-    row-gap: 0.5vw;
-    /* overflow-y: auto; */
-  }
-  #bookLoadHeading {
-    grid-area: bookLoadHeading;
-  }
-  #carrierPay {
-    grid-area: carrierPay;
-  }
-  #daysToPay {
-    grid-area: daysToPay;
-  }
-  #paymentTermBegins {
-    grid-area: paymentTermBegins;
-  }
-  #committedPickupDate {
-    grid-area: committedPickupDate;
-  }
-  #committedDeliveryDate {
-    grid-area: committedDeliveryDate;
-  }
-  #offerReason {
-    grid-area: offerReason;
-  }
-  #offerValidity {
-    grid-area: offerValidity;
-  }
-  #askToBook {
-    grid-area: askToBook;
-  }
-  #summary {
-    grid-area: summary;
-  }
-  
-  #map {
-    /* overflow: hidden; */
-    height: 100%;
-  }
-  
-  .example-custom-date-class {
-    background: orange;
-    border-radius: 100%;
-  }
+    gap: 1vw;
+}
+#askToBookForm {
+  grid-area: askToBookForm;
+  // display: grid;
+  // grid-template-areas: "main"
+  //                      "askToBook";
+  // grid-template-columns: 1fr;
+  // grid-template-rows: 1fr 50px;
+}
+#main {
+  grid-area: main;
+  display: grid;
+  grid-template-areas:
+    // "bookLoadHeading      bookLoadHeading     .                     .                     "
+    "carrierPay           carrierPay          .                     .                     "
+    "daysToPay            daysToPay           paymentTermBegins     paymentTermBegins     "
+    "committedPickupDate  committedPickupDate committedDeliveryDate committedDeliveryDate "
+    "offerReason          offerReason         offerReason           offerValidity         "
+    "summary              summary             summary               summary               "
+    "askToBook            askToBook           askToBook             askToBook             ";
+  grid-template-columns: repeat(4, auto);
+  column-gap: 1vw;
+  row-gap: 1vh;
+  // overflow-y: auto;
+}
+// #bookLoadHeading {
+//   grid-area: bookLoadHeading;
+// }
+// #distance {
+//   grid-area: distance;
+// }
+#carrierPay {
+  grid-area: carrierPay;
+}
+#daysToPay {
+  grid-area: daysToPay;
+}
+#paymentTermBegins {
+  grid-area: paymentTermBegins;
+}
+#committedPickupDate {
+  grid-area: committedPickupDate;
+}
+#committedDeliveryDate {
+  grid-area: committedDeliveryDate;
+}
+#offerReason {
+  grid-area: offerReason;
+}
+#offerValidity {
+  grid-area: offerValidity;
+}
+// #askToBook {
+//   grid-area: askToBook;
+// }
+#summary {
+  grid-area: summary;
+  margin-bottom: 10px;
+}
+#askToBook {
+  grid-area: askToBook;
+  // display: inline-block;
+  // bottom: 0;
+}
 
-  // .mat-calendar-body-cell-content.mat-calendar-body-selected {
-  //   color: red !important;
-  // }
-  // .mat-calendar-body-selected {
-  //   color: red !important;
-  // }
-  agm-map {
-    // height: 100%;
-    // width: 100%;
-  }
+#map {
+  /* overflow: hidden; */
+  grid-area: map;
+  height: 100%;
+}
+
+// .example-custom-date-class {
+//   background: orange;
+//   border-radius: 100%;
+// }
+
+// .mat-calendar-body-cell-content.mat-calendar-body-selected {
+//   color: red !important;
+// }
+// .mat-calendar-body-selected {
+//   color: red !important;
+// }
+// agm-map {
+  // height: 100%;
+  // width: 100%;
+// }

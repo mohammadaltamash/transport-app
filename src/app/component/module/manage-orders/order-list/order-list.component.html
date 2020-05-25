@@ -2,7 +2,7 @@
     <mat-checkbox class="mat-stroked-button" style="border: 1 px solid; text-decoration-line: none;" formControlName="enclosedTrailer">Enclosed trailer</mat-checkbox>
 </div> -->
 <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="large">
-  <p class="loading"></p>
+  <!-- <p class="loading"></!--> -->
 </ngx-spinner>
 <main>
   <mat-toolbar id=orderStatus>
@@ -51,7 +51,7 @@
         <!-- <a matLine href=" ">{{ order.brokerContactName }}</a> -->
         <p matLine>
           <span>
-            {{ order.id }}
+            # {{ order.id }}
             {{ order.orderStatus }}
           </span>
         </p>
@@ -63,7 +63,7 @@
         <p matLine>
           <span>
             {{ order.vehicleYear }}
-            {{ order.vehicleMake }}
+            {{ order.vehicleMake }} - {{ order.vehicleAutoType}}
           </span>
         </p>
         <p matLine>
@@ -86,8 +86,8 @@
     <div *cdkVirtualFor="let order of orders" class="example-item">{{order.brokerContactName}}</div>
   </cdk-virtual-scroll-viewport> -->
 
-  <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
-  <button (click)="sendMessage()">Send Message</button>
+  <!-- <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
+  <button (click)="sendMessage()">Send Message</button> -->
   <div id="detail">
     <div id="summary">
       <h2>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}

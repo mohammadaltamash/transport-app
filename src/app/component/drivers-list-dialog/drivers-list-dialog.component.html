@@ -7,13 +7,11 @@
                 <mat-radio-button matLine [value]="i" (change)="selection = $event.value" disableRipple>
 
                     <!-- <div id="listItem"> -->
-                    <div id="grid1">
-                        <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
+                    <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
                         <!-- <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
                 <div matLine># <b>{{ order.id }}</b></div> -->
-                    </div>
 
-                    <div id="grid2">
+                    <div>
                         <div matLine>{{ driver.email }}</div>
                     </div>
 

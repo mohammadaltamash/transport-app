@@ -11,18 +11,20 @@
     <div id="logo" [routerLink]="['/']">
         <b>Transport<br>App<br>Logo</b>
     </div>
+    <mat-divider></mat-divider>
     <div id="book_loads" *ngIf="!isDriver()">
-        <div>BOOK<br><b>LOADS</b><br>
-            <mat-icon>keyboard_arrow_down</mat-icon>
+        <div>BOOK<br><b>ORDERS</b><br>
+            <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
         </div>
         <div [routerLink]="['/loadboard']">
             <mat-icon>search</mat-icon>
             <div>Load Board</div>
         </div>
     </div>
+    <mat-divider></mat-divider>
     <div id="manage_orders">
         <div>MANAGE<br><b>ORDERS</b><br>
-            <mat-icon>keyboard_arrow_down</mat-icon>
+            <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
         </div>
         <div [routerLink]="['/']">
             <mat-icon>dashboard</mat-icon>
@@ -30,13 +32,14 @@
         </div>
         <div [routerLink]="['/order']" *ngIf="!isDriver()">
             <mat-icon>add</mat-icon>
-            <div>Import/ Create<br>Order</div>
+            <div>Create Order</div>
         </div>
         <div [routerLink]="['/orders']">
             <mat-icon>list</mat-icon>
             <div>All Orders</div>
         </div>
     </div>
+    <mat-divider></mat-divider>
 </main>
 <!-- <div id="loggedInAs" style="font-size: xx-small; color: white;">{{loggedInAs()}}</div> -->
 <div id="loggedInAs" style="font-size: xx-small; color: white;">

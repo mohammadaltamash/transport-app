@@ -1,7 +1,7 @@
 <!-- <mat-toolbar color="primary">Create Order</mat-toolbar> -->
 <mat-toolbar mat-dialog-title color="primary">Import or Manually Create an Order</mat-toolbar>
 <!-- <div mat-dialog-content> -->
-<form id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
+<span id="orderForm" [formGroup]="createOrderForm" (ngSubmit)="onSubmit()">
   <main mat-dialog-content>
     <!-- <mat-toolbar color="primary">Import or Manually Create an Order</mat-toolbar> -->
     <div class="procedure">
@@ -574,7 +574,7 @@
   <footer mat-dialog-actions>
     <div id="formErrors" *ngIf="!formIsValid">Please correct form errors</div>
 
-    <button mat-flat-button class="oval_button" type="button" (click)="this.closeDialog()">CANCEL</button>
+    <span class="basic-button" type="button" (click)="this.closeDialog()">CANCEL</span>
     <button mat-flat-button color="primary" id="submitButton" type="submit">CREATE ORDER</button>
   </footer>
-</form>
+</span>

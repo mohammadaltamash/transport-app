@@ -52,6 +52,21 @@ mat-dialog-container {
 
 /* Buttons */
 
+.basic-button {
+  border: ipx solid black;
+  border-radius: 25px;
+  outline: none;
+  cursor: pointer;
+  // justify-self: center;
+  // text-align: center;
+  text-decoration: none;
+  // display: inline-block;
+  background-color: #f0f0f0;
+  padding: 8px 15px;
+  font-size: .9rem;
+  color: gray;
+}
+
 button[type=submit] {
   /* border: 5px solid; */
   /* margin-right: 1vw;
@@ -62,9 +77,9 @@ button[type=submit] {
   border-radius: 25px;
 } */
 
-button[type=button]:hover {
-  background-color: #f0f0f0;
-}
+// button[type=button]:hover {
+//   background-color: #f0f0f0;
+// }
 
 .addButton {
   /* border-radius: 25px; */
@@ -106,15 +121,6 @@ button[type=button]:hover {
     border: 1px solid rgb(19, 192, 77);
     border-radius: 20px;
     cursor: pointer;
-}
-
-.class1 {
-  background-color: white;
-}
-.class2 {
-  background-color: chartreuse;
-  border: 1px solid rgb(19, 192, 77);
-  border-radius: 20px;
 }
 
 .rectangle:active {
@@ -184,7 +190,7 @@ button[type=button]:hover {
   border-radius: 25px !important;
   font-size: medium;
   color: white;
-  background-color: darkblue;
+  background-color: darken(cornflowerblue, 20%);
   /* padding: 10px; */
   /* outline: none; */
   padding: 7px 20px 7px 20px;

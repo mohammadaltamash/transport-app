@@ -58,13 +58,13 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   trailerCondition: string[] = ['All', 'Operable', 'Inoperable'];
   defaultTrailerCondition = 'All';
   vehicleTypes: string[] = [
+    '',
     'Sedan',
     'Mini-van',
     'Motorcycle',
     'Pickup',
     'Suv',
-    'Van',
-    'Other'
+    'Van'
   ];
   minOfVehicles: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   maxOfVehicles: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -160,6 +160,45 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
     //       this.locationArray.push(location);
     //     }
     //   });
+    // if (localStorage.getItem('selectedOriginCities') !== null &&
+    //         JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) {
+    //   this.selectedOriginCities = JSON.parse(localStorage.getItem('selectedOriginCities'));
+    //   // this.selectedOriginCitiesRadius = JSON.parse(localStorage.getItem('selectedOriginCitiesRadius'));
+    // }
+    // if (localStorage.getItem('selectedDestinationCities') !== null &&
+    //         JSON.parse(localStorage.getItem('selectedDestinationCities')).length > 0) {
+    //   this.selectedDestinationCities = JSON.parse(localStorage.getItem('selectedDestinationCities'));
+    //   // this.selectedDestinationCitiesRadius = JSON.parse(localStorage.getItem('selectedDestinationCitiesRadius'));
+    // }
+    // if (localStorage.getItem('selectedOriginStates') !== null &&
+    //         JSON.parse(localStorage.getItem('selectedOriginStates')).length > 0) {
+    //   this.selectedOriginStates = JSON.parse(localStorage.getItem('selectedOriginStates'));
+    // }
+    // if (localStorage.getItem('selectedDestinationStates') !== null &&
+    //         JSON.parse(localStorage.getItem('selectedDestinationStates')).length > 0) {
+    //   this.selectedDestinationStates = JSON.parse(localStorage.getItem('selectedDestinationStates'));
+    // }
+
+    // const cityZipFetchOrigin = localStorage.getItem('cityZipFetchOrigin');
+    // const cityZipFetchDestination = localStorage.getItem('cityZipFetchDestination');
+    // if (cityZipFetchOrigin === null || cityZipFetchOrigin === 'true') {
+    //   this.cityZipFetchOrigin = true;
+    //   this.stateFetchOrigin = false;
+    // } else {
+    //   this.cityZipFetchOrigin = false;
+    //   this.stateFetchOrigin = true;
+    // }
+    // if (cityZipFetchDestination === null || cityZipFetchDestination === 'true') {
+    //   this.cityZipFetchDestination = true;
+    //   this.stateFetchDestination = false;
+    // } else {
+    //   this.cityZipFetchDestination = false;
+    //   this.stateFetchDestination = true;
+    // }
+    this.construct();
+  }
+
+  construct() {
     if (localStorage.getItem('selectedOriginCities') !== null &&
             JSON.parse(localStorage.getItem('selectedOriginCities')).length > 0) {
       this.selectedOriginCities = JSON.parse(localStorage.getItem('selectedOriginCities'));
@@ -213,6 +252,37 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
   // }
 
   ngOnInit() {
+    // this.filterForm = this.formBuilder.group({
+    //   originOptionCity: '',
+    //   originOptionRegion: '',
+    //   pickupAddress: '',
+    //   pickupMiles: '',
+    //   destinationOptionCity: '',
+    //   destinationOptionRegion: '',
+    //   destinationAddress: '',
+    //   destinationMiles: '',
+    //   primarySort: localStorage.getItem('primarySort') !== null ? localStorage.getItem('primarySort') : this.defaultPrimarySort,
+    //   secondarySort: localStorage.getItem('secondarySort') !== null ? localStorage.getItem('secondarySort') : '',
+    //   hightlightByPostedWithin: 'None',
+    //   dateAndTime: '',
+    //   trailerType: 'All',
+    //   trailerCondition: localStorage.getItem('trailerCondition') !== null ? localStorage.getItem('trailerCondition') :
+    //                     this.defaultTrailerCondition,
+    //   vehicleType: localStorage.getItem('vehicleType') !== null ? localStorage.getItem('vehicleType') : '',
+    //   minOfVehicles: '',
+    //   maxOfVehicles: '',
+    //   paymentTerms: '',
+    //   carrierPay: localStorage.getItem('carrierPay') !== null ? localStorage.getItem('carrierPay') : '',
+    //   perMilePerCarMin: localStorage.getItem('perMilePerCarMin') !== null ? localStorage.getItem('perMilePerCarMin') : ''
+    // });
+    this.initialize();
+    // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
+    //   document.getElementById('25miles-{{' + i + '}}').setAttribute('checked', 'true');
+    // }
+    // document.getElementById('25Origin0').checked = true;
+  }
+
+  initialize() {
     this.filterForm = this.formBuilder.group({
       originOptionCity: '',
       originOptionRegion: '',
@@ -236,10 +306,6 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
       carrierPay: localStorage.getItem('carrierPay') !== null ? localStorage.getItem('carrierPay') : '',
       perMilePerCarMin: localStorage.getItem('perMilePerCarMin') !== null ? localStorage.getItem('perMilePerCarMin') : ''
     });
-    // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
-    //   document.getElementById('25miles-{{' + i + '}}').setAttribute('checked', 'true');
-    // }
-    // document.getElementById('25Origin0').checked = true;
   }
 
   // for (let i = 0; i < this.selectedDestinationCitiesRadius.length; i++) {
@@ -286,22 +352,22 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
 
       /////////////
       // if (this.filterForm.value.primarySort) {
-        localStorage.setItem('primarySort', this.filterForm.value.primarySort);
-      // }
-      // if (this.filterForm.value.secondarySort) {
-        localStorage.setItem('secondarySort', this.filterForm.value.secondarySort);
-      // }
-      // if (this.filterForm.value.trailerCondition) {
-        localStorage.setItem('trailerCondition', this.filterForm.value.trailerCondition);
-      // }
-      // if (this.filterForm.value.vehicleType) {
-        localStorage.setItem('vehicleType', this.filterForm.value.vehicleType);
-      // }
-      // if (this.filterForm.value.carrierPay) {
-        localStorage.setItem('carrierPay', this.filterForm.value.carrierPay);
-      // }
-      // if (this.filterForm.value.perMilePerCarMin) {
-        localStorage.setItem('perMilePerCarMin', this.filterForm.value.perMilePerCarMin);
+      localStorage.setItem('primarySort', this.filterForm.value.primarySort);
+    // }
+    // if (this.filterForm.value.secondarySort) {
+      localStorage.setItem('secondarySort', this.filterForm.value.secondarySort);
+    // }
+    // if (this.filterForm.value.trailerCondition) {
+      localStorage.setItem('trailerCondition', this.filterForm.value.trailerCondition);
+    // }
+    // if (this.filterForm.value.vehicleType) {
+      localStorage.setItem('vehicleType', this.filterForm.value.vehicleType);
+    // }
+    // if (this.filterForm.value.carrierPay) {
+      localStorage.setItem('carrierPay', this.filterForm.value.carrierPay);
+    // }
+    // if (this.filterForm.value.perMilePerCarMin) {
+      localStorage.setItem('perMilePerCarMin', this.filterForm.value.perMilePerCarMin);
       // }
       /////////////
       if (this.cityZipFetchOrigin) {
@@ -329,6 +395,11 @@ export class SearchFiltersDialogComponent implements OnInit, AfterViewInit {
 
   onResetFilterClick() {
     this.resetFilter();
+  }
+
+  clear() {
+    this.construct();
+    this.initialize();
   }
 
   resetFilter() {

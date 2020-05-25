@@ -11,6 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 import { PagedOrders } from './model/paged-orders';
 import { UserService } from './service/user.service';
 import { environment } from 'src/environments/environment.prod';
+// import { MatIconRegistry } from '@angular/material/icon';
+// import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +43,13 @@ export class AppComponent {
   private driversSubject: BehaviorSubject<User[]>;
   public drivers: Observable<User[]>;
 
+  private ordersPickupTodaySubject: BehaviorSubject<number>;
+  public ordersPickupToday: Observable<number>;
+  private ordersDeliveryTodaySubject: BehaviorSubject<number>;
+  public ordersDeliveryToday: Observable<number>;
+  private paymentsPendingTodaySubject: BehaviorSubject<number>;
+  public paymentsPendingToday: Observable<number>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -48,6 +57,8 @@ export class AppComponent {
     private authenticationService: AuthenticationService,
     private apiService: ApiService,
     private userService: UserService
+    // private matIconRegistry: MatIconRegistry,
+    // private domSanitizer: DomSanitizer
   ) {
     this.currentOrderSubject = new BehaviorSubject<Order>(null
       // JSON.parse(localStorage.getItem('current_user'))
@@ -95,9 +106,25 @@ export class AppComponent {
             this.setDriversValue(users);
           });
 
+    this.ordersPickupTodaySubject = new BehaviorSubject<number>(0);
+    this.ordersPickupToday = this.ordersPickupTodaySubject.asObservable();
+    this.ordersDeliveryTodaySubject = new BehaviorSubject<number>(0);
+    this.ordersDeliveryToday = this.ordersDeliveryTodaySubject.asObservable();
+    this.paymentsPendingTodaySubject = new BehaviorSubject<number>(0);
+    this.paymentsPendingToday = this.paymentsPendingTodaySubject.asObservable();
+
     this.authenticationService.currentUser.subscribe(
       u => this.currentUser = u
     );
+
+    // this.matIconRegistry.addSvgIcon(
+    //   'search-records',
+    //   this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons8-search3.svg')
+    // );
+    // this.matIconRegistry.addSvgIcon(
+    //   'dashboard2',
+    //   this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons8-dashboard-100.svg')
+    // );
   }
 
   loggedIn() {
@@ -157,11 +184,31 @@ export class AppComponent {
     this.selectedDriverSubject.next(u);
   }
 
-  public get driverValue(): User[] {
+  public get driversValue(): User[] {
     return this.driversSubject.value;
   }
 
   setDriversValue(drivers: User[]) {
     this.driversSubject.next(drivers);
+  }
+
+  // For dashboard
+  public get ordersPickupTodayValue(): number {
+    return this.ordersPickupTodaySubject.value;
+  }
+  setOrdersPickupTodayValue(n: number) {
+    this.ordersPickupTodaySubject.next(n);
+  }
+  public get ordersDeliveryTodayValue(): number {
+    return this.ordersDeliveryTodaySubject.value;
+  }
+  setOrdersDeliveryTodayValue(n: number) {
+    this.ordersDeliveryTodaySubject.next(n);
+  }
+  public get paymentsPendingTodayValue(): number {
+    return this.paymentsPendingTodaySubject.value;
+  }
+  setPaymentsPendingTodayValue(n: number) {
+    this.paymentsPendingTodaySubject.next(n);
   }
 }

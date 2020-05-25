@@ -7,12 +7,13 @@ import { Constants } from '../model/constants';
 import { AppComponent } from '../app.component';
 import { PagedOrders } from '../model/paged-orders';
 import { EventMessages } from '../model/event-messages';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
   })
 export class MessageService {
-    webSocketEndPoint = 'http://localhost:8080/transportapp/ws';
+    webSocketEndPoint = environment.MESSAGE_SERVICE_URL;
     topic = '/topic/message';
     stompClient: any;
     // appComponent: AppComponent;

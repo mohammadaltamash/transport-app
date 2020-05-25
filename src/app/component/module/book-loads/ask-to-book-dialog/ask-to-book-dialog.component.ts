@@ -12,11 +12,14 @@ export class AskToBookDialogComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 
-  openDialog(order: Order): void {
+  openDialog(ordr: Order, doBook: boolean): void {
     const dialogRef = this.dialog.open(AskToBookComponent, {
       // width: '50vw',
-      // height: '95vh',
-      data: order,
+      // height: '70%',
+      data: {
+        order: ordr,
+        requestBooking: doBook
+      },
       disableClose: true,
       backdropClass: 'backdropBackground'
     });

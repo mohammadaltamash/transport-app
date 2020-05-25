@@ -18,6 +18,8 @@ export class CommonModelService {
 
   openFilterDialog(): Observable<any> {
     const dialogRef = this.dialog.open(SearchFiltersDialogComponent, {
+      width: '70vw',
+      height: '40vw',
       disableClose: true,
       backdropClass: 'backdropBackground'
     });

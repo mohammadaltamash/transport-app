@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>Advanced Search</h1>
-<button mat-stroked-button *ngIf="showResetFilterButton()" (click)="onResetFilterClick()" type="button">Reset
-    FIlters</button>
+<mat-divider></mat-divider>
+<!-- <button mat-stroked-button *ngIf="showResetFilterButton()" (click)="onResetFilterClick()" type="button">Reset
+    FIlters</button> -->
 <!-- <mat-toolbar mat-dialog-title color="primary">Advanced Search</mat-toolbar> -->
 <form id="filterForm" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <main mat-dialog-content>
@@ -13,13 +14,120 @@
         <!-- <li *ngFor="let location of locationArray">
             {{ location | json }}
         </li> -->
+        <div id="filters">
+            <br>
+            <h2 class="mat-headline">FILTERS</h2>
+            <div id="filterOptions">
+                <!-- <h4>Sort & Highlight</h4> -->
+                <div id="sort">
+                    <h3 id="sortTitle">Sort</h3>
+                    <mat-form-field id="primarySort">
+                        <mat-label>Primary Sort</mat-label>
+                        <mat-select formControlName="primarySort">
+                            <mat-option *ngFor="let sort of primarySort" [value]="sort">
+                                {{ sort }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field id="secondarySort">
+                        <mat-label>Secondary Sort</mat-label>
+                        <mat-select formControlName="secondarySort">
+                            <mat-option *ngFor="let sort of secondarySort" [value]="sort">
+                                {{ sort }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <mat-form-field id="hightlightByPostedWithin">
+                    <mat-label>hightlightBy (Posted Within)</mat-label>
+                    <mat-select formControlName="hightlightByPostedWithin">
+                        <mat-option *ngFor="let hightlight of hightlightByPostedWithin" [value]="hightlight">
+                            {{ hightlight }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field id="dateAndTime">
+                    <mat-label>Date & Time</mat-label>
+                    <mat-select formControlName="dateAndTime">
+                        <mat-option *ngFor="let datetime of dateAndTime" [value]="datetime">
+                            {{ datetime }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+                <div id="vehicles">
+                    <h3 id="vehiclesTitle">Vehicle/s</h3>
+                    <!-- <mat-form-field>
+                        <mat-label>Trailer Type</mat-label>
+                        <mat-select formControlName="trailerType">
+                            <mat-option *ngFor="let trailrType of trailerType" [value]="trailrType">
+                                {{ trailrType }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <mat-form-field id="trailerCondition">
+                        <mat-label>Trailer Condition</mat-label>
+                        <mat-select formControlName="trailerCondition">
+                            <mat-option *ngFor="let condition of trailerCondition" [value]="condition">
+                                {{ condition }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field id="vehicleType">
+                        <mat-label>Vehicle Type</mat-label>
+                        <mat-select formControlName="vehicleType">
+                            <mat-option *ngFor="let vehicleType of vehicleTypes" [value]="vehicleType">
+                                {{ vehicleType }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <mat-label>Min #</mat-label>
+                        <mat-select formControlName="minOfVehicles">
+                            <mat-option *ngFor="let min of minOfVehicles" [value]="min">
+                                {{ min }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Max #</mat-label>
+                        <mat-select formControlName="maxOfVehicles">
+                            <mat-option *ngFor="let max of maxOfVehicles" [value]="max">
+                                {{ max }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                </div>
+                <div id="payment">
+                    <h3 id="paymentTitle">Payment</h3>
+                    <!-- <mat-form-field>
+                        <mat-label>Payment</mat-label>
+                        <mat-select formControlName="paymentTerms">
+                            <mat-option *ngFor="let paymentTerm of paymentTerms" [value]="paymentTerm">
+                                {{ paymentTerm }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <mat-form-field id="carrierPay">
+                        <mat-label>Carrier Pay (min)</mat-label>
+                        <input matInput formControlName="carrierPay" inputmode="numeric" digitOnly decimal=true>
+                    </mat-form-field>
+                    <mat-form-field id="milePerCar">
+                        <mat-label>$/Mile Per Car (min)</mat-label>
+                        <input matInput formControlName="perMilePerCarMin" autocomplete=off>
+                        <mat-hint>Example: 0.75</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
         <div id="origin">
+            <br>
             <h2 class="mat-headline">ORIGIN</h2>
-            <h4>1) Search type:</h4>
+            <h3>1) Search type:</h3>
             <!-- <mat-form-field> -->
             <mat-radio-group aria-label="Select an option">
                 <mat-radio-button value="1" [checked]="cityZipFetchOrigin" name="originFetch"
-                    (change)="onOriginCityStateSelection($event)">City Search (city, zip)
+                    (change)="onOriginCityStateSelection($event)">City Search (city, zip)&nbsp;&nbsp;
                 </mat-radio-button>
                 <mat-radio-button value="2" [checked]="stateFetchOrigin" name="originFetch"
                     (change)="onOriginCityStateSelection($event)">Region Search (states, regions)
@@ -30,7 +138,8 @@
                 <input matInput formControlName="originOptionCity" placeholder="Origin (city, zip)" autocomplete=off>
             </mat-form-field> -->
             <ng-container *ngIf="cityZipFetchOrigin">
-                <h4>2) Add up to 5 Origin Cities</h4>
+                <br><br>
+                <h3>2) Add up to 5 Origin Cities</h3>
                 <div class="ng-autocomplete">
                     <ng-autocomplete #autoOrigin [data]="locationArray" [searchKeyword]="keyword"
                         (selected)="selectEvent($event, 'origin')" (inputChanged)='onChangeSearch($event)'
@@ -80,7 +189,8 @@
                 <!-- <mat-form-field>
                 <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
             </mat-form-field> -->
-                <h4>2) Select Region(s) or State(s)</h4>
+                <br><br>
+                <h3>2) Select Region(s) or State(s)</h3>
                 <mat-accordion>
                     <ng-container *ngFor="let regionAndState of regionsAndStates; let i = index">
                         <mat-expansion-panel>
@@ -110,12 +220,13 @@
             </ng-container>
         </div>
         <div id="destination">
+            <br>
             <h2 class="mat-headline">DESTINATION</h2>
-            <h4>1) Search type:</h4>
+            <h3>1) Search type:</h3>
             <!-- <mat-form-field> -->
             <mat-radio-group aria-label="Select an option">
                 <mat-radio-button value="1" [checked]="cityZipFetchDestination" name="originFetch"
-                    (change)="onDestinationCityStateSelection($event)">City Search (city, zip)
+                    (change)="onDestinationCityStateSelection($event)">City Search (city, zip)&nbsp;&nbsp;
                 </mat-radio-button>
                 <mat-radio-button value="2" [checked]="stateFetchDestination" name="originFetch"
                     (change)="onDestinationCityStateSelection($event)">Region Search (states, regions)
@@ -127,7 +238,8 @@
                     autocomplete=off>
             </mat-form-field> -->
             <ng-container *ngIf="cityZipFetchDestination">
-                <h4>2) Add up to 5 Destination Cities</h4>
+                <br><br>
+                <h3>2) Add up to 5 Destination Cities</h3>
                 <div class="ng-autocomplete">
                     <ng-autocomplete #autoDestination [data]="locationArray" [searchKeyword]="keyword"
                         (selected)="selectEvent($event, 'destination')" (inputChanged)='onChangeSearch($event)'
@@ -182,7 +294,8 @@
                 <!-- <mat-form-field>
                 <input matInput formControlName="originOptionRegion" placeholder="Origin (city, zip)" autocomplete=off>
             </mat-form-field> -->
-                <h4>2) Select Region(s) or State(s)</h4>
+                <br><br>
+                <h3>2) Select Region(s) or State(s)</h3>
                 <mat-accordion>
                     <ng-container *ngFor="let regionAndState of regionsAndStates; let i = index">
                         <mat-expansion-panel>
@@ -211,109 +324,13 @@
                 <ng-container *ngIf="selectedDestinationStates.length === 0">No States Added</ng-container>
             </ng-container>
         </div>
-        <div id="filters">
-            <h2 class="mat-headline">FILTERS</h2>
-            <!-- <h4>Sort & Highlight</h4> -->
-            <h4>Sort</h4>
-            <mat-form-field id="primarySort">
-                <mat-label>Primary Sort</mat-label>
-                <mat-select formControlName="primarySort">
-                    <mat-option *ngFor="let sort of primarySort" [value]="sort">
-                        {{ sort }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="secondarySort">
-                <mat-label>Secondary Sort</mat-label>
-                <mat-select formControlName="secondarySort">
-                    <mat-option *ngFor="let sort of secondarySort" [value]="sort">
-                        {{ sort }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- <mat-form-field id="hightlightByPostedWithin">
-                <mat-label>hightlightBy (Posted Within)</mat-label>
-                <mat-select formControlName="hightlightByPostedWithin">
-                    <mat-option *ngFor="let hightlight of hightlightByPostedWithin" [value]="hightlight">
-                        {{ hightlight }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="dateAndTime">
-                <mat-label>Date & Time</mat-label>
-                <mat-select formControlName="dateAndTime">
-                    <mat-option *ngFor="let datetime of dateAndTime" [value]="datetime">
-                        {{ datetime }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
-            <div>
-                <h4>Vehicle/s</h4>
-                <!-- <mat-form-field>
-                    <mat-label>Trailer Type</mat-label>
-                    <mat-select formControlName="trailerType">
-                        <mat-option *ngFor="let trailrType of trailerType" [value]="trailrType">
-                            {{ trailrType }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-                <mat-form-field>
-                    <mat-label>Trailer Condition</mat-label>
-                    <mat-select formControlName="trailerCondition">
-                        <mat-option *ngFor="let condition of trailerCondition" [value]="condition">
-                            {{ condition }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Vehicle Type</mat-label>
-                    <mat-select formControlName="vehicleType">
-                        <mat-option *ngFor="let vehicleType of vehicleTypes" [value]="vehicleType">
-                            {{ vehicleType }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <!-- <mat-form-field>
-                    <mat-label>Min #</mat-label>
-                    <mat-select formControlName="minOfVehicles">
-                        <mat-option *ngFor="let min of minOfVehicles" [value]="min">
-                            {{ min }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Max #</mat-label>
-                    <mat-select formControlName="maxOfVehicles">
-                        <mat-option *ngFor="let max of maxOfVehicles" [value]="max">
-                            {{ max }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-            </div>
-            <div>
-                <h4>Payment</h4>
-                <!-- <mat-form-field>
-                    <mat-label>Payment</mat-label>
-                    <mat-select formControlName="paymentTerms">
-                        <mat-option *ngFor="let paymentTerm of paymentTerms" [value]="paymentTerm">
-                            {{ paymentTerm }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-                <mat-form-field>
-                    <mat-label>Carrier Pay (min)</mat-label>
-                    <input matInput formControlName="carrierPay">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>$/Mile Per Car (min)</mat-label>
-                    <input matInput formControlName="perMilePerCarMin" autocomplete=off>
-                    <mat-hint>Example: 0.75</mat-hint>
-                </mat-form-field>
-            </div>
-        </div>
     </main>
-    <footer mat-dialog-actions>
-        <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>&nbsp;
+    <!-- <mat-divider></mat-divider> -->
+    <footer mat-dialog-actions align="end">
+        <button mat-stroked-button id="resetFilters" *ngIf="showResetFilterButton()" (click)="onResetFilterClick()"
+            type="button">Reset Filters</button>
+        <button mat-stroked-button (click)="clear()" type="button">Clear</button>
+        <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>
         <button mat-flat-button color="primary" id="submitButton" type="submit">Apply</button>
     </footer>
 </form>

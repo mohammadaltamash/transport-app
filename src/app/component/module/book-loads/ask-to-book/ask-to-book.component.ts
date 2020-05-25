@@ -64,6 +64,7 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
   selectedDate = new Date();
   selectedPickupDate = new Date();
   selectedDeliveryDate = new Date();
+  requestBooking = false;
   date: FormControl;
   // dateClass: string;
 
@@ -80,38 +81,39 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
     this.pickupStart.setDate(this.pickupStart.getDate() - 5);
     this.selectedDate.setDate(new Date().getDate() + 1);
     this.selectedPickupDate =
-      this.data.preferredPickupDate !== null
-        ? new Date(this.data.preferredPickupDate)
-        : data.pickupDates.begin;
+      this.data.order.preferredPickupDate !== null
+        ? new Date(this.data.order.preferredPickupDate)
+        : data.order.pickupDates.begin;
     this.selectedDeliveryDate =
-      this.data.preferredDeliveryDate !== null
-        ? new Date(this.data.preferredDeliveryDate)
-        : data.deliveryDates.begin;
+      this.data.order.preferredDeliveryDate !== null
+        ? new Date(this.data.order.preferredDeliveryDate)
+        : data.order.deliveryDates.begin;
     this.date = new FormControl(this.selectedDate);
 
     this.markers = [];
     this.markers.push({
-      latitude: data.pickupLatitude,
-      longitude: data.pickupLongitude,
+      latitude: data.order.pickupLatitude,
+      longitude: data.order.pickupLongitude,
       title: 'Pickup location',
       icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
     });
     this.markers.push({
-      latitude: data.deliveryLatitude,
-      longitude: data.deliveryLongitude,
+      latitude: data.order.deliveryLatitude,
+      longitude: data.order.deliveryLongitude,
       title: 'Drop off location',
       icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
     });
+    this.requestBooking = data.requestBooking;
   }
 
   ngOnInit() {
     this.bookingRequestForm = this.formBuilder.group({
       // id: '',
       brokerOrderId: '',
-      carrierPay: [this.data.carrierPay, Validators.required],
+      carrierPay: [this.data.order.carrierPay, Validators.required],
 
       daysToPay: '',
-      paymentTermBegins: [this.data.paymentTermBegins], //?
+      paymentTermBegins: [this.data.order.paymentTermBegins], //?
       committedPickupDate: [this.selectedPickupDate, Validators.required],
       committedDeliveryDate: [this.selectedDeliveryDate, Validators.required],
       offerReason: '',
@@ -128,7 +130,7 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
     // if (this.askToBookForm.invalid) {
     //   return;
     // }
-    const o: Order = this.data;
+    const o: Order = this.data.order;
     // o.id = orderId;
     o.orderStatus = environment.ASSIGNED_ORDER;
     const carriers = o.bookingRequestCarriers;
@@ -156,7 +158,7 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
     this.apiService
       .createOrderRequest(
         orderCarrier,
-        this.data.id,
+        this.data.order.id,
         this.authenticationService.currentUserValue.email
       )
       .subscribe(
@@ -229,4 +231,12 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
   // getMarkerInfo(title: string) {
   //   return `<html><body><div style="font-weight: bold">${title}</div><div></div></body></html>`;
   // }
+
+  shouldDisplayAddress(order: Order) {
+    return (
+      order.createdBy !== null &&
+      order.createdBy.email ===
+        this.authenticationService.currentUserValue.email
+    );
+  }
 }
