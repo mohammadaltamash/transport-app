@@ -26,8 +26,8 @@
     </main>
     <div mat-dialog-actions>
         <div id="submitError" *ngIf="invalid">Please select a driver</div>
-        <button mat-button (click)="onCloseClick()" type="button">Close</button>
-        <button mat-button [mat-dialog-close] type="submit">Assign Driver</button>
-        <button mat-button (click)="onNewDriver()" type="button">Add Driver</button>
+        <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>
+        <button mat-stroked-button [mat-dialog-close] type="submit">Assign Driver</button>
+        <button mat-stroked-button (click)="onNewDriver()" type="button">Add Driver</button>
     </div>
 </form>

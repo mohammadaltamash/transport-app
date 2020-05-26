@@ -2,6 +2,7 @@
 
 /* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 @import "~saturn-datepicker/bundle.css";
+@import 'assets/css/toastr.css';
 
 $bgcolor: rgb(235, 240, 243);
 
@@ -158,7 +159,7 @@ button[type=submit] {
 
 .ovalButton {
   background-color: dimgray;
-  // border-radius: 25px;
+  border-radius: 5px;
   font-size: small;
   color: white;
   /* padding: 10px; */
@@ -178,11 +179,11 @@ button[type=submit] {
   /* background-color: rgb(87, 143, 226); */
   background-color: cornflowerblue;
   // border: 1px solid white;
-  // border-radius: 25px;
+  border-radius: 5px;
   /* border: 1px solid rgb(19, 192, 77); */
-  -webkit-box-shadow: 0px 0px 5px 0px lightblue !important;
-  -moz-box-shadow: 0px 0px 5px 0px lightblue !important;
-  box-shadow: 0px 0px 5px 0px lightblue !important;
+  // -webkit-box-shadow: 0px 0px 5px 0px lightblue !important;
+  // -moz-box-shadow: 0px 0px 5px 0px lightblue !important;
+  // box-shadow: 0px 0px 5px 0px lightblue !important;
   font-size: small;
   color: white;
   outline: none;
@@ -204,6 +205,9 @@ button[type=submit] {
   padding: 7px 20px 7px 20px;
   // line-height: 20px !important
   /* margin-bottom: 0; */
+  -webkit-box-shadow: 0px 5px 40px -10px lightblue !important;
+  -moz-box-shadow: 0px 5px 40px -10px lightblue !important;
+  box-shadow: 0px 5px 40px -10px lightblue !important;
 }
 
 .is-active {

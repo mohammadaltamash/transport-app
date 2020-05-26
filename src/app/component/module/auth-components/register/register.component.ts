@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../../../service/authentication.servic
 import PlaceResult = google.maps.places.PlaceResult;
 import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
 import { ErrorHandler } from '../../../../helper/error_handler';
+import { Utilities } from 'src/app/helper/utilities';
 
 @Component({
   selector: 'app-register',
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private utilities: Utilities,
     public errorHandler: ErrorHandler
   ) {}
 
@@ -78,7 +80,7 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         if (data) {
           // ${this.registerForm.get('email')}
-          alert(`User registered successfully!`);
+          this.utilities.showSuccess(`User registered successfully!`, 'Registration');
           this.router.navigate(['/login']);
         }
       });

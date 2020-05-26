@@ -106,7 +106,8 @@ export class CreateDialogComponent implements OnInit {
         }
         if (data) {
           // ${this.registerForm.get('email')}
-          alert(`User registered successfully!`);
+          // alert(`User registered successfully!`);
+          this.utilities.showSuccess('User added successfully!', 'Add Driver');
         }
       });
   }

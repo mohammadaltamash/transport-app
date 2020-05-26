@@ -38,6 +38,7 @@
     "ngx-google-places-autocomplete": "^2.0.4",
     "ngx-pagination": "^5.0.0",
     "ngx-spinner": "^9.0.2",
+    "ngx-toastr": "^12.0.1",
     "path": "^0.12.7",
     "rxjs": "^6.5.5",
     "saturn-datepicker": "^8.0.1",

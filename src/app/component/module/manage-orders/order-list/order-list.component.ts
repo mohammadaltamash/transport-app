@@ -669,8 +669,9 @@ export class OrderListComponent implements OnInit {
           this.selectedOrder.orderStatus === OrderStatus.NEW) {
         const orderCarrierStatus = this.selectedOrder.bookingRequestCarriers
                                     .filter(rc => rc.id = this.getOrderCarrierJson(value).id)[0].status;
+        const orderCarrier = this.getOrderCarrierJson(value);
         return (orderCarrierStatus === OrderStatus.BOOKED &&
-                  this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
+              this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
       }
     }
     return false;

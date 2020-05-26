@@ -110,10 +110,10 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
     if (buttonType === OrderStatus.ACCEPTED) {
-      this.utilities.openSnackBar('Order accepted', '');
+      this.utilities.showSuccess('Order accepted', 'Invitation');
       this.dialogRef.close({ accepted: true });
     } else if (buttonType === OrderStatus.DECLINED) {
-      this.utilities.openSnackBar('Order declined', '');
+      this.utilities.showInfo('Order declined', 'Invitation');
       this.dialogRef.close({ accepted: false });
     }
   }

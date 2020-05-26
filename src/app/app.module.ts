@@ -33,6 +33,8 @@ import { InterceptorService } from './service/interceptor.service';
 import { DriversListDialogComponent } from './component/drivers-list-dialog/drivers-list-dialog.component';
 import { CreateDialogComponent } from './component/create-dialog/create-dialog.component';
 
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +91,8 @@ import { CreateDialogComponent } from './component/create-dialog/create-dialog.c
     OrdersLoadBoardModule,
     OrdersManageModule,
 
+    ToastrModule.forRoot(),
+
     JwtModule.forRoot({
       config: {
         tokenGetter: function tokenGetter() {
@@ -100,7 +104,7 @@ import { CreateDialogComponent } from './component/create-dialog/create-dialog.c
         // blacklistedRoutes: [
         //   ''
         // ]
-      }
+      },
     })
 
     // LoadBoardComponent,

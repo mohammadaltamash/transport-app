@@ -145,7 +145,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     );
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
-    this.utilities.openSnackBar('', '');
+    this.utilities.showSuccess('Order booked', 'Booking');
     console.log(orderCarrier);
     this.dialogRef.close({ booked: true });
   }
