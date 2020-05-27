@@ -2,24 +2,25 @@
 <form id="askToBookForm" [formGroup]="assignDriverForm" (ngSubmit)="onSubmit()">
     <main mat-dialog-content>
         <mat-list>
-            <mat-list-item *ngFor="let driver of drivers; let i = index">
+            <mat-list-item [ngClass]="(selectedDriver === driver) ? 'selectedListItem' : ''"
+                            *ngFor="let driver of drivers; let i = index" (click)="onItemClick(driver)">
 
-                <mat-radio-button matLine [value]="i" (change)="selection = $event.value" disableRipple>
+                <!-- <mat-radio-button [value]="i" (change)="selection = $event.value" disableRipple> -->
 
                     <!-- <div id="listItem"> -->
-                    <div matLine *ngIf="driver.fullName">{{ driver.fullName }}&nbsp;</div>
+                    <div *ngIf="driver.fullName">{{ driver.fullName }}</div>
                         <!-- <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
                 <div matLine># <b>{{ order.id }}</b></div> -->
 
                     <div>
-                        <div matLine>{{ driver.email }}</div>
+                        <div>{{ driver.email }}</div>
                     </div>
 
                     <div>
-                        <div matLine>{{ driver.address }}</div>
+                        <div>{{ driver.address }}</div>
                     </div>
 
-                </mat-radio-button>
+                <!-- </mat-radio-button> -->
                 <mat-divider></mat-divider>
             </mat-list-item>
         </mat-list>
@@ -28,6 +29,6 @@
         <div id="submitError" *ngIf="invalid">Please select a driver</div>
         <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>
         <button mat-stroked-button [mat-dialog-close] type="submit">Assign Driver</button>
-        <button mat-stroked-button (click)="onNewDriver()" type="button">Add Driver</button>
+        <button mat-stroked-button (click)="onNewDriver()" type="button" [disabled]="selectedDriver === undefined">Add Driver</button>
     </div>
 </form>

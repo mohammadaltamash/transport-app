@@ -19,6 +19,7 @@ export class DriversListDialogComponent implements OnInit {
   drivers: User[];
   selection: number;
   invalid = false;
+  selectedDriver: User;
   assignDriverForm: FormGroup;
 
   constructor(
@@ -78,22 +79,22 @@ export class DriversListDialogComponent implements OnInit {
     // // const oc: OrderCarrier = orderCarriers.find(c => c.carrier.id === this.data.orderCarrier.id);
     // // oc.status = 'BOOKED';
     // const jsonString = JSON.stringify(orderCarrier);
-    if (this.selection !== undefined) {
-      this.apiService
-        .assignDriver(this.drivers[this.selection].id, this.data.orderId)
-            .subscribe(result => {
-              console.log(result);
-              this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
-            }
-          // res => console.log(res),
-          // err => console.log(err)
-        );
-      this.utilities.openSnackBar('Driver accepted', '');
+    // if (this.selection !== undefined) {
+    this.apiService
+      .assignDriver(this.selectedDriver.id, this.data.orderId)
+          .subscribe(result => {
+            console.log(result);
+            this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
+          }
+        // res => console.log(res),
+        // err => console.log(err)
+      );
+    this.utilities.openSnackBar('Driver assigned', '');
       // this.dialogRef.close({ accepted: true });
-    } else {
-      this.invalid = true;
-      this.assignDriverForm.reset();
-    }
+    // } else {
+    //   this.invalid = true;
+    //   this.assignDriverForm.reset();
+    // }
   }
 
   onNewDriver(): void {
@@ -114,5 +115,9 @@ export class DriversListDialogComponent implements OnInit {
 
   onCloseClick() {
     this.dialogRef.close({ assigned: false });
+  }
+
+  onItemClick(driver: User) {
+    this.selectedDriver = driver;
   }
 }
