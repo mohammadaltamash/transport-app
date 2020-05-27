@@ -92,7 +92,7 @@
     <div id="summary">
       <h2>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
         {{ (selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.orderStatus : '' }}
-        <ng-container *ngIf="selectedOrder !== null && selectedOrder.orderStatus === 'NEW'">
+        <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.orderStatus === 'NEW'">
           <mat-icon id="editOrder">edit</mat-icon>
         </ng-container>
       </h2>
@@ -103,7 +103,7 @@
           <mat-icon>person</mat-icon> DRIVER
         </mat-card-subtitle>
         <div id="assignDriverAction" *ngIf="orders.length > 0">
-          <div *ngIf="selectedOrder !== null && selectedOrder.assignedToDriver !== null">
+          <div *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.assignedToDriver !== null">
             <div>
               {{ (selectedOrder.assignedToDriver.fullName !== null && selectedOrder.assignedToDriver.fullName !== '' && selectedOrder.assignedToDriver.fullName !== undefined) ? selectedOrder.assignedToDriver.fullName : selectedOrder.assignedToDriver.email}}
               <!-- {{ 
@@ -114,7 +114,7 @@
           <button mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button">
             {{selectedOrder === null || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
         </div>
-        <div *ngIf="selectedOrder !== null && selectedOrder.assignedToDriver !== null">
+        <div *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.assignedToDriver !== null">
           <!-- <div>
             {{ selectedOrder.assignedToDriver.fullName !== null ? selectedOrder.assignedToDriver.fullName : selectedOrder.assignedToDriver.email}}
           </div> -->
@@ -153,7 +153,7 @@
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.pickupPhones) : ''}}
           </div> -->
-            <ng-container *ngIf="selectedOrder !== null">
+            <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
               <div *ngFor="let phone of getKeys(selectedOrder.pickupPhones)">
                 <div>
                   <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
@@ -176,7 +176,7 @@
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.deliveryPhones) : ''}}
           </div> -->
-            <ng-container *ngIf="selectedOrder !== null">
+            <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
               <div *ngFor="let phone of getKeys(selectedOrder.deliveryPhones)">
                 <div>
                   <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
@@ -298,7 +298,7 @@
           <div>
             <mat-icon>location_on</mat-icon>{{selectedOrder !== null ? selectedOrder.brokerAddress : ''}}
           </div>
-          <ng-container *ngIf="selectedOrder !== null">
+          <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
             <div *ngFor="let phone of getKeys(selectedOrder.shipperPhones)">
               <div>
                 <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
