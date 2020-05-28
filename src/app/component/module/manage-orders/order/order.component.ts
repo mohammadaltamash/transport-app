@@ -27,6 +27,7 @@ import { Constants } from 'src/app/model/constants';
 import { PagedOrders } from 'src/app/model/paged-orders';
 import { MessageService } from 'src/app/service/message.service';
 import { EventMessages } from 'src/app/model/event-messages';
+import { Utilities } from 'src/app/helper/utilities';
 
 @Component({
   selector: 'app-order',
@@ -159,6 +160,7 @@ export class OrderComponent implements OnInit {
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
+    private utilities: Utilities,
 
     private router: Router,
     public dialogRef: MatDialogRef<OrderComponent>,
@@ -301,6 +303,7 @@ export class OrderComponent implements OnInit {
     // const pickupPhone1 = this.formControls.pickupPhone1.value;
     if (!this.createOrderForm.valid) {
       this.formIsValid = false;
+      this.utilities.showError('Please correct form errors', 'Error');
     }
     if (this.createOrderForm.hasError) {
       // alert('Form has errors');

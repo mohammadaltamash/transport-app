@@ -18,4 +18,7 @@ export class Utilities {
   showInfo(message: string, action: string) {
     this.toastr.info(message, action);
   }
+  showError(message: string, action: string) {
+    this.toastr.error(message, action);
+  }
 }
