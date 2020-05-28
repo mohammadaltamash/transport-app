@@ -84,12 +84,13 @@ export class DriversListDialogComponent implements OnInit {
       .assignDriver(this.selectedDriver.id, this.data.orderId)
           .subscribe(result => {
             console.log(result);
+            this.utilities.openSnackBar('Driver assigned', '');
             this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
           }
         // res => console.log(res),
         // err => console.log(err)
       );
-    this.utilities.openSnackBar('Driver assigned', '');
+    // this.utilities.openSnackBar('Driver assigned', '');
       // this.dialogRef.close({ accepted: true });
     // } else {
     //   this.invalid = true;

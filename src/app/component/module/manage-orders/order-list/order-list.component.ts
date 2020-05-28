@@ -782,7 +782,7 @@ export class OrderListComponent implements OnInit {
                                 console.log(data);
                                 // this.appComponent.setSelectedDriverValue(null);
                                 // this.appComponent.setCurrentAcceptedValue(50);
-                                if (data.assigned) {
+                                // if (data.assigned) {
                                   // this.appComponent.setSelectedDriverValue(data.assignedToDriver);
                                   // this.selectedOrder.assignedToDriver = data.assignedToDriver;
                                   if (this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED) {
@@ -796,7 +796,7 @@ export class OrderListComponent implements OnInit {
                                   //   this.selectedOrder.assignedToDriver =
                                   // });
                                   this.fetchOrders(this.config.currentPage);
-                                }
+                                // }
                               });
   }
 
