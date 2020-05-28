@@ -785,17 +785,17 @@ export class OrderListComponent implements OnInit {
                                 // if (data.assigned) {
                                   // this.appComponent.setSelectedDriverValue(data.assignedToDriver);
                                   // this.selectedOrder.assignedToDriver = data.assignedToDriver;
-                                  if (this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED) {
-                                    // this.accepted -= 1;
-                                    // this.assigned += 1;
-                                    this.appComponent.setCurrentAcceptedValue(this.accepted - 1);
-                                    this.appComponent.setCurrentAssignedValue(this.assigned + 1);
-                                    // this.fetchOrders(this.config.currentPage - 1);
-                                  }
+                                if (this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED) {
+                                  // this.accepted -= 1;
+                                  // this.assigned += 1;
+                                  this.appComponent.setCurrentAcceptedValue(this.accepted - 1);
+                                  this.appComponent.setCurrentAssignedValue(this.assigned + 1);
+                                  // this.fetchOrders(this.config.currentPage - 1);
+                                }
                                   // this.apiService.getOrderById(+orderNumber).subscribe(order => {
                                   //   this.selectedOrder.assignedToDriver =
                                   // });
-                                  this.fetchOrders(this.config.currentPage);
+                                this.fetchOrders(this.config.currentPage);
                                 // }
                               });
   }
