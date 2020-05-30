@@ -126,7 +126,7 @@ main {
   grid-template-columns: 1fr 1fr .5fr .75fr .35fr;
   /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
   /* grid-template-rows: 1fr 1fr; */
-  // gap: 1vw;
+  gap: .5vw;
   // padding-left: 50px;
   margin: 1.5vw 4vw 1.5vw 4vw;
   // justify-self: center;
@@ -209,11 +209,12 @@ cdk-virtual-scroll-viewport {
 
 .viewDetailsButton {
   background-color: $secondary_button;
+  color: cornflowerblue;
   // width: 100%;
 }
 
 .inoperable {
-  color: red;
+  color: tomato;
 }
 
 mat-list-item {
