@@ -54,7 +54,7 @@
                         <div *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
                         <div>Pickup Zip {{ order.pickupZip }}</div>
                         <div>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
-                        <div># <b>{{ order.id }}</b>&nbsp;{{ order.brokerOrderId }}</div>
+                        <!-- <div># <b>{{ order.id }}</b>&nbsp;{{ order.brokerOrderId }}</div> -->
                     </div>
 
                     <div id="grid2">
@@ -65,13 +65,6 @@
                     </div>
 
                     <div id="grid3">
-                        <div>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
-                            <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
-                            </span>{{ order.vehicleAutoType }}</div>
-                        <div>{{ order.paymentMethod}}</div>
-                    </div>
-
-                    <div id="grid4">
                         <!-- <div matLine>Carrier pay&nbsp;<strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div> -->
                         <div>Distance&nbsp;<strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong>
                         </div>
@@ -82,10 +75,22 @@
                         </div>
                     </div>
 
+                    <div id="grid4">
+                            <!-- <div>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
+                                <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
+                                </span>{{ order.vehicleAutoType }}</div>
+                            <div>{{ order.paymentMethod}}</div> -->
+                        <div class="carrierPay"><strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div>
+                        <div>{{ order.paymentMethod}}</div>
+                        <div>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
+                                <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
+                                </span>{{ order.vehicleAutoType }}</div>
+                        <div># <b>{{ order.id }}</b>&nbsp;{{ order.brokerOrderId }}</div>
+                    </div>
                     <div id="grid5">
                       
-                            <div class="carrierPay"><strong>${{ order.carrierPay | number:'1.2-2' }}</strong>
-                            </div>
+                            <!-- <span class="carrierPay"><strong>${{ order.carrierPay | number:'1.2-2' }}</strong>
+                            </span>{{ order.paymentMethod}} -->
                             <button class="askToBookButton" mat-button (click)="showDialog(order, i, true)">BOOKING REQUEST</button>
                             <button class="viewDetailsButton" mat-button (click)="showDialog(order, i, false)">VIEW DETAILS</button>
                         
