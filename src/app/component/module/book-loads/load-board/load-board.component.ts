@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../../../service/api.service';
 import { Order } from '../../../../model/order';
 import { Subject } from 'rxjs';
@@ -19,13 +19,16 @@ import { CommonModelService } from 'src/app/service/common-model.service';
 import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
 import { LatitudeLongitudeDistanceRefs } from 'src/app/model/latitude-longitude-distance-refs';
 import { SearchFiltersDialogComponent } from '../search-filters-dialog/search-filters-dialog.component';
+import { MapHelper } from 'src/app/helper/map_helper';
 
 @Component({
   selector: 'app-load-board',
   templateUrl: './load-board.component.html',
   styleUrls: ['./load-board.component.scss']
 })
-export class LoadBoardComponent implements OnInit {
+export class LoadBoardComponent implements OnInit, AfterViewInit {
+  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
+  map: google.maps.Map;
   @ViewChild(AskToBookDialogComponent) askToBookDialogComponent: {
     openDialog: (arg0: Order, arg1: boolean) => void;
   };
@@ -36,10 +39,12 @@ export class LoadBoardComponent implements OnInit {
   selectedItem: number; // ?
   selectedOriginCities: CityZipLatLong[] = [];
   selectedDestinationCities: CityZipLatLong[] = [];
+  markers: any[];
   // selectedOriginCitiesRadius = [];
   // selectedDestinationCitiesRadius = [];
 
   isSearching = false;
+  mapDisplayed: boolean;
   // bookDialog: AskToBookDialogComponent;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -53,9 +58,27 @@ export class LoadBoardComponent implements OnInit {
     public authenticationService: AuthenticationService,
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
-    public filterDialog: MatDialog
+    public filterDialog: MatDialog,
+    private mapHelper: MapHelper,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     // this.bookDialog = new AskToBookDialogComponent(null);
+    // this.orders.forEach(order => {
+    //   this.markers.push({
+    //     latitude: order.pickupLatitude,
+    //     longitude: order.pickupLongitude,
+    //     title: 'Pickup location',
+    //     icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+    //   });
+    //   this.markers.push({
+    //     latitude: order.deliveryLatitude,
+    //     longitude: order.deliveryLongitude,
+    //     title: 'Drop off location',
+    //     icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+    //   });
+    // });
+    const shouldDisplay = localStorage.getItem('mapDisplayed');
+    this.mapDisplayed = shouldDisplay !== null && shouldDisplay === 'true' ? true : false;
   }
 
   ngOnInit() {
@@ -80,6 +103,10 @@ export class LoadBoardComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchText: ''
     });
+  }
+
+  ngAfterViewInit(): void {
+    // this.initializeMap();
   }
 
   onSubmitSearch() {
@@ -300,6 +327,7 @@ export class LoadBoardComponent implements OnInit {
                 if (pagedOrders.orders.length > 0) {
                   this.selectedOrder = this.orders[0];
                 }
+                this.initializeMap();
               });
         } else {
           this.fetchOrders(0);
@@ -340,6 +368,7 @@ export class LoadBoardComponent implements OnInit {
           if (data.totalItems > 0) {
             this.selectedOrder = this.orders[0];
           }
+          this.initializeMap();
         });
     } else if (SearchFiltersDialogComponent.hasFilter()
       // (localStorage.getItem('selectedOriginCities') !== null
@@ -370,6 +399,7 @@ export class LoadBoardComponent implements OnInit {
           if (data.orders.length > 0) {
             this.selectedOrder = this.orders[0];
           }
+          this.initializeMap();
         });
     }
   }
@@ -424,5 +454,42 @@ export class LoadBoardComponent implements OnInit {
     }
 
     return count;
+  }
+
+  initializeMap() {
+    if (this.mapDisplayed) {
+      this.markers = [];
+      this.orders.forEach(order => {
+        this.markers.push({
+          latitude: order.pickupLatitude,
+          longitude: order.pickupLongitude,
+          title: 'Pickup location',
+          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+        });
+        this.markers.push({
+          latitude: order.deliveryLatitude,
+          longitude: order.deliveryLongitude,
+          title: 'Drop off location',
+          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+        });
+      });
+    // if (this.mapDisplayed) {
+      this.mapHelper.initializeMap(this.gmap, this.markers);
+    }
+  }
+
+  toggleMap() {
+    this.mapDisplayed = !this.mapDisplayed;
+    if (this.mapDisplayed) {
+      // this.gmap.nativeElement.show();
+      // this.initializeMap();
+      // this.gmap.nativeElement = document.getElementById('map');
+      this.changeDetectorRef.detectChanges();
+      this.initializeMap();
+      localStorage.setItem('mapDisplayed', 'true');
+    } else {
+      // this.gmap.nativeElement.hide();
+      localStorage.setItem('mapDisplayed', 'false');
+    }
   }
 }

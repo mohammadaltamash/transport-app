@@ -9,10 +9,11 @@
         <!-- <button mat-button><mat-icon matPrefix>search</mat-icon></button> -->
         <form id="searchForm" [formGroup]="searchForm" (ngSubmit)="onSubmitSearch()">
             <mat-form-field id="search">
-                <input matInput id="searchText" type="text" formControlName="searchText" (change)="onSearchChanged()" placeholder="Search">
+                <input matInput id="searchText" type="text" formControlName="searchText" (change)="onSearchChanged()"
+                    placeholder="Search">
                 <!-- <mat-icon matSuffix>search</mat-icon> -->
             </mat-form-field>
-            
+
             <button mat-flat-button id="searchIcon" href="#" type=submit>
                 <mat-icon>search</mat-icon>
             </button>
@@ -29,64 +30,78 @@
             Add a Destination
         </button>
         &nbsp;
-        <button mat-stroked-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0" matBadgePosition="after" (click)="showFiltersDialog()">
+        <button mat-stroked-button [matBadge]="matBadgeCount()" [matBadgeHidden]="matBadgeCount() === 0"
+            matBadgePosition="after" (click)="showFiltersDialog()">
             Filters <mat-icon>filter_list</mat-icon>
         </button>
-        &nbsp;
+        &nbsp;&nbsp;
         <!-- <button mat-button>
             Saved <mat-icon>keyboard_arrow_down</mat-icon>
         </button> -->
+        <mat-slide-toggle [checked]="mapDisplayed" (change)="toggleMap()">Map</mat-slide-toggle>
     </mat-toolbar>
 
-    <cdk-virtual-scroll-viewport itemSize="127">
+    <div id="records">
+        <!-- <cdk-virtual-scroll-viewport itemSize="127"> -->
         <div id="list">
-            <mat-card id="listItem" *cdkVirtualFor="let order of orders | paginate: config; let i = index">
-                <!-- <div id="listItem"> -->
-                <div id="grid1">
-                    <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
-                    <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
-                    <!-- <div matLine>Created By {{ order.createdBy.email }}</div> -->
-                    <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
-                    <div matLine>Pickup Zip {{ order.pickupZip }}</div>
-                    <div matLine>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
-                    <div matLine># <b>{{ order.id }}</b>&nbsp;{{ order.brokerOrderId }}</div>
-                </div>
-
-                <div id="grid2">
-                    <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
-                    <div matLine *ngIf="shouldDisplayAddress(order)">{{ order.deliveryAddress }}&nbsp;</div>
-                    <div matLine>Delivery Zip {{ order.deliveryZip }}</div>
-                    <div matLine>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
-                </div>
-
-                <div id="grid3">
-                    <div matLine>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
-                        <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
-                        </span>{{ order.vehicleAutoType }}</div>
-                    <div matLine>{{ order.paymentMethod}}</div>
-                </div>
-
-                <div id="grid4">
-                    <!-- <div matLine>Carrier pay&nbsp;<strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div> -->
-                    <div matLine>Distance&nbsp;<strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong></div>
-                    <!-- <div matLine><strong>{{ order.carrierPay / (order.distance * 0.00062137) | number:'1.2-2'}} $/mi</strong></div> -->
-                    <div matLine>Per mile&nbsp;<strong>{{ order.perMile | number:'1.2-2'}} $/mi</strong></div>
-                    <div matLine>On pickup&nbsp;<strong>${{ order.amountOnPickup | number:'1.2-2'}}</strong></div>
-                    <div matLine>On delivery&nbsp;<strong>${{ order.amountOnDelivery | number:'1.2-2'}}</strong></div>
-                </div>
-
-                <div id="grid5">
-                    <div matLine>
-                        <div matLine class="carrierPay"><strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div>
-                        <button class="askToBookButton" mat-button (click)="showDialog(order, i, true)">BOOKING
-                            REQUEST</button><br>
-                        <button class="viewDetailsButton" mat-button (click)="showDialog(order, i, false)">VIEW DETAILS</button>
+            <cdk-virtual-scroll-viewport itemSize="127">
+                <mat-card id="listItem" *cdkVirtualFor="let order of orders | paginate: config; let i = index">
+                    <!-- <div id="listItem"> -->
+                    <div id="grid1">
+                        <!-- <div>{{ order.createdBy !== null && order.createdBy.email === this.authenticationService.currentUserValue.email }}</div> -->
+                        <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
+                        <!-- <div matLine>Created By {{ order.createdBy.email }}</div> -->
+                        <div *ngIf="shouldDisplayAddress(order)">{{ order.pickupAddress }}&nbsp;</div>
+                        <div>Pickup Zip {{ order.pickupZip }}</div>
+                        <div>EST. {{ order.pickupDates.begin }} - EST. {{ order.pickupDates.end }}</div>
+                        <div># <b>{{ order.id }}</b>&nbsp;{{ order.brokerOrderId }}</div>
                     </div>
-                </div>
-                <!-- </div> -->
-            </mat-card>
+
+                    <div id="grid2">
+                        <!-- <div>{{shouldDisplayAddress(order)}}</div> -->
+                        <div *ngIf="shouldDisplayAddress(order)">{{ order.deliveryAddress }}&nbsp;</div>
+                        <div>Delivery Zip {{ order.deliveryZip }}</div>
+                        <div>EST. {{ order.deliveryDates.begin }} - EST. {{ order.deliveryDates.end }}</div>
+                    </div>
+
+                    <div id="grid3">
+                        <div>{{ order.vehicleYear }} {{ order.vehicleMake }} {{ order.vehicleModel }}
+                            <span class="inoperable" *ngIf="order.vehicleInoperable">Inoperable
+                            </span>{{ order.vehicleAutoType }}</div>
+                        <div>{{ order.paymentMethod}}</div>
+                    </div>
+
+                    <div id="grid4">
+                        <!-- <div matLine>Carrier pay&nbsp;<strong>${{ order.carrierPay | number:'1.2-2' }}</strong></div> -->
+                        <div>Distance&nbsp;<strong>{{ order.distance * 0.00062137 | number:'1.2-2'}} mi</strong>
+                        </div>
+                        <!-- <div matLine><strong>{{ order.carrierPay / (order.distance * 0.00062137) | number:'1.2-2'}} $/mi</strong></div> -->
+                        <div>Per mile&nbsp;<strong>{{ order.perMile | number:'1.2-2'}} $/mi</strong></div>
+                        <div>On pickup&nbsp;<strong>${{ order.amountOnPickup | number:'1.2-2'}}</strong></div>
+                        <div>On delivery&nbsp;<strong>${{ order.amountOnDelivery | number:'1.2-2'}}</strong>
+                        </div>
+                    </div>
+
+                    <div id="grid5">
+                      
+                            <div class="carrierPay"><strong>${{ order.carrierPay | number:'1.2-2' }}</strong>
+                            </div>
+                            <button class="askToBookButton" mat-button (click)="showDialog(order, i, true)">BOOKING REQUEST</button>
+                            <button class="viewDetailsButton" mat-button (click)="showDialog(order, i, false)">VIEW DETAILS</button>
+                        
+                    </div>
+                    <!-- </div> -->
+                </mat-card>
+            </cdk-virtual-scroll-viewport>
         </div>
-    </cdk-virtual-scroll-viewport>
-    <div class="pagination"><pagination-controls (pageChange)="pageChange($event)"></pagination-controls></div>
+        <!-- </cdk-virtual-scroll-viewport> -->
+        <!-- <div #mapContainer id="map" [ngClass]="mapDisplayed ? 'mapShown' : 'mapHidden'"></div> -->
+        <div #mapContainer id="map" *ngIf="mapDisplayed"></div>
+    </div>
+    <div class="pagination">
+        <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+    </div>
+    <!-- <div #mapContainer id="map" [ngClass]="mapDisplayed ? 'mapShown' : 'mapHidden'"></div> -->
+    <!-- <div #mapContainer id="map" *ngIf="mapDisplayed"></div> -->
     <app-ask-to-book-dialog></app-ask-to-book-dialog>
 </main>

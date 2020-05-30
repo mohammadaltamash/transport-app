@@ -2,11 +2,16 @@ $bgcolor: rgb(235, 240, 243);
 // $blue_button: darken(cyan, 25%);
 $blue_button: darken(cornflowerblue, 20%);;
 $secondary_button: darken($bgcolor, 5%);
+// .container {
+//   display: grid;
+//   grid-template-columns: 1fr 2fr;
+// }
 main {
   display: grid;
   grid-template-areas:
-    "newOrderOptions"
-    "list";
+    "newOrderOptions "
+    "records"
+    "pagination";
   grid-template-columns: 1fr;
   grid-template-rows: 64px 1fr 54px;
   /* grid-template: 1fr 1fr; */
@@ -14,6 +19,7 @@ main {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  // grid-auto-flow: dense;
   // justify-items: space-around;
   /* background-color: inherit; */
 }
@@ -60,18 +66,55 @@ main {
   font-size: medium;
 }
 
+#records {
+  grid-area: records;
+  display: flex;
+  // direction: rtl;
+  // flex-wrap: nowrap;
+  // justify-content: stretch;
+}
+#records > div {
+  // width: 100%;
+}
+
+.box {
+  // flex: 1;
+}
+
 #list {
-  grid-area: list;
+  // grid-area: list;
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 2vw;
-  padding: 4vw 6vw 4vw 6vw;
-  align-content: flex-start;
+  // padding: 4vw 6vw 4vw 6vw;
+  // align-content: flex-start;
   /* overflow: auto;
       height: 100vh; */
-  border-right: 1px solid lightgray;
+  // border-right: 1px solid lightgray;
+  // width: 50%;
+  flex: 1;
+  // justify-content: stretch;
   overflow-y: auto;
   background-color: inherit;
+}
+
+#map {
+  // grid-area: map;
+  overflow-y: hidden;
+  height: 100%;
+  flex: 1
+  // width: 100%;
+  // justify-content: stretch;
+  // display: none;
+}
+
+.mapShown {
+  display: block;
+  // visibility: visible;
+}
+.mapHidden {
+  display: none;
+  // visibility: hidden;
 }
 
 #listItem {
@@ -84,9 +127,17 @@ main {
   /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); */
   /* grid-template-rows: 1fr 1fr; */
   gap: 4vw;
-  padding-left: 50px;
+  // padding-left: 50px;
+  margin: 1.5vw 4vw 1.5vw 4vw;
   /* border: 1px solid; */
   /* max-height: 100px; */
+}
+
+.pagination {
+  grid-area: pagination;
+  width: 100%;
+  margin: auto;
+  text-align: center;
 }
 
 cdk-virtual-scroll-viewport {
@@ -133,8 +184,10 @@ cdk-virtual-scroll-viewport {
 }
 #grid5 {
   grid-area: "grid5";
+  display: grid;
+  grid-template-columns: 1fr;
   margin: auto;
-  padding: 5px;
+  // padding: 5px;
   text-align: center;
 }
 
@@ -147,13 +200,13 @@ cdk-virtual-scroll-viewport {
 .askToBookButton {
   background-color: $blue_button;
   color: white;
-  width: 100%;
+  // width: 100%;
   margin-bottom: 10px;
 }
 
 .viewDetailsButton {
   background-color: $secondary_button;
-  width: 100%;
+  // width: 100%;
 }
 
 .inoperable {
@@ -164,8 +217,7 @@ mat-list-item {
   border: 1px solid;
 }
 
-.pagination {
-  width: 100%;
-  margin: auto;
-  text-align: center;
+.mat-slide-toggle {
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: medium;
 }

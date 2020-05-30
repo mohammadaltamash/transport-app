@@ -268,8 +268,8 @@ button[type=submit] {
   padding: 5px 10px;
   // font-family: sans-serif, Arial;
   font-size: 12px;
-  border: 1px solid lightgray;
-  border-radius: 4px;
+  border: 1px solid lighten(lightgray, 10%);
+  // border-radius: 3px;
 }
 .radio-toolbar label:hover {
   background-color: rgb(236, 236, 236);
@@ -281,11 +281,11 @@ button[type=submit] {
   background-color: inherit;
 }
 .radio-toolbar input[type="radio"]:focus + label {
-  border: 1px dashed blue;
+  // border: 1px dashed blue;
 }
 .radio-toolbar input[type="radio"]:checked + label {
-  background-color: silver;
-  border-color: black;
+  background-color: lighten(silver, 10%);
+  border-color: gray;
 }
 
 mat-toolbar {

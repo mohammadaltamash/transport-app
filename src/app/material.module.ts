@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const material = [
   MatButtonModule,
@@ -38,7 +39,8 @@ const material = [
     MatNativeDateModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
 ];
 @NgModule({
   imports: material,

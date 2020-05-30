@@ -133,10 +133,10 @@
         <mat-card-subtitle>
           <mat-icon>directions_car</mat-icon> VEHICLE
         </mat-card-subtitle>
-        <b><span>{{selectedOrder !== null ? selectedOrder.vehicleYear : ''}} </span>
-          <span>{{selectedOrder !== null ? selectedOrder.vehicleMake : ''}} </span>
-          <span>{{selectedOrder !== null ? selectedOrder.vehicleModel : ''}} </span></b>
-        <span>{{selectedOrder !== null ? selectedOrder.vehicleAutoType : ''}}</span>
+        <b><span>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.vehicleYear : ''}} </span>
+          <span>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.vehicleMake : ''}} </span>
+          <span>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.vehicleModel : ''}} </span></b>
+        <span>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.vehicleAutoType : ''}}</span>
       </mat-card>
       <mat-card id="pickupAndDelivery">
         <div id="pickup">
