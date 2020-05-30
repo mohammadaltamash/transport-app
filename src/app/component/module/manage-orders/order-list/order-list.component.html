@@ -90,12 +90,12 @@
   <button (click)="sendMessage()">Send Message</button> -->
   <div id="detail">
     <div id="summary">
-      <h2>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
+      <h1>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
         {{ (selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.orderStatus : '' }}
         <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.orderStatus === 'NEW'">
           <mat-icon id="editOrder">edit</mat-icon>
         </ng-container>
-      </h2>
+      </h1>
     </div>
     <div id="detailLeft">
       <mat-card id="driver">
