@@ -283,7 +283,7 @@ export class OrderComponent implements OnInit {
       // this.createOrderForm.controls.vehicleModels.patchValue(this.vehicleModels[0]);
     });
 
-    this.messageService._connect();
+    // this.messageService._connect();
   }
 
   ngDestroy() {

@@ -60,7 +60,7 @@ export class OrderListComponent implements OnInit {
   // deliveredOrders: Order[] = [];
   selectedOrder: Order;
   selectedItem: number;
-  selectedDriver: User;
+  // selectedDriver: User;
   drivers: User[];
   auditResponse: AuditResponse[];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -172,7 +172,7 @@ export class OrderListComponent implements OnInit {
     // this.appComponent.selectedDriver.subscribe(
     //   n => this.selectedDriver = n
     // );
-    this.messageService._connect();
+    // this.messageService._connect();
   }
 
   onSubmit() {
@@ -380,7 +380,7 @@ export class OrderListComponent implements OnInit {
   fetchOrders(pageNumber: number) {
     const status = this.getStatusCSVString();
     this.selectedOrder = null;
-    this.selectedDriver = null;
+    // this.selectedDriver = null;
     this.auditResponse = null;
     this.spinner.show();
     if (this.isSearching) {
@@ -394,7 +394,7 @@ export class OrderListComponent implements OnInit {
           this.config.totalItems = data.totalItems;
           if (data.totalItems > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
-            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
+            // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             // this.config.currentPage = 0;
             this.getOrderAudit(this.selectedOrder.id);
           }
@@ -413,7 +413,7 @@ export class OrderListComponent implements OnInit {
           this.all = data.totalItems;
           if (data.totalItems > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
-            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
+            // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
           }
         });
@@ -430,7 +430,7 @@ export class OrderListComponent implements OnInit {
           this.config.totalItems = data.totalItems;
           if (data.totalItems > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
-            this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
+            // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
           }
         });
@@ -553,7 +553,7 @@ export class OrderListComponent implements OnInit {
   onItemClick(order: Order, index: number) {
     this.selectedOrder = order;
     this.selectedItem = index;
-    this.selectedDriver = order.assignedToDriver;
+    // this.selectedDriver = order.assignedToDriver;
     this.getOrderAudit(this.selectedOrder.id);
   }
 

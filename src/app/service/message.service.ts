@@ -20,15 +20,17 @@ export class MessageService {
     // constructor(appComponent: AppComponent){
     //     this.appComponent = appComponent;
     // }
-    constructor(private apiService: ApiService, private appComponent: AppComponent) {}
-    _connect() {
+    constructor(private apiService: ApiService, private appComponent: AppComponent) {
+        this.connect();
+    }
+    connect() {
         console.log('Initialize WebSocket Connection');
-        let ws = new SockJS(this.webSocketEndPoint);
+        const ws = new SockJS(this.webSocketEndPoint);
         this.stompClient = Stomp.over(ws);
-        const _this = this;
-        _this.stompClient.connect({}, function (frame) {
-            _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
-                _this.onMessageReceived(sdkEvent);
+        const that = this;
+        this.stompClient.connect({}, function (frame) {
+            that.stompClient.subscribe(that.topic, function (sdkEvent) {
+                this.onMessageReceived(sdkEvent);
             });
             //_this.stompClient.reconnect_delay = 2000;
         }, this.errorCallBack);
@@ -45,7 +47,7 @@ export class MessageService {
     errorCallBack(error) {
         console.log('errorCallBack -> ' + error)
         setTimeout(() => {
-            this._connect();
+            this.connect();
         }, 5000);
     }
 

@@ -4,7 +4,9 @@
 @import "~saturn-datepicker/bundle.css";
 @import 'assets/css/toastr.css';
 
-$bgcolor: rgb(235, 240, 243);
+// $bgcolor: rgb(235, 240, 243);
+// $bgcolor: lighten(#9BBCD4, 20%);
+$bgcolor: #E5EDF4;
 
 * {
   /* font-family: 'Times New Roman', Times, serif */
@@ -222,6 +224,14 @@ button[type=submit] {
   cursor: pointer;
 }
 
+.hilight {
+  // background-color: lighten(yellowgreen, 25%);
+  border-radius: 25px;
+  border: 2px solid yellowgreen;
+  padding: 5px 10px;
+  font-size: medium;
+}
+
 // .ovalShape:hover {
 //   -webkit-box-shadow: 0px 0px 9px 2px rgba(100, 149, 237, 0.75);
 //   -moz-box-shadow: 0px 0px 9px 2px rgba(100, 149, 237, 0.75);
@@ -252,7 +262,8 @@ button[type=submit] {
 } */
 
 .selectedListItem {
-  background-color: rgb(235, 240, 243);
+  // background-color: rgb(235, 240, 243);
+  background-color: $bgcolor;
 }
 
 .loading{

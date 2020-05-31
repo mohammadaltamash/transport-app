@@ -91,7 +91,7 @@
   <div id="detail">
     <div id="summary">
       <h1>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
-        {{ (selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.orderStatus : '' }}
+        <span>{{ (selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.orderStatus : '' }}</span>
         <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.orderStatus === 'NEW'">
           <mat-icon id="editOrder">edit</mat-icon>
         </ng-container>
