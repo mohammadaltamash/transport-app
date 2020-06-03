@@ -327,11 +327,15 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
                 if (pagedOrders.orders.length > 0) {
                   this.selectedOrder = this.orders[0];
                 }
-                this.initializeMap();
+                localStorage.setItem('latitudeLongitudeRefs', JSON.stringify(latitudeLongitudeRefs));
+                localStorage.setItem('drawRadius', 'true');
+                this.initializeMap(true);
               });
         } else {
           this.fetchOrders(0);
           this.config.currentPage = 1;
+          localStorage.setItem('latitudeLongitudeRefs', null);
+          localStorage.setItem('drawRadius', null);
         }
   }
 
@@ -368,7 +372,8 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
           if (data.totalItems > 0) {
             this.selectedOrder = this.orders[0];
           }
-          this.initializeMap();
+          localStorage.setItem('drawRadius', null);
+          this.initializeMap(false);
         });
     } else if (SearchFiltersDialogComponent.hasFilter()
       // (localStorage.getItem('selectedOriginCities') !== null
@@ -399,7 +404,7 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
           if (data.orders.length > 0) {
             this.selectedOrder = this.orders[0];
           }
-          this.initializeMap();
+          this.initializeMap(false);
         });
     }
   }
@@ -456,7 +461,7 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
     return count;
   }
 
-  initializeMap() {
+  initializeMap(drawRadius: boolean) {
     if (this.mapDisplayed) {
       this.markers = [];
       this.orders.forEach(order => {
@@ -474,7 +479,7 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
         });
       });
     // if (this.mapDisplayed) {
-      this.mapHelper.initializeMap(this.gmap, this.markers);
+      this.mapHelper.initializeMap(this.gmap, this.markers, drawRadius);
     }
   }
 
@@ -485,7 +490,7 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
       // this.initializeMap();
       // this.gmap.nativeElement = document.getElementById('map');
       this.changeDetectorRef.detectChanges();
-      this.initializeMap();
+      this.initializeMap(localStorage.getItem('drawRadius') === 'true');
       localStorage.setItem('mapDisplayed', 'true');
     } else {
       // this.gmap.nativeElement.hide();

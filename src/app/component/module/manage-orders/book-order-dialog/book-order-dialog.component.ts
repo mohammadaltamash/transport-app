@@ -109,7 +109,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.mapHelper.initializeMap(this.gmap, this.markers);
+    this.mapHelper.initializeMap(this.gmap, this.markers, false);
     // this.mapHelper.distance.subscribe(
     //   d => this.distance = d
     // );

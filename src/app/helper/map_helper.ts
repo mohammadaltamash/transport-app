@@ -9,6 +9,7 @@ import {
   Injectable
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { LatitudeLongitudeDistanceRefs } from '../model/latitude-longitude-distance-refs';
 
 @Injectable({ providedIn: 'root' })
 export class MapHelper {
@@ -44,7 +45,8 @@ export class MapHelper {
       longitude: number;
       title: string;
       icon: string;
-    }[]
+    }[],
+    drawRadius: boolean
   ): void {
     this.markers = [];
     mapMarkers.forEach(marker => {
@@ -78,6 +80,7 @@ export class MapHelper {
     // default marker
     // this.marker.setMap(this.map);
     this.loadAllMarkers();
+    this.drawRadius(drawRadius);
   }
 
   loadAllMarkers() {
@@ -106,6 +109,52 @@ export class MapHelper {
     });
     this.map.setCenter(bounds.getCenter());
     this.map.fitBounds(bounds);
+
+    // const map2 = new google.maps.Map(document.getElementById('mapContainer'), mapProp);
+
+    // Add the circle for this city to the map.
+    // const cityCircle = new google.maps.Circle({
+    //     strokeColor: '#FF0000',
+    //     strokeOpacity: 0.8,
+    //     strokeWeight: 2,
+    //     fillColor: 'transparent',
+    //     fillOpacity: 0.35,
+    //     map: this.map,
+    //     center: bounds.getCenter(),
+    //     radius: 1000000   // Meters
+    // });
+  }
+
+  drawRadius(drawRadius: boolean) {
+    if (drawRadius) {
+      const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = JSON.parse(localStorage.getItem('latitudeLongitudeRefs'));
+      if (latitudeLongitudeRefs !== null) {
+        latitudeLongitudeRefs.pickupLatLongs.forEach(element => {
+          const cityCircle = new google.maps.Circle({
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: 'transparent',
+            fillOpacity: 0.35,
+            map: this.map,
+            center: new google.maps.LatLng(element.latitude, element.longitude),
+            radius: element.distance * 1.60934 * 1000 // Meters
+          });
+        });
+        latitudeLongitudeRefs.deliveryLatLongs.forEach(element => {
+          const cityCircle = new google.maps.Circle({
+            strokeColor: '#00FF00',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: 'transparent',
+            fillOpacity: 0.35,
+            map: this.map,
+            center: new google.maps.LatLng(element.latitude, element.longitude),
+            radius: element.distance * 1.60934 * 1000 // Meters
+          });
+        });
+      }
+    }
   }
 
   getMarkerInfo(title: string) {

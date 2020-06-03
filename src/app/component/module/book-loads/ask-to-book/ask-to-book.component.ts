@@ -122,7 +122,7 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.mapHelper.initializeMap(this.gmap, this.markers);
+    this.mapHelper.initializeMap(this.gmap, this.markers, false);
   }
 
   onSubmit() {
