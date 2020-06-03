@@ -8,6 +8,7 @@ import { AppComponent } from '../app.component';
 import { PagedOrders } from '../model/paged-orders';
 import { EventMessages } from '../model/event-messages';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,8 +21,15 @@ export class MessageService {
     // constructor(appComponent: AppComponent){
     //     this.appComponent = appComponent;
     // }
-    constructor(private apiService: ApiService, private appComponent: AppComponent) {
+    constructor(private apiService: ApiService,
+                private authenticationService: AuthenticationService,
+                private appComponent: AppComponent) {
         this.connect();
+        this.authenticationService.currentUser.subscribe(user => {
+            if (user === null) {
+                this._disconnect();
+            }
+        });
     }
     connect() {
         console.log('Initialize WebSocket Connection');

@@ -28,6 +28,9 @@ export class Constants {
 
   static ORDERS_PER_PAGE = 7;
 
+  static INACTIVITY_INTERVAL = 15 * 60;
+  static INACTIVITY_TIMEOUT_INTERVAL = 5;
+
   static getSortName(displayName: string) {
     if (displayName === 'First Available Date') {
       return '';

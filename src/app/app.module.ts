@@ -34,6 +34,7 @@ import { DriversListDialogComponent } from './component/drivers-list-dialog/driv
 import { CreateDialogComponent } from './component/create-dialog/create-dialog.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { ToastrModule } from 'ngx-toastr';
         //   ''
         // ]
       },
-    })
+    }),
+    NgIdleKeepaliveModule.forRoot()
 
     // LoadBoardComponent,
     // SearchFiltersComponent,

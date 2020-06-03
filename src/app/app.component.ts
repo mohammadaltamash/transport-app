@@ -11,6 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 import { PagedOrders } from './model/paged-orders';
 import { UserService } from './service/user.service';
 import { environment } from 'src/environments/environment.prod';
+import { Keepalive } from '@ng-idle/keepalive';
+import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 // import { MatIconRegistry } from '@angular/material/icon';
 // import { DomSanitizer } from '@angular/platform-browser';
 
@@ -22,6 +24,11 @@ import { environment } from 'src/environments/environment.prod';
 export class AppComponent {
   title = 'transport-app-client';
   currentUser: User;
+
+  idleState = 'Not started.';
+  timedOut = false;
+  lastPing?: Date = null;
+
   private currentOrderSubject: BehaviorSubject<Order>;
   public currentOrder: Observable<Order>;
 
@@ -56,7 +63,9 @@ export class AppComponent {
     private router: Router,
     private authenticationService: AuthenticationService,
     private apiService: ApiService,
-    private userService: UserService
+    private userService: UserService,
+    private idle: Idle,
+    private keepalive: Keepalive
     // private matIconRegistry: MatIconRegistry,
     // private domSanitizer: DomSanitizer
   ) {
@@ -125,6 +134,7 @@ export class AppComponent {
     //   'dashboard2',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons8-dashboard-100.svg')
     // );
+    this.setInactiveTimeout();
   }
 
   loggedIn() {
@@ -210,5 +220,60 @@ export class AppComponent {
   }
   setPaymentsPendingTodayValue(n: number) {
     this.paymentsPendingTodaySubject.next(n);
+  }
+
+  setInactiveTimeout() {
+    // sets an idle timeout of 5 seconds, for testing purposes.
+    this.idle.setIdle(Constants.INACTIVITY_INTERVAL);
+    // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
+    this.idle.setTimeout(Constants.INACTIVITY_TIMEOUT_INTERVAL);
+    // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+    this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+
+    this.idle.onIdleEnd.subscribe(() => {
+      this.idleState = 'No longer idle.';
+      console.log(this.idleState);
+      this.reset();
+    });
+
+    this.idle.onTimeout.subscribe(() => {
+      this.idleState = 'Timed out!';
+      this.timedOut = true;
+      console.log(this.idleState);
+      // this.router.navigate(['/']);
+      this.logout();
+    });
+
+    this.idle.onIdleStart.subscribe(() => {
+        this.idleState = 'You\'ve gone idle!';
+        console.log(this.idleState);
+        // this.childModal.show();
+    });
+
+    this.idle.onTimeoutWarning.subscribe((countdown) => {
+      this.idleState = 'You will time out in ' + countdown + ' seconds!'
+      console.log(this.idleState);
+    });
+
+    // sets the ping interval to 15 seconds
+    this.keepalive.interval(15);
+
+    this.keepalive.onPing.subscribe(() => this.lastPing = new Date());
+
+    // this.reset();
+    this.authenticationService.currentUser.subscribe((user => {
+      if (user) {
+        this.idle.watch();
+        this.timedOut = false;
+      } else {
+        this.idle.stop();
+      }
+    }));
+  }
+
+  reset() {
+    this.idle.watch();
+    this.idleState = 'Started.';
+    this.timedOut = false;
   }
 }
