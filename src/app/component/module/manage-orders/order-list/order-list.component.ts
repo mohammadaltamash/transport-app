@@ -392,7 +392,7 @@ export class OrderListComponent implements OnInit {
           console.log(data);
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
-          if (data.totalItems > 0) {
+          if (data.totalItems > 0 && data.orders.length > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
             // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             // this.config.currentPage = 0;
@@ -411,7 +411,7 @@ export class OrderListComponent implements OnInit {
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
           this.all = data.totalItems;
-          if (data.totalItems > 0) {
+          if (data.totalItems > 0 && data.orders.length > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
             // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
@@ -428,7 +428,7 @@ export class OrderListComponent implements OnInit {
           console.log(data);
           this.orders = data.orders;
           this.config.totalItems = data.totalItems;
-          if (data.totalItems > 0) {
+          if (data.totalItems > 0 && data.orders.length > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
             // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
             this.getOrderAudit(this.selectedOrder.id);
