@@ -22,12 +22,12 @@ import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { environment } from '../../../../../environments/environment';
-import { AppComponent } from 'src/app/app.component';
-import { Constants } from 'src/app/model/constants';
-import { PagedOrders } from 'src/app/model/paged-orders';
-import { MessageService } from 'src/app/service/message.service';
-import { EventMessages } from 'src/app/model/event-messages';
-import { Utilities } from 'src/app/helper/utilities';
+import { AppComponent } from '../../../../app.component';
+import { Constants } from '../../../../model/constants';
+import { PagedOrders } from '../../../../model/paged-orders';
+import { MessageService } from '../../../../service/message.service';
+import { EventMessages } from '../../../../model/event-messages';
+import { Utilities } from '../../../../helper/utilities';
 
 @Component({
   selector: 'app-order',
@@ -402,8 +402,8 @@ export class OrderComponent implements OnInit {
         //   err => console.log(err)
         // );
       this.openSnackBar('Order has been created', '');
-      // this.dialogRef.close();
-      // this.router.navigate(['/orders']);
+      this.dialogRef.close();
+      this.router.navigate(['/orders']);
     }
   }
 

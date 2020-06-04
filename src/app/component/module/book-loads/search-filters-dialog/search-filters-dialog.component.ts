@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, Optional, ViewChild, ElementRef, AfterViewIn
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { ApiService } from 'src/app/service/api.service';
-import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
+import { ApiService } from '../../../../service/api.service';
+import { CityZipLatLong } from '../../../../model/city-zip-lat-long';
 
 @Component({
   selector: 'app-search-filters-dialog',

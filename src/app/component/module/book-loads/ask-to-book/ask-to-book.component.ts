@@ -21,9 +21,9 @@ import { Utilities } from '../../../../helper/utilities';
 import { environment } from '../../../../../environments/environment';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { OrderCarrier } from '../../../../model/order-carrier';
-import { OrderStatus } from 'src/app/model/order-status';
-import { Constants } from 'src/app/model/constants';
-import { MapHelper } from 'src/app/helper/map_helper';
+import { OrderStatus } from '../../../../model/order-status';
+import { Constants } from '../../../../model/constants';
+import { MapHelper } from '../../../../helper/map_helper';
 
 @Component({
   selector: 'app-ask-to-book',

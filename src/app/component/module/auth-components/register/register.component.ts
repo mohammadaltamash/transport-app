@@ -8,7 +8,7 @@ import { AuthenticationService } from '../../../../service/authentication.servic
 import PlaceResult = google.maps.places.PlaceResult;
 import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
 import { ErrorHandler } from '../../../../helper/error_handler';
-import { Utilities } from 'src/app/helper/utilities';
+import { Utilities } from '../../../../helper/utilities';
 
 @Component({
   selector: 'app-register',

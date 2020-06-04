@@ -57,6 +57,9 @@ export class AppComponent {
   private paymentsPendingTodaySubject: BehaviorSubject<number>;
   public paymentsPendingToday: Observable<number>;
 
+  private systemMessageSubject: BehaviorSubject<string>;
+  public systemMessage: Observable<string>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -108,12 +111,12 @@ export class AppComponent {
 
     this.driversSubject = new BehaviorSubject<User[]>([]);
     this.drivers = this.driversSubject.asObservable();
-    this.userService
-          .getUsersByType(environment.USER_DRIVER)
-          // .pipe(takeUntil(this.destroy$))
-          .subscribe((users: User[]) => {
-            this.setDriversValue(users);
-          });
+    // this.userService
+    //       .getUsersByType(environment.USER_DRIVER)
+    //       // .pipe(takeUntil(this.destroy$))
+    //       .subscribe((users: User[]) => {
+    //         this.setDriversValue(users);
+    //       });
 
     this.ordersPickupTodaySubject = new BehaviorSubject<number>(0);
     this.ordersPickupToday = this.ordersPickupTodaySubject.asObservable();
@@ -121,6 +124,9 @@ export class AppComponent {
     this.ordersDeliveryToday = this.ordersDeliveryTodaySubject.asObservable();
     this.paymentsPendingTodaySubject = new BehaviorSubject<number>(0);
     this.paymentsPendingToday = this.paymentsPendingTodaySubject.asObservable();
+
+    this.systemMessageSubject = new BehaviorSubject<string>(null);
+    this.systemMessage = this.systemMessageSubject.asObservable();
 
     this.authenticationService.currentUser.subscribe(
       u => this.currentUser = u
@@ -220,6 +226,12 @@ export class AppComponent {
   }
   setPaymentsPendingTodayValue(n: number) {
     this.paymentsPendingTodaySubject.next(n);
+  }
+  public get systemMessageValue(): string {
+    return this.systemMessageSubject.value;
+  }
+  setSystemMessageValue(message: string) {
+    this.systemMessageSubject.next(message);
   }
 
   setInactiveTimeout() {

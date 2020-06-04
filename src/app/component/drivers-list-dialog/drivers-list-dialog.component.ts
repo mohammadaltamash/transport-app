@@ -3,11 +3,10 @@ import { User } from '../../model/user';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../service/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ApiService } from 'src/app/service/api.service';
-import { Utilities } from 'src/app/helper/utilities';
+import { ApiService } from '../../service/api.service';
+import { Utilities } from '../../helper/utilities';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
-import { AppComponent } from 'src/app/app.component';
-import { CommonModelService } from 'src/app/service/common-model.service';
+import { AppComponent } from '../../app.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -60,6 +59,12 @@ export class DriversListDialogComponent implements OnInit {
     this.appComponent.drivers.subscribe(users => {
       this.drivers = users;
     });
+
+    this.userService.getUsersByType(environment.USER_DRIVER)
+          // .pipe(takeUntil(this.destroy$))
+          .subscribe((users: User[]) => {
+            this.drivers = users;
+          });
   }
 
   onSubmit() {

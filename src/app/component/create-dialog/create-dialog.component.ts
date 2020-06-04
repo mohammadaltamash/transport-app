@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { RegisterComponent } from '../module/auth-components/register/register.component';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { UserService } from 'src/app/service/user.service';
-import { ApiService } from 'src/app/service/api.service';
-import { Utilities } from 'src/app/helper/utilities';
+import { UserService } from '../../service/user.service';
+import { ApiService } from '../../service/api.service';
+import { Utilities } from '../../helper/utilities';
 import { Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,11 +15,11 @@ import {
   Location,
   Appearance
 } from '@angular-material-extensions/google-maps-autocomplete';
-import { User } from 'src/app/model/user';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { User } from '../../model/user';
+import { AuthenticationService } from '../../service/authentication.service';
 import { ErrorHandler } from '../../helper/error_handler';
 import { environment } from 'src/environments/environment';
-import { AppComponent } from 'src/app/app.component';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-create-dialog',

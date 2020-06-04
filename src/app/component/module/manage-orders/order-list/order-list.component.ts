@@ -10,20 +10,20 @@ import { User } from '../../../../model/user';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DriversListDialogComponent } from '../../../../component/drivers-list-dialog/drivers-list-dialog.component';
 import { AuthenticationService } from '../../../../service/authentication.service';
-import { AppComponent } from 'src/app/app.component';
-import { AuditResponse } from 'src/app/model/audit-response';
-import { OrderStatus } from 'src/app/model/order-status';
+import { AppComponent } from '../../../../app.component';
+import { AuditResponse } from '../../../../model/audit-response';
+import { OrderStatus } from '../../../../model/order-status';
 import { BookOrderDialogComponent } from '../book-order-dialog/book-order-dialog.component';
-import { OrderCarrier } from 'src/app/model/order-carrier';
+import { OrderCarrier } from '../../../../model/order-carrier';
 import { InviteOrderDialogComponent } from '../invite-order-dialog/invite-order-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Constants } from 'src/app/model/constants';
-import { PagedOrders } from 'src/app/model/paged-orders';
+import { Constants } from '../../../../model/constants';
+import { PagedOrders } from '../../../../model/paged-orders';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { CommonModelService } from 'src/app/service/common-model.service';
+import { CommonModelService } from '../../../../service/common-model.service';
 
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { MessageService } from 'src/app/service/message.service';
+import { MessageService } from '../../../../service/message.service';
 
 @Component({
   selector: 'app-order-list',
@@ -169,6 +169,23 @@ export class OrderListComponent implements OnInit {
     this.appComponent.currentAssigned.subscribe(
       n => this.assigned = n
     );
+    // this.appComponent.drivers.subscribe(
+    //   drvrs => this.drivers = drvrs
+    // );
+    // this.userService.getUsersByType(environment.USER_DRIVER)
+    // // .pipe(takeUntil(this.destroy$))
+    //                 .subscribe((users: User[]) => {
+    //                   this.appComponent.setDriversValue(users);
+    // });
+
+    this.appComponent.systemMessage.subscribe(
+      message => {
+        // if (message === 'NEW_ORDER') {
+          this.renderData();
+        // }
+      }
+    );
+
     // this.appComponent.selectedDriver.subscribe(
     //   n => this.selectedDriver = n
     // );

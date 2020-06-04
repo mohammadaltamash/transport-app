@@ -38,7 +38,7 @@ export class MessageService {
         const that = this;
         this.stompClient.connect({}, function (frame) {
             that.stompClient.subscribe(that.topic, function (sdkEvent) {
-                this.onMessageReceived(sdkEvent);
+                that.onMessageReceived(sdkEvent);
             });
             //_this.stompClient.reconnect_delay = 2000;
         }, this.errorCallBack);
@@ -65,22 +65,25 @@ export class MessageService {
 	 */
     _send(message) {
         console.log('calling logout api via web socket');
-        this.stompClient.send('/app/message', {}, JSON.stringify(message));
+        // this.stompClient.send('/app/message', {}, JSON.stringify(message));
+        this.stompClient.send('/app/message', {}, message);
     }
 
-    onMessageReceived(message: string) {
+    onMessageReceived(message: any) {
         console.log('Message Recieved from Server :: ' + message);
         // this.appComponent.handleMessage(JSON.stringify(message.body));
 
-        if (message === EventMessages.NEW_ORDER) {
-        this.apiService
-              .getPagedOrders(0, Constants.ORDERS_PER_PAGE)
-              // .pipe(takeUntil(this.destroy$))
-              .subscribe((result: PagedOrders) => {
-                this.appComponent.setCurrentOrdersValue(result.orders);
-              });
-        const newCount = this.appComponent.currentNewValue + 1;
-        this.appComponent.setCurrentNewValue(newCount);
+        // if (message === EventMessages.NEW_ORDER) {
+        if (message.body === 'NEW_ORDER') {
+            this.appComponent.setSystemMessageValue('NEW_ORDER');
+        // this.apiService
+        //       .getPagedOrders(0, Constants.ORDERS_PER_PAGE)
+        //       // .pipe(takeUntil(this.destroy$))
+        //       .subscribe((result: PagedOrders) => {
+        //         this.appComponent.setCurrentOrdersValue(result.orders);
+        //       });
+        // const newCount = this.appComponent.currentNewValue + 1;
+        // this.appComponent.setCurrentNewValue(newCount);
         // } else if (message.startsWith(EventMessages.ACCEPTED_COUNT)) {
         //     const acceptedCount = message.split('_')[1];
         //     this.appComponent.setCurrentNewValue(+acceptedCount);

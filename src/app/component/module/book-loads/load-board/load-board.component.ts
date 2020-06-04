@@ -9,17 +9,17 @@ import {
   MatDialogRef,
   MatDialog
 } from '@angular/material/dialog';
-import { AppComponent } from 'src/app/app.component';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AppComponent } from '../../../../app.component';
+import { AuthenticationService } from '../../../../service/authentication.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Constants } from 'src/app/model/constants';
-import { PagedOrders } from 'src/app/model/paged-orders';
+import { Constants } from '../../../../model/constants';
+import { PagedOrders } from '../../../../model/paged-orders';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { CommonModelService } from 'src/app/service/common-model.service';
-import { CityZipLatLong } from 'src/app/model/city-zip-lat-long';
-import { LatitudeLongitudeDistanceRefs } from 'src/app/model/latitude-longitude-distance-refs';
+import { CommonModelService } from '../../../../service/common-model.service';
+import { CityZipLatLong } from '../../../../model/city-zip-lat-long';
+import { LatitudeLongitudeDistanceRefs } from '../../../../model/latitude-longitude-distance-refs';
 import { SearchFiltersDialogComponent } from '../search-filters-dialog/search-filters-dialog.component';
-import { MapHelper } from 'src/app/helper/map_helper';
+import { MapHelper } from '../../../../helper/map_helper';
 
 @Component({
   selector: 'app-load-board',

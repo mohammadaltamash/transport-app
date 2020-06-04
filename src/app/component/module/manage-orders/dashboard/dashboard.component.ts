@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ApiService } from 'src/app/service/api.service';
-import { Constants } from 'src/app/model/constants';
-import { PagedOrders } from 'src/app/model/paged-orders';
 
 @Component({
   selector: 'app-dashboard',

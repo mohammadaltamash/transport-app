@@ -21,8 +21,8 @@ import { InviteOrderDialogComponent } from './invite-order-dialog/invite-order-d
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { AppModule } from 'src/app/app.module';
-import { AppComponent } from 'src/app/app.component';
+import { AppModule } from '../../../app.module';
+import { AppComponent } from '../../../app.component';
 import { AppRoutingModule } from '../../../app-routing.module';
 
 @NgModule({

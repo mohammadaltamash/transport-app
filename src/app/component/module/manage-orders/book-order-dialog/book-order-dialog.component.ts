@@ -9,14 +9,14 @@ import {
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Constants } from 'src/app/model/constants';
-import { Order } from 'src/app/model/order';
-import { ApiService } from 'src/app/service/api.service';
-import { Utilities } from 'src/app/helper/utilities';
-import { OrderCarrier } from 'src/app/model/order-carrier';
-import { OrderStatus } from 'src/app/model/order-status';
-import { MapHelper } from 'src/app/helper/map_helper';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { Constants } from '../../../../model/constants';
+import { Order } from '../../../../model/order';
+import { ApiService } from '../../../../service/api.service';
+import { Utilities } from '../../../../helper/utilities';
+import { OrderCarrier } from '../../../../model/order-carrier';
+import { OrderStatus } from '../../../../model/order-status';
+import { MapHelper } from '../../../../helper/map_helper';
+import { AuthenticationService } from '../../../../service/authentication.service';
 
 @Component({
   selector: 'app-book-order-dialog',
