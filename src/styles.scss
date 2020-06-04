@@ -76,6 +76,13 @@ button[type=submit] {
   border-radius: 25px; */
 }
 
+button:disabled, button[disabled] {
+  /* border: 5px solid; */
+  /* margin-right: 1vw;
+  border-radius: 25px; */
+  background-color: cornflowerblue;
+}
+
 /* button[type=button] {
   border-radius: 25px;
 } */
