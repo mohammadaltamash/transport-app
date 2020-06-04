@@ -4,12 +4,12 @@
     <form id="askToBookForm" [formGroup]="bookingRequestForm" (ngSubmit)="onSubmit()">
         <div mat-dialog-content id="main">
             <!-- <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4> -->
-            <mat-form-field id="carrierPay">
+            <mat-form-field id="carrierPay" *ngIf="requestBooking">
                 <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly
                     decimal=true autocomplete=off>
                 <mat-hint>Make an Offer</mat-hint>
             </mat-form-field>
-            <mat-form-field id="daysToPay">
+            <mat-form-field id="daysToPay" *ngIf="requestBooking">
                 <mat-label>Days to Pay</mat-label>
                 <mat-select formControlName="daysToPay">
                     <mat-option *ngFor="let day of daysToPay" [value]="day">
@@ -17,7 +17,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field id="paymentTermBegins">
+            <mat-form-field id="paymentTermBegins" *ngIf="requestBooking">
                 <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment Term Begins"
                     required>
                     <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
@@ -25,23 +25,21 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-
-            <mat-form-field id="committedPickupDate">
+            <mat-form-field id="committedPickupDate" *ngIf="requestBooking">
                 <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
-                    placeholder="Pickup Date" [min]="data.order.pickupDates['begin']" [max]="data.order.pickupDates['end']"
-                    [value]="selectedPickupDate">
+                    placeholder="Pickup Date" [min]="data.order.pickupDates['begin']"
+                    [max]="data.order.pickupDates['end']" [value]="selectedPickupDate">
                 <mat-datepicker-toggle matSuffix [for]="committedPickupDate"></mat-datepicker-toggle>
                 <mat-datepicker #committedPickupDate></mat-datepicker>
             </mat-form-field>
-
-            <mat-form-field id="committedDeliveryDate">
+            <mat-form-field id="committedDeliveryDate" *ngIf="requestBooking">
                 <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate"
-                    placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']" [max]="data.order.deliveryDates['end']"
-                    [value]="selectedDeliveryDate">
+                    placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']"
+                    [max]="data.order.deliveryDates['end']" [value]="selectedDeliveryDate">
                 <mat-datepicker-toggle matSuffix [for]="committedDeliveryDate"></mat-datepicker-toggle>
                 <mat-datepicker #committedDeliveryDate></mat-datepicker>
             </mat-form-field>
-            <mat-form-field id="offerReason">
+            <mat-form-field id="offerReason" *ngIf="requestBooking">
                 <mat-label>Offer Reason</mat-label>
                 <mat-select formControlName="offerReason">
                     <mat-option *ngFor="let reason of offerReason" [value]="reason">
@@ -49,7 +47,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field id="offerValidity">
+            <mat-form-field id="offerValidity" *ngIf="requestBooking">
                 <mat-label>Offer Validity</mat-label>
                 <mat-select formControlName="offerValidity">
                     <mat-option *ngFor="let validity of offerValidity" [value]="validity">
@@ -58,6 +56,16 @@
                 </mat-select>
             </mat-form-field>
             <mat-card id="summary">
+                <div *ngIf="!requestBooking">
+                    <div><strong>Carrier Pay:</strong>&nbsp;${{data.order.carrierPay}}</div>
+                    <div><strong>Days To Pay:</strong>&nbsp;{{data.order.daysToPay}}</div>
+                    <div><strong>Payment Term Begins:</strong>&nbsp;{{data.order.paymentTermBegins}}</div>
+                    <!-- <div><strong>Preferred Pickup Date:</strong>&nbsp;{{selectedPickupDate}}</div>
+                    <div><strong>Preferred Delivery Date:</strong>&nbsp;{{selectedDeliveryDate}}</div> -->
+                    <div><strong>Offer Reason:</strong>&nbsp;</div>
+                    <div><strong>Offer Validity:</strong>&nbsp;</div>
+                </div>
+
                 <div>
                     <strong><span>Pickup</span></strong>
                     <div *ngIf="shouldDisplayAddress(data.order)">Address: {{ data.order.pickupAddress }}</div>
@@ -70,7 +78,8 @@
                     <strong><span>Delivery</span></strong>
                     <div *ngIf="shouldDisplayAddress(data.order)">Address: {{ data.order.deliveryAddress }}</div>
                     <div>Zip: {{ data.order.deliveryZip }}</div>
-                    <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}</div>
+                    <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}
+                    </div>
                     <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
                 </div>
 
