@@ -369,7 +369,7 @@ export class OrderListComponent implements OnInit {
     //     });
     // }
 
-    this.fetchOrders(this.selectedItem);
+    this.fetchOrders(0);
   }
 
   pageChange(newPage: number) {
@@ -668,7 +668,7 @@ export class OrderListComponent implements OnInit {
       if (carrierEmail === this.authenticationService.currentUserValue.email &&
           this.selectedOrder.orderStatus === OrderStatus.NEW) {
         const orderCarrierStatus = this.selectedOrder.bookingRequestCarriers
-                                    .filter(rc => rc.id = this.getOrderCarrierJson(value).id)[0].status;
+                                    .filter(rc => rc.id === this.getOrderCarrierJson(value).id)[0].status;
         const orderCarrier = this.getOrderCarrierJson(value);
         return (orderCarrierStatus === OrderStatus.BOOKED &&
               this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
@@ -803,4 +803,9 @@ export class OrderListComponent implements OnInit {
   // sendMessage() {
   //   this.messageService._send(this.input);
   // }
+
+  disableAssignDriver() {
+    return this.selectedOrder === null ||
+          (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED && this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED);
+  }
 }

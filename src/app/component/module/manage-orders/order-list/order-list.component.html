@@ -111,7 +111,7 @@
                  }} -->
             </div>
           </div>
-          <button mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button">
+          <button mat-button [ngClass]="'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button" [disabled]="disableAssignDriver()">
             {{selectedOrder === null || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
         </div>
         <div *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.assignedToDriver !== null">
