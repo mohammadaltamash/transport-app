@@ -180,9 +180,9 @@ export class OrderListComponent implements OnInit {
 
     this.appComponent.systemMessage.subscribe(
       message => {
-        if (message === 'NEW_ORDER') {
+        // if (message === 'NEW_ORDER') {
           this.renderData();
-        }
+        // }
       }
     );
 

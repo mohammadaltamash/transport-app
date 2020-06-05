@@ -394,7 +394,8 @@ export class OrderComponent implements OnInit {
                           //       .subscribe((result: PagedOrders) => {
                           //         this.appComponent.setCurrentOrdersValue(result.orders);
                           //       });
-                          this.messageService._send(EventMessages.NEW_ORDER);
+                          // this.messageService._send(EventMessages.NEW_ORDER);
+                          this.messageService._send('NEW_ORDER');
                         }
         });
           // data => console.log(data.deliveryDates.endDate),
