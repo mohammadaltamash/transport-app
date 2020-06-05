@@ -47,7 +47,7 @@ export class MessageService {
     }
 
     _disconnect() {
-        if (this.stompClient !== null) {
+        if (this.stompClient !== null && this.stompClient !== undefined) {
             this.stompClient.disconnect();
         }
         console.log('Disconnected');
