@@ -24,10 +24,12 @@ export class MessageService {
     constructor(private apiService: ApiService,
                 private authenticationService: AuthenticationService,
                 private appComponent: AppComponent) {
-        this.connect();
+        // this.connect();
         this.authenticationService.currentUser.subscribe(user => {
             if (user === null) {
-                this._disconnect();
+                // this._disconnect();
+            } else {
+                // this.connect();
             }
         });
     }
