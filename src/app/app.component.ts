@@ -129,7 +129,10 @@ export class AppComponent {
     this.systemMessage = this.systemMessageSubject.asObservable();
 
     this.authenticationService.currentUser.subscribe(
-      u => this.currentUser = u
+      u => {
+        this.currentUser = u;
+        this.setInactiveTimeout();
+      }
     );
 
     // this.matIconRegistry.addSvgIcon(
@@ -140,7 +143,7 @@ export class AppComponent {
     //   'dashboard2',
     //   this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons8-dashboard-100.svg')
     // );
-    this.setInactiveTimeout();
+    // this.setInactiveTimeout();
   }
 
   loggedIn() {
