@@ -3,7 +3,7 @@ import { AuthenticationService } from '../../service/authentication.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { MessageService } from '../../service/message.service';
+// import { MessageService } from '../../service/message.service';
 
 @Component({
   selector: 'app-options',
@@ -15,7 +15,7 @@ export class OptionsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private authenticationService: AuthenticationService,
-              private messageService: MessageService,
+              // private messageService: MessageService,
               private router: Router) { }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class OptionsComponent implements OnInit {
   logout() {
     this.authenticationService.logout();
     // const loggedin = this.jwtService.loggedIn;
-    this.messageService._disconnect();
+    // this.messageService._disconnect();
     this.router.navigate(['/login']);
   }
 

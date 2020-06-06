@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../../../../model/user';
 
 import { ErrorHandler } from '../../../../helper/error_handler';
-import { MessageService } from '../../../../service/message.service';
+// import { MessageService } from '../../../../service/message.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private apiService: ApiService,
-    private messageService: MessageService,
+    // private messageService: MessageService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,

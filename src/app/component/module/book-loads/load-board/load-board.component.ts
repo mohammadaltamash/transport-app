@@ -105,6 +105,12 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngDestroy() {
+    this.destroy$.next(true);
+    // Unsubscribe form the subject
+    this.destroy$.unsubscribe();
+  }
+
   ngAfterViewInit(): void {
     // this.initializeMap();
   }

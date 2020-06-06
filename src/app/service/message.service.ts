@@ -25,13 +25,14 @@ export class MessageService {
                 private authenticationService: AuthenticationService,
                 private appComponent: AppComponent) {
         // this.connect();
-        this.authenticationService.currentUser.subscribe(user => {
-            if (user === null) {
-                // this._disconnect();
-            } else {
-                // this.connect();
-            }
-        });
+        // this.authenticationService.currentUser.subscribe(user => {
+        //     if (user === null) {
+        //         // this._disconnect();
+        //     } else {
+        //         // this.connect();
+        //     }
+        // });
+        this.connect();
     }
     connect() {
         console.log('Initialize WebSocket Connection');
@@ -71,13 +72,14 @@ export class MessageService {
         this.stompClient.send('/app/message', {}, message);
     }
 
-    onMessageReceived(message: any) {
+    onMessageReceived(message: string) {
         console.log('Message Recieved from Server :: ' + message);
         // this.appComponent.handleMessage(JSON.stringify(message.body));
 
         // if (message === EventMessages.NEW_ORDER) {
-        if (message.body === 'NEW_ORDER') {
-            this.appComponent.setSystemMessageValue('NEW_ORDER');
+        // if (message.body === 'NEW_ORDER') {
+        // alert(message);
+        this.appComponent.setSystemMessageValue('NEW_ORDER');
         // this.apiService
         //       .getPagedOrders(0, Constants.ORDERS_PER_PAGE)
         //       // .pipe(takeUntil(this.destroy$))
@@ -89,6 +91,6 @@ export class MessageService {
         // } else if (message.startsWith(EventMessages.ACCEPTED_COUNT)) {
         //     const acceptedCount = message.split('_')[1];
         //     this.appComponent.setCurrentNewValue(+acceptedCount);
-        }
+        // }
     }
 }

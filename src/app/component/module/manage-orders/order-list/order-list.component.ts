@@ -23,7 +23,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommonModelService } from '../../../../service/common-model.service';
 
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { MessageService } from '../../../../service/message.service';
+// import { MessageService } from '../../../../service/message.service';
 
 @Component({
   selector: 'app-order-list',
@@ -80,8 +80,8 @@ export class OrderListComponent implements OnInit {
     public bookingDialog: MatDialog,
     public invitationDialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder,
-    public messageService: MessageService
+    private formBuilder: FormBuilder
+    // public messageService: MessageService
   ) {
     // this.appComponent.currentOrders.subscribe(
     //   o => this.orders = o
@@ -181,7 +181,8 @@ export class OrderListComponent implements OnInit {
     this.appComponent.systemMessage.subscribe(
       message => {
         // if (message === 'NEW_ORDER') {
-          this.renderData();
+          // alert(message);
+          // this.renderData();
         // }
       }
     );
@@ -190,6 +191,12 @@ export class OrderListComponent implements OnInit {
     //   n => this.selectedDriver = n
     // );
     // this.messageService._connect();
+  }
+
+  ngDestroy() {
+    this.destroy$.next(true);
+    // Unsubscribe form the subject
+    this.destroy$.unsubscribe();
   }
 
   onSubmit() {

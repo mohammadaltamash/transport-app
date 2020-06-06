@@ -25,7 +25,7 @@ import { environment } from '../../../../../environments/environment';
 import { AppComponent } from '../../../../app.component';
 import { Constants } from '../../../../model/constants';
 import { PagedOrders } from '../../../../model/paged-orders';
-import { MessageService } from '../../../../service/message.service';
+// import { MessageService } from '../../../../service/message.service';
 import { EventMessages } from '../../../../model/event-messages';
 import { Utilities } from '../../../../helper/utilities';
 
@@ -165,8 +165,8 @@ export class OrderComponent implements OnInit {
     private router: Router,
     public dialogRef: MatDialogRef<OrderComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private appComponent: AppComponent,
-    public messageService: MessageService
+    private appComponent: AppComponent
+    // public messageService: MessageService
   ) {
     this.validationMessages = {
       // brokerOrderId: {
@@ -395,7 +395,7 @@ export class OrderComponent implements OnInit {
                           //         this.appComponent.setCurrentOrdersValue(result.orders);
                           //       });
                           // this.messageService._send(EventMessages.NEW_ORDER);
-                          this.messageService._send('NEW_ORDER');
+                          // this.messageService._send('NEW_ORDER');
                         }
         });
           // data => console.log(data.deliveryDates.endDate),
