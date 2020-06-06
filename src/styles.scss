@@ -219,7 +219,7 @@ button[type=submit] {
   border-radius: 25px !important;
   font-size: medium;
   color: white;
-  background-color: cornflowerblue;
+  background-color: lighten(cornflowerblue, 10%);
   padding: 7px 20px 7px 20px;
 }
 
