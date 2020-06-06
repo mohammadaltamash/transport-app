@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   returnUrl: string;
   invalid: boolean;
+  timedOut: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -29,7 +30,12 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public errorHandler: ErrorHandler
-  ) {}
+  ) {
+    if (localStorage.getItem('timedOut') !== null) {
+      this.timedOut = true;
+      localStorage.removeItem('timedOut');
+    }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({

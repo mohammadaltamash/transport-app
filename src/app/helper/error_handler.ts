@@ -15,7 +15,8 @@ export class ErrorHandler {
       invalidZip: 'Invalid zipcode',
       // phone: 'Atlease one phone is required',
       email: 'Email is invalid',
-      invalidCredentials: 'Invalid email or password'
+      invalidCredentials: 'Invalid email or password',
+      timedOut: 'Signed out on 15 minutes inactivity!'
     };
   }
 

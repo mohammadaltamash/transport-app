@@ -24,6 +24,7 @@
                 </mat-error>
             </mat-form-field>
             <div id="loginError" *ngIf="invalid">{{ errorHandler.validationMessages['invalidCredentials'] }}</div>
+            <div id="timedOut" *ngIf="timedOut">{{ errorHandler.validationMessages['timedOut'] }}</div>
 
             <button id="submitButton" type="submit">LOGIN</button>
         </form>

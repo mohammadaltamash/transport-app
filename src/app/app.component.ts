@@ -258,6 +258,7 @@ export class AppComponent {
       this.timedOut = true;
       console.log(this.idleState);
       // this.router.navigate(['/']);
+      localStorage.setItem('timedOut', 'true');
       this.logout();
     });
 
