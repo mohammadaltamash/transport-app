@@ -829,7 +829,7 @@ export class OrderListComponent implements OnInit {
   // }
 
   disableAssignDriver() {
-    return this.selectedOrder === null ||
+    return this.selectedOrder === null || this.selectedOrder === undefined ||
           (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED && this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED);
   }
 }
