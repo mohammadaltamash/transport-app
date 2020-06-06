@@ -131,7 +131,9 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(
       u => {
         this.currentUser = u;
-        this.setInactiveTimeout();
+        if (u !== null) {
+          this.setInactiveTimeout();
+        }
       }
     );
 
@@ -266,7 +268,7 @@ export class AppComponent {
     });
 
     this.idle.onTimeoutWarning.subscribe((countdown) => {
-      this.idleState = 'You will time out in ' + countdown + ' seconds!'
+      this.idleState = 'You will time out in ' + countdown + ' seconds!';
       console.log(this.idleState);
     });
 
