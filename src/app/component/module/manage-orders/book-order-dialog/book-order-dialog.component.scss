@@ -1,33 +1,51 @@
 #dialog {
-  display: grid;
-  grid-template-areas: "bookingForm map";
-  grid-template-columns: 1fr 2fr;
-  gap: 1vw;
+  // overflow-y: auto;
+  // overflow-y: hidden;
+  // overflow-x: hidden;
 }
 #bookingForm {
-grid-area: bookingForm;
+  display: grid;
+  // grid-template-areas: "bookingForm termsAndConditions";
+  grid-template-areas:
+  // "bookLoadHeading      bookLoadHeading     .                     .                     "
+  "main"
+  "bookOrder";
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 30px;
+  column-gap: 1vw;
+  // overflow-y: hidden;
+  // overflow-x: hidden;
+}
+// #bookingForm {
+// grid-area: bookingForm;
 // display: grid;
 // grid-template-areas: "main"
 //                      "askToBook";
 // grid-template-columns: 1fr;
 // grid-template-rows: 1fr 50px;
-}
+// overflow-y: auto;
+// }
 #main {
 grid-area: main;
 display: grid;
 grid-template-areas:
-  // "bookLoadHeading      bookLoadHeading     .                     .                     "
-  "carrierPay           carrierPay          .                     .                     "
-  "daysToPay            daysToPay           paymentTermBegins     paymentTermBegins     "
-  "committedPickupDate  committedPickupDate committedDeliveryDate committedDeliveryDate "
-  "offerReason          offerReason         offerReason           offerValidity         "
-  "summary              summary             summary               summary               "
-  "bookOrder            bookOrder           bookOrder             bookOrder             ";
-grid-template-columns: repeat(4, auto);
-column-gap: 1vw;
-row-gap: 1vh;
-// overflow-y: auto;
-}
+                    "carrierPay           .                     termsAndConditions termsAndConditions"
+                    "daysToPay            paymentTermBegins     termsAndConditions termsAndConditions"
+                    "committedPickupDate  committedDeliveryDate termsAndConditions termsAndConditions"
+                    "offerReason          offerValidity         termsAndConditions termsAndConditions"
+                    "summary              summary               termsAndConditions termsAndConditions";
+                    // "bookOrder            bookOrder           bookOrder             bookOrder             bookOrder";
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: repeat(4, minmax(0, auto)) 1fr;
+// grid-auto-rows: dense;
+// column-gap: 1vw;
+// row-gap: 1vh;
+gap: 1vh;
+// overflow-y: hidden;
+align-content: start;
+// overflow-y: hidden;
+// overflow-x: hidden;
+} 
 // #bookLoadHeading {
 //   grid-area: bookLoadHeading;
 // }
@@ -60,18 +78,43 @@ grid-area: offerValidity;
 // }
 #summary {
 grid-area: summary;
-margin-bottom: 10px;
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: repeat(6, minmax(0, auto));
+margin-bottom: 6px;
+// align-content: flex-start;
+
+// height: auto;
+// grid-auto-rows: dense;
+// overflow: hidden;
 }
-#bookOrder {
-grid-area: bookOrder;
-// display: inline-block;
-// bottom: 0;
+#termsAndConditions {
+/* overflow: hidden; */
+grid-area: termsAndConditions;
+display: grid;
+grid-template-areas: "termsAndConditionsHeading"
+                     "termsAndConditionsContent";
+grid-template-columns: 1fr;
+grid-template-rows: 30px 1fr;
+// height: 600px;
+// width: 40vw;
+// overflow-y: auto;
+// overflow-y: hidden;
+// overflow-x: hidden;
+}
+#termsAndConditionsHeading {
+  grid-area: termsAndConditionsHeading;
+}
+#termsAndConditionsContent {
+  grid-area: termsAndConditionsContent;
+  overflow-y: auto;
+  padding: 10px;
 }
 
-#map {
-/* overflow: hidden; */
-grid-area: map;
-height: 100%;
+#bookOrder {
+  grid-area: bookOrder;
+  // display: inline-block;
+  // bottom: 0;
 }
 
 // .example-custom-date-class {

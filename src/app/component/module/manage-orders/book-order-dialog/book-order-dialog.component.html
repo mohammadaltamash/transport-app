@@ -1,90 +1,200 @@
 <h1 mat-dialog-title>Book Order For Load ID # {{data.order.id}}</h1>
-<div id="dialog">
-    <form id="bookingForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
-        <div mat-dialog-content id="main">
-            <!-- <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4> -->
-            <mat-form-field id="carrierPay">
-                <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly
-                    decimal=true autocomplete=off>
-                <mat-hint>Make an Offer</mat-hint>
-            </mat-form-field>
-            <mat-form-field id="daysToPay">
-                <mat-label>Days to Pay</mat-label>
-                <mat-select formControlName="daysToPay">
-                    <mat-option *ngFor="let day of daysToPay" [value]="day">
-                        {{ day }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="paymentTermBegins">
-                <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment Term Begins"
-                    required>
-                    <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
-                        {{ termBegins }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+<!-- <div id="dialog"> -->
+<form id="bookingForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content id="main">
+        <!-- <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4> -->
+        <mat-form-field id="carrierPay">
+            <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly decimal=true
+                autocomplete=off>
+            <mat-hint>Make an Offer</mat-hint>
+        </mat-form-field>
+        <mat-form-field id="daysToPay">
+            <mat-label>Days to Pay</mat-label>
+            <mat-select formControlName="daysToPay">
+                <mat-option *ngFor="let day of daysToPay" [value]="day">
+                    {{ day }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field id="paymentTermBegins">
+            <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment Term Begins"
+                required>
+                <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
+                    {{ termBegins }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-            <mat-form-field id="committedPickupDate">
-                <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
-                    placeholder="Pickup Date" [min]="data.order.pickupDates['begin']"
-                    [max]="data.order.pickupDates['end']" [value]="data.orderCarrier.committedPickupDate">
-                <mat-datepicker-toggle matSuffix [for]="committedPickupDate"></mat-datepicker-toggle>
-                <mat-datepicker #committedPickupDate></mat-datepicker>
-            </mat-form-field>
+        <mat-form-field id="committedPickupDate">
+            <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
+                placeholder="Pickup Date" [min]="data.order.pickupDates['begin']" [max]="data.order.pickupDates['end']"
+                [value]="data.orderCarrier.committedPickupDate">
+            <mat-datepicker-toggle matSuffix [for]="committedPickupDate"></mat-datepicker-toggle>
+            <mat-datepicker #committedPickupDate></mat-datepicker>
+        </mat-form-field>
 
-            <mat-form-field id="committedDeliveryDate">
-                <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate"
-                    placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']"
-                    [max]="data.order.deliveryDates['end']" [value]="data.orderCarrier.committedDeliveryDate">
-                <mat-datepicker-toggle matSuffix [for]="committedDeliveryDate"></mat-datepicker-toggle>
-                <mat-datepicker #committedDeliveryDate></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field id="offerReason">
-                <mat-label>Offer Reason</mat-label>
-                <mat-select formControlName="offerReason">
-                    <mat-option *ngFor="let reason of offerReason" [value]="reason">
-                        {{ reason }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="offerValidity">
-                <mat-label>Offer Validity</mat-label>
-                <mat-select formControlName="offerValidity">
-                    <mat-option *ngFor="let validity of offerValidity" [value]="validity">
-                        {{ validity }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-card id="summary">
-                <div>
-                    <strong><span>Pickup</span></strong>
-                    <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
-                    <div>Zip: {{ data.order.pickupZip }}</div>
-                    <div>Estimated dates: {{ data.order.pickupDates.begin }} to {{ data.order.pickupDates.end }}</div>
-                    <div>Preferred date: {{ data.order.preferredPickupDate | date:'yyyy-MM-dd' }}</div>
+        <mat-form-field id="committedDeliveryDate">
+            <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate"
+                placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']"
+                [max]="data.order.deliveryDates['end']" [value]="data.orderCarrier.committedDeliveryDate">
+            <mat-datepicker-toggle matSuffix [for]="committedDeliveryDate"></mat-datepicker-toggle>
+            <mat-datepicker #committedDeliveryDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field id="offerReason">
+            <mat-label>Offer Reason</mat-label>
+            <mat-select formControlName="offerReason">
+                <mat-option *ngFor="let reason of offerReason" [value]="reason">
+                    {{ reason }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field id="offerValidity">
+            <mat-label>Offer Validity</mat-label>
+            <mat-select formControlName="offerValidity">
+                <mat-option *ngFor="let validity of offerValidity" [value]="validity">
+                    {{ validity }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-card id="summary">
+            <div>
+                <strong><span>Pickup</span></strong>
+                <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
+                <div>Zip: {{ data.order.pickupZip }}</div>
+                <div>Estimated dates: {{ data.order.pickupDates.begin }} to {{ data.order.pickupDates.end }}</div>
+                <div>Preferred date: {{ data.order.preferredPickupDate | date:'yyyy-MM-dd' }}</div>
+            </div>
+
+            <div>
+                <strong><span>Delivery</span></strong>
+                <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.deliveryAddress }}</div>
+                <div>Zip: {{ data.order.deliveryZip }}</div>
+                <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}
                 </div>
+                <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
+            </div>
 
-                <div>
-                    <strong><span>Delivery</span></strong>
-                    <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.deliveryAddress }}</div>
-                    <div>Zip: {{ data.order.deliveryZip }}</div>
-                    <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}</div>
-                    <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
-                </div>
-
-                <div>
-                    <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
-                    <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
-                    <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
-                    <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
-                </div>
-            </mat-card>
+            <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
+            <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
+            <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
+            <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
+        </mat-card>
+        <div id="termsAndConditions">
+            <h2 id="termsAndConditionsHeading">Terms and Conditions</h2>
+            <div id="termsAndConditionsContent">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium,
+                laudantium.
+                Autem beatae corporis quod saepe, rerum consectetur ut maxime adipisci soluta, est, quo nostrum debitis.
+                Excepturi autem, fugiat magni voluptas molestiae quisquam? Fugit alias voluptatum mollitia voluptate sed
+                consequuntur cupiditate qui officia, earum iste asperiores aliquid at in accusamus quisquam ipsam
+                distinctio
+                odio totam eveniet saepe. Sed, omnis. Similique quaerat neque pariatur dignissimos autem rem, labore
+                placeat, quos eligendi totam reprehenderit expedita in ipsum asperiores porro inventore accusantium,
+                modi
+                aperiam? Mollitia dolorem quam debitis iure ratione nesciunt voluptatem nostrum culpa tenetur sit
+                ducimus
+                voluptatum, eius perferendis praesentium, tempore dicta eos sunt consectetur aliquid. Nostrum, obcaecati
+                provident, ipsa nam optio ullam velit impedit temporibus vel excepturi architecto tenetur delectus aut.
+                Deserunt quasi omnis dolorum eos. Obcaecati id repudiandae nostrum ipsa fuga assumenda distinctio et
+                explicabo, voluptatibus autem. Nobis necessitatibus minima laudantium iure minus commodi, quae quod quas
+                laborum beatae ex id, asperiores repellendus distinctio eaque laboriosam sed illum, incidunt dolore
+                aperiam!
+                Animi, nostrum. Eos magnam pariatur nulla quos corporis illo exercitationem minima dignissimos! Amet
+                placeat
+                eos assumenda quae et quas dolorum iusto autem, ratione asperiores fugit, voluptatem quisquam explicabo
+                cupiditate officia. Natus, repellendus eum, error architecto ipsa, labore voluptatum esse sint expedita
+                excepturi deleniti qui laboriosam maxime possimus officia. Perferendis quod animi assumenda vitae ipsum
+                dolore omnis quaerat ullam esse sequi nisi, perspiciatis modi repellat, accusantium neque facilis est
+                eligendi, adipisci quo quasi explicabo reiciendis totam culpa eius! Odit, nulla eum repellat quasi, at
+                in
+                perspiciatis explicabo porro eaque fugiat, optio rem perferendis. Nostrum et obcaecati reiciendis
+                explicabo
+                corporis laudantium minima error veniam! Nobis sunt quas tempora veniam delectus voluptatibus eum,
+                consequatur laudantium, natus ad labore deserunt, autem tenetur. Dicta fugiat nulla, aspernatur, unde ad
+                eligendi omnis reprehenderit voluptatibus ab dolorem, sunt delectus repudiandae id illo saepe quos
+                nesciunt
+                atque molestias velit provident repellendus inventore culpa excepturi labore. Corporis minima voluptates
+                error, quia repellat praesentium facilis reprehenderit cum ad consectetur optio ut non natus illo modi
+                laborum dignissimos sequi aliquam? Quibusdam porro exercitationem cupiditate soluta amet perspiciatis
+                aliquid repellendus inventore magni officiis eveniet, molestiae pariatur, nisi sequi itaque veritatis
+                quae
+                ducimus, nemo deserunt minus nostrum. Officiis impedit perferendis maiores eaque similique, totam
+                placeat ab
+                voluptas iusto aliquam vitae autem. Fugiat deserunt minima fugit quos deleniti sed, vitae possimus
+                cupiditate qui, iste corrupti a quam vel, nesciunt repellendus impedit. Voluptas, nemo laborum dicta
+                nisi
+                quia provident accusantium culpa eligendi harum ex, ullam vitae hic aut dolore, necessitatibus
+                recusandae
+                aliquam minima ea error fuga placeat pariatur iusto rerum repellat? Quod, ex facilis corrupti ullam
+                voluptate, tenetur nam ipsa hic quam omnis placeat nemo quasi consequatur excepturi eligendi temporibus
+                modi? Quidem, quae nam quisquam iste quis natus, maxime vitae, numquam neque ullam voluptatibus
+                blanditiis
+                aliquam soluta quas sapiente maiores beatae repellat. Iure beatae natus, quos saepe placeat harum nisi,
+                consequatur cupiditate fugiat sapiente nesciunt quas consectetur similique quia id ipsam tenetur. Culpa
+                ut,
+                voluptates cupiditate corporis, dolorum vitae, tenetur nostrum sunt rerum doloremque quam facere nemo?
+                Eius
+                soluta alias autem, corrupti odit distinctio quae dolore voluptatibus saepe veniam modi molestias eum
+                officia quas. Debitis incidunt alias, cumque eligendi, dolores sint voluptatum ducimus provident sed
+                dignissimos, ex quo amet officia a velit sit repellendus error vero in necessitatibus doloribus
+                mollitia.
+                Impedit nam ut consequatur vero error! Fuga rem nulla deleniti porro accusantium dignissimos saepe unde,
+                beatae libero? Numquam vitae odio, molestias itaque quos earum iste explicabo velit incidunt eligendi
+                natus
+                impedit inventore quo magni autem reiciendis a amet doloribus. Accusamus ratione sapiente veniam
+                possimus ad
+                iusto illum, odit ipsa ab error quidem sint? Accusamus autem voluptates qui ratione, porro eum tempora
+                enim
+                esse tenetur libero quisquam corrupti dignissimos velit! Blanditiis ratione quibusdam saepe laborum
+                nostrum,
+                quasi rerum. Dolore perspiciatis non, eius optio, veritatis consequatur nesciunt eum tempora libero sit
+                atque nostrum beatae repellendus aliquid qui dicta eaque quis dignissimos? Officia nam sunt vitae eum
+                cumque
+                laborum commodi? Possimus, alias. Commodi maxime maiores id qui provident, reiciendis natus eligendi
+                cupiditate voluptates porro aliquid eum officia voluptatibus error doloribus! Cum minus molestiae illum
+                accusantium sapiente vitae alias hic, similique delectus? Quam maiores doloremque nobis voluptatum
+                praesentium dolore ea distinctio sequi accusantium quo iure id, illum, asperiores culpa odio ab itaque
+                unde
+                ratione perspiciatis, tempora expedita harum fuga. Vero quod deserunt aspernatur eligendi in
+                voluptatibus ea
+                a dolorem necessitatibus dolore voluptate optio dolorum nam natus, quas minima omnis atque sequi
+                voluptatem
+                ut! Quibusdam quidem consequatur natus cupiditate repellat debitis beatae pariatur repudiandae laborum
+                distinctio. Laboriosam in numquam, dignissimos minima dolorem provident, cumque, tempora voluptas alias
+                deleniti voluptatibus quaerat ab sint nesciunt sed non ipsa repudiandae rerum iusto facere. Enim
+                eligendi
+                alias cupiditate eius sit reprehenderit deleniti, non sed ducimus facere voluptatem, iste natus numquam
+                quidem praesentium nemo voluptatibus nisi voluptatum? Cumque assumenda eaque amet placeat excepturi
+                delectus
+                possimus atque asperiores dolores quisquam distinctio id eos optio earum voluptate, officia aperiam
+                libero
+                nobis hic error vero repellat molestiae cupiditate facere! Incidunt aut enim animi quae fugiat,
+                exercitationem quidem voluptatibus iste, ex dolores ea est non reprehenderit. Numquam labore cupiditate,
+                magnam vero ex illum voluptatem repudiandae quod, error quos nesciunt incidunt sed soluta assumenda
+                provident culpa alias ipsum sit corporis quae rerum voluptates! Quae tempore vero, quidem sunt nobis ex
+                architecto porro praesentium aliquam, consequatur delectus ut quod repellendus nulla? Quis aperiam
+                consectetur harum necessitatibus animi, dolores voluptatum. Velit obcaecati aut accusamus blanditiis
+                porro
+                optio tempora unde quod facilis iure, nobis dolores sapiente ipsam alias cum fuga in aperiam voluptatum
+                eos
+                perferendis delectus dicta impedit? Dignissimos, voluptate consequatur explicabo nostrum magni eos
+                beatae
+                ipsam cupiditate, porro quibusdam eum voluptatum. Est sequi in assumenda blanditiis fugit incidunt nisi
+                enim
+                voluptatibus vero? A beatae unde aut nemo eaque id illum. Nisi rem molestiae doloribus cupiditate
+                maiores
+                quia error excepturi vero quibusdam pariatur atque voluptate voluptas cumque expedita, sapiente libero
+                sequi
+                labore mollitia eaque deserunt voluptatem. Sunt suscipit quisquam assumenda? Quos ex, id quidem
+                quibusdam
+                asperiores assumenda recusandae corrupti iusto perspiciatis alias, perferendis ut dolore excepturi.
+                Voluptatum quos dolores maiores quasi officia quisquam culpa dolore, pariatur hic facere repellat
+                mollitia
+                illum laudantium minus.</div>
         </div>
-        <div id="bookOrder">
-            <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>&nbsp;
-            <button mat-stroked-button type="submit">BOOK ORDER</button>
-        </div>
-    </form>
-    <div #mapContainer id="map"></div>
-</div>
+    </div>
+    <div mat-dialog-actions align="right" id="bookOrder">
+        <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>&nbsp;
+        <button mat-stroked-button type="submit">BOOK ORDER</button>
+    </div>
+</form>
+<!-- </div> -->

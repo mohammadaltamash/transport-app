@@ -73,8 +73,8 @@ export class CommonModelService {
     // this.selectedItem = index;
     // this.appComponent.setCurrentOrderValue(order);
     const dialogRef = this.dialog.open(BookOrderDialogComponent, {
-      // width: '50vw',
-      // height: '95vh',
+      width: '60vw',
+      // height: '70vh',
       data: {
         order: selectedOrder,
         orderCarrier: JSON.parse(orderCarrierRecord)

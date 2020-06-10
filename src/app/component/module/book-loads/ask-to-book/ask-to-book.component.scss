@@ -18,7 +18,7 @@
   grid-template-areas:
     // "bookLoadHeading      bookLoadHeading     .                     .                     "
     "carrierPay           carrierPay          .                     .                     "
-    "daysToPay            daysToPay           paymentTermBegins     paymentTermBegins     "
+    // "daysToPay            daysToPay           paymentTermBegins     paymentTermBegins     "
     "committedPickupDate  committedPickupDate committedDeliveryDate committedDeliveryDate "
     "offerReason          offerReason         offerReason           offerValidity         "
     "summary              summary             summary               summary               "
@@ -37,12 +37,12 @@
 #carrierPay {
   grid-area: carrierPay;
 }
-#daysToPay {
-  grid-area: daysToPay;
-}
-#paymentTermBegins {
-  grid-area: paymentTermBegins;
-}
+// #daysToPay {
+//   grid-area: daysToPay;
+// }
+// #paymentTermBegins {
+//   grid-area: paymentTermBegins;
+// }
 #committedPickupDate {
   grid-area: committedPickupDate;
 }

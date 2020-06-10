@@ -9,7 +9,7 @@
                     decimal=true autocomplete=off>
                 <mat-hint>Make an Offer</mat-hint>
             </mat-form-field>
-            <mat-form-field id="daysToPay" *ngIf="requestBooking">
+            <!-- <mat-form-field id="daysToPay" *ngIf="requestBooking">
                 <mat-label>Days to Pay</mat-label>
                 <mat-select formControlName="daysToPay">
                     <mat-option *ngFor="let day of daysToPay" [value]="day">
@@ -24,7 +24,7 @@
                         {{ termBegins }}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field id="committedPickupDate" *ngIf="requestBooking">
                 <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
                     placeholder="Pickup Date" [min]="data.order.pickupDates['begin']"
@@ -82,13 +82,11 @@
                     </div>
                     <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
                 </div>
-
-                <div>
-                    <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
-                    <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
-                    <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
-                    <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
-                </div>
+                <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
+                <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
+                <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
+                <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
+                <div><strong>Term Begins</strong>&nbsp;{{ data.order.paymentTermBegins }}</div>
             </mat-card>
         </div>
         <div id="askToBook">

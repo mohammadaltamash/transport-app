@@ -15,7 +15,7 @@ import { ApiService } from '../../../../service/api.service';
 import { Utilities } from '../../../../helper/utilities';
 import { OrderCarrier } from '../../../../model/order-carrier';
 import { OrderStatus } from '../../../../model/order-status';
-import { MapHelper } from '../../../../helper/map_helper';
+// import { MapHelper } from '../../../../helper/map_helper';
 import { AuthenticationService } from '../../../../service/authentication.service';
 
 @Component({
@@ -23,11 +23,11 @@ import { AuthenticationService } from '../../../../service/authentication.servic
   templateUrl: './book-order-dialog.component.html',
   styleUrls: ['./book-order-dialog.component.scss']
 })
-export class BookOrderDialogComponent implements OnInit, AfterViewInit {
-  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
-  map: google.maps.Map;
-  markers: any[];
-  expandedMap = false;
+export class BookOrderDialogComponent implements OnInit {
+  // @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
+  // map: google.maps.Map;
+  // markers: any[];
+  // expandedMap = false;
   // distance: number;
 
   daysToPay = Constants.DAYS_TO_PAY;
@@ -46,8 +46,8 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
-    private utilities: Utilities,
-    private mapHelper: MapHelper
+    private utilities: Utilities
+    // private mapHelper: MapHelper
   ) {
 
     // const m = {
@@ -60,20 +60,20 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     //   d => this.distance = d
     // );
 
-    this.markers = [];
-    // this.markers.push(m);
-    this.markers.push({
-      latitude: data.order.pickupLatitude,
-      longitude: data.order.pickupLongitude,
-      title: 'Pickup location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
-    });
-    this.markers.push({
-      latitude: data.order.deliveryLatitude,
-      longitude: data.order.deliveryLongitude,
-      title: 'Drop off location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
-    });
+    // this.markers = [];
+    // // this.markers.push(m);
+    // this.markers.push({
+    //   latitude: data.order.pickupLatitude,
+    //   longitude: data.order.pickupLongitude,
+    //   title: 'Pickup location',
+    //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+    // });
+    // this.markers.push({
+    //   latitude: data.order.deliveryLatitude,
+    //   longitude: data.order.deliveryLongitude,
+    //   title: 'Drop off location',
+    //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+    // });
 
     // this.mapHelper.getDistanceMatrix(
     //   data.order.pickupLatitude,
@@ -108,19 +108,9 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     // alert(this.distance);
   }
 
-  ngAfterViewInit(): void {
-    this.mapHelper.initializeMap(this.gmap, this.markers, false);
-    // this.mapHelper.distance.subscribe(
-    //   d => this.distance = d
-    // );
-    // alert(this.distance);
-    // this.mapHelper.getDistanceMatrix(
-    //   this.data.order.pickupLatitude,
-    //   this.data.order.pickupLongitude,
-    //   this.data.order.deliveryLatitude,
-    //   this.data.order.deliveryLongitude
-    // );
-  }
+  // ngAfterViewInit(): void {
+    // this.mapHelper.initializeMap(this.gmap, this.markers, false);
+  // }
 
   onSubmit() {
     const orderCarrier: OrderCarrier = this.bookingForm.value;
