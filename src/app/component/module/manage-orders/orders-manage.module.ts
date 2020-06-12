@@ -24,6 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AppModule } from '../../../app.module';
 import { AppComponent } from '../../../app.component';
 import { AppRoutingModule } from '../../../app-routing.module';
+import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AppRoutingModule } from '../../../app-routing.module';
     ScrollingModule,
     NgxSpinnerModule,
     NgxPaginationModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RichTextEditorAllModule
   ],
   providers: [AppComponent],
   entryComponents: [

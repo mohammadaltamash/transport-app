@@ -24,6 +24,16 @@ import { AuthenticationService } from '../../../../service/authentication.servic
   styleUrls: ['./book-order-dialog.component.scss']
 })
 export class BookOrderDialogComponent implements OnInit {
+  public tools: object = {
+    items: [
+           'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
+           'FontName', 'FontSize', 'FontColor', 'BackgroundColor', '|',
+           'LowerCase', 'UpperCase', '|', 'Undo', 'Redo', '|',
+           'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
+           'Indent', 'Outdent', '|', 'CreateLink','CreateTable',
+           'Image', '|', 'ClearFormat', 'Print', 'SourceCode', '|', 'FullScreen']
+   };
+   public editorValue = '';
   // @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   // map: google.maps.Map;
   // markers: any[];

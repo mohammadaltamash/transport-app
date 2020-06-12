@@ -11,7 +11,7 @@
   "main"
   "bookOrder";
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 30px;
+  grid-template-rows: auto 30px;
   column-gap: 1vw;
   // overflow-y: hidden;
   // overflow-x: hidden;
@@ -36,12 +36,13 @@ grid-template-areas:
                     "summary              summary               termsAndConditions termsAndConditions";
                     // "bookOrder            bookOrder           bookOrder             bookOrder             bookOrder";
 grid-template-columns: repeat(4, 1fr);
-grid-template-rows: repeat(4, minmax(0, auto)) 1fr;
+grid-template-rows: repeat(5, minmax(0, min-content));
+// grid-template-rows: repeat(5, minmax(0, auto));
 // grid-auto-rows: dense;
 // column-gap: 1vw;
 // row-gap: 1vh;
 gap: 1vh;
-// overflow-y: hidden;
+overflow-y: auto;
 align-content: start;
 // overflow-y: hidden;
 // overflow-x: hidden;
@@ -91,26 +92,51 @@ margin-bottom: 6px;
 #termsAndConditions {
 /* overflow: hidden; */
 grid-area: termsAndConditions;
-display: grid;
-grid-template-areas: "termsAndConditionsHeading"
-                     "termsAndConditionsContent";
+// display: grid;
+// grid-template-areas: "termsAndConditionsHeading"
+//                      "termsAndConditionsContent"
+//                      "termsAndConditionsContentReset";
 grid-template-columns: 1fr;
-grid-template-rows: 30px 1fr;
+// grid-template-rows: 30px 1fr 35px;
+grid-template-rows: 1fr;
 // height: 600px;
 // width: 40vw;
-// overflow-y: auto;
+overflow-y: auto;
 // overflow-y: hidden;
 // overflow-x: hidden;
+// align-items: start;
+// padding: 10px;
 }
 #termsAndConditionsHeading {
   grid-area: termsAndConditionsHeading;
 }
 #termsAndConditionsContent {
   grid-area: termsAndConditionsContent;
-  overflow-y: auto;
-  padding: 10px;
+  // box-sizing: border-box;
+  // overflow-x: auto;
+  // overflow-y: auto;
+  // overflow: hidden;
+  // overflow: auto;
+  // padding: 10px;
 }
-
+#termsAndConditionsContentReset {
+  grid-area: termsAndConditionsContentReset;
+}
+ejs-richtexteditor {
+  // height: 50vh !important;
+  // max-height: 50vh !important;
+  border: 2px solid red !important;
+}
+#alltoolRTE {
+  // height: 500px;
+}
+.e-richtexteditor .e-rte-content .e-content, .e-richtexteditor .e-source-content .e-content {
+  // height: 70vh !important;
+  // border: 2px solid red !important;
+  // height: auto;
+  // align-content: space-around;
+  // overflow-y: auto;
+}
 #bookOrder {
   grid-area: bookOrder;
   // display: inline-block;
