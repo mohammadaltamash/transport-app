@@ -56,7 +56,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-card id="summary">
+        <div id="summary">
             <div>
                 <strong><span>Pickup</span></strong>
                 <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
@@ -78,17 +78,35 @@
             <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
             <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
             <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
-        </mat-card>
+        </div>
         <div id="termsAndConditions">
             <!-- <h3 id="termsAndConditionsHeading">Terms and Conditions</h3> -->
             <!-- <div id="termsAndConditionsContent"> -->
-                <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor>
+                <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
+
+                <!-- <mat-accordion> -->
+                        <mat-expansion-panel [@.disabled]="disableAnimation">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              Terms and Conditions
+                            </mat-panel-title>
+                            <mat-panel-description>
+                              Add / Modify
+                            </mat-panel-description>
+                          </mat-expansion-panel-header>
+                          <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor>
+                          <mat-action-row>
+                                <button mat-button id="termsAndConditionsContentReset" type="button">Reset</button>
+                          </mat-action-row>
+                        </mat-expansion-panel>
+                      <!-- </mat-accordion> -->
+                      
             <!-- </div>
             <button mat-stroked-button id="termsAndConditionsContentReset" type="button">Reset</button> -->
         </div>
     </div>
     <div mat-dialog-actions align="right" id="bookOrder">
-        <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>&nbsp;
+        <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>
         <button mat-stroked-button type="submit">BOOK ORDER</button>
     </div>
 </form>

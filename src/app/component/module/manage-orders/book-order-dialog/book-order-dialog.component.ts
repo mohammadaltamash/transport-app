@@ -24,6 +24,7 @@ import { AuthenticationService } from '../../../../service/authentication.servic
   styleUrls: ['./book-order-dialog.component.scss']
 })
 export class BookOrderDialogComponent implements OnInit {
+  disableAnimation = true;
   public tools: object = {
     items: [
            'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
@@ -118,9 +119,9 @@ export class BookOrderDialogComponent implements OnInit {
     // alert(this.distance);
   }
 
-  // ngAfterViewInit(): void {
-    // this.mapHelper.initializeMap(this.gmap, this.markers, false);
-  // }
+  ngAfterViewInit(): void {
+    setTimeout(() => this.disableAnimation = false);
+  }
 
   onSubmit() {
     const orderCarrier: OrderCarrier = this.bookingForm.value;
