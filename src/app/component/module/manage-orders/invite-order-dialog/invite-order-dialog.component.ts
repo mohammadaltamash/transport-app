@@ -12,6 +12,7 @@ import { AppComponent } from '../../../../app.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../../../../service/authentication.service';
+import { Preferences } from 'src/app/model/preferences';
 
 @Component({
   selector: 'app-invite-order-dialog',
@@ -20,9 +21,9 @@ import { AuthenticationService } from '../../../../service/authentication.servic
 })
 export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
-  map: google.maps.Map;
-  markers: any[];
+  // @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
+  // map: google.maps.Map;
+  // markers: any[];
 
   daysToPay = Constants.DAYS_TO_PAY;
   paymentTermBegins = Constants.PAYMENT_TERM_BEGINS;
@@ -37,6 +38,8 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
 
   currentAccepted: number;
 
+  termsAndConditions;
+
   constructor(
     private dialogRef: MatDialogRef<InviteOrderDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,19 +50,19 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
     private mapHelper: MapHelper,
     private appComponent: AppComponent
   ) {
-    this.markers = [];
-    this.markers.push({
-      latitude: data.order.pickupLatitude,
-      longitude: data.order.pickupLongitude,
-      title: 'Pickup location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
-    });
-    this.markers.push({
-      latitude: data.order.deliveryLatitude,
-      longitude: data.order.deliveryLongitude,
-      title: 'Drop off location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
-    });
+    // this.markers = [];
+    // this.markers.push({
+    //   latitude: data.order.pickupLatitude,
+    //   longitude: data.order.pickupLongitude,
+    //   title: 'Pickup location',
+    //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+    // });
+    // this.markers.push({
+    //   latitude: data.order.deliveryLatitude,
+    //   longitude: data.order.deliveryLongitude,
+    //   title: 'Drop off location',
+    //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+    // });
 
     // this.appComponent.currentAccepted.subscribe(
     //   a => this.currentAccepted = a
@@ -80,10 +83,16 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
       offerReason: this.data.orderCarrier.offerReason,
       offerValidity: this.data.orderCarrier.offerValidity
     });
+
+    this.apiService.getPreferences().subscribe((preferences: Preferences) => {
+      if (preferences !== null) {
+        this.termsAndConditions = preferences.termsAndConditions;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
-    this.mapHelper.initializeMap(this.gmap, this.markers, false);
+    // this.mapHelper.initializeMap(this.gmap, this.markers, false);
   }
 
   onSubmit(buttonType: string) {

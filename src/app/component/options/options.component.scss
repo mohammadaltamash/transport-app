@@ -59,6 +59,17 @@ main {
   text-align: center;
 }
 
+#preferences {
+  border: none;
+  outline: none;
+  color: white;
+  background-color: inherit;
+  cursor: pointer;
+  margin: auto;
+  text-align: center;
+  justify-items: center;
+}
+
 #logout{
   border: none;
   outline: none;

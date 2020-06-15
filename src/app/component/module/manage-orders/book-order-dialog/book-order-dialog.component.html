@@ -56,7 +56,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <div id="summary">
+        <div id="summary" class="simpleBorder">
             <div>
                 <strong><span>Pickup</span></strong>
                 <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
@@ -94,9 +94,10 @@
                               Add / Modify
                             </mat-panel-description>
                           </mat-expansion-panel-header>
-                          <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor>
+                          <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
+                          <ejs-richtexteditor #termsAndConditions formControlName="termsAndConditions" [toolbarSettings]='tools'></ejs-richtexteditor>
                           <mat-action-row>
-                                <button mat-button id="termsAndConditionsContentReset" type="button">Reset</button>
+                                <button mat-button id="termsAndConditionsContentReset" type="button" (click)="onResetClick()">Reset</button>
                           </mat-action-row>
                         </mat-expansion-panel>
                       <!-- </mat-accordion> -->

@@ -13,4 +13,5 @@ export class OrderCarrier {
     committedDeliveryDate: Date;
     offerReason: string;
     offerValidity: string;
+    termsAndConditions: string;
 }

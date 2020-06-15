@@ -8,6 +8,8 @@ import { DriversListDialogComponent } from '../component/drivers-list-dialog/dri
 import { User } from '../model/user';
 import { CreateDialogComponent } from '../component/create-dialog/create-dialog.component';
 import { BookOrderDialogComponent } from '../component/module/manage-orders/book-order-dialog/book-order-dialog.component';
+import { PreferencesDialogComponent } from '../component/preferences-dialog/preferences-dialog.component';
+import { OrderCarrier } from '../model/order-carrier';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +29,11 @@ export class CommonModelService {
     return dialogRef.afterClosed();
   }
 
-  openInviteDialog(selectedOrder: Order, orderCarrierRecord: string): Observable<any> {
+  openInviteDialog(selectedOrder: Order, ordrCarrier: OrderCarrier): Observable<any> {
     const dialogRef = this.dialog.open(InviteOrderDialogComponent, {
       data: {
         order: selectedOrder,
-        orderCarrier: orderCarrierRecord
+        orderCarrier: ordrCarrier
       },
       disableClose: true,
       backdropClass: 'backdropBackground'
@@ -78,6 +80,25 @@ export class CommonModelService {
       data: {
         order: selectedOrder,
         orderCarrier: JSON.parse(orderCarrierRecord)
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  openPreferencesDialog(): Observable<any> {
+    // this.bookDialog.openDialog();
+    // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
+    // this.selectedItem = index;
+    // this.appComponent.setCurrentOrderValue(order);
+    const dialogRef = this.dialog.open(PreferencesDialogComponent, {
+      width: '60vw',
+      // height: '70vh',
+      data: {
+        // order: selectedOrder,
+        // orderCarrier: JSON.parse(orderCarrierRecord)
       },
       disableClose: true,
       backdropClass: 'backdropBackground'

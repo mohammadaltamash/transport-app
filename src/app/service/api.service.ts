@@ -20,6 +20,7 @@ import { PagedOrders } from '../model/paged-orders';
 import { CityZipLatLong } from '../model/city-zip-lat-long';
 import { LatitudeLongitudeDistance } from '../model/latitude-longitude-distance';
 import { LatitudeLongitudeDistanceRefs } from '../model/latitude-longitude-distance-refs';
+import { Preferences } from '../model/preferences';
 
 @Injectable({
   providedIn: 'root'
@@ -244,6 +245,14 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  public getOrderCarrier(id: number) {
+    return this.httpClient
+      .get<OrderCarrier>(environment.REST_SERVICE_URL + `/order/ordercarrier/${id}`
+      // , this.getOptions()
+      )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
   // Address
 
   public verifyAddress(address: string) {
@@ -281,6 +290,22 @@ export class ApiService {
   public getCityZipLatLong(text: string) {
     return this.httpClient
       .get<CityZipLatLong[]>(environment.REST_SERVICE_URL + `/location/${text}` )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  // Preferences
+  public updatePreferences(preferences: Preferences): Observable<Preferences> {
+    return this.httpClient
+      .put<Preferences>(
+        environment.REST_SERVICE_URL + '/preferences',
+        preferences
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  public getPreferences() {
+    return this.httpClient
+      .get<Preferences>(environment.REST_SERVICE_URL + '/preferences/get' )
       .pipe(retry(3), catchError(this.handleError));
   }
 

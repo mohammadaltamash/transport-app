@@ -348,6 +348,12 @@ mat-dialog-content {
   color: gray;
 }
 
+.simpleBorder {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
 /* app-order */
 app-order {
   /* display: grid; */

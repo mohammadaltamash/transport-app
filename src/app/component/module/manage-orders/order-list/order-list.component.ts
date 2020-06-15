@@ -455,7 +455,9 @@ export class OrderListComponent implements OnInit {
           if (data.totalItems > 0 && data.orders.length > 0) {
             this.selectedOrder = this.orders[this.selectedItem];
             // this.selectedDriver = this.orders[this.selectedItem].assignedToDriver;
-            this.getOrderAudit(this.selectedOrder.id);
+            if (this.selectedOrder !== undefined) {
+              this.getOrderAudit(this.selectedOrder.id);
+            }
           }
         });
     }
@@ -592,7 +594,7 @@ export class OrderListComponent implements OnInit {
   }
 
   getDispatchInstructions() {
-    return this.selectedOrder !== null &&
+    return this.selectedOrder !== null && this.selectedOrder !== undefined &&
       this.selectedOrder.dispatchInstructions !== null
       ? this.selectedOrder.dispatchInstructions
       : 'No instructions from the broker';
@@ -690,9 +692,12 @@ export class OrderListComponent implements OnInit {
     if (property === 'bookingRequestCarriers') {
       const carrierEmail =  JSON.parse(value).carrierEmail;
       if (carrierEmail === this.authenticationService.currentUserValue.email &&
-          this.selectedOrder.orderStatus === OrderStatus.NEW) {
-        const orderCarrierStatus = this.selectedOrder.bookingRequestCarriers
-                                    .filter(rc => rc.id === this.getOrderCarrierJson(value).id)[0].status;
+        this.selectedOrder.orderStatus === OrderStatus.NEW) {
+        const oc = this.selectedOrder.bookingRequestCarriers.filter(rc => rc.id === this.getOrderCarrierJson(value).id)[0];
+        if (oc === undefined) {
+          return false;
+        }
+        const orderCarrierStatus = oc.status;
         const orderCarrier = this.getOrderCarrierJson(value);
         return (orderCarrierStatus === OrderStatus.BOOKED &&
               this.getOrderCarrierJson(value).status === OrderStatus.BOOKING_REQUEST);
@@ -766,10 +771,13 @@ export class OrderListComponent implements OnInit {
     //   backdropClass: 'backdropBackground'
     // });
 
-    this.commonModelService.openInviteDialog(this.selectedOrder, JSON.parse(orderCarrierRecord))
+    const oc = JSON.parse(orderCarrierRecord);
+    this.apiService.getOrderCarrier(oc.id)
+                      .subscribe((ordCarrier: OrderCarrier) => {
+                        this.commonModelService.openInviteDialog(this.selectedOrder, ordCarrier)
                               .subscribe(data => {
-                                console.log(data);
-                                if (data.accepted) {
+                                // console.log(data);
+                                if (data !== undefined && data.accepted) {
                                   if (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED) {
                                     // this.new -= 1;
                                     // this.accepted += 1;
@@ -782,6 +790,24 @@ export class OrderListComponent implements OnInit {
                                   }
                                   this.fetchOrders(this.config.currentPage);
                                 }
+                      });
+
+    // this.commonModelService.openInviteDialog(this.selectedOrder, JSON.parse(orderCarrierRecord))
+    //                           .subscribe(data => {
+    //                             console.log(data);
+    //                             if (data.accepted) {
+    //                               if (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED) {
+    //                                 // this.new -= 1;
+    //                                 // this.accepted += 1;
+    //                                 this.appComponent.setCurrentNewValue(this.new - 1);
+    //                                 this.appComponent.setCurrentAcceptedValue(this.accepted + 1);
+    //                                 // this.selectedOrder.orderStatus =
+    //                                 // const selOrder = this.selectedOrder;
+    //                                 // this.fetchOrders(this.config.currentPage - 1);
+    //                                 // this.selectedOrder = selOrder;
+    //                               }
+    //                               this.fetchOrders(this.config.currentPage);
+    //                             }
     });
 
     // dialogRef.afterClosed().subscribe(result => {

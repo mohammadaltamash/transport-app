@@ -17,24 +17,54 @@ import { OrderCarrier } from '../../../../model/order-carrier';
 import { OrderStatus } from '../../../../model/order-status';
 // import { MapHelper } from '../../../../helper/map_helper';
 import { AuthenticationService } from '../../../../service/authentication.service';
+import { Preferences } from 'src/app/model/preferences';
 
 @Component({
   selector: 'app-book-order-dialog',
   templateUrl: './book-order-dialog.component.html',
   styleUrls: ['./book-order-dialog.component.scss']
 })
-export class BookOrderDialogComponent implements OnInit {
+export class BookOrderDialogComponent implements OnInit, AfterViewInit {
   disableAnimation = true;
   public tools: object = {
     items: [
-           'Bold', 'Italic', 'Underline', 'StrikeThrough', '|',
-           'FontName', 'FontSize', 'FontColor', 'BackgroundColor', '|',
-           'LowerCase', 'UpperCase', '|', 'Undo', 'Redo', '|',
-           'Formats', 'Alignments', '|', 'OrderedList', 'UnorderedList', '|',
-           'Indent', 'Outdent', '|', 'CreateLink','CreateTable',
-           'Image', '|', 'ClearFormat', 'Print', 'SourceCode', '|', 'FullScreen']
-   };
-   public editorValue = '';
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      '|',
+      'FontName',
+      'FontSize',
+      'FontColor',
+      'BackgroundColor',
+      '|',
+      'LowerCase',
+      'UpperCase',
+      '|',
+      'Undo',
+      'Redo',
+      '|',
+      'Formats',
+      'Alignments',
+      '|',
+      'OrderedList',
+      'UnorderedList',
+      '|',
+      'Indent',
+      'Outdent',
+      '|',
+      'CreateLink',
+      'CreateTable',
+      'Image',
+      '|',
+      'ClearFormat',
+      'Print',
+      'SourceCode',
+      '|',
+      'FullScreen'
+    ]
+  };
+  public editorValue = '';
   // @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
   // map: google.maps.Map;
   // markers: any[];
@@ -58,9 +88,7 @@ export class BookOrderDialogComponent implements OnInit {
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
     private utilities: Utilities
-    // private mapHelper: MapHelper
   ) {
-
     // const m = {
     //   latitude: data.order.pickupLatitude,
     //   longitude: data.order.pickupLongitude,
@@ -70,7 +98,6 @@ export class BookOrderDialogComponent implements OnInit {
     // this.mapHelper.distance.subscribe(
     //   d => this.distance = d
     // );
-
     // this.markers = [];
     // // this.markers.push(m);
     // this.markers.push({
@@ -85,7 +112,6 @@ export class BookOrderDialogComponent implements OnInit {
     //   title: 'Drop off location',
     //   icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
     // });
-
     // this.mapHelper.getDistanceMatrix(
     //   data.order.pickupLatitude,
     //   data.order.pickupLongitude,
@@ -106,7 +132,16 @@ export class BookOrderDialogComponent implements OnInit {
         this.data.orderCarrier.committedDeliveryDate
       ),
       offerReason: this.data.orderCarrier.offerReason,
-      offerValidity: this.data.orderCarrier.offerValidity
+      offerValidity: this.data.orderCarrier.offerValidity,
+      termsAndConditions: ''
+    });
+
+    this.apiService.getPreferences().subscribe((preferences: Preferences) => {
+      if (preferences !== null) {
+        this.bookingForm.patchValue({
+          termsAndConditions: preferences.termsAndConditions
+        });
+      }
     });
 
     // this.mapHelper.getDistanceMatrix(
@@ -120,7 +155,7 @@ export class BookOrderDialogComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.disableAnimation = false);
+    setTimeout(() => (this.disableAnimation = false));
   }
 
   onSubmit() {
@@ -139,11 +174,17 @@ export class BookOrderDialogComponent implements OnInit {
     // const oc: OrderCarrier = orderCarriers.find(c => c.carrier.id === this.data.orderCarrier.id);
     // oc.status = 'BOOKED';
     const jsonString = JSON.stringify(orderCarrier);
-    this.apiService.bookOrder(this.data.order.id, this.data.orderCarrier.carrierId, orderCarrier).subscribe(
-      // data => console.log(data.deliveryDates.endDate),
-      res => console.log(res),
-      err => console.log(err)
-    );
+    this.apiService
+      .bookOrder(
+        this.data.order.id,
+        this.data.orderCarrier.carrierId,
+        orderCarrier
+      )
+      .subscribe(
+        // data => console.log(data.deliveryDates.endDate),
+        res => console.log(res),
+        err => console.log(err)
+      );
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
     this.utilities.showSuccess('Order booked', 'Booking');
@@ -160,9 +201,20 @@ export class BookOrderDialogComponent implements OnInit {
   // }
   shouldDisplayAddress(order: Order) {
     return (
-      order.createdBy !== null &&  order.createdBy !== undefined &&
+      order.createdBy !== null &&
+      order.createdBy !== undefined &&
       order.createdBy.email ===
         this.authenticationService.currentUserValue.email
     );
+  }
+
+  onResetClick() {
+    this.apiService.getPreferences().subscribe((preferences: Preferences) => {
+      if (preferences !== null) {
+        this.bookingForm.patchValue({
+          termsAndConditions: preferences.termsAndConditions
+        });
+      }
+    });
   }
 }

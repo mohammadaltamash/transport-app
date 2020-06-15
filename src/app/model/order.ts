@@ -106,6 +106,8 @@ export interface Order {
 
     perMile: number;
 
+    termsAndConditions: string;
+
     createdBy: User;
     createdAt: Date;
     updatedAt: Date;

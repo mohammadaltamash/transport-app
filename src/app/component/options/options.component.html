@@ -40,15 +40,17 @@
         </div>
     </div>
     <mat-divider></mat-divider>
-</main>
-<!-- <div id="loggedInAs" style="font-size: xx-small; color: white;">{{loggedInAs()}}</div> -->
-<div id="loggedInAs" style="font-size: xx-small; color: white;">
-    <mat-icon>person</mat-icon><br>
-    {{loggedInAs()}}
-</div>
-<div style="font-size: x-small; color: white;">{{type()}}</div>
-<!-- <button mat-raised-button id="loggedInAs" matTooltip="Info about the action" matTooltipPosition="after">
+    <!-- <div id="loggedInAs" style="font-size: xx-small; color: white;">{{loggedInAs()}}</div> -->
+    <div id="loggedInAs" style="font-size: xx-small; color: white;">
+        <mat-icon>person</mat-icon><br>
+        {{loggedInAs()}}
+    </div>
+    <div style="font-size: x-small; color: white;">{{type()}}</div>
+    <!-- <button mat-raised-button id="loggedInAs" matTooltip="Info about the action" matTooltipPosition="after">
         <mat-icon>person</mat-icon><br>
         {{loggedInAs()}}
     </button> -->
-<div><button id="logout" (click)="logout()">Logout</button></div>
+    <div id="preferences" (click)="openPreferencesDialog()"><mat-icon>settings</mat-icon><div>Preferences</div></div>
+    <mat-divider></mat-divider>
+    <div><button id="logout" (click)="logout()">Logout</button></div>
+</main>

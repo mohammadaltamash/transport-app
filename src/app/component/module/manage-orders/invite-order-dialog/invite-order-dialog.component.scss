@@ -1,6 +1,6 @@
 #dialog {
   display: grid;
-  grid-template-areas: "inviteForm map";
+  grid-template-areas: "inviteForm termsAndConditions";
   grid-template-columns: 1fr 2fr;
   gap: 1vw;
 }
@@ -68,9 +68,9 @@ grid-area: inviteOrder;
 // bottom: 0;
 }
 
-#map {
+#termsAndConditions {
 /* overflow: hidden; */
-grid-area: map;
+grid-area: termsAndConditions;
 height: 100%;
 }
 
@@ -84,8 +84,4 @@ height: 100%;
 // }
 // .mat-calendar-body-selected {
 //   color: red !important;
-// }
-// agm-map {
-// height: 100%;
-// width: 100%;
 // }

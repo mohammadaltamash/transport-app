@@ -87,5 +87,6 @@
             <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('DECLINED')">DECLINE</button>
         </div>
     </form>
-    <div #mapContainer id="map"></div>
+    <div id="termsAndConditions" [innerHTML]="data.orderCarrier.termsAndConditions" class="simpleBorder"></div>
+    <!-- <div #mapContainer id="map"></div> -->
 </div>

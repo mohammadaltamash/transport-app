@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Preferences</h1>
+<form id="preferencesForm" [formGroup]="preferencesForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content id="main">
+        <div id="termsAndConditions">
+            <!-- <mat-accordion> -->
+
+            <!-- </mat-accordion> -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Terms and Conditions
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <!-- Add / Modify -->
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ejs-richtexteditor #termsAndConditions formControlName="termsAndConditions" [toolbarSettings]='tools'>
+                </ejs-richtexteditor>
+                <mat-action-row>
+                    <button mat-button id="termsAndConditionsContentReset" type="button" (click)="onResetClick()">Reset</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+        </div>
+    </div>
+    <!-- <div [innerHTML]="preferencesForm.value.termsAndConditions"></div> -->
+    <div mat-dialog-actions align="right" id="savePreferences">
+        <!-- <button mat-stroked-button type="button" (click)="onResetClick()">Reset</button> -->
+        <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>
+        <button mat-stroked-button type="submit">Save</button>
+    </div>
+</form>

@@ -92,9 +92,9 @@ grid-area: summary;
 display: grid;
 grid-template-columns: 1fr;
 grid-template-rows: repeat(6, minmax(0, auto));
-border: 1px solid #ddd;
-border-radius: 5px;
-padding: 10px;
+// border: 1px solid #ddd;
+// border-radius: 5px;
+// padding: 10px;
 gap: 1vh;
 // margin-bottom: 6px;
 // align-content: flex-start;
@@ -145,7 +145,7 @@ padding: 10px 0;
 ejs-richtexteditor {
   // height: 50vh !important;
   // max-height: 50vh !important;
-  border: 2px solid red !important;
+  // border: 2px solid red !important;
   // margin-bottom: 10px;
 }
 #alltoolRTE {

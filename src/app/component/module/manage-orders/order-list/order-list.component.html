@@ -112,7 +112,7 @@
             </div>
           </div>
           <button mat-button [ngClass]="disableAssignDriver() ? 'ovalShapeDisabled' : 'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button" [disabled]="disableAssignDriver()">
-            {{selectedOrder === null || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
+            {{selectedOrder === null || selectedOrder === undefined || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
         </div>
         <div *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.assignedToDriver !== null">
           <!-- <div>
@@ -145,10 +145,10 @@
           </mat-card-subtitle>
           <ng-container *ngIf="orders.length > 0">
             <div>
-              <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null ? selectedOrder.pickupAddress : ''}}</b>
+              <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.pickupAddress : ''}}</b>
             </div>
             <div>
-              <mat-icon>person</mat-icon>{{selectedOrder !== null ? selectedOrder.pickupContactName : ''}}
+              <mat-icon>person</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.pickupContactName : ''}}
             </div>
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.pickupPhones) : ''}}
@@ -156,7 +156,7 @@
             <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
               <div *ngFor="let phone of getKeys(selectedOrder.pickupPhones)">
                 <div>
-                  <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
+                  <mat-icon>phone</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? phone : ''}}
                 </div>
               </div>
             </ng-container>
@@ -168,10 +168,10 @@
           </mat-card-subtitle>
           <ng-container *ngIf="orders.length > 0">
             <div>
-              <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null ? selectedOrder.deliveryAddress : ''}}</b>
+              <mat-icon>location_on</mat-icon><b>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.deliveryAddress : ''}}</b>
             </div>
             <div>
-              <mat-icon>person</mat-icon>{{selectedOrder !== null ? selectedOrder.deliveryContactName : ''}}
+              <mat-icon>person</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.deliveryContactName : ''}}
             </div>
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.deliveryPhones) : ''}}
@@ -179,7 +179,7 @@
             <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
               <div *ngFor="let phone of getKeys(selectedOrder.deliveryPhones)">
                 <div>
-                  <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
+                  <mat-icon>phone</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? phone : ''}}
                 </div>
               </div>
             </ng-container>
@@ -218,9 +218,9 @@
         </mat-card-subtitle>
         <ng-container *ngIf="orders.length > 0">
           <div id="carrierPay">Carrier Pay</div>
-          <div id="carrierPayValue">{{(selectedOrder !== null ? this.selectedOrder.carrierPay : '') | number:'1.2-2'}}</div>
+          <div id="carrierPayValue">{{(selectedOrder !== null && selectedOrder !== undefined ? this.selectedOrder.carrierPay : '') | number:'1.2-2'}}</div>
           <div id="onDelivery">On Delivery</div>
-          <div id="onDeliveryValue">{{(selectedOrder !== null ? this.selectedOrder.amountOnDelivery : '') | number:'1.2-2'}}</div>
+          <div id="onDeliveryValue">{{(selectedOrder !== null && selectedOrder !== undefined ? this.selectedOrder.amountOnDelivery : '') | number:'1.2-2'}}</div>
           <div id="receivables">Receivables</div>
           <div id="receivablesValue"></div>
           <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY
@@ -293,23 +293,34 @@
         </mat-card-subtitle>
         <ng-container *ngIf="orders.length > 0">
           <div>
-            <mat-icon>person</mat-icon><b>{{selectedOrder !== null ? selectedOrder.brokerCompanyName : ''}}</b>
+            <mat-icon>person</mat-icon><b>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.brokerCompanyName : ''}}</b>
           </div>
           <div>
-            <mat-icon>location_on</mat-icon>{{selectedOrder !== null ? selectedOrder.brokerAddress : ''}}
+            <mat-icon>location_on</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.brokerAddress : ''}}
           </div>
           <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
             <div *ngFor="let phone of getKeys(selectedOrder.shipperPhones)">
               <div>
-                <mat-icon>phone</mat-icon>{{selectedOrder !== null ? phone : ''}}
+                <mat-icon>phone</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? phone : ''}}
               </div>
             </div>
           </ng-container>
           <div>
-            <mat-icon>email</mat-icon>{{selectedOrder !== null ? selectedOrder.brokerEmail : ''}}
+            <mat-icon>email</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.brokerEmail : ''}}
           </div>
         </ng-container>
       </mat-card>
+      <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined && (selectedOrder.orderStatus === 'ACCEPTED' || selectedOrder.orderStatus === 'ASSIGNED')">
+        <mat-expansion-panel [expanded]="false" class="termsAndConditions">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Terms and Conditions
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div [innerHTML]="selectedOrder.termsAndConditions">
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
     </div>
   </div>
 </main>
