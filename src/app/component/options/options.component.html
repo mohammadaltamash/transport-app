@@ -20,8 +20,9 @@
             <mat-icon>search</mat-icon>
             <div>Load Board</div>
         </div>
+        <mat-divider></mat-divider>
     </div>
-    <mat-divider></mat-divider>
+    <!-- <mat-divider></mat-divider> -->
     <div id="manage_orders">
         <div>MANAGE<br><b>ORDERS</b><br>
             <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
@@ -50,7 +51,7 @@
         <mat-icon>person</mat-icon><br>
         {{loggedInAs()}}
     </button> -->
-    <div id="preferences" (click)="openPreferencesDialog()"><mat-icon>settings</mat-icon><div>Preferences</div></div>
+    <div id="preferences" (click)="openPreferencesDialog()"><mat-icon>settings</mat-icon><div>Settings</div></div>
     <mat-divider></mat-divider>
     <div><button id="logout" (click)="logout()">Logout</button></div>
 </main>

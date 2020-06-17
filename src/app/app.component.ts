@@ -294,4 +294,14 @@ export class AppComponent {
     this.idleState = 'Started.';
     this.timedOut = false;
   }
+
+  sideBarClass() {
+    if (this.currentUser.type === 'BROKER') {
+      return 'mat-sidenav sideNavBroker';
+    } else if (this.currentUser.type === 'CARRIER') {
+      return 'mat-sidenav sideNavCarrier';
+    } else {
+      return 'mat-sidenav sideNavDriver';
+    }
+  }
 }

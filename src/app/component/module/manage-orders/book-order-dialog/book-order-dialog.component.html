@@ -60,18 +60,22 @@
             <div>
                 <strong><span>Pickup</span></strong>
                 <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
+                <div>Address: {{ data.order.pickupAddress }}</div>
                 <div>Zip: {{ data.order.pickupZip }}</div>
                 <div>Estimated dates: {{ data.order.pickupDates.begin }} to {{ data.order.pickupDates.end }}</div>
                 <div>Preferred date: {{ data.order.preferredPickupDate | date:'yyyy-MM-dd' }}</div>
+                <div>Committed date: {{ data.orderCarrier.committedPickupDate | date:'yyyy-MM-dd' }}</div>
             </div>
 
             <div>
                 <strong><span>Delivery</span></strong>
                 <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.deliveryAddress }}</div>
+                <div>Address: {{ data.order.deliveryAddress }}</div>
                 <div>Zip: {{ data.order.deliveryZip }}</div>
                 <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}
                 </div>
                 <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
+                <div>Committed date: {{ data.orderCarrier.committedDeliveryDate | date:'yyyy-MM-dd' }}</div>
             </div>
 
             <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
@@ -82,26 +86,28 @@
         <div id="termsAndConditions">
             <!-- <h3 id="termsAndConditionsHeading">Terms and Conditions</h3> -->
             <!-- <div id="termsAndConditionsContent"> -->
-                <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
+            <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
 
-                <!-- <mat-accordion> -->
-                        <mat-expansion-panel [@.disabled]="disableAnimation">
-                          <mat-expansion-panel-header>
-                            <mat-panel-title>
-                              Terms and Conditions
-                            </mat-panel-title>
-                            <mat-panel-description>
-                              Add / Modify
-                            </mat-panel-description>
-                          </mat-expansion-panel-header>
-                          <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
-                          <ejs-richtexteditor #termsAndConditions formControlName="termsAndConditions" [toolbarSettings]='tools'></ejs-richtexteditor>
-                          <mat-action-row>
-                                <button mat-button id="termsAndConditionsContentReset" type="button" (click)="onResetClick()">Reset</button>
-                          </mat-action-row>
-                        </mat-expansion-panel>
-                      <!-- </mat-accordion> -->
-                      
+            <!-- <mat-accordion> -->
+            <mat-expansion-panel [@.disabled]="disableAnimation">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Terms and Conditions
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Add / Modify
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
+                <ejs-richtexteditor #termsAndConditions formControlName="termsAndConditions" [toolbarSettings]='tools'>
+                </ejs-richtexteditor>
+                <mat-action-row>
+                    <button mat-button id="termsAndConditionsContentReset" type="button"
+                        (click)="onResetClick()">Reset</button>
+                </mat-action-row>
+            </mat-expansion-panel>
+            <!-- </mat-accordion> -->
+
             <!-- </div>
             <button mat-stroked-button id="termsAndConditionsContentReset" type="button">Reset</button> -->
         </div>

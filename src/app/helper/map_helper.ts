@@ -46,6 +46,7 @@ export class MapHelper {
       title: string;
       icon: string;
     }[],
+    tripCoordinates: any[],
     drawRadius: boolean
   ): void {
     this.markers = [];
@@ -80,6 +81,7 @@ export class MapHelper {
     // default marker
     // this.marker.setMap(this.map);
     this.loadAllMarkers();
+    this.drawLines(tripCoordinates);
     this.drawRadius(drawRadius);
   }
 
@@ -125,9 +127,48 @@ export class MapHelper {
     // });
   }
 
+  drawLines(
+    tripCoordinates: { forEach: (arg0: (coord: google.maps.LatLng[]) => void) => void; }
+  ) {
+    // const coords = [{lat: 37.772, lng: -122.214},
+    //   {lat: 21.291, lng: -157.821}];
+    if (tripCoordinates !== null) {
+      tripCoordinates.forEach((coord: google.maps.LatLng[]) => {
+        const line = new google.maps.Polyline({
+          path: coord,
+          // geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 1,
+          map: this.map,
+        });
+      });
+    }
+
+    // const line = new google.maps.Polyline({
+    //   path: coords,
+    //   geodesic: true,
+    //   strokeColor: '#FF0000',
+    //   strokeOpacity: 1.0,
+    //   strokeWeight: 2,
+    //   map: this.map,
+    // });
+    // if (tripCoordinates !== null) {
+    //   const line = new google.maps.Polyline({
+    //     path: tripCoordinates,
+    //     geodesic: true,
+    //     strokeColor: '#FF0000',
+    //     strokeOpacity: 1.0,
+    //     strokeWeight: 2
+    //   });
+    // }
+  }
+
   drawRadius(drawRadius: boolean) {
     if (drawRadius) {
-      const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = JSON.parse(localStorage.getItem('latitudeLongitudeRefs'));
+      const latitudeLongitudeRefs: LatitudeLongitudeDistanceRefs = JSON.parse(
+        localStorage.getItem('latitudeLongitudeRefs')
+      );
       if (latitudeLongitudeRefs !== null) {
         latitudeLongitudeRefs.pickupLatLongs.forEach(element => {
           const cityCircle = new google.maps.Circle({
@@ -178,7 +219,12 @@ export class MapHelper {
   //   );
   // }
 
-  getDistanceMatrix(pickupLat: number, pickupLng: number, deliveryLat: number, deliveryLng: number) {
+  getDistanceMatrix(
+    pickupLat: number,
+    pickupLng: number,
+    deliveryLat: number,
+    deliveryLng: number
+  ) {
     // origins: [{lat: 55.93, lng: -3.118}, 'Greenwich, England'],
     // destinations: ['Stockholm, Sweden', {lat: 50.087, lng: 14.421}],
 

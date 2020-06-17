@@ -470,6 +470,7 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
   initializeMap(drawRadius: boolean) {
     if (this.mapDisplayed) {
       this.markers = [];
+      const tripCoordinates = [];
       this.orders.forEach(order => {
         this.markers.push({
           latitude: order.pickupLatitude,
@@ -483,9 +484,13 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
           title: 'Drop off location',
           icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
         });
+        const tripCoordinate = [];
+        tripCoordinate.push(new google.maps.LatLng(order.pickupLatitude, order.pickupLongitude));
+        tripCoordinate.push(new google.maps.LatLng(order.deliveryLatitude, order.deliveryLongitude));
+        tripCoordinates.push(tripCoordinate);
       });
     // if (this.mapDisplayed) {
-      this.mapHelper.initializeMap(this.gmap, this.markers, drawRadius);
+      this.mapHelper.initializeMap(this.gmap, this.markers, tripCoordinates, drawRadius);
     }
   }
 

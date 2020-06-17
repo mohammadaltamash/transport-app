@@ -1,92 +1,36 @@
 <h1 mat-dialog-title>Offer Received For Load ID # {{data.order.id}}</h1>
-<div id="dialog">
-    <form id="inviteForm" [formGroup]="inviteForm">
-        <div mat-dialog-content id="main">
-            <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4>
-            <mat-form-field id="carrierPay">
-                <input matInput formControlName="carrierPay" placeholder="Price" inputmode="numeric" digitOnly
-                    decimal=true autocomplete=off>
-                <mat-hint>Make an Offer</mat-hint>
-            </mat-form-field>
-            <mat-form-field id="daysToPay">
-                <mat-label>Days to Pay</mat-label>
-                <mat-select formControlName="daysToPay">
-                    <mat-option *ngFor="let day of daysToPay" [value]="day">
-                        {{ day }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="paymentTermBegins">
-                <mat-select id="paymentTermBegins" formControlName="paymentTermBegins" placeholder="Payment Term Begins"
-                    required>
-                    <mat-option *ngFor="let termBegins of paymentTermBegins" [value]="termBegins">
-                        {{ termBegins }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field id="committedPickupDate">
-                <input matInput formControlName="committedPickupDate" [matDatepicker]="committedPickupDate"
-                    placeholder="Pickup Date" [min]="data.order.pickupDates['begin']"
-                    [max]="data.order.pickupDates['end']" [value]="data.orderCarrier.committedPickupDate">
-                <mat-datepicker-toggle matSuffix [for]="committedPickupDate"></mat-datepicker-toggle>
-                <mat-datepicker #committedPickupDate></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field id="committedDeliveryDate">
-                <input matInput formControlName="committedDeliveryDate" [matDatepicker]="committedDeliveryDate"
-                    placeholder="Delivery Date" [min]="data.order.deliveryDates['begin']"
-                    [max]="data.order.deliveryDates['end']" [value]="data.orderCarrier.committedDeliveryDate">
-                <mat-datepicker-toggle matSuffix [for]="committedDeliveryDate"></mat-datepicker-toggle>
-                <mat-datepicker #committedDeliveryDate></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field id="offerReason">
-                <mat-label>Offer Reason</mat-label>
-                <mat-select formControlName="offerReason">
-                    <mat-option *ngFor="let reason of offerReason" [value]="reason">
-                        {{ reason }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field id="offerValidity">
-                <mat-label>Offer Validity</mat-label>
-                <mat-select formControlName="offerValidity">
-                    <mat-option *ngFor="let validity of offerValidity" [value]="validity">
-                        {{ validity }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-card id="summary">
-                    <div>
-                        <strong><span>Pickup</span></strong>
-                        <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
-                        <div>Zip: {{ data.order.pickupZip }}</div>
-                        <div>Estimated dates: {{ data.order.pickupDates.begin }} to {{ data.order.pickupDates.end }}</div>
-                        <div>Preferred date: {{ data.order.preferredPickupDate | date:'yyyy-MM-dd' }}</div>
-                    </div>
-    
-                    <div>
-                        <strong><span>Delivery</span></strong>
-                        <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.deliveryAddress }}</div>
-                        <div>Zip: {{ data.order.deliveryZip }}</div>
-                        <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}</div>
-                        <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
-                    </div>
-    
-                    <div>
-                        <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
-                        <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
-                        <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
-                        <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
-                    </div>
-                </mat-card>
-            </div>
-        <div id="bookOrder">
-            <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>&nbsp;
-            <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('ACCEPTED')">ACCEPT</button>&nbsp;
-            <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('DECLINED')">DECLINE</button>
+<form id="inviteForm" mat-dialog-content [formGroup]="inviteForm">
+    <mat-card id="summary">
+        <div><strong>Carrier pay</strong>&nbsp;${{data.order.carrierPay}}</div>
+        <div><strong>Payment term begins</strong>&nbsp;{{data.order.paymentTermBegins}}</div>
+        <div>
+            <strong><span>Pickup</span></strong>
+            <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.pickupAddress }}</div>
+            <div>Zip: {{ data.order.pickupZip }}</div>
+            <div>Estimated dates: {{ data.order.pickupDates.begin }} to {{ data.order.pickupDates.end }}</div>
+            <div>Preferred date: {{ data.order.preferredPickupDate | date:'yyyy-MM-dd' }}</div>
+            <div>Committed date: {{ data.orderCarrier.committedPickupDate | date:'yyyy-MM-dd' }}</div>
         </div>
-    </form>
-    <div id="termsAndConditions" [innerHTML]="data.orderCarrier.termsAndConditions" class="simpleBorder"></div>
-    <!-- <div #mapContainer id="map"></div> -->
-</div>
+        <div>
+            <strong><span>Delivery</span></strong>
+            <div *ngIf="shouldDisplayAddress(data)">Address: {{ data.order.deliveryAddress }}</div>
+            <div>Zip: {{ data.order.deliveryZip }}</div>
+            <div>Estimated dates: {{ data.order.deliveryDates.begin }} to {{ data.order.deliveryDates.end }}</div>
+            <div>Preferred date: {{ data.order.preferredDeliveryDate | date:'yyyy-MM-dd' }}</div>
+            <div>Committed date: {{ data.orderCarrier.committedDeliveryDate | date:'yyyy-MM-dd' }}</div>
+        </div>
+        <div><strong>Distance</strong>&nbsp;{{ data.order.distance * 0.00062137 | number:'1.2-2'}} mi</div>
+        <div><strong>Per mile</strong>&nbsp;${{ data.order.perMile | number:'1.2-2'}}</div>
+        <div><strong>On pickup</strong>&nbsp;${{ data.order.amountOnPickup | number:'1.2-2'}}</div>
+        <div><strong>On delivery</strong>&nbsp;${{ data.order.amountOnDelivery | number:'1.2-2'}}</div>
+    </mat-card>
+    <div id="termsAndConditions">
+        <h2>Terms and conditions</h2>
+        <div [innerHTML]="data.orderCarrier.termsAndConditions" class="simpleBorder"></div>
+    </div>
+    <div id="inviteOrder">
+        <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>
+        <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('ACCEPTED')">ACCEPT</button>
+        <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('DECLINED')">DECLINE</button>
+    </div>
+</form>

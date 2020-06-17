@@ -150,6 +150,11 @@
             <div>
               <mat-icon>person</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.pickupContactName : ''}}
             </div>
+            <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
+              <div>Estimated dates: {{ selectedOrder.pickupDates.begin }} to {{ selectedOrder.pickupDates.end }}</div>
+              <div>Preferred date: {{ (selectedOrder.preferredPickupDate !== null) ? (selectedOrder.preferredPickupDate | date:'yyyy-MM-dd') : 'None'}}</div>
+              <div *ngIf="selectedOrder.committedPickupDate !== null">Committed date: {{ selectedOrder.committedPickupDate | date:'yyyy-MM-dd' }}</div>
+            </ng-container>
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.pickupPhones) : ''}}
           </div> -->
@@ -173,6 +178,11 @@
             <div>
               <mat-icon>person</mat-icon>{{selectedOrder !== null && selectedOrder !== undefined ? selectedOrder.deliveryContactName : ''}}
             </div>
+            <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined">
+                <div>Estimated dates: {{ selectedOrder.deliveryDates.begin }} to {{ selectedOrder.deliveryDates.end }}</div>
+                <div>Preferred date: {{ (selectedOrder.preferredDeliveryDate !== null) ? (selectedOrder.preferredDeliveryDate | date:'yyyy-MM-dd') : 'None'}}</div>
+                <div *ngIf="selectedOrder.committedDeliveryDate !== null">Committed date: {{ selectedOrder.committedDeliveryDate | date:'yyyy-MM-dd' }}</div>
+              </ng-container>
             <!-- <div>
             <mat-icon>phone</mat-icon>{{selectedOrder !== null ? getKey(selectedOrder.deliveryPhones) : ''}}
           </div> -->
