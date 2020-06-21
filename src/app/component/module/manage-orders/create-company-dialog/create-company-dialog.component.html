@@ -5,15 +5,33 @@
         <mat-form-field id="companyName">
             <input matInput formControlName="companyName" placeholder="Company Name">
         </mat-form-field>
-        <mat-form-field id="address">
+        <!-- <mat-form-field id="address">
             <input matInput formControlName="address" placeholder="Address">
         </mat-form-field>
         <mat-form-field id="addressState">
             <input matInput formControlName="addressState" placeholder="Address State">
+        </mat-form-field> -->
+        <!-- <mat-form-field id="zip">
+            <input matInput formControlName="zip" placeholder="Zip">
+        </mat-form-field> -->
+
+        <mat-form-field id="address">
+            <!-- <input matInput formControlName="address" type="text" placeholder="Address"> -->
+            <input matInput id="address" formControlName="address" placeholder="Address" matGoogleMapsAutocomplete
+                [country]="country" (onAutocompleteSelected)="onAutocompleteSelected($event)"
+                (onLocationSelected)="onLocationSelected($event)">
+            <mat-error *ngIf="errorHandler.handleError(formControls, 'address', 'required')">
+                {{ errorHandler.validationMessages['required'] }}
+            </mat-error>
         </mat-form-field>
         <mat-form-field id="zip">
-            <input matInput formControlName="zip" placeholder="Zip">
+            <input matInput formControlName="zip" type="text" placeholder="Zip" maxlength="5" inputmode="numeric"
+                pattern="[0-9]*" digitOnly>
+            <!-- <mat-error *ngIf="invalidZip">
+                            {{ errorHandler.validationMessages['invalidZip'] }}
+                        </mat-error> -->
         </mat-form-field>
+
         <!-- <mat-form-field id="phones">
                 <mat-label>Company Email</mat-label>
                 <input matInput formControlName="companyEmail" placeholder="Company Email">
