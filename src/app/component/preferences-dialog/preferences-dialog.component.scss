@@ -12,6 +12,7 @@
 }
 
 #main {
+  grid-area: main;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
@@ -27,4 +28,15 @@
 
 #savePreferences {
   grid-area: savePreferences;
+}
+
+.dialogActions {
+  max-height: 10vh;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: .25vw;
+  justify-content: end;
+  width: 100%;
+  background-color: inherit;
+  border: none;
 }

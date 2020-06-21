@@ -6,9 +6,15 @@ import { takeUntil } from 'rxjs/operators';
 import { User } from '../../../../model/user';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import PlaceResult = google.maps.places.PlaceResult;
-import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
+import {
+  Location,
+  Appearance
+} from '@angular-material-extensions/google-maps-autocomplete';
 import { ErrorHandler } from '../../../../helper/error_handler';
 import { Utilities } from '../../../../helper/utilities';
+import { CommonModelService } from 'src/app/service/common-model.service';
+import { ApiService } from 'src/app/service/api.service';
+import { Company } from 'src/app/model/company';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +22,22 @@ import { Utilities } from '../../../../helper/utilities';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  phoneMask = ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  phoneMask = [
+    '(',
+    /\d/,
+    /\d/,
+    /\d/,
+    ')',
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+  ];
   registerForm: FormGroup;
   country = 'us';
   address: string;
@@ -25,15 +46,18 @@ export class RegisterComponent implements OnInit {
   // invalidZip: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  types: string[] = [
-    'BROKER', 'CARRIER', 'DRIVER'
-  ];
+  types: string[] = ['BROKER', 'CARRIER', 'DRIVER'];
+
+  type: string;
+  companies: Company[];
 
   constructor(
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private router: Router,
     private utilities: Utilities,
+    private apiService: ApiService,
+    private commonModelService: CommonModelService,
     public errorHandler: ErrorHandler
   ) {}
 
@@ -48,6 +72,10 @@ export class RegisterComponent implements OnInit {
       phones: {},
       email: ['', [Validators.required, Validators.email]],
       type: ['', Validators.required]
+    });
+
+    this.apiService.getCompanies().subscribe((cmpanies: Company[]) => {
+      this.companies = cmpanies;
     });
   }
 
@@ -66,6 +94,7 @@ export class RegisterComponent implements OnInit {
     user.address = this.address;
     user.latitude = this.latitude;
     user.longitude = this.longitude;
+    // user.companyName = this.registerForm.value.companyName.companyName;
     // user.phones = phonesMap;
     for (const phone of this.phonez.controls) {
       // if (phone.get('phone').value !== '') {
@@ -80,10 +109,17 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         if (data) {
           // ${this.registerForm.get('email')}
-          this.utilities.showSuccess(`User registered successfully!`, 'Registration');
+          this.utilities.showSuccess(
+            `User registered successfully!`,
+            'Registration'
+          );
           this.router.navigate(['/login']);
         }
       });
+  }
+
+  onTypeChange(event: any) {
+    this.type = event.value;
   }
 
   get formControls() {
@@ -97,19 +133,28 @@ export class RegisterComponent implements OnInit {
     // this.addressIsValid = true;
     // const place = autocomplete.getPlace();
     const address_components = result.address_components;
-    const postalCode = this.extractFromAddress(address_components, 'postal_code');
-
+    const postalCode = this.extractFromAddress(
+      address_components,
+      'postal_code'
+    );
 
     this.address = result.formatted_address;
     this.formControls.zip.setValue('');
     if (postalCode !== null) {
-        this.formControls.zip.setValue(Number(postalCode));
+      this.formControls.zip.setValue(Number(postalCode));
     }
-
   }
 
-  extractFromAddress(components: google.maps.GeocoderAddressComponent[], type: string) {
-    return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || null;
+  extractFromAddress(
+    components: google.maps.GeocoderAddressComponent[],
+    type: string
+  ) {
+    return (
+      components
+        .filter(component => component.types.indexOf(type) === 0)
+        .map(item => item.long_name)
+        .pop() || null
+    );
   }
 
   onLocationSelected(location: Location) {
@@ -151,5 +196,16 @@ export class RegisterComponent implements OnInit {
     if (control.length > 1) {
       control.removeAt(index);
     }
+  }
+
+  openCreateCompanyDialog() {
+    this.commonModelService.openCreateCompanyDialog().subscribe(data => {
+      console.log(data);
+      if (data.created) {
+        this.apiService.getCompanies().subscribe((cmpanies: Company[]) => {
+          this.companies = cmpanies;
+        });
+      }
+    });
   }
 }

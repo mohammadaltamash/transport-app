@@ -97,7 +97,7 @@ export interface Order {
     orderCategory: string;
 
     bookingRequestCarriers: OrderCarrier[]; // by carriers (to assign order to carrier)
-    assignedToCarrierEmail: User; // By broker to carrier. orderStatus changes to ASSIGNED
+    assignedToCarrier: User; // By broker to carrier. orderStatus changes to ASSIGNED
     assignedToDriver: User;
 
     distance: number;

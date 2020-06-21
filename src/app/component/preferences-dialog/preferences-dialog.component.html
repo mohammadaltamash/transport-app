@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Preferences</h1>
+<h1 mat-dialog-title>Settings</h1>
 <form id="preferencesForm" [formGroup]="preferencesForm" (ngSubmit)="onSubmit()">
     <div mat-dialog-content id="main">
-        <div id="termsAndConditions">
+        <div id="termsAndConditions" *ngIf="authenticationService.currentUserValue.type === 'BROKER'">
             <!-- <mat-accordion> -->
 
             <!-- </mat-accordion> -->
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="true" class="termsAndConditions">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Terms and Conditions
@@ -23,7 +23,7 @@
         </div>
     </div>
     <!-- <div [innerHTML]="preferencesForm.value.termsAndConditions"></div> -->
-    <div mat-dialog-actions align="right" id="savePreferences">
+    <div mat-dialog-actions id="savePreferences" class="dialogActions">
         <!-- <button mat-stroked-button type="button" (click)="onResetClick()">Reset</button> -->
         <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>
         <button mat-stroked-button type="submit">Save</button>

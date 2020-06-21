@@ -56,7 +56,7 @@ export class CreateDialogComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       fullName: '',
       password: ['', Validators.required],
-      companyName: '',
+      // companyName: '',
       address: '',
       zip: ['', Validators.maxLength(5)],
       phonez: new FormArray([this.createPhoneItem()]),
@@ -82,6 +82,7 @@ export class CreateDialogComponent implements OnInit {
     user.latitude = this.latitude;
     user.longitude = this.longitude;
     user.type = this.data;
+    user.companyName = this.authenticationService.currentUserValue.companyName;
     // user.phones = phonesMap;
     for (const phone of this.phonez.controls) {
       // if (phone.get('phone').value !== '') {
@@ -95,8 +96,7 @@ export class CreateDialogComponent implements OnInit {
       .subscribe((data: boolean) => {
         console.log(data);
         if (this.data === 'DRIVER') {
-          this.userService
-          .getUsersByType(environment.USER_DRIVER)
+          this.userService.getDriverByCompany(this.authenticationService.currentUserValue.companyName)
           // .pipe(takeUntil(this.destroy$))
           .subscribe((users: User[]) => {
             this.appComponent.setDriversValue(users);

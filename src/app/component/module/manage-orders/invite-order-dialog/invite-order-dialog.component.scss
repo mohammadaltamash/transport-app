@@ -36,8 +36,10 @@
 #termsAndConditions {
   /* overflow: hidden; */
   grid-area: termsAndConditions;
+  // display: grid;
   // height: 40%;
   overflow-y: auto;
+  // gap: 1vh;
   // padding: 20px;
 }
 #termsAndConditions > h2 {

@@ -10,6 +10,7 @@ import { CreateDialogComponent } from '../component/create-dialog/create-dialog.
 import { BookOrderDialogComponent } from '../component/module/manage-orders/book-order-dialog/book-order-dialog.component';
 import { PreferencesDialogComponent } from '../component/preferences-dialog/preferences-dialog.component';
 import { OrderCarrier } from '../model/order-carrier';
+import { CreateCompanyDialogComponent } from '../component/module/manage-orders/create-company-dialog/create-company-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class CommonModelService {
 
   openAssignDriverDialog(driverz: User[], orderNumber: number): Observable<any> {
     const dialogRef = this.dialog.open(DriversListDialogComponent, {
-      width: '30vw',
+      width: '40vw',
       data: {
         drivers: driverz,
         orderId: orderNumber
@@ -99,6 +100,23 @@ export class CommonModelService {
       data: {
         // order: selectedOrder,
         // orderCarrier: JSON.parse(orderCarrierRecord)
+      },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  openCreateCompanyDialog(): Observable<any> {
+    // this.bookDialog.openDialog();
+    // const result = this.bookOrderDialogComponent.openDialog(this.selectedOrder);
+    // this.selectedItem = index;
+    // this.appComponent.setCurrentOrderValue(order);
+    const dialogRef = this.dialog.open(CreateCompanyDialogComponent, {
+      width: '25vw',
+      // height: '70vh',
+      data: {
       },
       disableClose: true,
       backdropClass: 'backdropBackground'

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Add Company</h1>
+<form id="companyForm" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content id="main">
+        <!-- <h4 id="bookLoadHeading" class="mat-headline">Book Load</h4> -->
+        <mat-form-field id="companyName">
+            <input matInput formControlName="companyName" placeholder="Company Name">
+        </mat-form-field>
+        <mat-form-field id="address">
+            <input matInput formControlName="address" placeholder="Address">
+        </mat-form-field>
+        <mat-form-field id="addressState">
+            <input matInput formControlName="addressState" placeholder="Address State">
+        </mat-form-field>
+        <mat-form-field id="zip">
+            <input matInput formControlName="zip" placeholder="Zip">
+        </mat-form-field>
+        <!-- <mat-form-field id="phones">
+                <mat-label>Company Email</mat-label>
+                <input matInput formControlName="companyEmail" placeholder="Company Email">
+            </mat-form-field> -->
+        <mat-form-field id="companyEmail">
+            <input matInput formControlName="companyEmail" placeholder="Company Email">
+            <!-- <mat-error *ngIf="errorHandling('brokerEmail', 'email')">
+                {{ this.validationMessages['email'] }}
+            </mat-error> -->
+        </mat-form-field>
+        <mat-form-field id="contactName">
+            <input matInput formControlName="contactName" placeholder="Contact Name">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions id="addCompany" class="dialogActions">
+        <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>
+        <button mat-stroked-button type="submit">ADD COMPANY</button>
+    </div>
+</form>

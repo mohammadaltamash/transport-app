@@ -858,4 +858,11 @@ export class OrderListComponent implements OnInit {
     return this.selectedOrder === null || this.selectedOrder === undefined ||
           (this.selectedOrder.orderStatus !== OrderStatus.ACCEPTED && this.selectedOrder.orderStatus !== OrderStatus.ASSIGNED);
   }
+
+  showAssignDriverButton() {
+    return this.selectedOrder !== null &&
+      this.selectedOrder !== undefined &&
+      this.selectedOrder.assignedToCarrier !== null &&
+      this.selectedOrder.assignedToCarrier.email === this.authenticationService.currentUserValue.email;
+  }
 }

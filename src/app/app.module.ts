@@ -37,6 +37,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { PreferencesDialogComponent } from './component/preferences-dialog/preferences-dialog.component';
 import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor';
+import { CreateCompanyDialogComponent } from './component/module/manage-orders/create-company-dialog/create-company-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RichTextEditorAllModule } from '@syncfusion/ej2-angular-richtexteditor'
     RegisterComponent,
     DriversListDialogComponent,
     CreateDialogComponent,
-    PreferencesDialogComponent
+    PreferencesDialogComponent,
+    CreateCompanyDialogComponent
     // OrderDialogComponent
 
     // LoadBoardComponent,

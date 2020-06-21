@@ -8,6 +8,7 @@ import { Utilities } from '../../helper/utilities';
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
 import { AppComponent } from '../../app.component';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-drivers-list-dialog',
@@ -27,6 +28,7 @@ export class DriversListDialogComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private authenticationService: AuthenticationService,
     private appComponent: AppComponent,
     private utilities: Utilities,
     public newUserDialog: MatDialog
@@ -60,7 +62,12 @@ export class DriversListDialogComponent implements OnInit {
       this.drivers = users;
     });
 
-    this.userService.getUsersByType(environment.USER_DRIVER)
+    // this.userService.getUsersByType(environment.USER_DRIVER)
+    //       // .pipe(takeUntil(this.destroy$))
+    //       .subscribe((users: User[]) => {
+    //         this.drivers = users;
+    //       });
+    this.userService.getDriverByCompany(this.authenticationService.currentUserValue.companyName)
           // .pipe(takeUntil(this.destroy$))
           .subscribe((users: User[]) => {
             this.drivers = users;

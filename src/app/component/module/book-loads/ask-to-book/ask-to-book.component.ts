@@ -95,13 +95,15 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
       latitude: data.order.pickupLatitude,
       longitude: data.order.pickupLongitude,
       title: 'Pickup location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',
+      order: this.data.order
     });
     this.markers.push({
       latitude: data.order.deliveryLatitude,
       longitude: data.order.deliveryLongitude,
       title: 'Drop off location',
-      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+      icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png',
+      order: this.data.order
     });
     this.requestBooking = data.requestBooking;
   }

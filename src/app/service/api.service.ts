@@ -21,6 +21,7 @@ import { CityZipLatLong } from '../model/city-zip-lat-long';
 import { LatitudeLongitudeDistance } from '../model/latitude-longitude-distance';
 import { LatitudeLongitudeDistanceRefs } from '../model/latitude-longitude-distance-refs';
 import { Preferences } from '../model/preferences';
+import { Company } from '../model/company';
 
 @Injectable({
   providedIn: 'root'
@@ -223,15 +224,15 @@ export class ApiService {
 
   // User
 
-  public getUserByEmail(email: string) {
-    return this.httpClient
-      .get<User>(
-        environment.REST_SERVICE_URL + `/user/get/${email}`
-        // ,
-        // this.getOptions()
-      )
-      .pipe(retry(3), catchError(this.handleError));
-  }
+  // public getUserByEmail(email: string) {
+  //   return this.httpClient
+  //     .get<User>(
+  //       environment.REST_SERVICE_URL + `/user/get/${email}`
+  //       // ,
+  //       // this.getOptions()
+  //     )
+  //     .pipe(retry(3), catchError(this.handleError));
+  // }
 
   // Order Carrier
   // Order request from carrier
@@ -309,6 +310,22 @@ export class ApiService {
       .pipe(retry(3), catchError(this.handleError));
   }
 
+  // Company
+  public createCompany(company: Company): Observable<Company> {
+    return this.httpClient
+      .post<Company>(
+        environment.REST_SERVICE_URL + '/company/create',
+        company)
+      .pipe(catchError(this.handleError));
+  }
+
+  public getCompanies() {
+    return this.httpClient
+      .get<Company[]>(environment.REST_SERVICE_URL + '/company/get')
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  // Local
   public getVehicleYears() {
     const vehicleYears: number[] = [];
     const currentYear = new Date().getFullYear();

@@ -33,4 +33,22 @@ export class UserService {
       )
       .pipe(retry(3), catchError(this.handleError));
   }
+
+  public getUserByEmail(email: string) {
+    return this.httpClient
+      .get<User>(
+        environment.REST_SERVICE_URL + `/user/get/${email}`
+        // ,
+        // this.getOptions()
+      )
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  public getDriverByCompany(companyName: string) {
+    return this.httpClient
+      .get<User[]>(
+        environment.REST_SERVICE_URL + `/user/get/company/${companyName}`)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
 }

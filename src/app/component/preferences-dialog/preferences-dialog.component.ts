@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/service/api.service';
 import { Preferences } from 'src/app/model/preferences';
 import { RichTextEditorComponent } from '@syncfusion/ej2-angular-richtexteditor';
 import { Utilities } from 'src/app/helper/utilities';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-preferences-dialog',
@@ -62,7 +63,8 @@ export class PreferencesDialogComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private utilities: Utilities
+    private utilities: Utilities,
+    public authenticationService: AuthenticationService
   ) {
     // this.editorValue = 'This is assigned value';
   }
@@ -99,7 +101,7 @@ export class PreferencesDialogComponent implements OnInit {
 
   onSubmit() {
     const preferences: Preferences = this.preferencesForm.value;
-    this.dialogRef.close({ updated: true });
+    // this.dialogRef.close({ updated: true });
     this.apiService
       .updatePreferences(preferences)
       .subscribe((data: Preferences) => {

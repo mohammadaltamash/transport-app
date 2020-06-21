@@ -111,8 +111,10 @@
                  }} -->
             </div>
           </div>
-          <button mat-button [ngClass]="disableAssignDriver() ? 'ovalShapeDisabled' : 'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button" [disabled]="disableAssignDriver()">
-            {{selectedOrder === null || selectedOrder === undefined || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
+          <ng-container *ngIf="showAssignDriverButton()">
+            <button mat-button [ngClass]="disableAssignDriver() ? 'ovalShapeDisabled' : 'ovalShape'" (click)="onAssignDriver(selectedOrder.id)" type="button" [disabled]="disableAssignDriver()">
+              {{selectedOrder === null || selectedOrder === undefined || selectedOrder.assignedToDriver === null ? 'ASSIGN DRIVER' : 'REASSIGN DRIVER'}}</button>
+          </ng-container>
         </div>
         <div *ngIf="selectedOrder !== null && selectedOrder !== undefined && selectedOrder.assignedToDriver !== null">
           <!-- <div>
@@ -321,15 +323,17 @@
         </ng-container>
       </mat-card>
       <ng-container *ngIf="selectedOrder !== null && selectedOrder !== undefined && (selectedOrder.orderStatus === 'ACCEPTED' || selectedOrder.orderStatus === 'ASSIGNED')">
-        <mat-expansion-panel [expanded]="false" class="termsAndConditions">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Terms and Conditions
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div [innerHTML]="selectedOrder.termsAndConditions">
-          </div>
-        </mat-expansion-panel>
+        <div class="termsAndConditions">
+          <mat-expansion-panel [expanded]="false" class="termsAndConditions">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Terms and Conditions
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div [innerHTML]="selectedOrder.termsAndConditions">
+            </div>
+          </mat-expansion-panel>
+        </div>
       </ng-container>
     </div>
   </div>

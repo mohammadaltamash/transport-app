@@ -89,7 +89,7 @@
             <!-- <ejs-richtexteditor #toolsRTE id='alltoolRTE' [toolbarSettings]='tools' [(value)]='editorValue'></ejs-richtexteditor> -->
 
             <!-- <mat-accordion> -->
-            <mat-expansion-panel [@.disabled]="disableAnimation">
+            <mat-expansion-panel [@.disabled]="disableAnimation" class="termsAndConditions">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Terms and Conditions
@@ -112,7 +112,7 @@
             <button mat-stroked-button id="termsAndConditionsContentReset" type="button">Reset</button> -->
         </div>
     </div>
-    <div mat-dialog-actions align="right" id="bookOrder">
+    <div mat-dialog-actions id="bookOrder" class="dialogActions">
         <button mat-stroked-button type="button" (click)="onCloseClick()">Close</button>
         <button mat-stroked-button type="submit">BOOK ORDER</button>
     </div>

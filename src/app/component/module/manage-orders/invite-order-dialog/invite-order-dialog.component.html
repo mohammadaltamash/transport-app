@@ -28,7 +28,7 @@
         <h2>Terms and conditions</h2>
         <div [innerHTML]="data.orderCarrier.termsAndConditions" class="simpleBorder"></div>
     </div>
-    <div id="inviteOrder">
+    <div id="inviteOrder" class="dialogActions">
         <button mat-stroked-button (click)="onCloseClick()" type="button">Close</button>
         <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('ACCEPTED')">ACCEPT</button>
         <button mat-stroked-button [mat-dialog-close] type="submit" (click)="onSubmit('DECLINED')">DECLINE</button>

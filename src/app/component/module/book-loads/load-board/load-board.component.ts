@@ -475,14 +475,16 @@ export class LoadBoardComponent implements OnInit, AfterViewInit {
         this.markers.push({
           latitude: order.pickupLatitude,
           longitude: order.pickupLongitude,
-          title: 'Pickup location',
-          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png'
+          title: `Pickup location (# ${order.id})`,
+          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',
+          order: this.selectedOrder
         });
         this.markers.push({
           latitude: order.deliveryLatitude,
           longitude: order.deliveryLongitude,
-          title: 'Drop off location',
-          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png'
+          title: `Drop off location (# ${order.id})`,
+          icon: 'http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png',
+          order: this.selectedOrder
         });
         const tripCoordinate = [];
         tripCoordinate.push(new google.maps.LatLng(order.pickupLatitude, order.pickupLongitude));

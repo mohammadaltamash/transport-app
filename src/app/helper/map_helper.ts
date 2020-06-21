@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LatitudeLongitudeDistanceRefs } from '../model/latitude-longitude-distance-refs';
+import { Order } from '../model/order';
 
 @Injectable({ providedIn: 'root' })
 export class MapHelper {
@@ -28,13 +29,15 @@ export class MapHelper {
     latitude: number,
     longitude: number,
     titleString: string,
-    iconString: string
+    iconString: string,
+    ordr: Order
   ) {
     this.markers.push({
       position: new google.maps.LatLng(latitude, longitude),
       map: this.map,
       title: titleString,
-      icon: iconString
+      icon: iconString,
+      order: ordr
     });
   }
 
@@ -45,6 +48,7 @@ export class MapHelper {
       longitude: number;
       title: string;
       icon: string;
+      order: Order;
     }[],
     tripCoordinates: any[],
     drawRadius: boolean
@@ -55,7 +59,8 @@ export class MapHelper {
         marker.latitude,
         marker.longitude,
         marker.title,
-        marker.icon
+        marker.icon,
+        marker.order
       );
     });
     // this.map = new google.maps.Map(this.gmap.nativeElement, this.mapOptions);
@@ -97,7 +102,7 @@ export class MapHelper {
       });
       const infoWindow = new google.maps.InfoWindow({
         // content: marker.getTitle()
-        content: this.getMarkerInfo(marker.getTitle())
+        content: this.getMarkerInfo(markerInfo)
       });
       marker.addListener('click', () => {
         infoWindow.open(marker.getMap(), marker);
@@ -198,9 +203,9 @@ export class MapHelper {
     }
   }
 
-  getMarkerInfo(title: string) {
+  getMarkerInfo(markerInfo: any) {
     // this.getDistanceMatrix();
-    return `<div style="font-weight: bold">${title}</div><div></div>`;
+    return `<div style="font-weight: bold">${markerInfo.title}</div><div></div>`;
   }
 
   // public getDistancia(origen: string, destino: string) {
