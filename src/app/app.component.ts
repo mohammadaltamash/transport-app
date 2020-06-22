@@ -50,6 +50,9 @@ export class AppComponent {
   private driversSubject: BehaviorSubject<User[]>;
   public drivers: Observable<User[]>;
 
+  private updateViewSubject: BehaviorSubject<boolean>;
+  public updateView: Observable<boolean>;
+
   private ordersPickupTodaySubject: BehaviorSubject<number>;
   public ordersPickupToday: Observable<number>;
   private ordersDeliveryTodaySubject: BehaviorSubject<number>;
@@ -111,6 +114,9 @@ export class AppComponent {
 
     this.driversSubject = new BehaviorSubject<User[]>([]);
     this.drivers = this.driversSubject.asObservable();
+    
+    this.updateViewSubject = new BehaviorSubject<boolean>(false);
+    this.updateView = this.updateViewSubject.asObservable();
     // this.userService
     //       .getUsersByType(environment.USER_DRIVER)
     //       // .pipe(takeUntil(this.destroy$))
@@ -211,6 +217,14 @@ export class AppComponent {
 
   setDriversValue(drivers: User[]) {
     this.driversSubject.next(drivers);
+  }
+
+  public get updateViewValue(): boolean {
+    return this.updateViewSubject.value;
+  }
+
+  setUpdateViewValue(updateView: boolean) {
+    this.updateViewSubject.next(updateView);
   }
 
   // For dashboard

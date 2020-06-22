@@ -18,6 +18,7 @@ import { OrderStatus } from '../../../../model/order-status';
 // import { MapHelper } from '../../../../helper/map_helper';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { Preferences } from 'src/app/model/preferences';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-book-order-dialog',
@@ -87,7 +88,8 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
-    private utilities: Utilities
+    private utilities: Utilities,
+    private appComponent: AppComponent
   ) {
     // const m = {
     //   latitude: data.order.pickupLatitude,
@@ -180,16 +182,21 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
         this.data.orderCarrier.carrierId,
         orderCarrier
       )
-      .subscribe(
+      .subscribe((oc: OrderCarrier) => {
+        this.utilities.showSuccess('Order booked', 'Booking');
+        console.log(orderCarrier);
+        this.dialogRef.close({ booked: true });
+        this.appComponent.setUpdateViewValue(true);
+      }
         // data => console.log(data.deliveryDates.endDate),
-        res => console.log(res),
-        err => console.log(err)
+        // res => console.log(res),
+        // err => console.log(err)
       );
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
-    this.utilities.showSuccess('Order booked', 'Booking');
-    console.log(orderCarrier);
-    this.dialogRef.close({ booked: true });
+    // this.utilities.showSuccess('Order booked', 'Booking');
+    // console.log(orderCarrier);
+    // this.dialogRef.close({ booked: true });
   }
 
   onCloseClick() {

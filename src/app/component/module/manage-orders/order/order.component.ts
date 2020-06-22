@@ -397,14 +397,18 @@ export class OrderComponent implements OnInit {
                           // this.messageService._send(EventMessages.NEW_ORDER);
                           // this.messageService._send('NEW_ORDER');
                         }
+                        this.openSnackBar('Order has been created', '');
+                        this.dialogRef.close();
+                        this.appComponent.setUpdateViewValue(true);
+                        this.router.navigate(['/orders']);
         });
           // data => console.log(data.deliveryDates.endDate),
         //   res => console.log(res),
         //   err => console.log(err)
         // );
-      this.openSnackBar('Order has been created', '');
-      this.dialogRef.close();
-      this.router.navigate(['/orders']);
+      // this.openSnackBar('Order has been created', '');
+      // this.dialogRef.close();
+      // this.router.navigate(['/orders']);
     }
   }
 

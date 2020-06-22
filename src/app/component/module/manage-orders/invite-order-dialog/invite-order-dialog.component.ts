@@ -114,17 +114,25 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
                             //     // this.appComponent.setCurrentNewValue(this.new - 1);
                             //   });
                             // }
+                            if (buttonType === OrderStatus.ACCEPTED) {
+                              this.utilities.showSuccess('Order accepted', 'Invitation');
+                              this.dialogRef.close({ accepted: true });
+                              this.appComponent.setUpdateViewValue(true);
+                            } else if (buttonType === OrderStatus.DECLINED) {
+                              this.utilities.showInfo('Order declined', 'Invitation');
+                              this.dialogRef.close({ accepted: false });
+                            }
                             })
     );
 
     // const orderCarrier: OrderCarrier = this.bookingForm.value;
-    if (buttonType === OrderStatus.ACCEPTED) {
-      this.utilities.showSuccess('Order accepted', 'Invitation');
-      this.dialogRef.close({ accepted: true });
-    } else if (buttonType === OrderStatus.DECLINED) {
-      this.utilities.showInfo('Order declined', 'Invitation');
-      this.dialogRef.close({ accepted: false });
-    }
+    // if (buttonType === OrderStatus.ACCEPTED) {
+    //   this.utilities.showSuccess('Order accepted', 'Invitation');
+    //   this.dialogRef.close({ accepted: true });
+    // } else if (buttonType === OrderStatus.DECLINED) {
+    //   this.utilities.showInfo('Order declined', 'Invitation');
+    //   this.dialogRef.close({ accepted: false });
+    // }
   }
 
   onCloseClick() {

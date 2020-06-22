@@ -108,6 +108,12 @@ export class OrderListComponent implements OnInit {
     // this.appComponent.selectedDriver.subscribe(
     //   n => this.selectedDriver = n
     // );
+    this.appComponent.updateView.subscribe((update: boolean) => {
+      if (update === true) {
+        this.renderData();
+        this.appComponent.setUpdateViewValue(false);
+      }
+    });
     this.selectedItem = 0;
   }
 
