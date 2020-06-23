@@ -25,6 +25,7 @@ import { OrderStatus } from '../../../../model/order-status';
 import { Constants } from '../../../../model/constants';
 import { MapHelper } from '../../../../helper/map_helper';
 import { AppComponent } from 'src/app/app.component';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-ask-to-book',
@@ -77,7 +78,8 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private utilities: Utilities,
     private mapHelper: MapHelper,
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private messageService: MessageService
   ) {
     this.pickupEnd.setDate(this.pickupEnd.getDate() + 1);
     this.pickupStart.setDate(this.pickupStart.getDate() - 5);
@@ -168,13 +170,8 @@ export class AskToBookComponent implements OnInit, AfterViewInit {
       .subscribe(() => {
         this.utilities.openSnackBar('Booking request has been sent', '');
         this.dialogRef.close();
-        this.appComponent.setUpdateViewValue(true);
-        // data => console.log(data.deliveryDates.endDate),
-        // res => console.log(res),
-        // err => console.log(err)
+        this.messageService._send('NEW_ORDER');
       });
-    // this.utilities.openSnackBar('Booking request has been sent', '');
-    // this.dialogRef.close();
   }
 
   closeDialog() {

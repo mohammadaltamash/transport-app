@@ -13,6 +13,7 @@ import { UserService } from './service/user.service';
 import { environment } from 'src/environments/environment.prod';
 import { Keepalive } from '@ng-idle/keepalive';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
+import { MessageService } from './service/message.service';
 // import { MatIconRegistry } from '@angular/material/icon';
 // import { DomSanitizer } from '@angular/platform-browser';
 
@@ -50,9 +51,6 @@ export class AppComponent {
   private driversSubject: BehaviorSubject<User[]>;
   public drivers: Observable<User[]>;
 
-  private updateViewSubject: BehaviorSubject<boolean>;
-  public updateView: Observable<boolean>;
-
   private ordersPickupTodaySubject: BehaviorSubject<number>;
   public ordersPickupToday: Observable<number>;
   private ordersDeliveryTodaySubject: BehaviorSubject<number>;
@@ -71,7 +69,8 @@ export class AppComponent {
     private apiService: ApiService,
     private userService: UserService,
     private idle: Idle,
-    private keepalive: Keepalive
+    private keepalive: Keepalive,
+    private messageService: MessageService
     // private matIconRegistry: MatIconRegistry,
     // private domSanitizer: DomSanitizer
   ) {
@@ -114,9 +113,7 @@ export class AppComponent {
 
     this.driversSubject = new BehaviorSubject<User[]>([]);
     this.drivers = this.driversSubject.asObservable();
-    
-    this.updateViewSubject = new BehaviorSubject<boolean>(false);
-    this.updateView = this.updateViewSubject.asObservable();
+
     // this.userService
     //       .getUsersByType(environment.USER_DRIVER)
     //       // .pipe(takeUntil(this.destroy$))
@@ -142,6 +139,8 @@ export class AppComponent {
         }
       }
     );
+
+    this.messageService.connect();
 
     // this.matIconRegistry.addSvgIcon(
     //   'search-records',
@@ -217,14 +216,6 @@ export class AppComponent {
 
   setDriversValue(drivers: User[]) {
     this.driversSubject.next(drivers);
-  }
-
-  public get updateViewValue(): boolean {
-    return this.updateViewSubject.value;
-  }
-
-  setUpdateViewValue(updateView: boolean) {
-    this.updateViewSubject.next(updateView);
   }
 
   // For dashboard

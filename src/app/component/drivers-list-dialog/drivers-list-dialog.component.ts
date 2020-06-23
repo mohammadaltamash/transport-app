@@ -9,6 +9,7 @@ import { CreateDialogComponent } from '../create-dialog/create-dialog.component'
 import { AppComponent } from '../../app.component';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-drivers-list-dialog',
@@ -30,6 +31,7 @@ export class DriversListDialogComponent implements OnInit {
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
     private appComponent: AppComponent,
+    private messageService: MessageService,
     private utilities: Utilities,
     public newUserDialog: MatDialog
     // private commonModelService: CommonModelService
@@ -98,16 +100,9 @@ export class DriversListDialogComponent implements OnInit {
             console.log(result);
             this.utilities.openSnackBar('Driver assigned', '');
             this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
+            this.messageService._send('NEW_ORDER');
           }
-        // res => console.log(res),
-        // err => console.log(err)
       );
-    // this.utilities.openSnackBar('Driver assigned', '');
-      // this.dialogRef.close({ accepted: true });
-    // } else {
-    //   this.invalid = true;
-    //   this.assignDriverForm.reset();
-    // }
   }
 
   onNewDriver(): void {

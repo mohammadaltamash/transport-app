@@ -235,7 +235,7 @@
           <div id="onDeliveryValue">{{(selectedOrder !== null && selectedOrder !== undefined ? this.selectedOrder.amountOnDelivery : '') | number:'1.2-2'}}</div>
           <div id="receivables">Receivables</div>
           <div id="receivablesValue"></div>
-          <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY
+          <div id="paymentAction" (click)="sendMessage()"><button mat-button [ngClass]="'ovalShape'">VERIFY
               PAYMENT</button></div>
         </ng-container>
       </mat-card>

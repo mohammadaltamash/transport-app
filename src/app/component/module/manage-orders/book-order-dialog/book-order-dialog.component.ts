@@ -19,6 +19,7 @@ import { OrderStatus } from '../../../../model/order-status';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { Preferences } from 'src/app/model/preferences';
 import { AppComponent } from 'src/app/app.component';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-book-order-dialog',
@@ -89,7 +90,8 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
     private apiService: ApiService,
     private authenticationService: AuthenticationService,
     private utilities: Utilities,
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private messageService: MessageService
   ) {
     // const m = {
     //   latitude: data.order.pickupLatitude,
@@ -186,7 +188,7 @@ export class BookOrderDialogComponent implements OnInit, AfterViewInit {
         this.utilities.showSuccess('Order booked', 'Booking');
         console.log(orderCarrier);
         this.dialogRef.close({ booked: true });
-        this.appComponent.setUpdateViewValue(true);
+        this.messageService._send('NEW_ORDER');
       }
         // data => console.log(data.deliveryDates.endDate),
         // res => console.log(res),

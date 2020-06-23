@@ -4,11 +4,12 @@ import * as SockJS from 'sockjs-client';
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Constants } from '../model/constants';
-import { AppComponent } from '../app.component';
+// import { AppComponent } from '../app.component';
 import { PagedOrders } from '../model/paged-orders';
 import { EventMessages } from '../model/event-messages';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './authentication.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -17,13 +18,17 @@ export class MessageService {
     webSocketEndPoint = environment.MESSAGE_SERVICE_URL;
     topic = '/topic/message';
     stompClient: any;
+
+    private updateViewSubject: BehaviorSubject<boolean>;
+    public updateView: Observable<boolean>;
     // appComponent: AppComponent;
     // constructor(appComponent: AppComponent){
     //     this.appComponent = appComponent;
     // }
     constructor(private apiService: ApiService,
-                private authenticationService: AuthenticationService,
-                private appComponent: AppComponent) {
+                private authenticationService: AuthenticationService
+                // private appComponent: AppComponent
+                ) {
         // this.connect();
         // this.authenticationService.currentUser.subscribe(user => {
         //     if (user === null) {
@@ -32,7 +37,9 @@ export class MessageService {
         //         // this.connect();
         //     }
         // });
-        this.connect();
+        // this.connect();
+        this.updateViewSubject = new BehaviorSubject<boolean>(false);
+        this.updateView = this.updateViewSubject.asObservable();
     }
     connect() {
         console.log('Initialize WebSocket Connection');
@@ -67,19 +74,23 @@ export class MessageService {
 	 * @param {*} message
 	 */
     _send(message) {
-        console.log('calling logout api via web socket');
+        // console.log('calling logout api via web socket');
         // this.stompClient.send('/app/message', {}, JSON.stringify(message));
         this.stompClient.send('/app/message', {}, message);
     }
 
     onMessageReceived(message: string) {
         console.log('Message Recieved from Server :: ' + message);
+        this.setUpdateViewValue(true);
         // this.appComponent.handleMessage(JSON.stringify(message.body));
 
         // if (message === EventMessages.NEW_ORDER) {
         // if (message.body === 'NEW_ORDER') {
         // alert(message);
-        this.appComponent.setSystemMessageValue('NEW_ORDER');
+
+        // this.appComponent.setSystemMessageValue('NEW_ORDER');
+        // this.appComponent.setUpdateViewValue(true);
+
         // this.apiService
         //       .getPagedOrders(0, Constants.ORDERS_PER_PAGE)
         //       // .pipe(takeUntil(this.destroy$))
@@ -92,5 +103,13 @@ export class MessageService {
         //     const acceptedCount = message.split('_')[1];
         //     this.appComponent.setCurrentNewValue(+acceptedCount);
         // }
+    }
+
+    public get updateViewValue(): boolean {
+        return this.updateViewSubject.value;
+    }
+
+    setUpdateViewValue(updateView: boolean) {
+        this.updateViewSubject.next(updateView);
     }
 }

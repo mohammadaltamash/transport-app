@@ -23,6 +23,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommonModelService } from '../../../../service/common-model.service';
 
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { MessageService } from 'src/app/service/message.service';
 // import { MessageService } from '../../../../service/message.service';
 
 @Component({
@@ -80,8 +81,8 @@ export class OrderListComponent implements OnInit {
     public bookingDialog: MatDialog,
     public invitationDialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private formBuilder: FormBuilder
-    // public messageService: MessageService
+    private formBuilder: FormBuilder,
+    public messageService: MessageService
   ) {
     // this.appComponent.currentOrders.subscribe(
     //   o => this.orders = o
@@ -108,10 +109,17 @@ export class OrderListComponent implements OnInit {
     // this.appComponent.selectedDriver.subscribe(
     //   n => this.selectedDriver = n
     // );
-    this.appComponent.updateView.subscribe((update: boolean) => {
+    // this.messageService.connect();
+    // this.appComponent.updateView.subscribe((update: boolean) => {
+    //   if (update === true) {
+    //     this.renderData();
+    //     this.appComponent.setUpdateViewValue(false);
+    //   }
+    // });
+    this.messageService.updateView.subscribe((update: boolean) => {
       if (update === true) {
         this.renderData();
-        this.appComponent.setUpdateViewValue(false);
+        this.messageService.setUpdateViewValue(false);
       }
     });
     this.selectedItem = 0;
@@ -196,7 +204,7 @@ export class OrderListComponent implements OnInit {
     // this.appComponent.selectedDriver.subscribe(
     //   n => this.selectedDriver = n
     // );
-    // this.messageService._connect();
+    // this.messageService.connect();
   }
 
   ngDestroy() {
@@ -870,5 +878,9 @@ export class OrderListComponent implements OnInit {
       this.selectedOrder !== undefined &&
       this.selectedOrder.assignedToCarrier !== null &&
       this.selectedOrder.assignedToCarrier.email === this.authenticationService.currentUserValue.email;
+  }
+
+  sendMessage() {
+    this.messageService._send(new Date().getTime());
   }
 }

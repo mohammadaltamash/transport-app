@@ -13,6 +13,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../../../../service/authentication.service';
 import { Preferences } from 'src/app/model/preferences';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-invite-order-dialog',
@@ -48,7 +49,8 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private utilities: Utilities,
     private mapHelper: MapHelper,
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private messageService: MessageService
   ) {
     // this.markers = [];
     // this.markers.push({
@@ -117,7 +119,7 @@ export class InviteOrderDialogComponent implements OnInit, AfterViewInit {
                             if (buttonType === OrderStatus.ACCEPTED) {
                               this.utilities.showSuccess('Order accepted', 'Invitation');
                               this.dialogRef.close({ accepted: true });
-                              this.appComponent.setUpdateViewValue(true);
+                              this.messageService._send('NEW_ORDER');
                             } else if (buttonType === OrderStatus.DECLINED) {
                               this.utilities.showInfo('Order declined', 'Invitation');
                               this.dialogRef.close({ accepted: false });

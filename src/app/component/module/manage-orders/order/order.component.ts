@@ -28,6 +28,7 @@ import { PagedOrders } from '../../../../model/paged-orders';
 // import { MessageService } from '../../../../service/message.service';
 import { EventMessages } from '../../../../model/event-messages';
 import { Utilities } from '../../../../helper/utilities';
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-order',
@@ -161,12 +162,11 @@ export class OrderComponent implements OnInit {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
     private utilities: Utilities,
-
+    private appComponent: AppComponent,
     private router: Router,
     public dialogRef: MatDialogRef<OrderComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private appComponent: AppComponent
-    // public messageService: MessageService
+    public messageService: MessageService
   ) {
     this.validationMessages = {
       // brokerOrderId: {
@@ -396,10 +396,11 @@ export class OrderComponent implements OnInit {
                           //       });
                           // this.messageService._send(EventMessages.NEW_ORDER);
                           // this.messageService._send('NEW_ORDER');
+                          this.openSnackBar('Order has been created', '');
+                          this.dialogRef.close();
+                          this.messageService._send('NEW_ORDER');
+                          this.router.navigate(['/orders']);
                         }
-                        this.openSnackBar('Order has been created', '');
-                        this.dialogRef.close();
-                        this.appComponent.setUpdateViewValue(true);
                         this.router.navigate(['/orders']);
         });
           // data => console.log(data.deliveryDates.endDate),
