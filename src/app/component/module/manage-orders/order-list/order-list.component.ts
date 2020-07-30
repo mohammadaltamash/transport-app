@@ -68,7 +68,7 @@ export class OrderListComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  // input;
+  input;
 
   constructor(
     private apiService: ApiService,
@@ -878,9 +878,5 @@ export class OrderListComponent implements OnInit {
       this.selectedOrder !== undefined &&
       this.selectedOrder.assignedToCarrier !== null &&
       this.selectedOrder.assignedToCarrier.email === this.authenticationService.currentUserValue.email;
-  }
-
-  sendMessage() {
-    this.messageService._send(new Date().getTime());
   }
 }

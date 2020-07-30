@@ -86,8 +86,8 @@
     <div *cdkVirtualFor="let order of orders" class="example-item">{{order.brokerContactName}}</div>
   </cdk-virtual-scroll-viewport> -->
 
-  <!-- <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
-  <button (click)="sendMessage()">Send Message</button> -->
+  <!-- <input class="form-control" type="text" placeholder="message" [(ngModel)]="input"> -->
+  <!-- <button (click)="sendMessage()" style="background-color: yellow">Send Message</button> -->
   <div id="detail">
     <div id="summary">
       <h1>Order {{(selectedOrder !== null && selectedOrder !== undefined) ? selectedOrder.id : '#'}}
@@ -235,7 +235,7 @@
           <div id="onDeliveryValue">{{(selectedOrder !== null && selectedOrder !== undefined ? this.selectedOrder.amountOnDelivery : '') | number:'1.2-2'}}</div>
           <div id="receivables">Receivables</div>
           <div id="receivablesValue"></div>
-          <div id="paymentAction" (click)="sendMessage()"><button mat-button [ngClass]="'ovalShape'">VERIFY
+          <div id="paymentAction"><button mat-button [ngClass]="'ovalShape'">VERIFY
               PAYMENT</button></div>
         </ng-container>
       </mat-card>

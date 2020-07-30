@@ -100,7 +100,7 @@ export class DriversListDialogComponent implements OnInit {
             console.log(result);
             this.utilities.openSnackBar('Driver assigned', '');
             this.dialogRef.close({ assigned: true, assignedToDriver: result.assignedToDriver });
-            this.messageService._send('NEW_ORDER');
+            this.messageService._send('DRIVER_ASSIGNED');
           }
       );
   }
